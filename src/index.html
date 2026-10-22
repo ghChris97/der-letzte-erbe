@@ -377,7 +377,7 @@ const CONTENT = {
     { id:"mair", photo:"img/mair.jpg", name:"Benedikt Mair", age:55, role:"Notar", note:"Kennt Falkenrieds Testament.", says:"„Ich habe kurz telefoniert, draußen. Mehr nicht.“" },
     { id:"tobias", photo:"img/tobias.jpg", name:"Tobias von Falkenried", age:31, role:"Neffe", note:"Hat Schulden. Galt als möglicher Erbe.", says:"„Ja, wir haben gestritten. Laut.“" },
     { id:"clara", photo:"img/clara.jpg", name:"Clara Weiß", age:43, role:"Kunsthändlerin", note:"Hatte Interesse an Stücken aus der Sammlung.", says:"„Ich saß den ganzen Abend bei den anderen am Tisch.“" },
-    { id:"feld", photo:"img/feld.jpg", name:"Jonas Feld", age:39, role:"Externer Restaurator, Besitzer der Karte R7", note:"War am Abend nicht als Gast im Haus.", says:"„Die Karte ist mir vor einer Woche abhandengekommen.“" }
+    { id:"feld", photo:"img/feld.jpg", name:"Jonas Feld", age:39, role:"Externer Restaurator, Besitzer der Karte R7", note:"War am Abend nicht als Gast im Haus. Mit seiner Zutrittskarte R7 wurde um 20:48 die Archivtür geöffnet.", says:"„Die Karte ist mir vor einer Woche abhandengekommen.“" }
   ],
   victim: { photo:"img/falkenried.jpg", name:"Maximilian von Falkenried", age:62, role:"Kunstsammler, Gastgeber des Adventsdinners", note:"Am 19. Dezember um 21:25 Uhr tot in seinem Archiv aufgefunden." },
   lead: { photo:"img/seidl.jpg", name:"Martina Seidl", age:52, role:"Kriminalhauptkommissarin, Ermittlungsleiterin", note:"Leitet die Ermittlung im Fall Falkenried. Sie meldet sich per Sprachnachricht und hat euch Falkenrieds Handy übergeben." },
@@ -455,7 +455,7 @@ const CONTENT = {
       action:"Mail öffnen" },
     { id:8, name:"Ringelstecherwiese", spot:"Treffpunkt am Christkindlmarkt", lat:48.532814, lng:12.146553,
       src:"Abholauftrag vom Tatabend", clue:"Übergabe: Ringelstecherwiese, sobald die Ware greifbar ist.",
-      task:"Notar Mair wartet mit Falkenrieds Kassette. Er gibt sie nur heraus, wenn ihr die Täterin mit Beweisen nennt.",
+      task:"Ermittlungsleiterin Seidl wartet auf der Wiese, Notar Mair mit Falkenrieds Kassette. Mair gibt sie erst heraus, wenn ihr Seidl sagt, wer es war, und es beweisen könnt.",
       action:"Anklage erheben" }
   ],
   evidence: {
@@ -1718,10 +1718,10 @@ function checkStrikes(){
 PUZZLE_8 = function(){
   if (S.st.accused) return tresor();
   const people = CONTENT.suspects.filter(p => p.id !== "feld");
-  sheet(`<div class="kind">Anklage · Schritt 1</div><h2>Wer hat Falkenried getötet?</h2>${people.map(p => `<button class="btn" data-acc="${p.id}">${esc(p.name)}</button>`).join("")}<p id="accMsg"></p>`);
+  sheet(`<div class="kind">Anklage bei Ermittlungsleiterin Seidl · Schritt 1</div><h2>Wer hat Falkenried getötet?</h2>${people.map(p => `<button class="btn" data-acc="${p.id}">${esc(p.name)}</button>`).join("")}<p id="accMsg"></p>`);
   document.querySelectorAll("[data-acc]").forEach(b => b.onclick = () => {
     if (!guard("8.who")) return;
-    if (b.dataset.acc !== "helena") { $("#accMsg").textContent = "Mair schüttelt den Kopf: „Was beweist das? Und wer war nachweislich woanders, als die Tür aufging?“"; wrong("8.who"); return; }
+    if (b.dataset.acc !== "helena") { $("#accMsg").textContent = "Seidl schüttelt den Kopf: „Was beweist das? Und wer war nachweislich woanders, als die Tür aufging?“"; wrong("8.who"); return; }
     right("8.who");
     accuseEvidence();
   });
@@ -1738,14 +1738,14 @@ function accuseEvidence(){
     S.st.acc[k] = S.st.acc[k].includes(id) ? S.st.acc[k].filter(x => x !== id) : S.st.acc[k].concat(id); save(); b.classList.toggle("on"); };
   $("#accGo").onclick = () => {
     if (!guard("8.ev")) return;
-    if (GROUPS.some((g,i) => S.st.acc["g"+i].length > 3)) { $("#aMsg").textContent = "Mair: „Nicht alles auf einmal. Höchstens drei Belege pro Gruppe, die wirklich etwas beweisen.“"; return; }
+    if (GROUPS.some((g,i) => S.st.acc["g"+i].length > 3)) { $("#aMsg").textContent = "Seidl: „Nicht alles auf einmal. Höchstens drei Belege pro Gruppe, die wirklich etwas beweisen.“"; return; }
     const bad = GROUPS.findIndex((g,i) => !g[1].every(x => S.st.acc["g"+i].includes(x)));
     if (bad >= 0) { $("#aMsg").textContent = ["Was zeigt, dass sie zur Tatzeit an der Tür sein konnte?","Was zeigt, dass sie getäuscht hat?","Was war schon vor dem Mord geplant?"][bad]; wrong("8.ev"); return; }
     right("8.ev");
     S.st.accused = true; save(); closeWin(); renderHome();
     fire("V_MAIR");
     setTimeout(() => { fire("N06"); setTimeout(() => fire("V_FINALE"), 4000); }, 9000);
-    toast("Anklage angenommen. Mair übergibt die Kassette.");
+    toast("Seidl nimmt die Anklage an. Notar Mair übergibt die Kassette.");
   };
 }
 function tresor(){
