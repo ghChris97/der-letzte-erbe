@@ -133,7 +133,7 @@ Alle Charaktere sind erfunden. Namen, Arbeitgeber, Adressen, Telefonnummern, Fot
 | **Dr. Helena Dorn**, 47 | Historikerin, Archivbetreuerin | Fürchtet Reputationsschaden | **Täterin**, geheimer Verkauf, Fälschung, anonyme Stimme | „Leitete 2025 die Digitalisierung des Archivs einschließlich neuer Zutrittstechnik.“ Behauptet, um 20:30 gegangen zu sein |
 | **Benedikt Mair**, 55 | Notar | Umstrittenes Testament | Treuhänder der Kassette; verschwiegen, weil zur Geheimhaltung verpflichtet | Behauptet, „kurz telefoniert“ zu haben |
 | **Tobias von Falkenried**, 31 | Neffe, gehört zur selben angeblichen Linie | Schulden, Angst vor Enterbung, „sein“ Erbe | Hat gestritten, war aber auf der Terrasse | Gibt den Streit offen zu |
-| **Clara Weiß**, 43 | Kunsthändlerin | Wollte die Stücke erwerben | Verhandelte heimlich mit dem Käufer, kein Mord | Behauptet, den ganzen Abend im Salon gewesen zu sein |
+| **Clara Weiß**, 43 | Kunsthändlerin | Wollte die Stücke erwerben | Verhandelte heimlich mit dem Käufer, kein Mord | Behauptet, den ganzen Abend bei den anderen am Tisch gewesen zu sein |
 | **Jonas Feld**, 39 | Externer Restaurator | Seine Karte R7 | War nicht im Haus | Nur über das Zutrittsprotokoll im Spiel |
 | **Rosa Brandl**, 58 | Haushälterin, Zeugin | — | Ehrliche Zeugin | Hörte die Archivtür, sah eine Frau im dunklen Mantel |
 | **„Unbekannt“** | Stimme am Telefon, Chatkontakt | Scheint zu helfen | Helena mit Stimmverfremdung | Verrät sich durch Täterwissen und ihren Begriff „Pfand der Verbindung“ |
@@ -414,7 +414,7 @@ Die Teams kennen die Kirche aus zwei Notizen: Burghausens „zweite Kirche“ (S
 - **Helena:** „Ich bin um halb neun gegangen. Kopfschmerzen. Um kurz nach neun lag ich im Hotel.“
 - **Mair:** „Ich habe kurz telefoniert, draußen. Mehr nicht.“
 - **Tobias:** „Ja, wir haben gestritten. Laut. Danach war ich rauchen, auf der Terrasse.“
-- **Clara:** „Ich war den ganzen Abend im Salon. Fragen Sie die anderen.“
+- **Clara:** „Ich war den ganzen Abend bei den anderen am Tisch. Fragen Sie die anderen.“
 
 *Protokolle (alle erfunden):*
 
@@ -439,7 +439,7 @@ Die Teams kennen die Kirche aus zwei Notizen: Burghausens „zweite Kirche“ (S
 > „Kurz nach Viertel vor neun ging das Licht aus. Ich hörte Schritte im Flur, eine Frau im dunklen Mantel. Dann klickte die Archivtür. Ich dachte mir nichts. Die Tür hat ja Strom aus der Batterie.“
 
 **Aktion 2: Lügen markieren.** Die Teams legen die Aussagen neben die Protokolle und markieren, was nicht zusammenpasst. Gerechnet wird nichts, es geht nur um „passt“ oder „passt nicht“.
-**Pflichtfunde:** Helena (gegangen um halb neun ↔ Wagen fährt erst um 21:02) und Clara (Salon ↔ Taxi aus dem Flur). Mairs „kurz“ (18 Minuten) gilt als Halbwahrheit.
+**Pflichtfunde:** Helena (gegangen um halb neun ↔ Wagen fährt erst um 21:02) und Clara (am Tisch ↔ Taxi aus dem Flur). Mairs „kurz“ (18 Minuten) gilt als Halbwahrheit.
 
 **Der Anruf.** Sobald beide Pflichtfunde markiert sind, klingelt das Telefon (ca. 20 Sek.):
 > „Ihr seid gut. Aber ihr schaut auf die Falschen. Die Kunsthändlerin lügt, das habt ihr gesehen. Und der Notar war achtzehn Minuten weg. Um 20:48 ging die Archivtür auf, mit der Karte R7. Und das alles nur wegen dem Pfand der Verbindung.“
