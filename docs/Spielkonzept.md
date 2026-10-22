@@ -86,6 +86,8 @@ Das angeblich gerettete jüngste Kind Elisabeths, die geheime Falkenried-Abstamm
 
 **Herbst/Advent 2026: Fund und Mord.** Maximilian von Falkenried hat die verschwiegene Linie über Jahre erforscht und im Herbst 2026 die drei Stücke **tatsächlich gefunden**. Für ihn sind sie das Erbe Elisabeths, die um Land, Mann und Leben gebracht wurde, und er will sie der Stadt zurückgeben. Er legt sie in eine Kassette und hinterlegt sie beim Notar **Benedikt Mair als Treuhänder**. Mair darf die Kassette und Falkenrieds letzte Sprachnachricht nur an offizielle Ermittler herausgeben. Geöffnet wird die Kassette mit einem Namen: dem der Frau, der all das gehören sollte.
 
+**Warum Falkenried alles mit der Stadt verschließt:** Falkenried ahnte, dass jemand aus seinem Umfeld heimlich seine Papiere liest. Weil Helena seine Digitalisierung und Zutrittstechnik betreute, traute er keinem Passwort mehr. Deshalb sicherte er Notizbuch, Archiv, Mappe, Akte und Postfach mit Dingen, die man nur vor Ort sieht: ein Gesicht an St. Martin, Figuren am Landschaftshaus, eine Jahreszahl am Denkmal, ein Wappen am Rathaus, ein Relief an der Heiliggeistkirche, die Helme am Ländtor. Wer seinen Weg durch die Stadt geht, kommt an sein Wissen, wer nur am Rechner sitzt, nicht. Der Zettel am Notizbuch erklärt das den Spielern gleich zu Beginn.
+
 ## 4.2 Die Wahrheit des Falls
 
 **Täterin ist Dr. Helena Dorn**, Historikerin und Falkenrieds Archivbetreuerin. Sie hat hinter seinem Rücken einen Verkauf der drei Stücke an einen privaten Käufer angebahnt; der verschlüsselte Abholauftrag geht am **19.12.2026 um 19:30 Uhr** raus, also vor der Tat.
@@ -170,7 +172,7 @@ Der Brief benennt den **ersten** Spielort; alle späteren Orte erschließen sich
 **Auslöser:** Spielstart bestätigt, am Kirchplatz / Start-QR geöffnet.  
 **Anzeige:** *Unbekannter Anrufer · Verbindung wird aufgebaut*.
 
-> „Sie sind also gekommen. Falkenried hat gehofft, dass jemand die Zeichen versteht. Suchen Sie zuerst nach der Rechnung für ein Fest, das eine ganze Stadt satt machte. Und fragen Sie sich: Wer hat die Zeche wirklich bezahlt? Und wem sollte am Ende alles gehören? Verwechseln Sie die Namen nicht.“
+> „Sie sind also gekommen. Falkenried hat gehofft, dass jemand die Zeichen versteht. Fangen Sie bei seinem Notizbuch an. Er hat es gesperrt, mit dem Gesicht des Mannes, der diese Kirche erdacht hat. Darin finden Sie die Rechnung für ein Fest, das eine ganze Stadt satt machte. Und dann fragen Sie sich: Wer hat die Zeche wirklich bezahlt?“
 
 **Regie:** Gedämpfte Stimme, dezentes Rauschen, dann abrupter Abbruch. **Nur Simulation innerhalb der App**, sofern kein separat eingerichteter Telefoniedienst existiert.
 

@@ -296,6 +296,22 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .prot td:first-child{white-space:nowrap;color:var(--amber);font-family:var(--font-mono);font-size:12px}
 .installbtn{display:flex;gap:8px;align-items:center;justify-content:center}
 
+.diary{display:flex;flex-direction:column;gap:10px}
+.dpage{background:#efe7d6;color:#2a2620;border-radius:4px 14px 14px 4px;padding:18px 18px 12px 26px;min-height:360px;display:flex;flex-direction:column;
+  box-shadow:inset 7px 0 0 #c9b98f, 0 6px 20px #0006;background-image:repeating-linear-gradient(transparent 0 27px,#d9ccae 27px 28px);background-position:0 46px}
+.dpage.inR{animation:inR .25s ease-out}.dpage.inL{animation:inL .25s ease-out}
+@keyframes inR{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
+@keyframes inL{from{transform:translateX(-30px);opacity:0}to{transform:none;opacity:1}}
+.ddate{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7a6d55;margin-bottom:10px}
+.dtext{font-family:var(--font-display);font-size:19px;line-height:28px;flex:1}
+.dtext .red{color:#9c1f1f;font-style:italic;display:block;margin-top:10px;font-size:17px}
+.dtext table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:14px;line-height:1.4}
+.dtext td{border-top:1px solid #d4c7a8;padding:3px 0;font-variant-numeric:tabular-nums}.dtext td:last-child{text-align:right}
+.dfoot{font-family:var(--font-mono);font-size:10px;color:#9a8c70;text-align:right;margin-top:8px}
+.dnav{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dnav button{padding:10px 14px;border-radius:12px;background:var(--surface-2);font-weight:600;font-size:14px}
+.dnav button:disabled{opacity:.35}
+.ddots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}.ddots i{width:6px;height:6px;border-radius:50%;background:var(--line)}.ddots i.on{background:var(--amber)}
 @media (prefers-reduced-motion: reduce){*{animation:none!important}}
 </style>
 
@@ -322,7 +338,7 @@ const CONTENT = {
       text:"Ihr seid sehr nah dran. Der Notar wird euch gleich etwas geben. Öffnet es nicht. Bringt es auf die Wiese, ich kümmere mich um den Rest." },
     CALL_01: {
       from: "Unbekannt", voice: "unbekannt",
-      text: "Sie sind also gekommen. Falkenried hat gehofft, dass jemand die Zeichen versteht. Suchen Sie zuerst nach der Rechnung für ein Fest, das eine ganze Stadt satt machte. Und fragen Sie sich: Wer hat die Zeche wirklich bezahlt? Und wem sollte am Ende alles gehören? Verwechseln Sie die Namen nicht."
+      text: "Sie sind also gekommen. Falkenried hat gehofft, dass jemand die Zeichen versteht. Fangen Sie bei seinem Notizbuch an. Er hat es gesperrt, mit dem Gesicht des Mannes, der diese Kirche erdacht hat. Darin finden Sie die Rechnung für ein Fest, das eine ganze Stadt satt machte. Und dann fragen Sie sich: Wer hat die Zeche wirklich bezahlt?"
     }
   },
   messages: {
@@ -385,7 +401,7 @@ const CONTENT = {
   stations: [
     { id:1, name:"St. Martin", spot:"Südseite der Kirche, Außenwand des Seitenschiffs", lat:48.534142, lng:12.151086,
       clue:null,
-      task:"Falkenrieds Notizbuch ist gesperrt. Ein Zettel klebt daran: „Wer diese Kirche erdacht hat, hat sich selbst an ihre Südseite gesetzt. Findet sein Gesicht.“",
+      task:"Falkenrieds Notizbuch ist mit einem Gesicht gesperrt. Ein Zettel von ihm klebt daran und erklärt, warum. Öffnet die Notizen und lest ihn.",
       action:"Notizen öffnen" },
     { id:2, name:"Landschaftshaus", spot:"Altstadt 28, die bemalte Fassade", lat:48.5352, lng:12.1512, approx:true,
       clue:"Bezahlt hat ein anderer. Wer, das steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit.",
@@ -444,9 +460,17 @@ const CONTENT = {
     { id:"echt",  src:null },
     { id:"kapuze", src:"img/buste_falsch_kapuze.jpg" }
   ],
-  notebook: [
-    { title:"Seite 1", html:"Hans von Burghausen. Er hat diese Kirche erdacht und noch eine zweite in dieser Stadt. Die wartet später auf euch.<br><br>Hier hat Georg 1475 seine Hedwig geheiratet. Bezahlt hat ein anderer. Wer, das steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit.<span class=\"red\">T. hat wieder nach Geld gefragt. Nein.</span>" },
-    { title:"Abschrift der Hochzeitsrechnung, 1475", html:"<table><tr><td>Ochsen</td><td>323</td></tr><tr><td>Schweine</td><td>285</td></tr><tr><td>Ungarische Schafe</td><td>1.133</td></tr><tr><td>Gänse</td><td>11.500</td></tr><tr><td>Hühner</td><td>40.000</td></tr><tr><td>Eier</td><td>194.345</td></tr></table><span class=\"red\">Bezahlt vom Vater des Bräutigams.</span>" }
+  /* Falkenrieds Tagebuch. req: erscheint erst, wenn diese Notiz freigeschaltet ist. start: hier schlägt das Buch beim ersten Öffnen auf. */
+  diary: [
+    { date:"Dienstag, 14. Oktober 2026", html:"Neuburg an der Donau, Kirchenbücher. Zwei Tage zwischen Staub und Latein. Im Winter 1503 gibt es einen Eintrag, der nicht zu den anderen passt. Ein Name, durchgestrichen, und daneben eine andere Hand.<br><br>Ich darf mir nichts einbilden. Aber wenn das stimmt, dann ist die Geschichte meiner Familie nicht die, die man mir erzählt hat." },
+    { date:"Sonntag, 2. November 2026", html:"Heute ist der beste Tag meines Lebens.<br><br>Mehr schreibe ich hier nicht hin. Nicht einmal hier." },
+    { date:"Freitag, 28. November 2026", html:"Jemand war an meinem Schreibtisch. Die Mappe lag anders, als ich sie hingelegt hatte, und im Archivprogramm war eine Datei geöffnet, die ich seit Wochen nicht angefasst habe.<br><br>Wer hat einen Schlüssel? Zu viele." },
+    { date:"Mittwoch, 3. Dezember 2026", html:"Abschrift der Hochzeitsrechnung von 1475, für meine Sammlung.<table style=\"margin-top:8px\"><tr><td>Ochsen</td><td>323</td></tr><tr><td>Schweine</td><td>285</td></tr><tr><td>Ungarische Schafe</td><td>1.133</td></tr><tr><td>Gänse</td><td>11.500</td></tr><tr><td>Hühner</td><td>40.000</td></tr><tr><td>Eier</td><td>194.345</td></tr></table><span class=\"red\">Bezahlt vom Vater des Bräutigams.</span>" },
+    { date:"Samstag, 6. Dezember 2026", html:"Ich traue keinem Passwort mehr. Passwörter kann man stehlen, abschauen, zurücksetzen. Die Stadt nicht.<br><br>Ab heute verschließe ich alles, was zählt, mit dem, was man nur dort draußen sehen kann. Wer meinen Weg geht, findet, was ich gefunden habe. Wer nur an meinem Schreibtisch sitzt, nicht." },
+    { date:"Mittwoch, 10. Dezember 2026", req:"fassade", html:"Lange vor dem Haus der Landstände gestanden. Drei Reihen, dreißig Herzöge.<br><br><b>Der Adler</b> gehört der Braut. Darüber Georg, der Bräutigam. Bezahlt hat der, der links neben ihm steht: sein Vater, Ludwig.<br><br><b>Der Kaiser</b>, der Einzige, der sitzen darf. Er schenkte dieser Stadt drei Helme für ihr Wappen. Wenn euch jemals jemand nach Helmen fragt, denkt an ihn.<br><br><b>Der Bauherr von gegenüber.</b> Erst 1536 begann er seine Residenz. Vorher stand dort nichts, was ein Herzog bewohnt hätte.<span class=\"red\">Heinrich, der Älteste der drei Reichen, hat uns eine Kirche hinterlassen: Heiliggeist.</span>" },
+    { date:"Freitag, 12. Dezember 2026", html:"T. war wieder da. Hat wieder nach Geld gefragt.<span class=\"red\">Nein.</span>" },
+    { date:"Donnerstag, 18. Dezember 2026", start:true, html:"Für den, der das hier liest.<br><br>Hans von Burghausen. Er hat Sankt Martin erdacht und noch eine zweite Kirche in dieser Stadt. Die wartet später auf euch.<br><br>In Sankt Martin hat Georg 1475 seine Hedwig geheiratet. Bezahlt hat ein anderer, die Rechnung steht ein paar Seiten weiter vorn. Wer es war, das steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit." },
+    { date:"Samstag, 19. Dezember 2026, morgens", html:"Heute Abend sage ich es allen. Die Gäste kommen um sieben. Nach dem Dessert.<br><br>Es gehört nicht mir. Es gehört dieser Stadt.<span class=\"red\">Und wenn mir etwas zustößt: Mair weiß, was zu tun ist.</span>" }
   ]
 };
 
@@ -802,8 +826,11 @@ function advance(){
    ============================================================ */
 function openFaceLock(){
   const faces = CONTENT.faces.map(f => `<button data-face="${f.id}" aria-label="Gesicht auswählen">${f.src ? `<img src="${f.src}" alt="">` : `<span class="ph">Platzhalter: Hier kommt die Zeichnung nach eurem Foto der echten Büste. Zum Testen ist dieses Feld die richtige Antwort.</span>`}</button>`).join("");
-  openWin("Notizen", `<div class="target" style="margin-top:4px"><div class="t">Gesichtserkennung</div>
-    <div class="s">„Wer diese Kirche erdacht hat, hat sich selbst an ihre Südseite gesetzt. Findet sein Gesicht.“</div></div>
+  openWin("Notizen", `<div class="nb" style="font-size:16px"><h3>Zettel am Notizbuch · Handschrift Falkenried</h3>
+    Wer das liest, dem vertraue ich mehr als den Leuten in meinem Haus. Jemand liest meine Papiere. Passwörter kann man stehlen, diese Stadt nicht.
+    Darum habe ich alles Wichtige mit dem verschlossen, was man nur dort draußen sehen kann. Folgt meinem Weg, dann findet ihr, was ich gefunden habe.
+    <span class="red">Wer diese Kirche erdacht hat, hat sich selbst an ihre Südseite gesetzt. Findet sein Gesicht.</span></div>
+    <div class="target"><div class="t">Gesichtserkennung</div><div class="s">Wählt das Gesicht, das ihr an der Wand seht.</div></div>
     <div class="faces">${faces}</div><p id="faceMsg" class="empty" style="padding:6px 0"></p>`);
   $("#winBody").onclick = e => {
     const f = e.target.closest("[data-face]"); if (!f) return;
@@ -818,10 +845,26 @@ function openFaceLock(){
     }
   };
 }
-function openNotebook(first){
-  const extra = S.notes.map(n => NOTES[n]).filter(Boolean);
-  const pages = CONTENT.notebook.concat(extra).map(p => `<div class="nb"><h3>${esc(p.title)}</h3>${p.html}</div>`).join("");
-  openWin("Notizen", (first ? `<div class="target"><div class="t">Entsperrt</div><div class="s">Falkenrieds Notizbuch ist offen. Lest es genau, darin steht, wohin es weitergeht.</div></div>` : "") + pages);
+let nbPage = null;
+function diaryPages(){ return CONTENT.diary.filter(d => !d.req || S.notes.includes(d.req)); }
+function openNotebook(first, jumpReq){
+  const pages = diaryPages();
+  if (jumpReq) nbPage = pages.findIndex(d => d.req === jumpReq);
+  if (nbPage === null || nbPage < 0 || nbPage >= pages.length) nbPage = Math.max(0, pages.findIndex(d => d.start));
+  const d = pages[nbPage];
+  openWin("Notizen", `${first ? `<div class="target"><div class="t">Entsperrt</div><div class="s">Falkenrieds Tagebuch ist offen. Blättert durch, darin steht, wohin es weitergeht.</div></div>` : ""}
+    <div class="diary" id="diary">
+      <div class="dpage" id="dpage"><div class="ddate">${esc(d.date)}</div><div class="dtext">${d.html}</div>
+        <div class="dfoot">Seite ${nbPage + 1} von ${pages.length}</div></div>
+      <div class="dnav"><button id="dPrev" ${nbPage === 0 ? "disabled" : ""} aria-label="Vorherige Seite">‹ früher</button>
+        <span class="ddots">${pages.map((_, i) => `<i class="${i === nbPage ? "on" : ""}"></i>`).join("")}</span>
+        <button id="dNext" ${nbPage === pages.length - 1 ? "disabled" : ""} aria-label="Nächste Seite">später ›</button></div>
+    </div>`);
+  const go = dir => { const n = nbPage + dir; if (n < 0 || n >= pages.length) return; nbPage = n; openNotebook(false); const pg = $("#dpage"); if (pg) pg.classList.add(dir > 0 ? "inR" : "inL"); };
+  $("#dPrev").onclick = () => go(-1); $("#dNext").onclick = () => go(1);
+  let x0 = null; const el = $("#diary");
+  el.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; }, { passive:true });
+  el.addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1); });
   renderHome();
 }
 
@@ -971,7 +1014,7 @@ function acceptCall(id, w){
    Vorproduzierte Stimmen (audio/*.mp3) mit Satz-Zeitmarken.
    Fehlt eine Datei oder schlägt die Wiedergabe fehl, springt die Sprachausgabe des Geräts ein.
    ============================================================ */
-const CUES = {"CALL_01": [[0.1, 2.675], [2.625, 7.402], [7.402, 13.555], [13.555, 18.375], [18.375, 21.888], [21.888, 24.694]], "CALL_06": [[0.1, 2.02], [1.97, 4.748], [4.748, 8.902], [8.902, 12.166], [12.166, 18.206], [18.206, 21.969]], "CALL_07": [[0.1, 2.508], [2.458, 5.833], [5.833, 7.886], [7.886, 12.111]], "V_ERBE": [[0.1, 3.331], [3.281, 6.988], [6.988, 11.818], [11.818, 17.059], [17.059, 21.335], [21.335, 25.227], [25.227, 30.241], [30.241, 32.727], [32.727, 36.292], [36.292, 39.687], [39.687, 41.534], [41.534, 44.73], [44.73, 50.0], [50.0, 52.13], [52.13, 55.738], [55.738, 59.161], [59.161, 62.258], [62.258, 71.661], [71.661, 73.977], [73.977, 78.224], [78.224, 82.94]], "V_RESIDENZ": [[0.1, 3.899], [3.849, 7.784], [7.784, 12.926], [12.926, 17.485], [17.485, 21.718]], "V_TURM": [[0.1, 4.297], [4.247, 6.59], [6.59, 10.525]], "V_ZEUGIN": [[0.1, 3.664], [3.614, 7.744], [7.744, 10.407], [10.407, 12.54], [12.54, 15.652], [15.652, 22.88]], "ZEUGIN_KURZ": [[0.1, 3.664], [3.614, 7.744], [7.744, 10.407], [10.407, 12.54], [12.54, 15.652]], "V_MAIR": [[0.1, 2.709], [2.659, 8.723], [8.723, 14.787], [14.787, 21.183], [21.183, 25.598]], "V_FINALE": [[0.1, 5.817], [5.767, 8.338], [8.338, 14.19], [14.19, 16.278], [16.278, 22.642], [22.642, 27.471], [27.471, 30.724], [30.724, 34.63], [34.63, 37.031], [37.031, 41.718], [41.718, 47.329], [47.329, 52.201]]};
+const CUES = {"CALL_01": [[0.1, 2.675], [2.625, 7.402], [7.402, 10.75], [10.75, 16.68], [16.68, 22.458], [22.458, 27.569]], "CALL_06": [[0.1, 2.02], [1.97, 4.748], [4.748, 8.902], [8.902, 12.166], [12.166, 18.206], [18.206, 21.969]], "CALL_07": [[0.1, 2.508], [2.458, 5.833], [5.833, 7.886], [7.886, 12.111]], "V_ERBE": [[0.1, 3.331], [3.281, 6.988], [6.988, 11.818], [11.818, 17.059], [17.059, 21.335], [21.335, 25.227], [25.227, 30.241], [30.241, 32.727], [32.727, 36.292], [36.292, 39.687], [39.687, 41.534], [41.534, 44.73], [44.73, 50.0], [50.0, 52.13], [52.13, 55.738], [55.738, 59.161], [59.161, 62.258], [62.258, 71.661], [71.661, 73.977], [73.977, 78.224], [78.224, 82.94]], "V_RESIDENZ": [[0.1, 3.899], [3.849, 7.784], [7.784, 12.926], [12.926, 17.485], [17.485, 21.718]], "V_TURM": [[0.1, 4.297], [4.247, 6.59], [6.59, 10.525]], "V_ZEUGIN": [[0.1, 3.664], [3.614, 7.744], [7.744, 10.407], [10.407, 12.54], [12.54, 15.652], [15.652, 22.88]], "ZEUGIN_KURZ": [[0.1, 3.664], [3.614, 7.744], [7.744, 10.407], [10.407, 12.54], [12.54, 15.652]], "V_MAIR": [[0.1, 2.709], [2.659, 8.723], [8.723, 14.787], [14.787, 21.183], [21.183, 25.598]], "V_FINALE": [[0.1, 5.817], [5.767, 8.338], [8.338, 14.19], [14.19, 16.278], [16.278, 22.642], [22.642, 27.471], [27.471, 30.724], [30.724, 34.63], [34.63, 37.031], [37.031, 41.718], [41.718, 47.329], [47.329, 52.201]]};
 let curAudio = null;
 ["VERHOER_HELENA","VERHOER_MAIR","VERHOER_TOBIAS","VERHOER_CLARA"].forEach(k => { CUES[k] = []; });
 const RECORDINGS = {"helena": {"id": "VERHOER_HELENA", "text": "Seidl: Frau Dr. Dorn, wann haben Sie das Haus verlassen?\nDorn: Ich bin um halb neun gegangen. Kopfschmerzen. Ich habe mich im Flur verabschiedet, das hat Frau Brandl gesehen.\nSeidl: Und dann?\nDorn: Direkt ins Hotel. Um kurz nach neun lag ich im Bett. Von alldem habe ich erst heute Morgen erfahren.\nSeidl: Sie haben Herrn von Falkenrieds Archiv betreut?\nDorn: Seit drei Jahren. Ich kenne jedes Blatt darin. Gerade deshalb tut das so weh."}, "mair": {"id": "VERHOER_MAIR", "text": "Seidl: Herr Mair, Sie waren während des Abends eine Weile nicht im Salon.\nMair: Ich habe kurz telefoniert, draußen. Ein beruflicher Anruf.\nSeidl: Mit wem?\nMair: Dazu kann ich nichts sagen. Ich bin an meine Schweigepflicht gebunden.\nSeidl: Wie lange waren Sie draußen?\nMair: Ein paar Minuten. Mehr nicht."}, "tobias": {"id": "VERHOER_TOBIAS", "text": "Seidl: Herr von Falkenried, man hat Sie mit Ihrem Onkel streiten hören.\nTobias: Ja, wir haben gestritten. Laut. Es ging um Geld, um was sonst.\nSeidl: Und danach?\nTobias: Danach war ich rauchen, auf der Terrasse. Bestimmt eine Viertelstunde. Ich wollte nicht mehr rein.\nSeidl: Sie haben ihn gefunden.\nTobias: Kurz vor halb zehn. Die Archivtür stand offen. Ich … ich will darüber nicht reden."}, "clara": {"id": "VERHOER_CLARA", "text": "Seidl: Frau Weiß, wo waren Sie zwischen halb neun und neun?\nWeiß: Im Salon. Den ganzen Abend. Fragen Sie die anderen.\nSeidl: Sie haben ein Taxi bestellt.\nWeiß: Ja, gegen neun. Ich wollte nach Hause, die Stimmung war … unangenehm.\nSeidl: Kannten Sie Herrn von Falkenrieds Sammlung?\nWeiß: Natürlich. Ich bin Kunsthändlerin. Aber nur aus seinen Erzählungen."}};
@@ -1426,6 +1469,7 @@ const CALL6_PARTS = [
   ["Und der Notar war achtzehn Minuten weg.", "x"], ["Um 20:48 ging die Archivtür auf,", "need"], ["mit der Karte R7.", "need"],
   ["Und das alles nur wegen dem Pfand der Verbindung.", "gold"]
 ];
+AFTER_CALL.CALL_01 = () => { if (S.stage === 1 && !S.apps.includes("notizen")) setTimeout(() => { renderHome(); toast("Neuer Auftrag: Falkenrieds Notizbuch öffnen. Siehe oben auf dem Homescreen."); }, 500); };
 AFTER_CALL.CALL_06 = () => { if (S.stage !== 6 || !S.st.s6 || S.st.s6.callOk) return; S.st.s6.callDone = true; save(); setTimeout(callAnalysis, 600); };
 function callAnalysis(){
   const st = S.st.s6; st.callMarks = st.callMarks || [];
