@@ -499,7 +499,7 @@ const CONTENT = {
 const TEAM = ((new URLSearchParams(location.search).get("team") || "haupt").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 30)) || "haupt";
 const KEY = "falkenried-v2-" + TEAM;
 /* Gemeinsam für alle Handys des Teams */
-const SHARED = ["stage","phase","revealed","apps","evidence","voicemails","notes","st","ending","struck","hintsOpen","events","locks","devices","solvedBy","rev","resetAt","goAt","acks","mustSee"];
+const SHARED = ["stage","phase","revealed","apps","evidence","voicemails","notes","st","ending","struck","hintsOpen","events","locks","devices","solvedBy","rev","resetAt","goAt","acks","mustSee","startedAt"];
 const fresh = () => ({ stage:1, phase:"task", revealed:{}, apps:[], evidence:[], voicemails:[], notes:[], st:{}, ending:null, struck:[], hintsOpen:{},
   events:[], locks:{}, devices:{}, solvedBy:null, rev:0, resetAt:0, goAt:{}, acks:{}, mustSee:[],
   /* nur auf diesem Handy */
@@ -622,7 +622,7 @@ screen.addEventListener("click", e => {
 function renderDots(){ const d = $("#dots"); if (d) d.innerHTML = [0,1,2,3].map(i=>`<i class="${i<pin.length?'on':''}"></i>`).join(""); }
 function checkPin(){
   if (pin === CONTENT.pin) {
-    S.unlocked = true; save(); pin = ""; renderHome();
+    S.unlocked = true; if (!S.startedAt) S.startedAt = Date.now(); save(); pin = ""; renderHome();
     askName(() => showCast(() => setTimeout(() => { fire("CALL_01"); processEvents(); }, 1200)));
   } else {
     const d = $("#dots"); d.classList.remove("shake"); void d.offsetWidth; d.classList.add("shake");
@@ -1814,14 +1814,48 @@ function tresor(){
     else { $("#nmMsg").textContent = "Das Schloss bleibt zu. Hört noch einmal, wem Georg sein Land vermacht hat."; wrong("8.name"); }
   };
 }
+const MEDAL = `<svg viewBox="0 0 120 150" style="width:120px;display:block;margin:0 auto 6px">
+  <path d="M38 0h18l10 52H48z" fill="#2f5fa8"/><path d="M64 0h18L72 52H54z" fill="#e8e3d6"/><path d="M47 0h9l10 52h-9z" fill="#c0504d"/>
+  <circle cx="60" cy="92" r="40" fill="#b8892f"/><circle cx="60" cy="92" r="34" fill="#e3b04b" stroke="#fff3c4" stroke-width="2"/>
+  <path d="M60 66l7.6 15.4 17 2.5-12.3 12 2.9 16.9L60 104.8 44.8 112.8l2.9-16.9-12.3-12 17-2.5z" fill="#fff3c4" stroke="#b8892f" stroke-width="1.5"/>
+  <text x="60" y="97" text-anchor="middle" font-size="11" font-weight="800" fill="#7a5718" font-family="var(--font-mono)">1475</text></svg>`;
+function confetti(){
+  const c = document.createElement("canvas"); c.style.cssText = "position:absolute;inset:0;z-index:60;pointer-events:none"; layer.appendChild(c);
+  const W = c.width = layer.clientWidth, H = c.height = layer.clientHeight, g = c.getContext("2d");
+  const cols = ["#e3a548","#e05555","#5b86b8","#6fbf8a","#ece6da","#b07cc6"];
+  const P = Array.from({ length:140 }, () => ({ x:Math.random()*W, y:-20-Math.random()*H*0.6, s:4+Math.random()*6, v:2+Math.random()*3, w:Math.random()*6, r:Math.random()*6, c:cols[Math.floor(Math.random()*cols.length)] }));
+  const t0 = Date.now();
+  (function f(){ g.clearRect(0,0,W,H); P.forEach(p => { p.y += p.v; p.x += Math.sin((p.y+p.w*40)/40); p.r += 0.1; g.save(); g.translate(p.x,p.y); g.rotate(p.r); g.fillStyle = p.c; g.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); g.restore(); });
+    if (Date.now() - t0 < 6000) requestAnimationFrame(f); else c.remove(); })();
+}
+function teamNames(){ return Object.values(S.devices || {}).filter(d => !d.removed && d.name).map(d => d.name); }
 function showEnding(){
-  openWin("Fall gelöst", `<div class="hint" style="display:flex;gap:12px;align-items:flex-start"><img src="img/seidl_av.jpg" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none"><p style="margin:0"><b>Seidl:</b> „Wir haben sie. Dr. Helena Dorn kam an den Rand der Wiese, um die Kassette abzuholen. Wir haben sie festgenommen. Gute Arbeit, Ermittlungsgruppe 1475.“</p></div>
-    <div class="nb"><h3>Akte 1475 · geschlossen</h3>Die Kassette ist offen: eine Rubinbrosche, zwölf Silberschalen, ein Doppelsiegel. Das Erbe Elisabeths, 523 Jahre verborgen.<br><br>
+  const mins = S.startedAt ? Math.round((Date.now() - S.startedAt) / 60000) : null;
+  const dur = mins === null ? "" : mins >= 60 ? `${Math.floor(mins/60)} Std. ${mins % 60} Min.` : `${mins} Min.`;
+  const tips = Object.values(S.hintsOpen || {}).reduce((a,b) => a + b, 0);
+  const names = teamNames();
+  openWin("Fall gelöst", `<div style="text-align:center;padding:6px 0 4px">${MEDAL}
+      <div class="sec" style="margin:4px 0;color:var(--amber)">Verdienstmedaille der Ermittlungsgruppe 1475</div>
+      <h2 style="font-family:var(--font-display);font-size:30px;margin:4px 0 6px">Herzlichen Glückwunsch!</h2>
+      <p style="color:var(--muted);margin:0 0 12px">Ihr habt den Mord an Maximilian von Falkenried aufgeklärt und ein Erbe gerettet, das über 500 Jahre verborgen war.</p>
+      <button class="btn primary" id="endPlay" style="max-width:320px;margin:0 auto 8px">▶ Glückwünsche von Seidl</button></div>
+    <div class="nb" style="text-align:center;border:2px solid #c9a24a;box-shadow:none"><h3>Urkunde</h3>
+      Die Ermittlungsgruppe 1475<br><b style="font-size:20px">${esc(names.join(" · ") || "Ermittlungsgruppe 1475")}</b><br>hat den Fall Falkenried gelöst.
+      <div style="font-family:var(--font-ui);font-size:13px;margin-top:10px;color:#5a5244">${new Date().toLocaleDateString("de-DE",{ day:"numeric", month:"long", year:"numeric" })}${dur ? ` · Ermittlungszeit ${dur}` : ""} · ${tips ? `${tips} ${tips === 1 ? "Tipp" : "Tipps"} benutzt` : "ganz ohne Tipps"}</div>
+      <span class="red" style="text-align:center">Martina Seidl, Ermittlungsleiterin</span></div>
+    <div class="hint" style="display:flex;gap:12px;align-items:flex-start;margin-top:12px"><img src="img/seidl_av.jpg" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none"><p style="margin:0"><b>Seidl:</b> „Wir haben sie. Dr. Helena Dorn kam an den Rand der Wiese, um die Kassette abzuholen. Wir haben sie festgenommen. Gute Arbeit, Ermittlungsgruppe 1475.“</p></div>
+    <div class="sec">Die Auflösung</div><div class="nb"><h3>Akte 1475 · geschlossen</h3>Die Kassette ist offen: eine Rubinbrosche, zwölf Silberschalen, ein Doppelsiegel. Das Erbe Elisabeths, 523 Jahre verborgen.<br><br>
     Die Stimme am Telefon war <b>Dr. Helena Dorn</b>. Sie brauchte euch, um an die Kassette zu kommen. Verraten hat sie sich am Telefon: Sie kannte Uhrzeit und Karte, bevor beides bekannt war.
     <span class="red">Das Erbe geht zurück nach Landshut.</span></div>
     <div class="sec">Was war echt?</div>
     <div class="hint"><p style="margin:0">Echt: die Landshuter Hochzeit 1475, die Hochzeitsrechnung, die Fassade des Landschaftshauses, das Denkmal von 1858, Georgs Tod 1503, Elisabeth und der Landshuter Erbfolgekrieg, die Stadtresidenz ab 1536, der Turm von St. Martin, der Baubeginn von Heiliggeist 1407, der Kölner Spruch von 1505, Elisabeths vier Söhne und die drei Helme im Wappen.</p>
     <p>Erfunden: Falkenried und alle Figuren, der Mord, die drei Kisten, dass Elisabeths Sohn Georg 1504 überlebt hat, jede Abstammung davon, die Sage vom Ritter am Ländtor.</p></div>`);
+  const b = $("#endPlay");
+  const play = () => { if (curAudio && !curAudio.paused) { stopAudio(); b.textContent = "▶ Glückwünsche von Seidl"; return; }
+    stopAudio(); const a = new Audio("audio/SEIDL_ENDE.mp3"); curAudio = a; b.textContent = "■ Stopp";
+    a.addEventListener("ended", () => { b.textContent = "▶ Nochmal anhören"; }); a.play().catch(() => { b.textContent = "▶ Glückwünsche von Seidl"; }); };
+  b.onclick = play;
+  if (!showEnding.done) { showEnding.done = true; confetti(); play(); }
 }
 
 function skipStation(){
