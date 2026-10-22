@@ -1357,6 +1357,8 @@ PUZZLE_2 = function(){
   openWin("Fotos", head + facadeGrid() + `<p id="fMsg" class="empty" style="padding:10px 0"></p>`);
   $("#winBody").onclick = e => {
     const b = e.target.closest("[data-pos]"); if (!b) return;
+    const st = S.st.s2 || (S.st.s2 = { found:[], step:0 }); st.found = st.found || [];
+    if (FACADE_TARGETS[st.found.length] !== cur) return PUZZLE_2(); /* ein anderes Handy war schneller */
     const pos = b.dataset.pos, msg = $("#fMsg"), lk = cur ? "2.f" + st.found.length : "2.payer";
     if (!guard(lk)) return;
     if (cur) {
@@ -1418,16 +1420,17 @@ const INV03 = [
 ];
 function inv03Html(){ return INV03.map(([room, items]) => `<div class="sec" style="margin:10px 0 4px">${esc(room)}</div>${items.map(t => `<div class="invrow">${esc(t)}</div>`).join("")}`).join(""); }
 function inv75Html(picked, tap){ return INV75.map(([n, t]) => tap ? `<button class="invrow pick${picked.includes(n) ? " on" : ""}" data-inv="${n}"><b>${n}</b> ${esc(t)}</button>` : `<div class="invrow"><b>${n}</b> ${esc(t)}${INV_MISSING.includes(n) ? ' <span style="color:#c0504d">· fehlt 1503</span>' : ""}</div>`).join(""); }
+const S4 = () => { S.st.s4 = S.st.s4 || { seal:false, picked:[] }; S.st.s4.wh = S.st.s4.wh || [0,0,0]; S.st.s4.picked = S.st.s4.picked || []; return S.st.s4; };
 PUZZLE_4 = function(){
   const st = S.st.s4 || (S.st.s4 = { seal:false, picked:[] });
   if (!st.seal) { st.wh = st.wh || [0,0,0];
     openWin("Mappe", `<div class="target"><div class="t">Wappenschloss</div><div class="s">Falkenrieds Mappe hat ein Schloss mit drei Rädern. Stellt ein, was über der Rathausuhr hängt: wie viele, was und in welcher Farbe.</div></div>
       <div class="wheels">${WHEELS.map((w,k) => `<div class="wheel"><div class="wl">${esc(w[0])}</div><button data-wh="${k}:-1" aria-label="hoch">▲</button><div class="wv" id="wv${k}">${esc(w[1][st.wh[k]])}</div><button data-wh="${k}:1" aria-label="runter">▼</button></div>`).join("")}</div>
       <button class="btn primary" id="whGo">Öffnen</button><p id="sMsg" class="empty" style="padding:8px 0"></p>`);
-    $("#winBody").onclick = e => { const b = e.target.closest("[data-wh]"); if (!b) return;
+    $("#winBody").onclick = e => { const b = e.target.closest("[data-wh]"); if (!b) return; const st = S4();
       const [k,d] = b.dataset.wh.split(":").map(Number), n = WHEELS[k][1].length;
       st.wh[k] = (st.wh[k] + d + n) % n; save(); $("#wv"+k).textContent = WHEELS[k][1][st.wh[k]]; };
-    $("#whGo").onclick = () => {
+    $("#whGo").onclick = () => { const st = S4();
       if (!guard("4.seal")) return;
       if (st.wh.every((x,k) => WHEELS[k][1][x] === WHEEL_OK[k])) { right("4.seal"); st.seal = true; save(); $("#sMsg").textContent = "Klick. Die Mappe ist offen."; setTimeout(PUZZLE_4, 900); }
       else { $("#sMsg").textContent = "Das Schloss klemmt. Schaut noch einmal genau auf das Wappen über der Uhr."; wrong("4.seal"); }
@@ -1441,11 +1444,11 @@ PUZZLE_4 = function(){
     <div id="invList">${st.tab === "75" ? inv75Html(st.picked, true) : inv03Html()}</div>
     <p class="empty" style="padding:8px 0 0;text-align:left">Markiert: <b id="invN">${st.picked.length}</b> von 3</p>
     <button class="btn primary" id="invGo">Prüfen</button><p id="iMsg" class="empty" style="padding:8px 0"></p>`);
-  $("#winBody").onclick = e => {
+  $("#winBody").onclick = e => { const st = S4();
     const t = e.target.closest("[data-tab]"); if (t) { st.tab = t.dataset.tab; save(); return PUZZLE_4(); }
     const b = e.target.closest("[data-inv]"); if (!b) return;
     const n = +b.dataset.inv; st.picked = st.picked.includes(n) ? st.picked.filter(x => x !== n) : st.picked.concat(n); save(); b.classList.toggle("on"); $("#invN").textContent = st.picked.length; };
-  $("#invGo").onclick = () => {
+  $("#invGo").onclick = () => { const st = S4();
     if (!guard("4.list")) return;
     if (st.picked.length !== 3) { $("#iMsg").textContent = "Markiert genau drei Stücke in der Liste von 1475."; return; }
     const ok = INV_MISSING.every(n => st.picked.includes(n));
@@ -1671,9 +1674,9 @@ function callAnalysis(){
   openWin("Akte 19. Dezember", `<div class="target"><div class="t">Was wusste der Anrufer?</div><div class="s">Jetzt ist auch die geschwärzte Zeile frei: um 20:48 öffnete Karte R7 die Archivtür. Markiert in der Mitschrift, was der Anrufer zu dem Zeitpunkt nicht wissen konnte.</div></div>
     <div class="nb letter">${CALL6_PARTS.map((p,i) => `<button data-cp="${i}" class="${st.callMarks.includes(i)?'on':''}">${esc(p[0])}</button>`).join(" ")}</div>
     <button class="btn primary" id="cpGo">Prüfen</button><p id="cpMsg" class="empty" style="padding:8px 0"></p>`);
-  $("#winBody").onclick = e => { const b = e.target.closest("[data-cp]"); if (!b) return; const i = +b.dataset.cp;
+  $("#winBody").onclick = e => { const b = e.target.closest("[data-cp]"); if (!b) return; const i = +b.dataset.cp; const st = S.st.s6; st.callMarks = st.callMarks || [];
     st.callMarks = st.callMarks.includes(i) ? st.callMarks.filter(x => x !== i) : st.callMarks.concat(i); save(); b.classList.toggle("on"); };
-  $("#cpGo").onclick = () => {
+  $("#cpGo").onclick = () => { const st = S.st.s6; st.callMarks = st.callMarks || [];
     if (!guard("6.call")) return;
     const kinds = st.callMarks.map(i => CALL6_PARTS[i][1]);
     const needOk = [4,5].every(i => st.callMarks.includes(i)), wrongPick = kinds.includes("x");
@@ -1847,6 +1850,13 @@ const clone = o => JSON.parse(JSON.stringify(o === undefined ? null : o));
 const sharedOf = o => { const r = {}; SHARED.forEach(k => r[k] = clone(o[k])); return r; };
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 function union(a, b){ const out = (a || []).slice(); (b || []).forEach(x => { if (!out.some(y => same(x, y))) out.push(x); }); return out; }
+function deepLocal(r, l){
+  if (Array.isArray(l)) return l;
+  if (r && l && typeof r === "object" && typeof l === "object") { const o = Object.assign({}, r); Object.keys(l).forEach(k => o[k] = (k in r) ? deepLocal(r[k], l[k]) : clone(l[k])); return o; }
+  if (typeof r === "boolean" || typeof l === "boolean") return !!(r || l);
+  if (typeof r === "number" && typeof l === "number" && !Array.isArray(l)) return l;
+  return l === undefined || l === null ? r : l;
+}
 function deep(r, l){
   if (Array.isArray(r) || Array.isArray(l)) return union(r, l);
   if (r && l && typeof r === "object" && typeof l === "object") { const o = Object.assign({}, r); Object.keys(l).forEach(k => o[k] = (k in r) ? deep(r[k], l[k]) : clone(l[k])); return o; }
@@ -1867,7 +1877,7 @@ function merge(remote, local, b){
     if (k === "locks") { const o = clone(r || {}); Object.keys(l || {}).forEach(key => { const R = o[key], L = l[key];
         if (!R || L.round > R.round) o[key] = clone(L); else if (L.round === R.round) o[key] = { round:R.round, ids:union(R.ids, L.ids) }; }); out[k] = o; return; }
     if (k === "devices") { const o = clone(r || {}); Object.keys(l || {}).forEach(id => { if (!o[id] || (l[id].seen || 0) > (o[id].seen || 0)) o[id] = clone(l[id]); }); out[k] = o; return; }
-    out[k] = deep(clone(r), clone(l));
+    out[k] = k === "st" ? deepLocal(clone(r), clone(l)) : deep(clone(r), clone(l));
   });
   const ls = local.stage || 1, rs = remote.stage || 1;
   out.stage = Math.max(ls, rs);
