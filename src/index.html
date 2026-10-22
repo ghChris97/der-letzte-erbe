@@ -591,7 +591,6 @@ document.addEventListener("click", async e => {
   if (!e.target.closest("#netTap")) return;
   const t = Date.now(); netTaps = netTaps.filter(x => t - x < 1500); netTaps.push(t);
   if (netTaps.length < 3) return; netTaps = [];
-  toast("App wird aktualisiert …");
   try { if (window.caches) { const ks = await caches.keys(); await Promise.all(ks.map(k => caches.delete(k))); } } catch(err) {}
   try { if (navigator.serviceWorker) { const rs = await navigator.serviceWorker.getRegistrations(); await Promise.all(rs.map(r => r.update())); } } catch(err) {}
   setTimeout(() => location.reload(), 600);
