@@ -508,9 +508,9 @@ const CONTENT = {
 const TEAM = ((new URLSearchParams(location.search).get("team") || "haupt").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 30)) || "haupt";
 const KEY = "falkenried-v2-" + TEAM;
 /* Gemeinsam für alle Handys des Teams */
-const SHARED = ["stage","phase","revealed","apps","evidence","voicemails","notes","st","ending","struck","hintsOpen","events","locks","devices","solvedBy","rev","resetAt","goAt"];
+const SHARED = ["stage","phase","revealed","apps","evidence","voicemails","notes","st","ending","struck","hintsOpen","events","locks","devices","solvedBy","rev","resetAt","goAt","acks","mustSee"];
 const fresh = () => ({ stage:1, phase:"task", revealed:{}, apps:[], evidence:[], voicemails:[], notes:[], st:{}, ending:null, struck:[], hintsOpen:{},
-  events:[], locks:{}, devices:{}, solvedBy:null, rev:0, resetAt:0, goAt:{},
+  events:[], locks:{}, devices:{}, solvedBy:null, rev:0, resetAt:0, goAt:{}, acks:{}, mustSee:[],
   /* nur auf diesem Handy */
   introSeen:false, unlocked:false, calls:[], threads:{ unbekannt:[] }, fired:[], unread:0, missed:0, seen:[] });
 /* Dieses Gerät */
@@ -664,7 +664,7 @@ document.addEventListener("click", e => {
   const id = t.dataset.app, a = APPS[id];
   if (a.lock && !S.apps.includes(id)) {
     const route = { notizen:1, fotos:2, archiv:3, mail:7, tresor:8 }[id];
-    if (route === S.stage && S.phase === "task" && !(id === "tresor" && !S.st.accused)) { closeSheet(); return PUZZLE[S.stage](); }
+    if (route === S.stage && S.phase === "task" && !(id === "tresor" && !S.st.accused)) { closeSheet(); if (!ackGate()) return; return PUZZLE[S.stage](); }
     return openLocked(a);
   }
   if (APP_VIEW[id]) { closeSheet(); return APP_VIEW[id](); }
@@ -689,10 +689,11 @@ function sheet(html){
   closeSheet();
   const w = document.createElement("div"); w.className = "sheet-wrap"; w.id = "sheet";
   w.innerHTML = `<div class="sheet" role="dialog">${html}</div>`;
-  w.addEventListener("click", e => { if (e.target === w || e.target.closest("[data-close]")) closeSheet(); });
+  w.addEventListener("click", e => { if (e.target === w || e.target.closest("[data-close]")) { w._user = true; closeSheet(); } });
   layer.appendChild(w);
 }
-function closeSheet(){ const s = $("#sheet"); if (s) { s.remove(); if (!$("#call")) stopAudio(); } }
+function closeSheet(){ const s = $("#sheet"); if (s) { const ack = s.dataset.ack; s.remove(); if (!$("#call")) stopAudio();
+  if (ack) { if (s._user) ackItem(ack); else if (s._item) showQ.unshift(s._item); } } }  /* nur selbst geschlossen zählt als gesehen */
 
 function openLocked(a){
   const L = CONTENT.locks[a.lock];
@@ -875,6 +876,7 @@ function missionCard(){
   }
   return `<section class="mission" aria-label="Aktueller Auftrag">
     <div class="k"><span>Auftrag · ${esc(st.name)}</span><span>Station ${st.id} von 8</span></div>
+    <div class="place" id="ackTxt" style="display:none;color:var(--amber)"></div>
     <div class="tx">${esc(S.ending ? "Fall abgeschlossen. Danke, Ermittler." : (st.id === 8 && S.st.accused ? "Mair hat euch die Kassette übergeben. Hört Falkenrieds letzte Nachricht in der Mailbox. Dann öffnet den Tresor." : st.task))}</div>
     ${S.ending ? `<div class="acts"><button class="go" data-mact="ending">Auflösung ansehen</button></div>` : `<div class="acts"><button class="go" data-mact="action">${esc(st.id === 8 && S.st.accused ? "Tresor öffnen" : st.action)}</button><button class="tip" data-mact="hint">💡 Tipp</button></div>`}
   </section>`;
@@ -885,7 +887,7 @@ document.addEventListener("click", e => {
   if (act === "reveal") { if (revealLeft() > 0) return; S.revealed[st.id] = true; save(); renderHome(); }
   if (act === "map") openMap();
   if (act === "arrive") { if (!nearTarget()) { toast(geoText()); return; } S.phase = "task"; S.revealed[st.id] = true; save(); renderHome(); }
-  if (act === "action") { closeSheet(); PUZZLE[st.id](); }
+  if (act === "action") { closeSheet(); if (!ackGate()) return; PUZZLE[st.id](); }
   if (act === "ending") showEnding();
   if (act === "hint") openHints();
 });
@@ -1009,8 +1011,9 @@ function openScanner(){
 /* ============================================================
    Ereignisse: Anrufe und Nachrichten
    ============================================================ */
+const showable = id => !!(CONTENT.messages[id] || CONTENT.voice[id] || INFOS[id]);
 function fire(id){
-  if (!S.events.includes(id)) { S.events.push(id); save(); }
+  if (!S.events.includes(id)) { S.events.push(id); S.mustSee = S.mustSee || []; if (showable(id) && !S.mustSee.includes(id)) S.mustSee.push(id); save(); }
   playEvent(id);
 }
 function processEvents(){ if (!S.unlocked) return; (S.events || []).forEach(id => playEvent(id)); }
@@ -1020,17 +1023,42 @@ function playEvent(id){
   S.seen.push(id); localSave();
   if (CONTENT.calls[id]) { if ($("#call")) { S.seen = S.seen.filter(x => x !== id); setTimeout(() => playEvent(id), 4000); return; } return incomingCall(id); }
   if (CONTENT.voice[id]) return newVoice(id);
+  if (INFOS[id]) return enqueueShow(() => sheet(INFOS[id]), id);
   const M = CONTENT.messages[id]; if (!M) return;
   S.threads[M.thread].push({ id, text:M.text, attachment:M.attachment, time:nowStr() });
   S.unread++; if (!S.fired.includes(id)) S.fired.push(id); save();
   if (!$("#win")) renderHome();
-  enqueueShow(() => showMessage(id));
+  enqueueShow(() => showMessage(id), id);
 }
 /* Alles, was neu hereinkommt (Nachrichten, Sprachnachrichten, Memos), wird dem Spieler einzeln gezeigt,
    nacheinander und erst, wenn gerade kein anderes Fenster oder Anruf offen ist. */
 const showQ = []; let autoVoice = null;
-function enqueueShow(fn){ showQ.push(fn); pumpShow(); }
-function pumpShow(){ if (!showQ.length || !S.unlocked || $("#sheet") || $("#call")) return; const b = $("#banner"); if (b) b.remove(); showQ.shift()(); }
+const INFOS = {
+  I_CW04: `<img src="img/seidl_av.jpg" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px"><div class="kind">Neue Erkenntnis · Ermittlungsleiterin Seidl</div><h2>Der Käufer CW-04</h2>
+    <p>Seidl: „Wir haben nach dem Code CW-04 gesucht und ihn in Clara Weiß' Handy gefunden. Sie telefonierte von 20:44 bis 20:50 mit genau diesem Käufer. Deshalb hat sie über den Abend gelogen. Zur Tatzeit hing sie am Telefon.“</p><button class="btn primary" data-close>Verstanden</button>`
+};
+function enqueueShow(fn, ackId){ showQ.push({ fn, ackId }); pumpShow(); }
+function pumpShow(){ if (!showQ.length || !S.unlocked || $("#sheet") || $("#call")) return; const b = $("#banner"); if (b) b.remove();
+  const it = showQ.shift(); it.fn(); const sh = $("#sheet"); if (it.ackId) { if (sh) { sh.dataset.ack = it.ackId; sh._item = it; } else ackItem(it.ackId); } }
+/* Wer hat welchen Hinweis gesehen? Das nächste Rätsel startet erst, wenn alle aktiven Handys alles gesehen haben. */
+function ackItem(id){ S.acks = S.acks || {}; const a = S.acks[id] || (S.acks[id] = []); if (!a.includes(DEV.id)) { a.push(DEV.id); save(); } }
+function pendingAcks(){
+  const act = activeDevices().map(([id]) => id);
+  return (S.mustSee || []).map(id => ({ id, who: act.filter(d => !((S.acks || {})[id] || []).includes(d)) })).filter(x => x.who.length);
+}
+function ackNames(){
+  const ids = Array.from(new Set(pendingAcks().flatMap(x => x.who)));
+  return ids.map(d => d === DEV.id ? "du" : ((S.devices || {})[d] || {}).name || "ein Handy");
+}
+function ackGate(){
+  if (DEV.noLimit) return true;
+  if (!pendingAcks().length) return true;
+  pumpShow();
+  if ($("#sheet")) return false;
+  sheet(`<div class="kind">Kurz warten</div><h2>Noch nicht alle sind auf dem neuesten Stand</h2>
+    <p>Es gibt neue Hinweise, die noch nicht jeder gesehen hat: ${esc(ackNames().join(", "))}. Sobald alle sie geöffnet und geschlossen haben, geht es weiter.</p><button class="btn primary" data-close>Okay</button>`);
+  return false;
+}
 setInterval(pumpShow, 700);
 function showMessage(id){
   const M = CONTENT.messages[id];
@@ -1039,7 +1067,7 @@ function showMessage(id){
     <div class="bub" style="margin:10px 0 12px;max-width:100%">${esc(M.text)}</div>
     ${M.attachment ? `<button class="btn primary" id="msgAtt">📎 ${esc(M.attachment)} öffnen</button>` : ""}
     <button class="btn ${M.attachment ? "" : "primary"}" data-close>Schließen</button>`);
-  const a = $("#msgAtt"); if (a) a.onclick = () => { closeSheet(); openAttachment(); };
+  const a = $("#msgAtt"); if (a) a.onclick = () => { const sh = $("#sheet"); if (sh) sh._user = true; closeSheet(); openAttachment(); };
 }
 function banner(title, text, onTap){
   const old = $("#banner"); if (old) old.remove();
@@ -1336,7 +1364,7 @@ const NOTES = {
 function toast(msg){ banner("Falkenrieds Handy", msg, () => {}); }
 function newVoice(id){
   if (!S.voicemails.includes(id)) S.voicemails.push(id); save();
-  enqueueShow(() => { playVoice(id, autoVoice === id); if (autoVoice === id) autoVoice = null; });
+  enqueueShow(() => { playVoice(id, autoVoice === id); if (autoVoice === id) autoVoice = null; }, id);
   return;
   const V = CONTENT.voice[id];
   const old = $("#banner"); if (old) old.remove();
@@ -1759,8 +1787,7 @@ PUZZLE_7 = function(){
       if (!$("#dec").value.trim()) return;
       if (!guard("7.dec")) return;
       if ($("#dec").value.trim().toUpperCase().replace(/\s/g,"") === "ABHOLUNG") { right("7.dec"); st.decoded = true; S.apps.push("mail"); addEv("E14","E15"); save(); PUZZLE_7();
-        enqueueShow(() => sheet(`<img src="img/seidl_av.jpg" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px"><div class="kind">Neue Erkenntnis · Ermittlungsleiterin Seidl</div><h2>Der Käufer CW-04</h2>
-          <p>Seidl: „Wir haben nach dem Code CW-04 gesucht und ihn in Clara Weiß' Handy gefunden. Sie telefonierte von 20:44 bis 20:50 mit genau diesem Käufer. Deshalb hat sie über den Abend gelogen. Zur Tatzeit hing sie am Telefon.“</p><button class="btn primary" data-close>Verstanden</button>`)); }
+        fire("I_CW04"); }
       else { $("#dMsg").textContent = "Das ergibt noch keinen Sinn. Zählt die Glockenschläge in der Sage."; wrong("7.dec"); }
     };
     return;
@@ -1958,7 +1985,7 @@ function adoptRemote(state, ver, merging){
   const mine = sharedOf(S);
   const next = (merging && base) ? merge(state, mine, base) : clone(state);
   SHARED.forEach(k => { if (next[k] !== undefined) S[k] = next[k]; });
-  ["revealed","apps","evidence","voicemails","notes","st","struck","hintsOpen","events","locks","devices"].forEach(k => { if (S[k] == null) S[k] = fresh()[k]; });
+  ["revealed","apps","evidence","voicemails","notes","st","struck","hintsOpen","events","locks","devices","acks","mustSee"].forEach(k => { if (S[k] == null) S[k] = fresh()[k]; });
   version = ver; base = clone(state); localSave();
   if (!S.unlocked) return;
   processEvents();
@@ -2368,6 +2395,7 @@ document.addEventListener("keydown", e => { if (e.key !== "Enter" || !e.target.m
 document.addEventListener("focusin", e => { if (!e.target.matches || !e.target.matches("input.field")) return; setTimeout(() => { const b = fieldButton(e.target); (b || e.target).scrollIntoView({ block:"center", behavior:"smooth" }); }, 350); });
 
 function tickMission(){
+  const at = $("#ackTxt"); if (at) { const p = DEV.noLimit ? [] : pendingAcks(); at.textContent = p.length ? "⏳ Neue Hinweise noch nicht gesehen: " + ackNames().join(", ") : ""; at.style.display = p.length ? "" : "none"; }
   if (S.phase !== "go" || !S.unlocked) return;
   startGeo();
   const r = $("#revealBtn"); if (r) { r.textContent = revealLabel(); r.disabled = revealLeft() > 0; }
