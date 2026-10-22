@@ -876,7 +876,6 @@ function missionCard(){
   }
   return `<section class="mission" aria-label="Aktueller Auftrag">
     <div class="k"><span>Auftrag · ${esc(st.name)}</span><span>Station ${st.id} von 8</span></div>
-    <div class="place" id="ackTxt" style="display:none;color:var(--amber)"></div>
     <div class="tx">${esc(S.ending ? "Fall abgeschlossen. Danke, Ermittler." : (st.id === 8 && S.st.accused ? "Mair hat euch die Kassette übergeben. Hört Falkenrieds letzte Nachricht in der Mailbox. Dann öffnet den Tresor." : st.task))}</div>
     ${S.ending ? `<div class="acts"><button class="go" data-mact="ending">Auflösung ansehen</button></div>` : `<div class="acts"><button class="go" data-mact="action">${esc(st.id === 8 && S.st.accused ? "Tresor öffnen" : st.action)}</button><button class="tip" data-mact="hint">💡 Tipp</button></div>`}
   </section>`;
@@ -1042,21 +1041,14 @@ function pumpShow(){ if (!showQ.length || !S.unlocked || $("#sheet") || $("#call
   const it = showQ.shift(); it.fn(); const sh = $("#sheet"); if (it.ackId) { if (sh) { sh.dataset.ack = it.ackId; sh._item = it; } else ackItem(it.ackId); } }
 /* Wer hat welchen Hinweis gesehen? Das nächste Rätsel startet erst, wenn alle aktiven Handys alles gesehen haben. */
 function ackItem(id){ S.acks = S.acks || {}; const a = S.acks[id] || (S.acks[id] = []); if (!a.includes(DEV.id)) { a.push(DEV.id); save(); } }
-function pendingAcks(){
-  const act = activeDevices().map(([id]) => id);
-  return (S.mustSee || []).map(id => ({ id, who: act.filter(d => !((S.acks || {})[id] || []).includes(d)) })).filter(x => x.who.length);
-}
-function ackNames(){
-  const ids = Array.from(new Set(pendingAcks().flatMap(x => x.who)));
-  return ids.map(d => d === DEV.id ? "du" : ((S.devices || {})[d] || {}).name || "ein Handy");
-}
+/* Ein Hinweis gilt als gesehen, sobald ihn mindestens ein Handy geöffnet hat */
+function pendingAcks(){ return (S.mustSee || []).filter(id => !((S.acks || {})[id] || []).length); }
 function ackGate(){
-  if (DEV.noLimit) return true;
-  if (!pendingAcks().length) return true;
-  pumpShow();
-  if ($("#sheet")) return false;
-  sheet(`<div class="kind">Kurz warten</div><h2>Noch nicht alle sind auf dem neuesten Stand</h2>
-    <p>Es gibt neue Hinweise, die noch nicht jeder gesehen hat: ${esc(ackNames().join(", "))}. Sobald alle sie geöffnet und geschlossen haben, geht es weiter.</p><button class="btn primary" data-close>Okay</button>`);
+  /* Eigene ungelesene Hinweise kommen immer zuerst, bevor dieses Handy ein Rätsel öffnet */
+  if (showQ.length) { pumpShow(); return false; }
+  if (DEV.noLimit || !pendingAcks().length) return true;
+  sheet(`<div class="kind">Kurz warten</div><h2>Ein neuer Hinweis ist noch ungelesen</h2>
+    <p>Gerade ist etwas Neues angekommen, das noch niemand im Team geöffnet hat. Schaut es euch zuerst an.</p><button class="btn primary" data-close>Okay</button>`);
   return false;
 }
 setInterval(pumpShow, 700);
@@ -2392,7 +2384,6 @@ document.addEventListener("keydown", e => { if (e.key !== "Enter" || !e.target.m
 document.addEventListener("focusin", e => { if (!e.target.matches || !e.target.matches("input.field")) return; setTimeout(() => { const b = fieldButton(e.target); (b || e.target).scrollIntoView({ block:"center", behavior:"smooth" }); }, 350); });
 
 function tickMission(){
-  const at = $("#ackTxt"); if (at) { const p = DEV.noLimit ? [] : pendingAcks(); at.textContent = p.length ? "⏳ Neue Hinweise noch nicht gesehen: " + ackNames().join(", ") : ""; at.style.display = p.length ? "" : "none"; }
   if (S.phase !== "go" || !S.unlocked) return;
   startGeo();
   const r = $("#revealBtn"); if (r) { r.textContent = revealLabel(); r.disabled = revealLeft() > 0; }
