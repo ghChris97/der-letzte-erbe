@@ -169,6 +169,12 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .tnew rect:first-child{animation:tpulse 1.6s ease-in-out 3}
 @keyframes tpulse{50%{stroke-width:4;filter:drop-shadow(0 0 6px #e3a548)}}
 .attbtn{font:inherit;color:var(--amber);background:#ffffff10;border:1px solid #e3a54866;border-radius:10px;padding:8px 10px;text-align:left;cursor:pointer}
+.farow{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;padding:12px 14px;margin-bottom:8px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.farow .fk{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.farow .ft{font-weight:600;font-size:15px}.farow .fs{font-size:13px;color:var(--muted);line-height:1.4}
+.neu{color:#1b1408;background:var(--amber);border-radius:6px;padding:1px 6px;font-size:9.5px;letter-spacing:.06em;margin-left:6px}
+.tipbtn{font:inherit;color:var(--amber);background:#e3a54822;border-radius:8px;padding:2px 7px;letter-spacing:0;text-transform:none;font-size:12px}
+.row3{display:grid;grid-template-columns:34px 1fr 1fr;gap:8px;padding:6px 4px;font-size:13px;border-bottom:1px solid var(--line)}
 .banner{position:absolute;left:10px;right:10px;top:44px;z-index:50;background:#1d2330f2;border:1px solid var(--line);border-radius:20px;padding:12px 14px;display:flex;gap:12px;align-items:center;text-align:left;backdrop-filter:blur(14px);animation:drop .3s ease-out}
 @keyframes drop{from{transform:translateY(-30px);opacity:0}to{transform:none;opacity:1}}
 .banner .ico{width:38px;height:38px;border-radius:10px;flex:none}
@@ -239,6 +245,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .mission .clue{font-family:var(--font-display);font-size:19px;line-height:1.3;font-style:italic}
 .mission .acts{display:flex;flex-wrap:wrap;gap:8px}
 .mission .acts button{padding:8px 12px;border-radius:10px;background:var(--surface-2);font-size:13px;font-weight:600}
+.mission .acts button.tip{margin-left:auto;background:#e3a5481f;color:var(--amber)}
 .mission .acts button.go{background:var(--amber);color:#1b1408}
 .mission .acts button.go.off{background:var(--surface-2);color:var(--muted)}
 .mission .acts button:disabled{opacity:.6}
@@ -549,6 +556,7 @@ const APPS = {
   scanner:  { label:"Scanner",   icon:"scan",   bg:"#444b59", open:()=>openScanner() },
   tresor:   { label:"Tresor",    icon:"safe",   bg:"#7c2f2f", lock:"tresor" },
   ermittlung:{ label:"Ermittlung", icon:"folder", bg:"#2a3140", open:()=>openFolder() },
+  fallakte: { label:"Fallakte", icon:"board", bg:"#8b6a3a", open:()=>openFallakte() },
   verdaechtige:{ label:"Verdächtige", icon:"people", bg:"#5b3f64", open:()=>openSuspects() },
   beweise:  { label:"Beweisboard", icon:"board", bg:"#8b6a3a", open:()=>openEvidence() },
   stammbaum:{ label:"Stammbaum", icon:"tree", bg:"#3f5a3a", open:()=>openTree() },
@@ -615,9 +623,7 @@ function checkPin(){
 function appTile(id){
   const a = APPS[id]; const locked = !!a.lock && !S.apps.includes(id);
   let badge = "";
-  if (id === "telefon" && S.missed) badge = `<span class="badge">${S.missed}</span>`;
-  if (id === "nachrichten" && S.unread) badge = `<span class="badge">${S.unread}</span>`;
-  if (id === "stammbaum" && typeof treeNew === "function" && treeSeen().length) { const n = treeNew().length; if (n) badge = `<span class="badge">${n}</span>`; }
+  const nn = locked ? 0 : newsCount(id); if (nn) badge = `<span class="badge">${nn > 9 ? "9+" : nn}</span>`;
   return `<button class="app ${locked?'locked':''}" data-app="${id}" aria-label="${a.label}${locked?' (gesperrt)':''}">
     <span class="ico" style="background:${a.bg}">${svg(a.icon)}${locked?`<span class="lockbadge">${svg("lock")}</span>`:""}</span>
     ${badge}<span>${a.label}</span></button>`;
@@ -626,8 +632,8 @@ function renderHome(){
   screen.innerHTML = `${statusBar()}
     <div class="case"><span>${esc(CONTENT.caseNo)}</span><span>M. v. Falkenried</span></div>
     ${missionCard()}
-    <div class="grid">${["notizen","fotos","archiv","mail","stammbaum","scanner","tresor","ermittlung"].map(appTile).join("")}</div>
-    <div class="dock">${["telefon","nachrichten","karte","scanner"].map(appTile).join("")}</div>`;
+    <div class="grid">${["fallakte","verdaechtige","stammbaum","notizen","fotos","archiv","mail","tresor"].map(appTile).join("")}</div>
+    <div class="dock" style="grid-template-columns:repeat(3,1fr)">${["telefon","nachrichten","karte"].map(appTile).join("")}</div>`;
 }
 document.addEventListener("click", e => {
   const t = e.target.closest("[data-app]"); if (!t) return;
@@ -682,6 +688,8 @@ function openFolder(){
    ============================================================ */
 let phoneTab = "anrufe";
 function openPhone(){
+  if (newsUnseen("telefon").length) phoneTab = "mailbox";
+  if (phoneTab === "mailbox") newsMark("telefon");
   S.missed = 0; save();
   const list = S.calls.slice().reverse();
   const calls = list.length ? list.map((c,i) => `
@@ -752,7 +760,7 @@ function personCard(p, cls, attr){
     <span class="r">${esc(p.role)}</span><span class="q">${esc(p.note)}${p.says?`<br><i>${esc(p.says)}</i>`:""}</span></button>`;
 }
 function openSuspects(){
-  closeSheet();
+  closeSheet(); newsMark("verdaechtige");
   const html = `<div class="sec">Opfer</div>${personCard(CONTENT.victim,"","data-person=\"victim\"")}
     <div class="sec">Gäste und Beteiligte · Vernehmungen in jeder Akte</div>
     ${CONTENT.suspects.filter(p => p.id !== "feld" || S.stage > 6 || (S.st.s6 && S.st.s6.callDone)).map(p => personCard(p, S.struck.includes(p.id)?"struck":"", `data-sus="${p.id}"`)).join("")}
@@ -797,7 +805,7 @@ function openHints(){
   else html = `<div class="hint"><h3>${esc(H.title)}</h3>
     ${H.steps.slice(0,open).map((t,i)=>`<p><b>Hinweis ${i+1}:</b> ${esc(t)}</p>`).join("")}
     ${open < H.steps.length ? `<button id="more">${open?'Nächsten Hinweis zeigen':'Ersten Hinweis zeigen'}</button>` : `<p style="color:var(--muted)">Alle Hinweise zu dieser Station sind offen.</p>`}</div>`;
-  openWin("Hinweise", html);
+  openWin("Tipps", html);
   const m = $("#more"); if (m) m.onclick = () => { S.hintsOpen[key] = open + 1; save(); openHints(); };
 }
 
@@ -816,12 +824,13 @@ function missionCard(){
       <div class="acts">
         ${shown ? `<button data-mact="map">Auf der Karte zeigen</button>` : `<button data-mact="reveal" id="revealBtn">${revealLabel()}</button>`}
         <button class="go" data-mact="arrive" id="arriveBtn">${arriveLabel()}</button>
+        <button class="tip" data-mact="hint">💡 Tipp</button>
       </div><div class="place" id="geoTxt">${esc(geoText())}</div></section>`;
   }
   return `<section class="mission" aria-label="Aktueller Auftrag">
     <div class="k"><span>Auftrag · ${esc(st.name)}</span><span>Station ${st.id} von 8</span></div>
     <div class="tx">${esc(S.ending ? "Fall abgeschlossen. Danke, Ermittler." : (st.id === 8 && S.st.accused ? "Mair hat euch die Kassette übergeben. Hört Falkenrieds letzte Nachricht in der Mailbox. Dann öffnet den Tresor." : st.task))}</div>
-    ${S.ending ? `<div class="acts"><button class="go" data-mact="ending">Auflösung ansehen</button></div>` : `<div class="acts"><button class="go" data-mact="action">${esc(st.id === 8 && S.st.accused ? "Tresor öffnen" : st.action)}</button></div>`}
+    ${S.ending ? `<div class="acts"><button class="go" data-mact="ending">Auflösung ansehen</button></div>` : `<div class="acts"><button class="go" data-mact="action">${esc(st.id === 8 && S.st.accused ? "Tresor öffnen" : st.action)}</button><button class="tip" data-mact="hint">💡 Tipp</button></div>`}
   </section>`;
 }
 document.addEventListener("click", e => {
@@ -832,6 +841,7 @@ document.addEventListener("click", e => {
   if (act === "arrive") { if (!nearTarget()) { toast(geoText()); return; } S.phase = "task"; S.revealed[st.id] = true; save(); renderHome(); }
   if (act === "action") { closeSheet(); PUZZLE[st.id](); }
   if (act === "ending") showEnding();
+  if (act === "hint") openHints();
 });
 function advance(){
   S.solvedBy = DEV.name || "Jemand";
@@ -867,6 +877,7 @@ function openFaceLock(){
 let nbPage = null;
 function diaryPages(){ return CONTENT.diary.filter(d => !d.req || S.notes.includes(d.req)); }
 function openNotebook(first, jumpReq){
+  newsMark("notizen");
   const pages = diaryPages();
   if (jumpReq) nbPage = pages.findIndex(d => d.req === jumpReq);
   if (nbPage === null || nbPage < 0 || nbPage >= pages.length) nbPage = Math.max(0, pages.findIndex(d => d.start));
@@ -1317,6 +1328,7 @@ PUZZLE_2 = function(){
   };
 };
 function viewPhotos(){
+  newsMark("fotos");
   openWin("Fotos", FACADE_TARGETS.map(t => `<div class="faces"><button tabindex="-1" style="pointer-events:none">${MOCK(t.label)}</button></div>`).join("") +
     `<div class="nb" style="margin-top:6px"><h3>Notizen</h3>${NOTES.fassade.html}</div>`);
 }
@@ -1379,11 +1391,12 @@ PUZZLE_4 = function(){
     sheet(`<div class="kind">Inhalt der Mappe</div><h2>Fundbericht, Herbst 2026</h2>
       <div class="nb" style="font-size:16px">„Ich habe sie gefunden. Alle drei. Sie sind in Sicherheit, bei jemandem, dem ich vertraue.“</div>
       <p>Dazu: ein Vermerk „Notariat Mair – Verwahrung“, der Inhalt geschwärzt. Und eine Kopie der Liste von 1475 mit Bleistift am Rand: „CW: 40.000?“</p>
-      <p>Alles liegt jetzt im Beweisboard.</p><button class="btn primary" data-close id="s4Done">Weiter</button>`);
+      <p>Alles liegt jetzt in der Fallakte.</p><button class="btn primary" data-close id="s4Done">Weiter</button>`);
     $("#s4Done").onclick = () => { done(); setTimeout(() => fire("N02"), 700); };
   };
 };
 function viewArchive(){
+  newsMark("archiv");
   const items = [];
   items.push(`<div class="hint"><h3>Hochzeitsrechnung 1475</h3><p>Abschrift aus Falkenrieds Manteltasche.</p></div>`);
   if (S.evidence.includes("E05")) items.push(`<div class="hint"><h3>Mappe: Inventare und Fundbericht</h3><p>${esc(CONTENT.evidence.E05.d)}</p></div>`);
@@ -1546,9 +1559,10 @@ PUZZLE_7 = function(){
     };
     return;
   }
+  newsMark("mail");
   openWin("Mail", `<div class="nb" style="font-size:15px;font-family:var(--font-mono)"><h3>Vertraulich · 19.12.2026 · 19:30 Uhr</h3>ABHOLUNG<br><br>Drei Stücke aus der Falkenried-Sammlung: Brosche, Schalen, Siegel.<br>Anbieter: <b>HD</b> · Käufer: <b>CW-04</b><br>Übergabe: <b>Ringelstecherwiese</b>, sobald die Ware greifbar ist.</div>
     <div class="hint"><h3>Gesprächsprotokoll Clara Weiß</h3><p>20:44–20:50 Uhr: Telefonat mit CW-04. Clara hat gelogen, weil sie heimlich verhandelte.</p></div>
-    <div class="target"><div class="t">Streicht, wer um 20:48 nachweislich woanders war</div><div class="s">Öffnet „Verdächtige“ im Ordner Ermittlung und streicht alle mit sicherem Alibi. Wer übrig bleibt, war es.</div>
+    <div class="target"><div class="t">Streicht, wer um 20:48 nachweislich woanders war</div><div class="s">Öffnet „Verdächtige“ und streicht alle mit sicherem Alibi. Wer übrig bleibt, war es.</div>
     <button class="btn primary" id="toSus" style="margin-top:10px">Verdächtige öffnen</button></div>`);
   $("#toSus").onclick = () => openSuspects();
 };
@@ -1837,6 +1851,99 @@ function startGeo(){
       () => { geo.err = "denied"; geo.watching = false; tickMission(); }, { enableHighAccuracy:true, maximumAge:5000, timeout:20000 });
   } catch(e) { geo.err = "error"; geo.watching = false; }
 }
+/* ============================================================
+   Fallakte: alles Gefundene an einem Ort. Neu-Zähler pro App.
+   ============================================================ */
+const evSheet = (id, extra="") => { const E = CONTENT.evidence[id]; sheet(`<div class="kind">Beweis</div><h2>${esc(E.t)}</h2><p>${esc(E.d)}</p>${extra}<button class="btn" data-close>Schließen</button>`); };
+const docSheet = (kind, title, html) => sheet(`<div class="kind">${esc(kind)}</div><h2>${esc(title)}</h2>${html}<button class="btn" data-close>Schließen</button>`);
+const hasEv = id => S.evidence.includes(id), hasVm = id => S.voicemails.includes(id);
+const FA = [
+  { k:"rechnung", kind:"Dokument", t:"Hochzeitsrechnung 1475", s:"Bezahlt vom Vater des Bräutigams", has:() => hasEv("E01"),
+    open:() => docSheet("Dokument", "Hochzeitsrechnung 1475", `<div class="nb" style="font-size:16px">${CONTENT.diary.find(d => d.html.includes("Hochzeitsrechnung")).html}</div>`) },
+  { k:"tagebuch", kind:"Dokument", t:"Falkenrieds Tagebuch", s:() => diaryPages().length + " Seiten", has:() => S.apps.includes("notizen"), open:() => openNotebook() },
+  { k:"fassade", kind:"Notiz", t:"Notizen zur Fassade", s:"Adler, Kaiser, Residenz, Heiliggeist", has:() => hasEv("E03"),
+    open:() => docSheet("Notiz", "Notizen zur Fassade", `<div class="nb" style="font-size:16px">${NOTES.fassade.html}</div>`) },
+  { k:"V_ERBE", voice:true },
+  { k:"mappe", kind:"Beweis", t:"Mappe aus dem Archiv", s:"Inventare, Fundbericht, Vermerk, Preisnotiz", has:() => hasEv("E05"),
+    open:() => docSheet("Beweis", "Mappe aus dem Archiv", `<div class="invtab"><div class="ih"><span>Nr.</span><span>H-1475</span><span>W-1503</span></div>${INV.map(r => `<div class="row3"><span>${r[0]}</span><span>${esc(r[1])}</span><span>${esc(r[2])}</span></div>`).join("")}</div>
+      <p style="margin-top:10px"><b>Fundbericht:</b> „Ich habe sie gefunden. Alle drei. Sie sind in Sicherheit, bei jemandem, dem ich vertraue.“</p><p><b>${esc(CONTENT.evidence.E06.t)}:</b> ${esc(CONTENT.evidence.E06.d)}</p><p><b>${esc(CONTENT.evidence.E07.t)}:</b> ${esc(CONTENT.evidence.E07.d)}</p>`) },
+  { k:"brief", kind:"Dokument", t:() => hasEv("E08") ? "Brief „1503“ – gefälscht" : "Brief „1503“", s:() => hasEv("E08") ? "Beschreibt Dinge, die es 1503 nicht gab" : "Anhang von Unbekannt", has:() => (S.events || []).includes("N02") || hasEv("E08"), open:() => openAttachment() },
+  { k:"E09", kind:"Beweis", has:() => hasEv("E09") },
+  { k:"V_RESIDENZ", voice:true },
+  { k:"haustechnik", kind:"Dokument", t:"Ordner Haustechnik · 19. Dezember", s:"Protokolle, Aussagen, Zeugin", has:() => !!(S.st.s6 && S.st.s6.open),
+    open:() => (S.stage === 6 && S.phase === "task" && !S.st.s6.r7) ? PUZZLE_6() : akteView(false) },
+  { k:"V_TURM", voice:true },
+  { k:"E10", kind:"Beweis", has:() => hasEv("E10") },
+  { k:"E11", kind:"Beweis", has:() => hasEv("E11") },
+  { k:"E13", kind:"Beweis", has:() => hasEv("E13"), open:() => evSheet("E13", `<div class="transcript">${esc(CONTENT.calls.CALL_06.text)}</div>`) },
+  { k:"E12", kind:"Beweis", has:() => hasEv("E12") },
+  { k:"V_ZEUGIN", voice:true },
+  { k:"E14", kind:"Beweis", has:() => hasEv("E14"), open:() => PUZZLE_7() },
+  { k:"E15", kind:"Beweis", has:() => hasEv("E15") },
+  { k:"V_MAIR", voice:true },
+  { k:"V_FINALE", voice:true }
+];
+const faVal = (x, f) => typeof x[f] === "function" ? x[f]() : x[f];
+function faItems(){
+  return FA.filter(x => x.voice ? hasVm(x.k) : x.has()).map(x => x.voice
+    ? { k:x.k, kind:CONTENT.voice[x.k].memo ? "Memo" : "Aufnahme", t:CONTENT.voice[x.k].title, s:CONTENT.voice[x.k].from, open:() => playVoice(x.k) }
+    : { k:x.k, kind:x.kind, t:x.t ? faVal(x,"t") : CONTENT.evidence[x.k].t, s:x.s ? faVal(x,"s") : CONTENT.evidence[x.k].d, open:x.open || (() => evSheet(x.k)) });
+}
+
+/* Neu-Zähler: pro Handy, wie bei Messengern */
+const NEWS_KEY = "falkenried-news";
+function newsAll(){ try { return JSON.parse(localStorage.getItem(NEWS_KEY) || "{}"); } catch(e) { return {}; } }
+function newsKeys(app){
+  if (app === "fallakte") return faItems().map(x => x.k);
+  if (app === "verdaechtige") { const k = ["victim"].concat(CONTENT.suspects.filter(p => p.id !== "feld" || S.stage > 6 || (S.st.s6 && S.st.s6.callDone)).map(p => p.id)); if (S.st.s6 && S.st.s6.open) k.push("rosa"); return k; }
+  if (app === "notizen") return S.apps.includes("notizen") ? diaryPages().map(d => d.date) : [];
+  if (app === "fotos") return S.apps.includes("fotos") ? ["fotos"] : [];
+  if (app === "archiv") return S.apps.includes("archiv") ? ["rechnung"].concat(["E05","E08","E09"].filter(hasEv), S.st.s6 && S.st.s6.open ? ["akte"] : []) : [];
+  if (app === "mail") return S.apps.includes("mail") ? ["abholung"] : [];
+  if (app === "telefon") return S.voicemails.slice();
+  return [];
+}
+function newsCount(app){
+  if (app === "stammbaum") return treeSeen().length ? treeNew().length : 0;
+  const seen = newsAll()[app] || [];
+  let n = newsKeys(app).filter(k => !seen.includes(k)).length;
+  if (app === "telefon") n += S.missed || 0;
+  if (app === "nachrichten") n += S.unread || 0;
+  return n;
+}
+function newsUnseen(app){ const seen = newsAll()[app] || []; return newsKeys(app).filter(k => !seen.includes(k)); }
+function newsMark(app){ const a = newsAll(); a[app] = Array.from(new Set((a[app] || []).concat(newsKeys(app)))); try { localStorage.setItem(NEWS_KEY, JSON.stringify(a)); } catch(e) {} }
+
+function openFallakte(){
+  closeSheet();
+  const fresh = newsUnseen("fallakte"); newsMark("fallakte");
+  const items = faItems().reverse();
+  const cta = (S.stage === 8 && S.phase === "task" && !S.st.accused) ? `<button class="btn primary" id="accuse">Anklage erheben</button>` : "";
+  const list = items.map(x => `<button class="farow" data-fa="${x.k}">
+      <span class="fk">${esc(x.kind)}${fresh.includes(x.k) ? ` <b class="neu">NEU</b>` : ""}</span>
+      <span class="ft">${esc(x.t)}</span><span class="fs">${esc(x.s)}</span></button>`).join("");
+  openWin("Fallakte", items.length ? `<p class="empty" style="text-align:left;padding:0 0 10px">Alles, was ihr gefunden habt, das Neueste oben. Tippt einen Eintrag an.</p>${cta}${list}`
+    : `<div class="empty">Noch nichts gefunden.<br>Alles, was ihr findet, landet hier.</div>`);
+  $("#winBody").onclick = e => { const r = e.target.closest("[data-fa]"); if (r) { const it = faItems().find(x => x.k === r.dataset.fa); if (it) it.open(); } };
+  const a = $("#accuse"); if (a) a.onclick = () => PUZZLE[8]();
+  renderHome();
+}
+
+/* Meldung, wenn etwas Neues in der Fallakte landet (Memos haben eine eigene Meldung) */
+let faAnnounced = null;
+function faCheck(){
+  if (!S.unlocked) return;
+  const now = faItems().filter(x => !CONTENT.voice[x.k]).map(x => x.k);
+  if (faAnnounced === null) { faAnnounced = now; return; }
+  const add = now.filter(k => !faAnnounced.includes(k)); faAnnounced = now;
+  if (!add.length) return;
+  if (!$("#win")) renderHome();
+  if ($("#call") || $("#banner")) return;
+  const its = faItems().filter(x => add.includes(x.k));
+  banner("Fallakte", "Neu: " + its.map(x => x.t).join(", "), () => openFallakte());
+}
+setInterval(faCheck, 1500);
+
 /* ============================================================
    Stammbaum: Personen erscheinen Stück für Stück, sobald die Geschichte sie vorstellt.
    ============================================================ */
