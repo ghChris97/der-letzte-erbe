@@ -184,7 +184,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .stand .sk{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#7a6d55;margin-bottom:6px}
 .stand ul{margin:0;padding-left:18px;font-size:14px;line-height:1.45}.stand li{margin-bottom:6px}
 .stand .sq{margin-top:8px;padding-top:8px;border-top:1px dashed #b9ab8a;font-size:14px;color:#7c2f2f}
-.invrow{display:block;width:100%;text-align:left;padding:9px 10px;margin-bottom:4px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:14px;line-height:1.35}
+.invrow{display:block;width:100%;text-align:left;padding:7px 10px;margin-bottom:4px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:14px;line-height:1.35}
 .invrow b{display:inline-block;min-width:24px;color:var(--amber);font-family:var(--font-mono)}
 .invrow.pick.on{background:#e3a54833;border-color:var(--amber)}
 .tll{margin:0 0 10px;padding-left:18px;font-size:14px;line-height:1.5;color:var(--ink)}.tll b{font-family:var(--font-mono);font-size:12px;color:var(--amber);margin-right:6px}
@@ -398,7 +398,7 @@ const CONTENT = {
     S4: { title:"Rathaus – Wappenschloss und Listen", steps:[
       "Schaut hoch zur Rathausuhr. Darüber hängt das Stadtwappen. Zählt, was darauf ist, und achtet auf die Farbe.",
       "Denkt an Falkenrieds Fassadennotiz: Der Kaiser schenkte der Stadt drei … für ihr Wappen. Danach die Listen Zeile für Zeile vergleichen.",
-      "Schloss: 3 · Helm · Blau. Listen: Es fehlen die Nummern 3, 8 und 13. Achtung, die Silberschale und das Siegel von 1503 sind andere Stücke." ] },
+      "Schloss: 3 · Helm · Blau. Listen: Es fehlen die Nummern 3, 8 und 11. Achtung, die Silberschale und das Siegel von 1503 sind andere Stücke." ] },
     S5: { title:"Stadtresidenz – Der Brief", steps:[
       "Sucht im Brief eine Beschreibung, die ihr an der Fassade vor euch seht.",
       "Diese Fassade ist viel jünger als der Bau dahinter. Und was wisst ihr seit dem Landschaftshaus über diesen Bau?",
@@ -461,7 +461,7 @@ const CONTENT = {
   evidence: {
     E01:{ t:"Hochzeitsrechnung 1475", d:"Abschrift aus Falkenrieds Manteltasche. Vermerk: Bezahlt hat nicht der Bräutigam." },
     E03:{ t:"Notizen zur Fassade", d:"Der Kaiser gab Landshut drei Helme ins Wappen. Ludwig X. begann seine Residenz erst 1536. Unter Heinrich dem Reichen begann 1407 der Bau der Heiliggeistkirche." },
-    E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 3, 8 und 13: Rubinbrosche, zwölf Silberschalen, Doppelsiegel. Falkenried notierte daneben: „Hochzeitsgaben, Kiste A, B, C“." },
+    E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 3, 8 und 11: Rubinbrosche, zwölf Silberschalen, Doppelsiegel. Falkenried notierte daneben: „Hochzeitsgaben, Kiste A, B, C“." },
     E06:{ t:"Verwahrvermerk Notariat Mair", d:"„Notariat Mair – Verwahrung“. Inhalt geschwärzt." },
     E07:{ t:"Preisnotizen „CW“", d:"Bleistift am Rand von H-1475: „CW: 40.000?“" },
     E08:{ t:"Brief „1503“ – gefälscht", d:"Beschreibt die heutige Fassade und eine Residenz, die erst ab 1536 gebaut wurde. Nennt die Kisten „Pfand der Verbindung“." },
@@ -1382,21 +1382,18 @@ const WHEELS = [
   ["Farbe des Zeichens", ["Rot","Blau","Silber","Gold","Grün","Schwarz"]]
 ];
 const WHEEL_OK = ["3","Helm","Blau"];
-/* Station 4: zwei Inventare. 1475 nummeriert (22), 1503 nach Räumen sortiert und anders formuliert (21, davon 2 neu). Es fehlen 3, 8, 13. */
+/* Station 4: zwei Inventare. 1475 nummeriert (12), 1503 nach Räumen sortiert und anders formuliert (11, davon 2 neu). Es fehlen 3, 8, 11. */
 const INV75 = [
   [1,"Goldener Hochzeitsbecher"],[2,"Zwölf silberne Löffel"],[3,"Rubinbesetzte Brosche"],[4,"Elfenbeinkästchen mit Schnitzwerk"],
   [5,"Wandteppich mit Jagdszene"],[6,"Ein Paar vergoldete Leuchter"],[7,"Polnisches Brautkleid aus Brokat"],[8,"Zwölf Silberschalen"],
-  [9,"Reliquienkreuz aus Bergkristall"],[10,"Schachspiel aus Walrossbein"],[11,"Venezianischer Spiegel"],[12,"Gebetbuch mit Goldschnitt"],
-  [13,"Doppeltes Familiensiegel"],[14,"Zinnkrug mit Wappen"],[15,"Bettdecke aus roter Seide"],[16,"Zwei bestickte Falkenhauben"],
-  [17,"Truhe mit eisernen Beschlägen"],[18,"Silberne Gürtelschnalle"],[19,"Perlenkette, dreireihig"],[20,"Tafeltuch aus Damast"],
-  [21,"Messingwaage"],[22,"Kokosnusspokal in Silberfassung"]
+  [9,"Reliquienkreuz aus Bergkristall"],[10,"Silberne Gürtelschnalle"],[11,"Doppeltes Familiensiegel"],[12,"Perlenkette, dreireihig"]
 ];
-const INV_MISSING = [3, 8, 13];
+const INV_MISSING = [3, 8, 11];
 const INV03 = [
-  ["Silberkammer", ["Löffel, silbern, 12 Stück","Becher, golden, von der Hochzeit","Leuchter, vergoldet, ein Paar","Schnalle für den Gürtel, Silber","Deckelschale, Silber","Pokal aus einer Kokosnuss, silbergefasst","Waage aus Messing","Krug, Zinn, mit Wappen"]],
-  ["Kapelle", ["Kreuz, Bergkristall, mit Reliquie","Gebetbuch, Goldschnitt"]],
-  ["Schlafgemach", ["Seidendecke, rot","Brautkleid, Brokat, aus Polen","Spiegel aus Venedig","Perlenkette, drei Reihen"]],
-  ["Truhen und Kästen", ["Truhe, eisenbeschlagen","Kästchen aus Elfenbein, geschnitzt","Schachspiel, Walrossbein","Tafeltuch, Damast","Wandteppich, Jagd","Hauben für Falken, bestickt, zwei"]],
+  ["Silberkammer", ["Löffel, silbern, 12 Stück","Becher, golden, von der Hochzeit","Leuchter, vergoldet, ein Paar","Schnalle für den Gürtel, Silber","Deckelschale, Silber"]],
+  ["Kapelle", ["Kreuz, Bergkristall, mit Reliquie"]],
+  ["Schlafgemach", ["Brautkleid, Brokat, aus Polen","Perlenkette, drei Reihen"]],
+  ["Truhen und Kästen", ["Kästchen aus Elfenbein, geschnitzt","Wandteppich, Jagd"]],
   ["Kanzlei", ["Siegel der herzoglichen Kanzlei"]]
 ];
 function inv03Html(){ return INV03.map(([room, items]) => `<div class="sec" style="margin:10px 0 4px">${esc(room)}</div>${items.map(t => `<div class="invrow">${esc(t)}</div>`).join("")}`).join(""); }
@@ -1420,7 +1417,7 @@ PUZZLE_4 = function(){
   st.tab = st.tab || "75";
   openWin("Mappe", `<div class="nb" style="font-size:16px"><h3>Falkenrieds Notiz</h3>Drei alte Häuser hinter einer Maske von 1861. Wer nur auf die Fassade schaut, sieht nicht, was dahinter ist. Mit meinen Listen ist es genauso.</div>
     <div class="target"><div class="t">Was fehlt 1503?</div><div class="s">Zwei Inventare der herzoglichen Schatzkammer. 1475 nummeriert, 1503 nach Räumen sortiert und anders geschrieben. Findet die drei Stücke, die 1503 fehlen, und markiert sie in der Liste von 1475.</div></div>
-    <div class="seg"><button class="${st.tab==="75"?"on":""}" data-tab="75">Liste 1475 · 22</button><button class="${st.tab==="03"?"on":""}" data-tab="03">Liste 1503 · 21</button></div>
+    <div class="seg"><button class="${st.tab==="75"?"on":""}" data-tab="75">Liste 1475 · 12</button><button class="${st.tab==="03"?"on":""}" data-tab="03">Liste 1503 · 11</button></div>
     <div id="invList">${st.tab === "75" ? inv75Html(st.picked, true) : inv03Html()}</div>
     <p class="empty" style="padding:8px 0 0;text-align:left">Markiert: <b id="invN">${st.picked.length}</b> von 3</p>
     <button class="btn primary" id="invGo">Prüfen</button><p id="iMsg" class="empty" style="padding:8px 0"></p>`);
