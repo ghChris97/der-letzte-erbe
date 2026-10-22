@@ -1102,6 +1102,7 @@ function openAdmin(){
     <div class="grid2"><button class="btn" id="stPrev">← Station zurück</button><button class="btn" id="stNext">Station weiter →</button></div>
     <p style="margin-top:12px">Testmodus, gilt nur für dieses Handy:</p>
     <div class="grid2"><button class="btn" id="geoToggle">Standortprüfung: ${DEV.noGeo ? "aus" : "an"}</button><button class="btn" id="timerToggle">Ort-Timer: ${DEV.noTimer ? "aus" : "an"}</button></div>
+    <button class="btn" id="limitToggle">Begrenzte Versuche: ${DEV.noLimit ? "aus" : "an"}</button>
     <button class="btn primary" id="printDocs">Druckvorlagen öffnen</button>
     <button class="btn" id="relock">Handy sperren</button>
     <button class="btn" id="reset" style="color:var(--decline)">Spielstand zurücksetzen</button>
@@ -1110,6 +1111,7 @@ function openAdmin(){
   $("#printDocs").onclick = () => { closeSheet(); openPrint(); };
   $("#geoToggle").onclick = () => { DEV.noGeo = !DEV.noGeo; saveDev(); closeSheet(); renderHome(); };
   $("#timerToggle").onclick = () => { DEV.noTimer = !DEV.noTimer; saveDev(); closeSheet(); renderHome(); };
+  $("#limitToggle").onclick = () => { DEV.noLimit = !DEV.noLimit; saveDev(); closeSheet(); renderHome(); };
   $("#stNext").onclick = () => { skipStation(); S.rev = Date.now(); save(); closeSheet(); closeWin(); renderHome(); };
   $("#stPrev").onclick = () => { S.stage = Math.max(1, S.stage - 1); S.phase = "task"; if (S.stage === 1) S.apps = S.apps.filter(a => a !== "notizen"); S.rev = Date.now(); save(); closeSheet(); closeWin(); renderHome(); };
   $("#relock").onclick = () => { S.unlocked = false; save(); closeSheet(); closeWin(); renderLock(); };
@@ -1760,7 +1762,7 @@ function askName(after){
    Wer falsch lag, ist für diesen Schritt gesperrt. Haben alle aktiven Handys falsch gelegen, sind alle wieder frei.
    ============================================================ */
 function lockedFor(key){ const L = (S.locks || {})[key]; return !!(L && L.ids.includes(DEV.id)); }
-function guard(key){ if (!lockedFor(key)) return true; showLock(key); return false; }
+function guard(key){ if (DEV.noLimit || !lockedFor(key)) return true; showLock(key); return false; }
 function showLock(key){
   const L = (S.locks || {})[key] || { ids:[] };
   const free = activeDevices().filter(([id]) => !L.ids.includes(id)).map(([id, v]) => v.name || "Handy");
@@ -1769,6 +1771,7 @@ function showLock(key){
     <p>Erst wenn alle einmal danebenlagen, hat wieder jeder einen Versuch.</p><button class="btn primary" data-close>Verstanden</button>`);
 }
 function wrong(key){
+  if (DEV.noLimit) return;
   S.locks = S.locks || {};
   const L = S.locks[key] || (S.locks[key] = { round:0, ids:[] });
   if (!L.ids.includes(DEV.id)) L.ids.push(DEV.id);
