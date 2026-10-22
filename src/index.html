@@ -1095,7 +1095,7 @@ function openAdmin(){
     </div>
     <p style="margin-top:12px">Spielstand: Station ${S.stage}, ${S.phase === "go" ? "unterwegs" : "vor Ort"}</p>
     <div class="grid2"><button class="btn" id="stPrev">← Station zurück</button><button class="btn" id="stNext">Station weiter →</button></div>
-    <div class="grid2"><button class="btn" id="geoToggle">Standortprüfung: ${DEV.noGeo ? "aus" : "an"}</button><button class="btn" id="revealNow">Ort sofort zeigen</button></div>
+    <button class="btn" id="geoToggle">Standortprüfung: ${DEV.noGeo ? "aus" : "an"} (nur dieses Handy)</button>
     <button class="btn primary" id="printDocs">Druckvorlagen öffnen</button>
     <button class="btn" id="relock">Handy sperren</button>
     <button class="btn" id="reset" style="color:var(--decline)">Spielstand zurücksetzen</button>
@@ -1103,7 +1103,6 @@ function openAdmin(){
   document.querySelectorAll("[data-fire]").forEach(b => b.onclick = () => { closeSheet(); fire(b.dataset.fire); });
   $("#printDocs").onclick = () => { closeSheet(); openPrint(); };
   $("#geoToggle").onclick = () => { DEV.noGeo = !DEV.noGeo; saveDev(); closeSheet(); renderHome(); };
-  $("#revealNow").onclick = () => { const st = curStation(); if (st) { S.revealed[st.id] = true; save(); } closeSheet(); renderHome(); };
   $("#stNext").onclick = () => { skipStation(); S.rev = Date.now(); save(); closeSheet(); closeWin(); renderHome(); };
   $("#stPrev").onclick = () => { S.stage = Math.max(1, S.stage - 1); S.phase = "task"; if (S.stage === 1) S.apps = S.apps.filter(a => a !== "notizen"); S.rev = Date.now(); save(); closeSheet(); closeWin(); renderHome(); };
   $("#relock").onclick = () => { S.unlocked = false; save(); closeSheet(); closeWin(); renderLock(); };
