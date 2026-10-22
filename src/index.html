@@ -359,7 +359,7 @@ const CONTENT = {
       text:"Ihr seid sehr nah dran. Notar Mair wird euch gleich etwas geben. Öffnet es nicht. Bringt es auf die Ringelstecherwiese, ich kümmere mich um den Rest." },
     CALL_01: {
       from: "Unbekannt", voice: "unbekannt",
-      text: "Sie sind also gekommen. Falkenried hat gehofft, dass jemand die Zeichen versteht. Fangen Sie bei seinem Notizbuch an. Er hat es mit dem Namen des Mannes verschlossen, der diese Kirche gebaut hat. Darin finden Sie die Rechnung für ein Fest, das eine ganze Stadt satt machte. Und dann fragen Sie sich: Wer hat die Zeche wirklich bezahlt?"
+      text: "Sie sind also gekommen. Falkenried hat gehofft, dass jemand die Zeichen versteht. Fangen Sie bei seinem Notizbuch an. Er hat es mit einer Zahl verschlossen, die hier über Ihnen in den Himmel ragt. Darin finden Sie die Rechnung für ein Fest, das eine ganze Stadt satt machte. Und dann fragen Sie sich: Wer hat die Zeche wirklich bezahlt?"
     }
   },
   messages: {
@@ -379,10 +379,10 @@ const CONTENT = {
   lead: { photo:"img/seidl.jpg", name:"Martina Seidl", age:52, role:"Kriminalhauptkommissarin, Ermittlungsleiterin", note:"Leitet die Ermittlung im Fall Falkenried. Sie meldet sich per Sprachnachricht und hat euch Falkenrieds Handy übergeben." },
   witness: { photo:"img/rosa.jpg", name:"Rosa Brandl", age:58, role:"Haushälterin", note:"War den ganzen Abend im Haus. Ihre Aussage liegt noch nicht vor." },
   hints: {
-    S1: { title:"St. Martin – Der Stein des Baumeisters", steps:[
-      "Geht auf die Südseite der Kirche, die zur Sonne zeigt. Sucht das steinerne Gesicht an der Außenwand und den Stein mit der Inschrift.",
-      "Die Inschrift beginnt mit dem Jahr 1432. Der Name steht direkt nach „starb“. Sein Nachname ist sein Handwerk.",
-      "Auf dem Stein steht „hanns stainmezz“, also Hans Steinmetz." ] },
+    S1: { title:"St. Martin – Der Turm", steps:[
+      "Stellt euch an den Fuß des Turms und schaut hoch. Ein Stockwerk eines Wohnhauses ist etwa 3 Meter hoch.",
+      "Er ist der höchste Backsteinturm der Welt und deutlich höher als 100 Meter.",
+      "130 Meter." ] },
     S2: { title:"Landschaftshaus – Falkenrieds Fotos", steps:[
       "Die Wand ist wie ein Buch: drei Reihen mit je zehn Herzögen, von links oben nach rechts unten.",
       "Den Adler findet ihr bei den Füßen, nicht bei den Köpfen. Mittlere Reihe, ganz rechts. Der Kaiser sitzt als Einziger, obere Reihe.",
@@ -413,7 +413,7 @@ const CONTENT = {
       "Der Name für das Schloss: Wem hatte Georg sein Erbe vermacht? Nicht der Braut." ] }
   },
   locks: {
-    notizen: { kind:"Namensschloss", text:"Falkenrieds Notizbuch ist gesperrt. Es öffnet sich nur mit dem richtigen Namen. Ein Zettel klebt daran: „Der Baumeister dieser Kirche hat seinen Namen auf seinen Stein an der Südseite geschrieben.“" },
+    notizen: { kind:"Zahlenschloss", text:"Falkenrieds Notizbuch ist gesperrt. Ein Zettel klebt daran: „Mein Buch öffnet sich mit der Höhe dieses Turms, in Metern.“" },
     fotos:   { kind:"Keine Bilder", text:"Die Galerie ist leer. Falkenrieds Fotos erscheinen, sobald ihr am richtigen Ort seid." },
     archiv:  { kind:"Passwort", text:"Falkenrieds Archiv ist mit einem Passwort gesichert. Noch habt ihr keine Spur dorthin." },
     mail:    { kind:"Verschlüsselt", text:"Ein Postfach mit einer einzigen ungelesenen Nachricht. Ihr Inhalt ist verschlüsselt." },
@@ -421,9 +421,9 @@ const CONTENT = {
   },
   /* Stationen. phase "go" = unterwegs (Hinweis), "task" = vor Ort (Aufgabe). */
   stations: [
-    { id:1, name:"St. Martin", spot:"Südseite der Kirche, Gedenkstein des Baumeisters", lat:48.534237, lng:12.151014,
+    { id:1, name:"St. Martin", spot:"Vor dem Turm von St. Martin", lat:48.534237, lng:12.151014,
       clue:null,
-      task:"Falkenrieds Notizbuch hat ein Namensschloss. Ein Zettel von ihm klebt daran und erklärt, warum. Öffnet die Notizen und lest ihn.",
+      task:"Falkenrieds Notizbuch hat ein Zahlenschloss. Ein Zettel von ihm klebt daran und erklärt, warum. Öffnet die Notizen und lest ihn.",
       action:"Notizen öffnen" },
     { id:2, name:"Landschaftshaus", spot:"Altstadt 28, die bemalte Fassade", lat:48.533888, lng:12.150226, revealMin:3,
       clue:"Bezahlt hat ein anderer. Wer, das steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit.",
@@ -442,7 +442,7 @@ const CONTENT = {
       task:"Unbekannt behauptet, dieser Brief stamme aus dem Winter 1503. Vergleicht ihn mit dem Gebäude vor euch.",
       action:"Brief öffnen" },
     { id:6, name:"Heiliggeistkirche", spot:"Einmal rund um die Kirche", lat:48.538667, lng:12.152562,
-      clue:"Wer kam am Abend an die Archivtür? Falkenrieds Zutrittsdaten liegen in einem gesperrten Ordner. Er öffnet sich nur an der zweiten Kirche des Baumeisters, der Kirche „zu Spital“.",
+      clue:"Wer kam am Abend an die Archivtür? Falkenrieds Zutrittsdaten liegen in einem gesperrten Ordner. Er öffnet sich nur an der zweiten Kirche des Baumeisters von St. Martin. Wer das war, steht in Falkenrieds Tagebuch.",
       task:"Falkenrieds Ordner Haustechnik öffnet sich nur, wenn ihr einmal um die Heiliggeistkirche herumgeht. Öffnet den Ordner und lauft los, das Handy zählt mit.",
       action:"Ordner öffnen" },
     { id:7, name:"Ländtor", spot:"Wappen über dem Torbogen", lat:48.535305, lng:12.149236,
@@ -471,7 +471,7 @@ const CONTENT = {
   },
   voice: {
     V_ERBE:{ from:"Falkenried", memo:"im Archiv gespeichert, aufgenommen am 16. Oktober 2026", title:"Das Erbe", text:"Erster Dezember 1503. In Ingolstadt stirbt Herzog Georg der Reiche. Er hinterlässt keinen Sohn, nur eine Tochter: Elisabeth. Und er hat etwas getan, das kein Wittelsbacher vor ihm gewagt hat. Gegen alle Hausverträge setzt er sie als Erbin ein. Sie und ihren Mann, Ruprecht von der Pfalz. In München liest Herzog Albrecht dieses Testament … und lacht nicht. Er ist Georgs Vetter. Nach Familienrecht gehört Landshut ihm. Was folgt, ist kein Streit mehr. Es ist Krieg. Dörfer brennen in ganz Niederbayern. Der König stellt sich auf Albrechts Seite und lässt sich das gut bezahlen. Und Elisabeth? Im Sommer 1504 stirbt Ruprecht. Wenige Wochen später stirbt auch sie. Am Ende bekommt Albrecht das Land. Aber in den Wintertagen nach Georgs Tod, als noch niemand wusste, wer gewinnen würde … da hat jemand drei Kisten aus der Stadt gebracht. Und nicht nur Kisten. Was genau verschwunden ist, steht in zwei Listen. Lest sie dort, wo diese Stadt seit Jahrhunderten regiert wird." },
-    V_RESIDENZ:{ from:"Ermittlungsleiterin Seidl", photo:"img/seidl_av.jpg", title:"Die Archivtür", text:"Hier Seidl. Gute Arbeit, der Brief ist eine Fälschung. Aber ein falscher Brief macht noch keinen falschen Schatz. Achtet auf die Worte: Wer fälscht, verrät sich durch seine Sprache. Jetzt die entscheidende Frage: Wer kam am Abend an die Archivtür? Falkenrieds Haustechnik speichert jeden Zutritt in einem Ordner auf seinem Handy. Er hat ihn im Herbst gesperrt. Öffnen lässt er sich nur an der zweiten Kirche seines Baumeisters, der Kirche zu Spital." },
+    V_RESIDENZ:{ from:"Ermittlungsleiterin Seidl", photo:"img/seidl_av.jpg", title:"Die Archivtür", text:"Hier Seidl. Gute Arbeit, der Brief ist eine Fälschung. Aber ein falscher Brief macht noch keinen falschen Schatz. Achtet auf die Worte: Wer fälscht, verrät sich durch seine Sprache. Jetzt die entscheidende Frage: Wer kam am Abend an die Archivtür? Falkenrieds Haustechnik speichert jeden Zutritt in einem Ordner auf seinem Handy. Er hat ihn im Herbst gesperrt. Öffnen lässt er sich nur an der zweiten Kirche seines Baumeisters." },
     V_TURM:{ from:"Falkenried", memo:"im Ordner Haustechnik gespeichert, aufgenommen am 9. November 2026", title:"Der Turm", text:"Sie wollten hier einen Turm, höher als Sankt Martin. Das Geld reichte nicht. Manche wollen eben mehr, als ihnen zusteht." },
     V_ZEUGIN:{ from:"Rosa Brandl", title:"Aussage der Zeugin", text:"Kurz nach Viertel vor neun ging das Licht aus. Ich hörte Schritte im Flur, eine Frau im dunklen Mantel. Dann klickte die Archivtür. Ich dachte mir nichts. Die Tür hat ja Strom aus der Batterie. Später hörte ich am Telefon, der Wagen sollte die Stadt durch das Tor verlassen, über dem die drei Helme hängen." },
     V_MAIR:{ from:"Benedikt Mair", title:"Der Notar", text:"Ja, ich habe geschwiegen. Herr von Falkenried hat mir eine Kassette anvertraut und mich zur Verschwiegenheit verpflichtet. Am Tatabend habe ich mit der Verwahrstelle telefoniert, wegen der Übergabe an die Stadt. Die Datei habe ich geöffnet, weil ich prüfen wollte, was Frau Dorn ihm da vorgelegt hatte. Die Kassette und seine letzte Nachricht gebe ich nur Ermittlern." },
@@ -865,26 +865,26 @@ function advance(){
 /* ============================================================
    Station 1: Gesichtserkennung für die Notizen
    ============================================================ */
-/* Station 1: Namensschloss. Der Gedenkstein an St. Martin nennt den Baumeister "hanns stainmezz" (1432). */
-const norm = v => v.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z]/g, "");
+/* Station 1: Turm-Schloss. St. Martin hat den höchsten Backsteinturm der Welt, rund 130 m. Schätzen mit höher/tiefer. */
+const TOWER_M = 130;
 function openFaceLock(){
+  const st = S.st.s1 || (S.st.s1 = { tries:0 });
   openWin("Notizen", `<div class="nb" style="font-size:16px"><h3>Zettel am Notizbuch · Handschrift Falkenried</h3>
     Wer das liest, dem vertraue ich mehr als den Leuten in meinem Haus. Jemand liest meine Papiere. Passwörter kann man stehlen, diese Stadt nicht.
-    Darum habe ich alles Wichtige mit dem verschlossen, was man nur dort draußen lesen kann. Folgt meinem Weg, dann findet ihr, was ich gefunden habe.
-    <span class="red">Mein Buch öffnet der Name, mit dem sich der Baumeister dieser Kirche selbst genannt hat. Nicht der aus den Büchern. Er steht auf seinem Stein an der Südseite, gleich bei seinem Gesicht.</span></div>
-    <div class="target"><div class="t">Namensschloss</div><div class="s">Lest die alte Inschrift auf dem Stein. Gebt den Namen so ein, wie er dort steht, Vor- und Nachname.</div></div>
-    <input class="field" id="nm1" autocomplete="off" autocapitalize="off" placeholder="Name vom Stein">
+    Darum habe ich alles Wichtige mit dem verschlossen, was man nur dort draußen sehen kann. Folgt meinem Weg, dann findet ihr, was ich gefunden habe.
+    <span class="red">Über euch steht der höchste Backsteinturm der Welt. Mein Buch öffnet sich mit seiner Höhe in Metern. Ihr müsst nicht klettern: Schätzt, das Schloss sagt euch, ob ihr zu tief oder zu hoch liegt.</span></div>
+    <div class="target"><div class="t">Zahlenschloss</div><div class="s">Wie hoch ist der Turm von St. Martin, in Metern?</div></div>
+    <input class="field" id="nm1" inputmode="numeric" autocomplete="off" placeholder="Meter">
     <button class="btn primary" id="nm1Go">Öffnen</button><p id="faceMsg" class="empty" style="padding:6px 0"></p>`);
   $("#nm1Go").onclick = () => {
-    const v = norm($("#nm1").value), msg = $("#faceMsg"); if (!v) return;
-    if (/burghaus/.test(v)) { msg.textContent = "So nennen ihn die Bücher. Auf seinem Stein nennt er sich anders."; return; }
-    if (/^hann?s$/.test(v)) { msg.textContent = "Der Vorname stimmt. Dahinter steht sein Handwerk."; return; }
-    if (!guard("1.face")) return;
-    if (/st[ae]i?nme[tz]+/.test(v)) { right("1.face");
-      msg.innerHTML = "„starb hanns stainmezz … maister der kirchn vnd czu spital“<br>Hans Steinmetz, Meister dieser Kirche und der Kirche zu Spital. Notizbuch wird geöffnet …";
+    const v = parseInt($("#nm1").value, 10), msg = $("#faceMsg"); if (!v) return;
+    st.tries++; save();
+    const d = v - TOWER_M;
+    if (Math.abs(d) <= 4) {
+      msg.innerHTML = `Klick. ${TOWER_M} Meter, der höchste Backsteinturm der Welt. Ihr habt ${st.tries} ${st.tries === 1 ? "Versuch" : "Versuche"} gebraucht.<br>Notizbuch wird geöffnet …`;
       S.apps.push("notizen"); addEv("E01"); advance();
-      setTimeout(() => { openNotebook(true); }, 2600);
-    } else { wrong("1.face"); msg.textContent = "Das Schloss bleibt zu. Lest die Zeile nach „starb“ noch einmal."; }
+      setTimeout(() => { openNotebook(true); }, 2400);
+    } else msg.textContent = d < -40 ? "Viel zu tief. Schaut noch einmal ganz nach oben." : d < 0 ? "Zu tief. Etwas höher." : d > 40 ? "Viel zu hoch." : "Zu hoch. Etwas weniger.";
   };
 }
 let nbPage = null;
@@ -1057,7 +1057,7 @@ function acceptCall(id, w){
    Vorproduzierte Stimmen (audio/*.mp3) mit Satz-Zeitmarken.
    Fehlt eine Datei oder schlägt die Wiedergabe fehl, springt die Sprachausgabe des Geräts ein.
    ============================================================ */
-const CUES = {"CALL_01": [[0.1, 2.675], [2.625, 7.402], [7.402, 10.75], [10.75, 16.541], [16.541, 22.319], [22.319, 27.43]], "CALL_06": [[0.1, 2.02], [1.97, 4.748], [4.748, 10.277], [10.277, 13.888], [13.888, 19.929], [19.929, 23.691]], "CALL_07": [[0.1, 2.508], [2.458, 6.041], [6.041, 8.094], [8.094, 13.069]], "V_ERBE": [[0.1, 3.331], [3.281, 6.988], [6.988, 11.818], [11.818, 17.059], [17.059, 21.335], [21.335, 25.227], [25.227, 30.241], [30.241, 32.727], [32.727, 36.292], [36.292, 39.687], [39.687, 41.534], [41.534, 44.73], [44.73, 50.0], [50.0, 52.13], [52.13, 55.738], [55.738, 59.161], [59.161, 62.258], [62.258, 71.661], [71.661, 73.977], [73.977, 78.224], [78.224, 82.94]], "V_RESIDENZ": [[0.1, 1.911], [1.861, 5.651], [5.651, 9.726], [9.726, 15.117], [15.117, 20.69], [20.69, 26.705], [26.705, 29.765], [29.765, 36.445]], "V_TURM": [[0.1, 4.297], [4.247, 6.59], [6.59, 10.525]], "V_ZEUGIN": [[0.1, 3.664], [3.614, 7.744], [7.744, 10.407], [10.407, 12.54], [12.54, 15.652], [15.652, 22.88]], "ZEUGIN_KURZ": [[0.1, 3.664], [3.614, 7.744], [7.744, 10.407], [10.407, 12.54], [12.54, 15.652]], "V_MAIR": [[0.1, 2.709], [2.659, 8.723], [8.723, 14.787], [14.787, 21.183], [21.183, 25.598]], "V_FINALE": [[0.1, 4.211], [4.161, 8.707], [8.707, 11.278], [11.278, 17.13], [17.13, 19.218], [19.218, 25.582], [25.582, 30.411], [30.411, 33.664], [33.664, 37.571], [37.571, 39.971], [39.971, 44.659], [44.659, 50.269], [50.269, 54.062]]};
+const CUES = {"CALL_01": [[0.1, 2.675], [2.625, 7.402], [7.402, 10.75], [10.75, 16.569], [16.569, 22.347], [22.347, 27.458]], "CALL_06": [[0.1, 2.02], [1.97, 4.748], [4.748, 10.277], [10.277, 13.888], [13.888, 19.929], [19.929, 23.691]], "CALL_07": [[0.1, 2.508], [2.458, 6.041], [6.041, 8.094], [8.094, 13.069]], "V_ERBE": [[0.1, 3.331], [3.281, 6.988], [6.988, 11.818], [11.818, 17.059], [17.059, 21.335], [21.335, 25.227], [25.227, 30.241], [30.241, 32.727], [32.727, 36.292], [36.292, 39.687], [39.687, 41.534], [41.534, 44.73], [44.73, 50.0], [50.0, 52.13], [52.13, 55.738], [55.738, 59.161], [59.161, 62.258], [62.258, 71.661], [71.661, 73.977], [73.977, 78.224], [78.224, 82.94]], "V_RESIDENZ": [[0.1, 1.911], [1.861, 5.651], [5.651, 9.726], [9.726, 15.117], [15.117, 20.69], [20.69, 26.705], [26.705, 29.765], [29.765, 35.169]], "V_TURM": [[0.1, 4.297], [4.247, 6.59], [6.59, 10.525]], "V_ZEUGIN": [[0.1, 3.664], [3.614, 7.744], [7.744, 10.407], [10.407, 12.54], [12.54, 15.652], [15.652, 22.88]], "ZEUGIN_KURZ": [[0.1, 3.664], [3.614, 7.744], [7.744, 10.407], [10.407, 12.54], [12.54, 15.652]], "V_MAIR": [[0.1, 2.709], [2.659, 8.723], [8.723, 14.787], [14.787, 21.183], [21.183, 25.598]], "V_FINALE": [[0.1, 4.211], [4.161, 8.707], [8.707, 11.278], [11.278, 17.13], [17.13, 19.218], [19.218, 25.582], [25.582, 30.411], [30.411, 33.664], [33.664, 37.571], [37.571, 39.971], [39.971, 44.659], [44.659, 50.269], [50.269, 54.062]]};
 let curAudio = null;
 ["VERHOER_HELENA","VERHOER_MAIR","VERHOER_TOBIAS","VERHOER_CLARA","VERHOER_FELD"].forEach(k => { CUES[k] = []; });
 const RECORDINGS = {"helena": {"id": "VERHOER_HELENA", "text": "Seidl: Frau Dr. Dorn, wann haben Sie das Haus verlassen?\nDorn: Ich bin um halb neun gegangen. Kopfschmerzen. Ich habe mich im Flur verabschiedet, das hat Frau Brandl gesehen.\nSeidl: Und dann?\nDorn: Direkt ins Hotel. Um kurz nach neun lag ich im Bett. Von alldem habe ich erst heute Morgen erfahren.\nSeidl: Sie haben Herrn von Falkenrieds Archiv betreut?\nDorn: Seit drei Jahren. Ich kenne jedes Blatt darin. Gerade deshalb tut das so weh."}, "mair": {"id": "VERHOER_MAIR", "text": "Seidl: Herr Mair, Sie waren während des Abends eine Weile nicht im Salon.\nMair: Ich habe kurz telefoniert, draußen. Ein beruflicher Anruf.\nSeidl: Mit wem?\nMair: Dazu kann ich nichts sagen. Ich bin an meine Schweigepflicht gebunden.\nSeidl: Wie lange waren Sie draußen?\nMair: Ein paar Minuten. Mehr nicht."}, "tobias": {"id": "VERHOER_TOBIAS", "text": "Seidl: Herr von Falkenried, man hat Sie mit Ihrem Onkel streiten hören.\nTobias: Ja, wir haben gestritten. Laut. Es ging um Geld, um was sonst.\nSeidl: Und danach?\nTobias: Danach war ich rauchen, auf der Terrasse. Bestimmt eine Viertelstunde. Ich wollte nicht mehr rein.\nSeidl: Sie haben ihn gefunden.\nTobias: Kurz vor halb zehn. Die Archivtür stand offen. Ich … ich will darüber nicht reden."}, "clara": {"id": "VERHOER_CLARA", "text": "Seidl: Frau Weiß, wo waren Sie zwischen halb neun und neun?\nWeiß: Im Salon. Den ganzen Abend. Fragen Sie die anderen.\nSeidl: Sie haben ein Taxi bestellt.\nWeiß: Ja, gegen neun. Ich wollte nach Hause, die Stimmung war … unangenehm.\nSeidl: Kannten Sie Herrn von Falkenrieds Sammlung?\nWeiß: Natürlich. Ich bin Kunsthändlerin. Aber nur aus seinen Erzählungen."}, "feld": {"id": "VERHOER_FELD", "text": "Telefonische Vernehmung\nSeidl: Herr Feld, danke, dass Sie zurückrufen. Wo waren Sie am Abend des 19. Dezember?\nFeld: In Regensburg. Ich restauriere gerade ein Altarbild im Dom. Wir haben bis nach zehn gearbeitet, das können Ihnen drei Kollegen bestätigen.\nSeidl: Ihre Zutrittskarte wurde an diesem Abend an der Archivtür benutzt.\nFeld: Das kann nicht sein. Die Karte ist mir vor einer Woche abhandengekommen. Zuletzt hatte ich sie im Archiv, als ich dort an den Urkunden gearbeitet habe.\nSeidl: Haben Sie den Verlust gemeldet?\nFeld: Ich hab es Herrn von Falkenried gesagt. Er meinte nur, die taucht schon wieder auf."}};
@@ -1508,7 +1508,7 @@ function walkLock(){
       <circle cx="100" cy="100" r="34" fill="#2a3140"/><text x="100" y="105" fill="#ece6da" font-size="12" text-anchor="middle">Kirche</text>
       ${WALK_DIRS.map(([k,l],i) => { const a = i*90 - 90, r = 72, x = 100 + r*Math.cos(a*Math.PI/180), y = 100 + r*Math.sin(a*Math.PI/180);
         return `<circle cx="${x}" cy="${y}" r="22" fill="${st.walk[k] ? "#e3a548" : "#171c26"}" stroke="#e3a548"/><text x="${x}" y="${y+5}" fill="${st.walk[k] ? "#1b1408" : "#e3a548"}" font-size="14" font-weight="700" text-anchor="middle">${k}</text>`; }).join("")}</svg>`;
-  openWin("Ordner Haustechnik", `<div class="nb" style="font-size:16px"><h3>Falkenrieds Notiz am Ordner</h3>Hans Steinmetz hat die Kirche zu Spital begonnen und nie fertig gesehen. Jeden Morgen ging er einmal um seine Baustelle.<span class="red">Geht seinen Weg, einmal ganz um die Kirche. Dann öffnet sich der Ordner.</span></div>
+  openWin("Ordner Haustechnik", `<div class="nb" style="font-size:16px"><h3>Falkenrieds Notiz am Ordner</h3>Hans von Burghausen hat diese Kirche begonnen und nie fertig gesehen. Jeden Morgen ging er einmal um seine Baustelle.<span class="red">Geht seinen Weg, einmal ganz um die Kirche. Dann öffnet sich der Ordner.</span></div>
     <div class="target"><div class="t">Rundgang</div><div class="s">Das Handy merkt sich, auf welchen Seiten der Kirche ihr schon wart. Es zählt für das ganze Team.</div><div id="rose">${rose()}</div><div class="s" id="walkTxt">Standort wird gesucht …</div>
     ${DEV.noGeo ? `<button class="btn" id="walkSim" style="margin-top:8px">Rundgang simulieren (Testmodus)</button>` : ""}</div>`);
   const step = k => {
