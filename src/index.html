@@ -376,6 +376,7 @@ const CONTENT = {
     { id:"feld", photo:"img/feld.jpg", name:"Jonas Feld", age:39, role:"Externer Restaurator, Besitzer der Karte R7", note:"War am Abend nicht als Gast im Haus.", says:"„Die Karte ist mir vor einer Woche abhandengekommen.“" }
   ],
   victim: { photo:"img/falkenried.jpg", name:"Maximilian von Falkenried", age:62, role:"Kunstsammler, Gastgeber des Adventsdinners", note:"Am 19. Dezember um 21:25 Uhr tot in seinem Archiv aufgefunden." },
+  lead: { photo:"img/seidl.jpg", name:"Martina Seidl", age:52, role:"Kriminalhauptkommissarin, Ermittlungsleiterin", note:"Leitet die Ermittlung im Fall Falkenried. Sie meldet sich per Sprachnachricht und hat euch Falkenrieds Handy übergeben." },
   witness: { photo:"img/rosa.jpg", name:"Rosa Brandl", age:58, role:"Haushälterin", note:"War den ganzen Abend im Haus. Ihre Aussage liegt noch nicht vor." },
   hints: {
     S1: { title:"St. Martin – Der Stein des Baumeisters", steps:[
@@ -470,7 +471,7 @@ const CONTENT = {
   },
   voice: {
     V_ERBE:{ from:"Falkenried", memo:"im Archiv gespeichert, aufgenommen am 16. Oktober 2026", title:"Das Erbe", text:"Erster Dezember 1503. In Ingolstadt stirbt Herzog Georg der Reiche. Er hinterlässt keinen Sohn, nur eine Tochter: Elisabeth. Und er hat etwas getan, das kein Wittelsbacher vor ihm gewagt hat. Gegen alle Hausverträge setzt er sie als Erbin ein. Sie und ihren Mann, Ruprecht von der Pfalz. In München liest Herzog Albrecht dieses Testament … und lacht nicht. Er ist Georgs Vetter. Nach Familienrecht gehört Landshut ihm. Was folgt, ist kein Streit mehr. Es ist Krieg. Dörfer brennen in ganz Niederbayern. Der König stellt sich auf Albrechts Seite und lässt sich das gut bezahlen. Und Elisabeth? Im Sommer 1504 stirbt Ruprecht. Wenige Wochen später stirbt auch sie. Am Ende bekommt Albrecht das Land. Aber in den Wintertagen nach Georgs Tod, als noch niemand wusste, wer gewinnen würde … da hat jemand drei Kisten aus der Stadt gebracht. Und nicht nur Kisten. Was genau verschwunden ist, steht in zwei Listen. Lest sie dort, wo diese Stadt seit Jahrhunderten regiert wird." },
-    V_RESIDENZ:{ from:"Ermittlungsleiterin Seidl", title:"Die Archivtür", text:"Hier Seidl. Gute Arbeit, der Brief ist eine Fälschung. Aber ein falscher Brief macht noch keinen falschen Schatz. Achtet auf die Worte: Wer fälscht, verrät sich durch seine Sprache. Jetzt die entscheidende Frage: Wer kam am Abend an die Archivtür? Falkenrieds Haustechnik speichert jeden Zutritt in einem Ordner auf seinem Handy. Er hat ihn im Herbst gesperrt. Öffnen lässt er sich nur an der zweiten Kirche seines Baumeisters, der Kirche zu Spital." },
+    V_RESIDENZ:{ from:"Ermittlungsleiterin Seidl", photo:"img/seidl_av.jpg", title:"Die Archivtür", text:"Hier Seidl. Gute Arbeit, der Brief ist eine Fälschung. Aber ein falscher Brief macht noch keinen falschen Schatz. Achtet auf die Worte: Wer fälscht, verrät sich durch seine Sprache. Jetzt die entscheidende Frage: Wer kam am Abend an die Archivtür? Falkenrieds Haustechnik speichert jeden Zutritt in einem Ordner auf seinem Handy. Er hat ihn im Herbst gesperrt. Öffnen lässt er sich nur an der zweiten Kirche seines Baumeisters, der Kirche zu Spital." },
     V_TURM:{ from:"Falkenried", memo:"im Ordner Haustechnik gespeichert, aufgenommen am 9. November 2026", title:"Der Turm", text:"Sie wollten hier einen Turm, höher als Sankt Martin. Das Geld reichte nicht. Manche wollen eben mehr, als ihnen zusteht." },
     V_ZEUGIN:{ from:"Rosa Brandl", title:"Aussage der Zeugin", text:"Kurz nach Viertel vor neun ging das Licht aus. Ich hörte Schritte im Flur, eine Frau im dunklen Mantel. Dann klickte die Archivtür. Ich dachte mir nichts. Die Tür hat ja Strom aus der Batterie. Später hörte ich am Telefon, der Wagen sollte die Stadt durch das Tor verlassen, über dem die drei Helme hängen." },
     V_MAIR:{ from:"Benedikt Mair", title:"Der Notar", text:"Ja, ich habe geschwiegen. Herr von Falkenried hat mir eine Kassette anvertraut und mich zur Verschwiegenheit verpflichtet. Am Tatabend habe ich mit der Verwahrstelle telefoniert, wegen der Übergabe an die Stadt. Die Datei habe ich geöffnet, weil ich prüfen wollte, was Frau Dorn ihm da vorgelegt hatte. Die Kassette und seine letzte Nachricht gebe ich nur Ermittlern." },
@@ -773,7 +774,8 @@ function openSuspects(){
   const html = `<button class="btn" id="castBtn" style="margin-top:0">Wer ist wer? Übersicht aller Personen</button><div class="sec">Opfer</div>${personCard(CONTENT.victim,"","data-person=\"victim\"")}
     <div class="sec">Gäste und Beteiligte · Vernehmungen in jeder Akte</div>
     ${CONTENT.suspects.filter(p => p.id !== "feld" || S.stage > 6 || (S.st.s6 && S.st.s6.callDone)).map(p => personCard(p, S.struck.includes(p.id)?"struck":"", `data-sus="${p.id}"`)).join("")}
-    <div class="sec">Zeugin</div>${personCard(CONTENT.witness,"","data-person=\"witness\"")}`;
+    <div class="sec">Zeugin</div>${personCard(CONTENT.witness,"","data-person=\"witness\"")}
+    <div class="sec">Ermittlung</div>${personCard(CONTENT.lead,"","data-person=\"lead\"")}`;
   openWin("Verdächtige", html);
   $("#castBtn").onclick = () => showCast(null);
   $("#winBody").onclick = e => {
@@ -1293,7 +1295,7 @@ function newVoice(id){
 }
 function playVoice(id){
   const V = CONTENT.voice[id];
-  sheet(`<div class="kind">${V.memo ? "Sprachmemo" : "Sprachnachricht"} · ${esc(V.from)}</div><h2>${esc(V.title)}</h2>${V.memo ? `<p style="font-size:12px;margin:-2px 0 10px">${esc(V.memo)}</p>` : ""}<div class="transcript">${esc(V.text)}</div>
+  sheet(`${V.photo ? `<img src="${V.photo}" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px">` : ""}<div class="kind">${V.memo ? "Sprachmemo" : "Sprachnachricht"} · ${esc(V.from)}</div><h2>${esc(V.title)}</h2>${V.memo ? `<p style="font-size:12px;margin:-2px 0 10px">${esc(V.memo)}</p>` : ""}<div class="transcript">${esc(V.text)}</div>
     <button class="btn primary" id="vPlay">Abspielen</button><button class="btn" data-close>Schließen</button>`);
   $("#vPlay").onclick = () => {
     if (curAudio && !curAudio.paused) { stopAudio(); $("#vPlay").textContent = "Abspielen"; return; }
@@ -1923,7 +1925,7 @@ function showCast(after){
     ${castRow("img/clara_av.jpg", "Clara Weiß, 43", "Kunsthändlerin. Wollte Stücke aus der Sammlung.")}
     <div class="sec">Außerdem</div>
     ${castRow("img/rosa_av.jpg", "Rosa Brandl, 58", "Haushälterin. War den ganzen Abend im Haus, Zeugin.")}
-    ${castRow(null, "Ermittlungsleiterin Seidl", "Leitet die Ermittlung. Meldet sich per Sprachnachricht.")}
+    ${castRow("img/seidl_av.jpg", "Martina Seidl, 52", "Kriminalhauptkommissarin, leitet die Ermittlung. Meldet sich per Sprachnachricht.")}
     ${castRow(null, "Unbekannt", "Ruft mit unterdrückter Nummer an. Wer das ist, wisst ihr nicht.")}
     ${castRow(null, "Ihr", "Ermittlungsgruppe 1475. Ihr habt Falkenrieds Handy.")}
     <p style="margin-top:12px">Diese Übersicht findet ihr jederzeit in „Verdächtige“.</p>
