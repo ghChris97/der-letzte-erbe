@@ -237,6 +237,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .mission .acts{display:flex;flex-wrap:wrap;gap:8px}
 .mission .acts button{padding:8px 12px;border-radius:10px;background:var(--surface-2);font-size:13px;font-weight:600}
 .mission .acts button.go{background:var(--amber);color:#1b1408}
+.mission .acts button.go.off{background:var(--surface-2);color:var(--muted)}
+.mission .acts button:disabled{opacity:.6}
 .mission .place{font-size:13px;color:var(--muted)}
 /* Gesichtserkennung */
 .faces{display:grid;grid-template-columns:1fr;gap:10px;margin:8px 0}
@@ -482,9 +484,9 @@ const CONTENT = {
 const TEAM = ((new URLSearchParams(location.search).get("team") || "haupt").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 30)) || "haupt";
 const KEY = "falkenried-v2-" + TEAM;
 /* Gemeinsam für alle Handys des Teams */
-const SHARED = ["stage","phase","revealed","apps","evidence","voicemails","notes","st","ending","struck","hintsOpen","events","locks","devices","solvedBy","rev","resetAt"];
+const SHARED = ["stage","phase","revealed","apps","evidence","voicemails","notes","st","ending","struck","hintsOpen","events","locks","devices","solvedBy","rev","resetAt","goAt"];
 const fresh = () => ({ stage:1, phase:"task", revealed:{}, apps:[], evidence:[], voicemails:[], notes:[], st:{}, ending:null, struck:[], hintsOpen:{},
-  events:[], locks:{}, devices:{}, solvedBy:null, rev:0, resetAt:0,
+  events:[], locks:{}, devices:{}, solvedBy:null, rev:0, resetAt:0, goAt:{},
   /* nur auf diesem Handy */
   introSeen:false, unlocked:false, calls:[], threads:{ unbekannt:[] }, fired:[], unread:0, missed:0, seen:[] });
 /* Dieses Gerät */
@@ -775,7 +777,7 @@ function openHints(){
   const key = "S"+S.stage, H = CONTENT.hints[key], open = S.hintsOpen[key] || 0;
   const st = curStation();
   let html;
-  if (S.phase === "go") html = `<div class="hint"><h3>Unterwegs zu Station ${st.id}</h3><p>Nicht sicher, wohin? Im Auftrag oben auf dem Homescreen könnt ihr euch den Ort zeigen lassen, und die Karte führt euch hin.</p></div>`;
+  if (S.phase === "go") html = `<div class="hint"><h3>Unterwegs zu Station ${st.id}</h3><p>Erst selbst überlegen: Wohin führt die Spur? Nach fünf Minuten könnt ihr euch im Auftrag oben auf dem Homescreen den Ort zeigen lassen, die Karte führt euch dann hin.</p><p>„Wir sind da“ funktioniert erst, wenn ihr wirklich vor Ort seid, im Umkreis von etwa 50 Metern.</p></div>`;
   else if (!H) html = `<div class="empty">Für diese Station gibt es noch keine Hinweise.</div>`;
   else html = `<div class="hint"><h3>${esc(H.title)}</h3>
     ${H.steps.slice(0,open).map((t,i)=>`<p><b>Hinweis ${i+1}:</b> ${esc(t)}</p>`).join("")}
@@ -797,9 +799,9 @@ function missionCard(){
       <div class="clue">„${esc(st.clue)}“</div>
       ${shown ? `<div class="place">Ziel: <b>${esc(st.name)}</b> · ${esc(st.spot)}</div>` : ""}
       <div class="acts">
-        ${shown ? `<button data-mact="map">Auf der Karte zeigen</button>` : `<button data-mact="reveal">Wo ist das?</button>`}
-        <button class="go" data-mact="arrive">Wir sind da</button>
-      </div></section>`;
+        ${shown ? `<button data-mact="map">Auf der Karte zeigen</button>` : `<button data-mact="reveal" id="revealBtn">${revealLabel()}</button>`}
+        <button class="go" data-mact="arrive" id="arriveBtn">${arriveLabel()}</button>
+      </div><div class="place" id="geoTxt">${esc(geoText())}</div></section>`;
   }
   return `<section class="mission" aria-label="Aktueller Auftrag">
     <div class="k"><span>Auftrag · ${esc(st.name)}</span><span>Station ${st.id} von 8</span></div>
@@ -810,15 +812,17 @@ function missionCard(){
 document.addEventListener("click", e => {
   const b = e.target.closest("[data-mact]"); if (!b) return;
   const st = curStation(), act = b.dataset.mact;
-  if (act === "reveal") { S.revealed[st.id] = true; save(); renderHome(); }
+  if (act === "reveal") { if (revealLeft() > 0) return; S.revealed[st.id] = true; save(); renderHome(); }
   if (act === "map") openMap();
-  if (act === "arrive") { S.phase = "task"; S.revealed[st.id] = true; save(); renderHome(); }
+  if (act === "arrive") { if (!nearTarget()) { toast(geoText()); return; } S.phase = "task"; S.revealed[st.id] = true; save(); renderHome(); }
   if (act === "action") { closeSheet(); PUZZLE[st.id](); }
   if (act === "ending") showEnding();
 });
 function advance(){
   S.solvedBy = DEV.name || "Jemand";
-  S.stage = Math.min(S.stage + 1, CONTENT.stations.length); S.phase = "go"; save();
+  S.stage = Math.min(S.stage + 1, CONTENT.stations.length); S.phase = "go";
+  S.goAt = S.goAt || {}; if (!S.goAt[S.stage]) S.goAt[S.stage] = Date.now();
+  save();
 }
 
 /* ============================================================
@@ -891,7 +895,7 @@ function openMap(){
         <button class="btn" id="revealHere" style="margin-top:10px">Ziel jetzt anzeigen</button></div>`;
   openWin("Karte", `${target}<div class="mapwrap"><div id="map"></div></div>`);
   $("#winBody").classList.add("flexcol");
-  const rv = $("#revealHere"); if (rv) rv.onclick = () => { S.revealed[st.id] = true; save(); renderHome(); openMap(); };
+  const rv = $("#revealHere"); if (rv) { if (revealLeft() > 0) { rv.disabled = true; rv.textContent = revealLabel(); } rv.onclick = () => { if (revealLeft() > 0) return; S.revealed[st.id] = true; save(); renderHome(); openMap(); }; }
   const holder = $("#map");
   if (!window.L) { holder.outerHTML = `<div class="mapfallback">Die Karte lädt hier nicht. In der fertigen App unter der-letzte-erbe.netlify.app wird sie angezeigt.</div>`; return; }
   try {
@@ -1091,12 +1095,15 @@ function openAdmin(){
     </div>
     <p style="margin-top:12px">Spielstand: Station ${S.stage}, ${S.phase === "go" ? "unterwegs" : "vor Ort"}</p>
     <div class="grid2"><button class="btn" id="stPrev">← Station zurück</button><button class="btn" id="stNext">Station weiter →</button></div>
+    <div class="grid2"><button class="btn" id="geoToggle">Standortprüfung: ${DEV.noGeo ? "aus" : "an"}</button><button class="btn" id="revealNow">Ort sofort zeigen</button></div>
     <button class="btn primary" id="printDocs">Druckvorlagen öffnen</button>
     <button class="btn" id="relock">Handy sperren</button>
     <button class="btn" id="reset" style="color:var(--decline)">Spielstand zurücksetzen</button>
     <p id="resetMsg"></p></div>`);
   document.querySelectorAll("[data-fire]").forEach(b => b.onclick = () => { closeSheet(); fire(b.dataset.fire); });
   $("#printDocs").onclick = () => { closeSheet(); openPrint(); };
+  $("#geoToggle").onclick = () => { DEV.noGeo = !DEV.noGeo; saveDev(); closeSheet(); renderHome(); };
+  $("#revealNow").onclick = () => { const st = curStation(); if (st) { S.revealed[st.id] = true; save(); } closeSheet(); renderHome(); };
   $("#stNext").onclick = () => { skipStation(); S.rev = Date.now(); save(); closeSheet(); closeWin(); renderHome(); };
   $("#stPrev").onclick = () => { S.stage = Math.max(1, S.stage - 1); S.phase = "task"; if (S.stage === 1) S.apps = S.apps.filter(a => a !== "notizen"); S.rev = Date.now(); save(); closeSheet(); closeWin(); renderHome(); };
   $("#relock").onclick = () => { S.unlocked = false; save(); closeSheet(); closeWin(); renderLock(); };
@@ -1762,6 +1769,45 @@ function wrong(key){
   save(); setTimeout(() => showLock(key), 1100);
 }
 function right(key){ S.locks = S.locks || {}; const L = S.locks[key]; if (L) { L.round++; L.ids = []; } }
+
+/* ============================================================
+   Unterwegs: Ort erst nach 5 Minuten aufdecken, "Wir sind da" nur im Umkreis von 50 m
+   ============================================================ */
+const REVEAL_MS = 5 * 60 * 1000, NEAR_M = 50, NEAR_APPROX_M = 100; /* ungefähre Koordinaten: großzügiger, bis vor Ort geprüft */
+let geo = { pos:null, acc:null, err:null, watching:false };
+function revealLeft(){ const st = curStation(); if (!st || S.revealed[st.id]) return 0; const t0 = (S.goAt || {})[st.id]; if (!t0) return 0; return Math.max(0, REVEAL_MS - (Date.now() - t0)); }
+function revealLabel(){ const l = revealLeft(); if (l <= 0) return "Wo ist das?"; const s = Math.ceil(l / 1000); return `Ort anzeigen in ${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; }
+function targetDist(){ const st = curStation(); if (!st || !geo.pos) return null; return dist(geo.pos, st); }
+function nearTarget(){
+  if (DEV.noGeo) return true;
+  const st = curStation(), d = targetDist(); if (d === null) return false;
+  const r = st.approx ? NEAR_APPROX_M : NEAR_M;
+  return d - Math.min(geo.acc || 0, 30) <= r;
+}
+function arriveLabel(){ if (DEV.noGeo || nearTarget()) return "Wir sind da"; return "Wir sind da 🔒"; }
+function geoText(){
+  if (DEV.noGeo) return "Standortprüfung aus (Testmodus)";
+  if (geo.err) return "Standort nicht freigegeben. Bitte im Browser erlauben, sonst lässt sich „Wir sind da“ nicht bestätigen.";
+  const d = targetDist(); if (d === null) return "Standort wird gesucht …";
+  if (nearTarget()) return "Ihr seid am Ziel.";
+  return S.revealed[curStation().id] ? `Noch etwa ${d < 1000 ? Math.round(d) + " m" : (d / 1000).toFixed(1).replace(".", ",") + " km"} bis zum Ziel.` : "Ihr seid noch nicht am richtigen Ort.";
+}
+function startGeo(){
+  if (geo.watching || DEV.noGeo || !navigator.geolocation) { if (!navigator.geolocation) geo.err = "none"; return; }
+  geo.watching = true;
+  try {
+    navigator.geolocation.watchPosition(p => { geo.pos = { lat:p.coords.latitude, lng:p.coords.longitude }; geo.acc = p.coords.accuracy; geo.err = null; tickMission(); },
+      () => { geo.err = "denied"; geo.watching = false; tickMission(); }, { enableHighAccuracy:true, maximumAge:5000, timeout:20000 });
+  } catch(e) { geo.err = "error"; geo.watching = false; }
+}
+function tickMission(){
+  if (S.phase !== "go" || !S.unlocked) return;
+  startGeo();
+  const r = $("#revealBtn"); if (r) { r.textContent = revealLabel(); r.disabled = revealLeft() > 0; }
+  const a = $("#arriveBtn"); if (a) { a.textContent = arriveLabel(); a.classList.toggle("off", !nearTarget()); }
+  const g = $("#geoTxt"); if (g) g.textContent = geoText();
+}
+setInterval(tickMission, 1000);
 
 /* Start */
 if (!S.introSeen) renderIntro(); else S.unlocked ? renderHome() : renderLock();
