@@ -413,7 +413,7 @@ const CONTENT = {
       "Die Nachricht lautet ABHOLUNG." ] },
     S8: { title:"Finale – Die Anklage", steps:[
       "Wer war um 20:48 nachweislich nicht woanders?",
-      "Gelegenheit: ihr Wagen fuhr erst 21:02, und die Zeugin sah eine Frau an der Archivtür. Täuschung: Brief und Dateiprotokoll. Motiv: der Auftrag von 19:30.",
+      "Seidls Fragen: Der Wagen fuhr erst 21:02. Die Datei wurde unter HDORN erstellt. Der Abholauftrag nennt „HD“ als Anbieterin.",
       "Der Name für das Schloss: Wem hatte Georg sein Erbe vermacht? Nicht der Braut." ] }
   },
   locks: {
@@ -1726,22 +1726,27 @@ PUZZLE_8 = function(){
     accuseEvidence();
   });
 };
-const GROUPS = [ ["Gelegenheit", ["E10","E11"]], ["Täuschung", ["E08","E09"]], ["Motiv", ["E14"]] ];
+/* Anklage Schritt 2: drei kurze Fragen von Seidl, je ein richtiger Satz. */
+const ACC_Q = [
+  { q:"Wie beweist ihr, dass sie um 20:48 noch im Haus war?", ok:0, why:"Sie sagt, sie sei um halb neun gegangen. Was zeigt das Protokoll?",
+    a:["Ihr Wagen verließ das Grundstück erst um 21:02.","Sie hat sich um 20:30 im Flur verabschiedet.","Die Karte R7 hat die Archivtür geöffnet."] },
+  { q:"Wer hat den Brief „1503“ gefälscht?", ok:1, why:"Schaut ins Dateiprotokoll: Wer hat die Datei erstellt, wer nur geöffnet?",
+    a:["Notar Mair, er hatte die Datei offen.","Sie selbst, die Datei wurde unter HDORN erstellt.","Falkenried, um seine Funde zu schützen."] },
+  { q:"Warum hat sie es getan?", ok:2, why:"Lest noch einmal die entschlüsselte Mail von 19:30.",
+    a:["Sie wollte Falkenried beerben.","Sie wollte Tobias decken.","Sie wollte die drei Stücke an Käufer CW-04 verkaufen. Der Abholauftrag nennt „HD“ als Anbieterin."] }
+];
 function accuseEvidence(){
   closeSheet();
-  S.st.acc = S.st.acc || { g0:[], g1:[], g2:[] };
-  const ev = S.evidence;
-  const block = (g,i) => `<div class="sec">${g[0]}</div>${ev.map(id => `<button class="pick ${S.st.acc["g"+i].includes(id)?'on':''}" data-g="${i}" data-e="${id}">${esc(CONTENT.evidence[id].t)}</button>`).join("")}`;
-  openWin("Anklage", `<div class="target"><div class="t">Dr. Helena Dorn</div><div class="s">Heftet zu jeder Beweisgruppe die passenden Belege an, höchstens drei pro Gruppe.</div></div>${GROUPS.map(block).join("")}
-    <button class="btn primary" id="accGo">Anklage vorlegen</button><p id="aMsg" class="empty" style="padding:8px 0"></p>`);
-  $("#winBody").onclick = e => { const b = e.target.closest("[data-g]"); if (!b) return; const k = "g"+b.dataset.g, id = b.dataset.e;
-    S.st.acc[k] = S.st.acc[k].includes(id) ? S.st.acc[k].filter(x => x !== id) : S.st.acc[k].concat(id); save(); b.classList.toggle("on"); };
-  $("#accGo").onclick = () => {
+  const st = S.st; st.accQ = st.accQ || 0;
+  const Q = ACC_Q[st.accQ];
+  openWin("Anklage", `<div class="target"><div class="t">Dr. Helena Dorn</div><div class="s">Ermittlungsleiterin Seidl hat noch ${3 - st.accQ === 1 ? "eine Frage" : (3 - st.accQ) + " Fragen"}.</div></div>
+    <div class="sec">Frage ${st.accQ + 1} von 3</div><h2 style="margin:4px 0 12px;font-size:19px">${esc(Q.q)}</h2>
+    ${Q.a.map((t, k) => `<button class="btn" data-qa="${k}" style="text-align:left">${esc(t)}</button>`).join("")}<p id="aMsg" class="empty" style="padding:8px 0;text-align:left"></p>`);
+  $("#winBody").onclick = e => { const b = e.target.closest("[data-qa]"); if (!b) return;
     if (!guard("8.ev")) return;
-    if (GROUPS.some((g,i) => S.st.acc["g"+i].length > 3)) { $("#aMsg").textContent = "Seidl: „Nicht alles auf einmal. Höchstens drei Belege pro Gruppe, die wirklich etwas beweisen.“"; return; }
-    const bad = GROUPS.findIndex((g,i) => !g[1].every(x => S.st.acc["g"+i].includes(x)));
-    if (bad >= 0) { $("#aMsg").textContent = ["Was zeigt, dass sie zur Tatzeit an der Tür sein konnte?","Was zeigt, dass sie getäuscht hat?","Was war schon vor dem Mord geplant?"][bad]; wrong("8.ev"); return; }
-    right("8.ev");
+    if (+b.dataset.qa !== Q.ok) { $("#aMsg").textContent = "Seidl: „Das reicht nicht. " + Q.why + "“"; wrong("8.ev"); return; }
+    right("8.ev"); st.accQ++; save();
+    if (st.accQ < ACC_Q.length) return accuseEvidence();
     S.st.accused = true; save(); closeWin(); renderHome();
     fire("V_MAIR");
     setTimeout(() => { fire("N06"); setTimeout(() => fire("V_FINALE"), 4000); }, 9000);
