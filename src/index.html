@@ -1436,16 +1436,16 @@ geöffnet unter BMAIR · 19.12.2026, 10:02</div>
 /* ---------- Station 6: Akte Tatabend ---------- */
 const TYMP = [ { id:"gericht", label:"Weltgericht: Christus als Richter, Engel mit Posaunen" }, { id:"verk", label:"Verkündigung: Engel vor Maria" }, { id:"kreuz", label:"Kreuzigung mit Maria und Johannes" } ];
 const STATEMENTS = [
-  { id:"helena", who:"Helena", t:"„Ich bin um halb neun gegangen. Kopfschmerzen. Um kurz nach neun lag ich im Hotel.“", lie:true },
-  { id:"mair", who:"Mair", t:"„Ich habe kurz telefoniert, draußen. Mehr nicht.“", lie:null },
-  { id:"tobias", who:"Tobias", t:"„Ja, wir haben gestritten. Laut. Danach war ich rauchen, auf der Terrasse.“", lie:false },
-  { id:"clara", who:"Clara", t:"„Ich war den ganzen Abend im Salon. Fragen Sie die anderen.“", lie:true }
+  { id:"helena", who:"Dr. Helena Dorn", t:"„Ich bin um halb neun gegangen. Kopfschmerzen. Um kurz nach neun lag ich im Hotel.“", lie:true },
+  { id:"mair", who:"Benedikt Mair", t:"„Ich habe kurz telefoniert, draußen. Mehr nicht.“", lie:null },
+  { id:"tobias", who:"Tobias von Falkenried", t:"„Ja, wir haben gestritten. Laut. Danach war ich rauchen, auf der Terrasse.“", lie:false },
+  { id:"clara", who:"Clara Weiß", t:"„Ich war den ganzen Abend im Salon. Fragen Sie die anderen.“", lie:true }
 ];
 const PROTOCOL = [
-  ["19:30","geschwärzt"],["20:15","Falkenried kündigt die Übergabe an die Stadt an"],["20:30","Helena verabschiedet sich im Flur"],
-  ["20:34–20:52","Mairs Telefonat"],["20:40","Lauter Streit Tobias / Falkenried"],["20:44–20:58","Tobias auf der Terrasse (Außenkamera)"],
+  ["19:30","geschwärzt"],["20:15","Maximilian von Falkenried kündigt die Übergabe an die Stadt an"],["20:30","Dr. Helena Dorn verabschiedet sich im Flur"],
+  ["20:34–20:52","Benedikt Mair telefoniert draußen"],["20:40","Lauter Streit: Tobias und Maximilian von Falkenried"],["20:44–20:58","Tobias von Falkenried auf der Terrasse (Außenkamera)"],
   ["20:47–20:50","Stromausfall, manuell an der Sicherung ausgelöst"],["??:??","Archivtür geöffnet – Details geschwärzt"],
-  ["20:51","Taxi bestellt von Claras Handy, Standort Flur"],["21:02","Helenas Wagen verlässt das Grundstück"],["21:18","Helena checkt im Hotel ein"],["21:25","Tobias findet Falkenried im Archiv"]
+  ["20:51","Taxi bestellt von Clara Weiß’ Handy, Standort Flur"],["21:02","Wagen von Dr. Helena Dorn verlässt das Grundstück"],["21:18","Dr. Helena Dorn checkt im Hotel ein"],["21:25","Tobias von Falkenried findet seinen Onkel im Archiv"]
 ];
 PUZZLE_6 = function(){
   const st = S.st.s6 || (S.st.s6 = { open:false, marks:{}, liesOk:false, callDone:false, callOk:false, r7:false });
@@ -1466,7 +1466,7 @@ PUZZLE_6 = function(){
 function akteView(interactive){
   const st = S.st.s6;
   const prot = PROTOCOL.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(st.callDone && r[0]==="??:??" ? "Karte R7 (J. Feld, Restaurator) – Archivtür geöffnet um 20:48" : r[1])}</td></tr>`).join("");
-  const sts = STATEMENTS.map(x => `<div class="hint"><h3>${esc(x.who)}</h3><p style="margin-top:4px">${esc(x.t)}</p>
+  const sts = STATEMENTS.map(x => `<div class="hint"><h3 style="display:flex;align-items:center;gap:12px"><img src="img/${x.id}_av.jpg" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none">${esc(x.who)}</h3><p style="margin-top:4px">${esc(x.t)}</p>
     <button class="recmini" data-rec="${x.id}">▶ Vernehmung</button>
     ${interactive ? `<div class="acts2"><button data-mark="${x.id}:ok" class="${st.marks[x.id]==='ok'?'on':''}">passt</button><button data-mark="${x.id}:lie" class="${st.marks[x.id]==='lie'?'on':''}">passt nicht</button></div>` : ""}</div>`).join("");
   openWin("Akte 19. Dezember", `<div class="nb" style="font-size:14px;font-family:var(--font-mono)"><h3>Haustechnik</h3>Archivtür: Kartenleser akkugepuffert, arbeitet bei Netzausfall weiter.</div>
