@@ -398,7 +398,7 @@ const CONTENT = {
     S4: { title:"Rathaus – Wappenschloss und Listen", steps:[
       "Schaut hoch zur Rathausuhr. Darüber hängt das Stadtwappen. Zählt, was darauf ist, und achtet auf die Farbe.",
       "Denkt an Falkenrieds Fassadennotiz: Der Kaiser schenkte der Stadt drei … für ihr Wappen. Danach die Listen Zeile für Zeile vergleichen.",
-      "Schloss: 3 · Helm · Blau. Listen: Es fehlen die Nummern 3, 8 und 11. Achtung, die Silberschale und das Siegel von 1503 sind andere Stücke." ] },
+      "Schloss: 3 · Helm · Rot. Listen: Es fehlen die Nummern 3, 8 und 11. Achtung, die Silberschale und das Siegel von 1503 sind andere Stücke." ] },
     S5: { title:"Stadtresidenz – Der Brief", steps:[
       "Sucht im Brief eine Beschreibung, die ihr an der Fassade vor euch seht.",
       "Diese Fassade ist viel jünger als der Bau dahinter. Und was wisst ihr seit dem Landschaftshaus über diesen Bau?",
@@ -1426,14 +1426,13 @@ PUZZLE_3 = function(){
 };
 
 /* ---------- Station 4: Siegel + Listen ---------- */
-/* Station 4: Wappenschloss mit drei Rädern. Stadtwappen Landshut: drei blaue Eisenhüte (2:1) auf Silber.
-   ⚠ Vor Ort prüfen, wie das Wappen über der Rathausuhr bemalt ist, und WHEEL_OK bei Bedarf anpassen. */
+/* Station 4: Wappenschloss mit drei Rädern. Über der Rathausuhr: drei rote Helme (2:1) auf weißem Schild, vor Ort bestätigt. */
 const WHEELS = [
   ["Anzahl", ["1","2","3","4","5","6"]],
   ["Zeichen", ["Löwe","Adler","Helm","Raute","Schlüssel","Krone"]],
   ["Farbe des Zeichens", ["Rot","Blau","Silber","Gold","Grün","Schwarz"]]
 ];
-const WHEEL_OK = ["3","Helm","Blau"];
+const WHEEL_OK = ["3","Helm","Rot"];
 /* Station 4: zwei Inventare. 1475 nummeriert (12), 1503 nach Räumen sortiert und anders formuliert (11, davon 2 neu). Es fehlen 3, 8, 11. */
 const INV75 = [
   [1,"Goldener Hochzeitsbecher"],[2,"Zwölf silberne Löffel"],[3,"Rubinbesetzte Brosche"],[4,"Elfenbeinkästchen mit Schnitzwerk"],
