@@ -216,7 +216,7 @@ Die Reihenfolge erzählt die Geschichte chronologisch: Hochzeit, Familie, Vater,
 
 **Freischaltung, erste Notizbuchseite:**
 > „Hans von Burghausen. Er hat diese Kirche erdacht und noch eine zweite in dieser Stadt. Die wartet später auf euch.
-> Hier hat Georg 1475 seine Hedwig geheiratet. Bezahlt hat ein anderer. Wer, das steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, dreißig Mann hoch.“
+> Hier hat Georg 1475 seine Hedwig geheiratet. Bezahlt hat ein anderer. Wer, das steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit.“
 
 Am Rand, rot: *„T. hat wieder nach Geld gefragt. Nein.“* (Fährte Tobias)
 
