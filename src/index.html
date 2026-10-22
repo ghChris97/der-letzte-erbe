@@ -768,10 +768,29 @@ function openAttachment(){
 /* ============================================================
    Weitere Apps (Prototyp-Stand)
    ============================================================ */
+/* Alibis um 20:48: sobald sie belegt sind, bekommt das Team einen Hinweis zum Streichen */
+const ALIBI = {
+  tobias:{ has:() => !!(S.st.s6 && S.st.s6.liesOk), t:"Außenkamera: 20:44 bis 20:58 auf der Terrasse." },
+  mair:  { has:() => !!(S.st.s6 && S.st.s6.liesOk), t:"Telefonierte 20:34 bis 20:52 draußen." },
+  feld:  { has:() => S.evidence.includes("E12"), t:"War an dem Abend nachweislich in Regensburg." },
+  clara: { has:() => S.evidence.includes("E15"), t:"Telefonierte 20:44 bis 20:50 mit Käufer CW-04." }
+};
+const alibiOf = id => ALIBI[id] && ALIBI[id].has() ? ALIBI[id].t : null;
+let alibiSeen = null;
+function alibiCheck(){
+  if (!S.unlocked) return;
+  const now = Object.keys(ALIBI).filter(id => alibiOf(id));
+  if (alibiSeen === null) { alibiSeen = now; return; }
+  const add = now.filter(id => !alibiSeen.includes(id) && !S.struck.includes(id)); alibiSeen = now;
+  if (!add.length || $("#call")) return;
+  const names = add.map(id => CONTENT.suspects.find(p => p.id === id).name).join(", ");
+  setTimeout(() => banner("Neues Alibi", names + " war um 20:48 woanders. In „Verdächtige“ streichen.", () => { closeSheet(); openSuspects(); }), $("#banner") ? 6500 : 0);
+}
+setInterval(alibiCheck, 1500);
 function personCard(p, cls, attr){
   return `<button class="card ${cls||""}" ${attr||""}>
     <span class="av">${p.photo ? `<img src="${p.photo.replace(".jpg","_av.jpg")}" alt="">` : esc(p.name[0])}</span><span class="n">${esc(p.name)}, ${p.age}</span>
-    <span class="r">${esc(p.role)}</span><span class="q">${esc(p.note)}${p.says?`<br><i>${esc(p.says)}</i>`:""}</span></button>`;
+    <span class="r">${esc(p.role)}</span><span class="q">${esc(p.note)}${p.says?`<br><i>${esc(p.says)}</i>`:""}${alibiOf(p.id) ? `<br><span style="color:#6fbf8a">✓ Alibi: ${esc(alibiOf(p.id))}${(cls||"").includes("struck") ? "" : " Tippen zum Streichen."}</span>` : ""}</span></button>`;
 }
 function openSuspects(){
   closeSheet(); newsMark("verdaechtige");
@@ -799,6 +818,7 @@ function showSuspect(p){
     <h2>${esc(p.name)}, ${p.age}</h2><p>${esc(p.note)}</p>
     ${RECORDINGS[p.id] ? `<button class="btn primary" id="recPlay">▶ Vernehmung anhören</button>
       <details style="margin:8px 0 4px"><summary style="cursor:pointer;color:var(--muted);font-size:13px">Mitschrift der Vernehmung</summary><div class="transcript" style="margin-top:8px">${esc(RECORDINGS[p.id].text)}</div></details>` : `<p><i>${esc(p.says)}</i></p>`}
+    ${alibiOf(p.id) ? `<div class="hint" style="border-color:#6fbf8a"><p style="margin:0;color:#6fbf8a"><b>✓ Alibi um 20:48:</b> ${esc(alibiOf(p.id))}</p></div>` : ""}
     <button class="btn ${struck?"":"primary"}" id="strike">${struck?"Wieder als verdächtig führen":"Streichen: hat ein sicheres Alibi"}</button>
     <button class="btn" data-close>Schließen</button>`);
   const rp = $("#recPlay"); if (rp) rp.onclick = () => toggleRec(p.id, rp);
