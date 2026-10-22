@@ -29,7 +29,7 @@ Supabase-Projekt `der-letzte-erbe` (Tabelle `games`, Funktion `save_game`). Alle
 
 ## Spielleitung
 
-Fünfmal auf die Uhrzeit oben links tippen, PIN `2412`: Ereignisse auslösen, Stationen springen, Druckvorlagen, Spielstand zurücksetzen.
+Fünfmal auf die Uhrzeit oben links tippen, PIN `1432`: Ereignisse auslösen, Stationen springen, Druckvorlagen, Spielstand zurücksetzen.
 
 ## Offene Platzhalter
 
