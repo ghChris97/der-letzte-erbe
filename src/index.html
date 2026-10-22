@@ -1090,7 +1090,8 @@ function openAdminGate(){
 }
 function openAdmin(){
   sheet(`<div class="admin"><h2>Spielleitung <button data-close style="font-size:14px;color:var(--amber)">Fertig</button></h2>
-    <p>Team „${esc(TEAM)}“ · ${sb && syncOk ? "verbunden" : "offline, nur dieses Handy"} · aktive Handys: ${esc(activeNames().join(", ") || "–")}</p>
+    <p>Team „${esc(TEAM)}“ · ${sb && syncOk ? "verbunden" : "offline, nur dieses Handy"}</p>
+    <div class="sec" style="margin-top:4px">Handys im Team</div>${devList()}
     <p>Ereignisse auslösen. Sie erscheinen auf allen Handys des Teams.</p>
     <div class="grid2">
       <button class="btn" data-fire="CALL_01">Anruf 01</button>
@@ -1111,6 +1112,7 @@ function openAdmin(){
   $("#printDocs").onclick = () => { closeSheet(); openPrint(); };
   $("#geoToggle").onclick = () => { DEV.noGeo = !DEV.noGeo; saveDev(); closeSheet(); renderHome(); };
   $("#timerToggle").onclick = () => { DEV.noTimer = !DEV.noTimer; saveDev(); closeSheet(); renderHome(); };
+  document.querySelectorAll("[data-rmdev]").forEach(b => b.onclick = () => removeDevice(b.dataset.rmdev));
   $("#limitToggle").onclick = () => { DEV.noLimit = !DEV.noLimit; saveDev(); closeSheet(); renderHome(); };
   $("#stNext").onclick = () => { skipStation(); S.rev = Date.now(); save(); closeSheet(); closeWin(); renderHome(); };
   $("#stPrev").onclick = () => { S.stage = Math.max(1, S.stage - 1); S.phase = "task"; if (S.stage === 1) S.apps = S.apps.filter(a => a !== "notizen"); S.rev = Date.now(); save(); closeSheet(); closeWin(); renderHome(); };
@@ -1746,8 +1748,22 @@ async function syncInit(){
     heartbeat(); setInterval(heartbeat, 60000);
   } catch(e) { sb = null; syncOk = false; }
 }
+function devList(){
+  const now = Date.now();
+  const rows = Object.entries(S.devices || {}).filter(([id, v]) => !v.removed).sort((a, b) => (b[1].seen || 0) - (a[1].seen || 0)).map(([id, v]) => {
+    const min = Math.round((now - (v.seen || 0)) / 60000), me = id === DEV.id;
+    const st = me ? "dieses Handy" : min < 2 ? "gerade aktiv" : min < 20 ? `vor ${min} Min.` : min < 1440 ? `vor ${Math.round(min/60)} Std., zählt nicht mehr` : "inaktiv, zählt nicht mehr";
+    return `<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)"><span style="flex:1">${esc(v.name || "ohne Namen")} <span style="color:var(--muted);font-size:12px">· ${st}</span></span>${me ? "" : `<button class="btn" data-rmdev="${esc(id)}" style="width:auto;margin:0;padding:6px 12px;font-size:13px">Entfernen</button>`}</div>`;
+  });
+  return rows.join("") || `<p>Noch keine Handys.</p>`;
+}
+function removeDevice(id){
+  S.devices = S.devices || {}; S.devices[id] = { name:(S.devices[id] || {}).name || "", seen:Date.now(), removed:true };
+  Object.values(S.locks || {}).forEach(L => { L.ids = (L.ids || []).filter(x => x !== id); });
+  save(); openAdmin();
+}
 function heartbeat(){ S.devices = S.devices || {}; S.devices[DEV.id] = { name:DEV.name || "", seen:Date.now() }; save(); }
-function activeDevices(){ const now = Date.now(); const d = Object.entries(S.devices || {}).filter(([id, v]) => now - (v.seen || 0) < 20 * 60000); if (!d.some(([id]) => id === DEV.id)) d.push([DEV.id, { name:DEV.name }]); return d; }
+function activeDevices(){ const now = Date.now(); const d = Object.entries(S.devices || {}).filter(([id, v]) => !v.removed && now - (v.seen || 0) < 20 * 60000); if (!d.some(([id]) => id === DEV.id)) d.push([DEV.id, { name:DEV.name }]); return d; }
 const activeNames = () => activeDevices().map(([id, v]) => (v.name || "Handy") + (id === DEV.id ? " (du)" : ""));
 function askName(after){
   if (DEV.name) { if (after) after(); return; }
@@ -1766,8 +1782,8 @@ function guard(key){ if (DEV.noLimit || !lockedFor(key)) return true; showLock(k
 function showLock(key){
   const L = (S.locks || {})[key] || { ids:[] };
   const free = activeDevices().filter(([id]) => !L.ids.includes(id)).map(([id, v]) => v.name || "Handy");
-  sheet(`<div class="kind">Dein Versuch ist verbraucht</div><h2>Gib weiter</h2>
-    <p>Bei diesem Schritt hast du schon falsch geraten. Jetzt muss jemand anderes aus dem Team lösen${free.length ? ": " + esc(free.join(", ")) : ""}.</p>
+  sheet(`<div class="kind">Falsch geraten</div><h2>Keine Versuche mehr</h2>
+    <p>Auf diesem Handy ist der Versuch für diesen Schritt verbraucht. Jetzt kann es noch jemand anderes aus dem Team versuchen${free.length ? ": " + esc(free.join(", ")) : ""}.</p>
     <p>Erst wenn alle einmal danebenlagen, hat wieder jeder einen Versuch.</p><button class="btn primary" data-close>Verstanden</button>`);
 }
 function wrong(key){
