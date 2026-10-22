@@ -407,9 +407,9 @@ const CONTENT = {
       "Lasst den Ordner offen und geht einmal ganz um die Kirche. Drei der vier Seiten reichen. Bei ungenauem GPS kurz stehen bleiben.",
       "Vergleicht jede Aussage mit den Protokollen. Wann fuhr der Wagen von Dr. Helena Dorn weg? Von wo bestellte Clara Weiß ihr Taxi?",
       "Im Anruf: Die Uhrzeit und die Karte R7 standen noch geschwärzt in der Akte." ] },
-    S7: { title:"Ländtor – Drei Helme", steps:[
-      "Schaut über den Torbogen. Wie viele Helme seht ihr?",
-      "Jeden Buchstaben drei Stellen im Alphabet zurück: D wird A, E wird B.",
+    S7: { title:"Ländtor – Der Ritter", steps:[
+      "Spielt in der Mail die Sage vom Ritter ab und zählt die Glockenschläge am Ende.",
+      "Sieben Schläge: Jeden Buchstaben sieben Stellen im Alphabet zurück. H wird A, I wird B.",
       "Die Nachricht lautet ABHOLUNG." ] },
     S8: { title:"Finale – Die Anklage", steps:[
       "Wer war um 20:48 nachweislich nicht woanders?",
@@ -451,7 +451,7 @@ const CONTENT = {
       action:"Ordner öffnen" },
     { id:7, name:"Ländtor", spot:"Wappen über dem Torbogen", lat:48.535305, lng:12.149236,
       clue:"Später hörte ich am Telefon, der Wagen sollte die Stadt durch das Tor verlassen, über dem die drei Helme hängen.",
-      task:"Die Kripo hat auf Falkenrieds Archiv-Server eine verschlüsselte Kuriernachricht vom Tatabend gefunden und in sein Postfach gelegt. „Wie weit, sagt euch das Tor.“",
+      task:"Die Kripo hat auf Falkenrieds Archiv-Server eine verschlüsselte Kuriernachricht vom Tatabend gefunden und in sein Postfach gelegt. Wie weit die Buchstaben verschoben sind, verrät Falkenrieds Aufnahme der Sage vom Ritter am Ländtor.",
       action:"Mail öffnen" },
     { id:8, name:"Ringelstecherwiese", spot:"Treffpunkt am Christkindlmarkt", lat:48.532814, lng:12.146553,
       clue:"Übergabe: Ringelstecherwiese, sobald die Ware greifbar ist.",
@@ -1683,16 +1683,21 @@ function r7Question(){
 PUZZLE_7 = function(){
   const st = S.st.s7 || (S.st.s7 = { decoded:false });
   if (!st.decoded) {
-    openWin("Mail", `<div class="hint"><h3>Von der Kripo abgelegt · gefunden auf Falkenrieds Archiv-Server</h3><p style="font-family:var(--font-mono);font-size:22px;letter-spacing:.15em;margin-top:8px">DEKROXQJ</p>
-      <p style="margin-top:8px">Seidl: „Jeder Buchstabe wurde nach vorn geschoben. Wie weit, sagt euch das Tor aus Rosa Brandls Aussage.“</p></div>
+    openWin("Mail", `<div class="hint"><h3>Von der Kripo abgelegt · gefunden auf Falkenrieds Archiv-Server</h3><p style="font-family:var(--font-mono);font-size:22px;letter-spacing:.15em;margin-top:8px">HIOVSBUN</p>
+      <p style="margin-top:8px">Seidl: „Jeder Buchstabe wurde nach vorn geschoben. Falkenried hatte im selben Ordner eine Aufnahme: die Sage vom Ritter am Ländtor. Hört sie euch am Tor an.“</p>
+      <button class="btn" id="sagePlay" style="margin-top:4px">▶ Die Sage vom Ritter am Ländtor</button></div>
       <div class="abc">${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c => `<span>${c}</span>`).join("")}</div>
       <label for="dec" style="font-size:13px;color:var(--muted)">Entschlüsselte Nachricht</label><input class="field" id="dec" autocomplete="off" autocapitalize="characters">
       <button class="btn primary" id="decGo">Prüfen</button><p id="dMsg" class="empty" style="padding:8px 0"></p>`);
+    $("#sagePlay").onclick = () => { const b = $("#sagePlay");
+      if (curAudio && !curAudio.paused) { stopAudio(); b.textContent = "▶ Die Sage vom Ritter am Ländtor"; return; }
+      b.textContent = "■ Stopp"; stopAudio(); const a = new Audio("audio/SAGE_LAENDTOR.mp3"); curAudio = a;
+      a.addEventListener("ended", () => { b.textContent = "▶ Nochmal anhören"; }); a.play().catch(() => { b.textContent = "▶ Die Sage vom Ritter am Ländtor"; }); };
     $("#decGo").onclick = () => {
       if (!$("#dec").value.trim()) return;
       if (!guard("7.dec")) return;
       if ($("#dec").value.trim().toUpperCase().replace(/\s/g,"") === "ABHOLUNG") { right("7.dec"); st.decoded = true; S.apps.push("mail"); addEv("E14","E15"); save(); PUZZLE_7(); }
-      else { $("#dMsg").textContent = "Das ergibt noch keinen Sinn. Zählt die Helme über dem Tor."; wrong("7.dec"); }
+      else { $("#dMsg").textContent = "Das ergibt noch keinen Sinn. Zählt die Glockenschläge in der Sage."; wrong("7.dec"); }
     };
     return;
   }
@@ -1766,7 +1771,7 @@ function showEnding(){
     <span class="red">Das Erbe geht zurück nach Landshut.</span></div>
     <div class="sec">Was war echt?</div>
     <div class="hint"><p style="margin:0">Echt: die Landshuter Hochzeit 1475, die Hochzeitsrechnung, die Fassade des Landschaftshauses, das Denkmal von 1858, Georgs Tod 1503, Elisabeth und der Landshuter Erbfolgekrieg, die Stadtresidenz ab 1536, das Westportal der Heiliggeistkirche und die drei Helme im Wappen.</p>
-    <p>Erfunden: Falkenried und alle Figuren, der Mord, die drei Kisten, das versteckte Kind Elisabeths und jede Abstammung davon.</p></div>`);
+    <p>Erfunden: Falkenried und alle Figuren, der Mord, die drei Kisten, das versteckte Kind Elisabeths und jede Abstammung davon, die Sage vom Ritter am Ländtor.</p></div>`);
 }
 
 function skipStation(){
