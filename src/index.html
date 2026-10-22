@@ -184,6 +184,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .stand .sk{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#7a6d55;margin-bottom:6px}
 .stand ul{margin:0;padding-left:18px;font-size:14px;line-height:1.45}.stand li{margin-bottom:6px}
 .stand .sq{margin-top:8px;padding-top:8px;border-top:1px dashed #b9ab8a;font-size:14px;color:#7c2f2f}
+.invrow{display:block;width:100%;text-align:left;padding:9px 10px;margin-bottom:4px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:14px;line-height:1.35}
+.invrow b{display:inline-block;min-width:24px;color:var(--amber);font-family:var(--font-mono)}
+.invrow.pick.on{background:#e3a54833;border-color:var(--amber)}
 .banner{position:absolute;left:10px;right:10px;top:44px;z-index:50;background:#1d2330f2;border:1px solid var(--line);border-radius:20px;padding:12px 14px;display:flex;gap:12px;align-items:center;text-align:left;backdrop-filter:blur(14px);animation:drop .3s ease-out}
 @keyframes drop{from{transform:translateY(-30px);opacity:0}to{transform:none;opacity:1}}
 .banner .ico{width:38px;height:38px;border-radius:10px;flex:none}
@@ -394,7 +397,7 @@ const CONTENT = {
     S4: { title:"Rathaus – Wappenschloss und Listen", steps:[
       "Schaut hoch zur Rathausuhr. Darüber hängt das Stadtwappen. Zählt, was darauf ist, und achtet auf die Farbe.",
       "Denkt an Falkenrieds Fassadennotiz: Der Kaiser schenkte der Stadt drei … für ihr Wappen. Danach die Listen Zeile für Zeile vergleichen.",
-      "Schloss: 3 · Helm · Blau. Listen: Es fehlen die Positionen 18, 19 und 20." ] },
+      "Schloss: 3 · Helm · Blau. Listen: Es fehlen die Nummern 3, 8 und 13. Achtung, die Silberschale und das Siegel von 1503 sind andere Stücke." ] },
     S5: { title:"Stadtresidenz – Der Brief", steps:[
       "Sucht im Brief eine Beschreibung, die ihr an der Fassade vor euch seht.",
       "Diese Fassade ist viel jünger als der Bau dahinter. Und was wisst ihr seit dem Landschaftshaus über diesen Bau?",
@@ -457,7 +460,7 @@ const CONTENT = {
   evidence: {
     E01:{ t:"Hochzeitsrechnung 1475", d:"Abschrift aus Falkenrieds Manteltasche. Vermerk: Bezahlt hat nicht der Bräutigam." },
     E03:{ t:"Notizen zur Fassade", d:"Der Kaiser gab Landshut drei Helme ins Wappen. Ludwig X. begann seine Residenz erst 1536. Unter Heinrich dem Reichen begann 1407 der Bau der Heiliggeistkirche." },
-    E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Positionen 18 bis 20: Brosche, zwölf Silberschalen, Doppelsiegel. In H-1475 als „Hochzeitsgabe“ verzeichnet." },
+    E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 3, 8 und 13: Rubinbrosche, zwölf Silberschalen, Doppelsiegel. Falkenried notierte daneben: „Hochzeitsgaben, Kiste A, B, C“." },
     E06:{ t:"Verwahrvermerk Notariat Mair", d:"„Notariat Mair – Verwahrung“. Inhalt geschwärzt." },
     E07:{ t:"Preisnotizen „CW“", d:"Bleistift am Rand von H-1475: „CW: 40.000?“" },
     E08:{ t:"Brief „1503“ – gefälscht", d:"Beschreibt die heutige Fassade und eine Residenz, die erst ab 1536 gebaut wurde. Nennt die Kisten „Pfand der Verbindung“." },
@@ -1378,13 +1381,25 @@ const WHEELS = [
   ["Farbe des Zeichens", ["Rot","Blau","Silber","Gold","Grün","Schwarz"]]
 ];
 const WHEEL_OK = ["3","Helm","Blau"];
-const INV = [
-  [17,"Silberner Ehrenbecher","Silberner Ehrenbecher"],
-  [18,"Rubinbesetzte Brosche · Hochzeitsgabe, Kiste A","—"],
-  [19,"Zwölf Silberschalen · Hochzeitsgabe, Kiste B","—"],
-  [20,"Doppeltes Familiensiegel · Hochzeitsgabe, Kiste C","—"],
-  [21,"Vergoldeter Trinkbecher","Vergoldeter Trinkbecher"]
+/* Station 4: zwei Inventare. 1475 nummeriert (22), 1503 nach Räumen sortiert und anders formuliert (21, davon 2 neu). Es fehlen 3, 8, 13. */
+const INV75 = [
+  [1,"Goldener Hochzeitsbecher"],[2,"Zwölf silberne Löffel"],[3,"Rubinbesetzte Brosche"],[4,"Elfenbeinkästchen mit Schnitzwerk"],
+  [5,"Wandteppich mit Jagdszene"],[6,"Ein Paar vergoldete Leuchter"],[7,"Polnisches Brautkleid aus Brokat"],[8,"Zwölf Silberschalen"],
+  [9,"Reliquienkreuz aus Bergkristall"],[10,"Schachspiel aus Walrossbein"],[11,"Venezianischer Spiegel"],[12,"Gebetbuch mit Goldschnitt"],
+  [13,"Doppeltes Familiensiegel"],[14,"Zinnkrug mit Wappen"],[15,"Bettdecke aus roter Seide"],[16,"Zwei bestickte Falkenhauben"],
+  [17,"Truhe mit eisernen Beschlägen"],[18,"Silberne Gürtelschnalle"],[19,"Perlenkette, dreireihig"],[20,"Tafeltuch aus Damast"],
+  [21,"Messingwaage"],[22,"Kokosnusspokal in Silberfassung"]
 ];
+const INV_MISSING = [3, 8, 13];
+const INV03 = [
+  ["Silberkammer", ["Löffel, silbern, 12 Stück","Becher, golden, von der Hochzeit","Leuchter, vergoldet, ein Paar","Schnalle für den Gürtel, Silber","Deckelschale, Silber","Pokal aus einer Kokosnuss, silbergefasst","Waage aus Messing","Krug, Zinn, mit Wappen"]],
+  ["Kapelle", ["Kreuz, Bergkristall, mit Reliquie","Gebetbuch, Goldschnitt"]],
+  ["Schlafgemach", ["Seidendecke, rot","Brautkleid, Brokat, aus Polen","Spiegel aus Venedig","Perlenkette, drei Reihen"]],
+  ["Truhen und Kästen", ["Truhe, eisenbeschlagen","Kästchen aus Elfenbein, geschnitzt","Schachspiel, Walrossbein","Tafeltuch, Damast","Wandteppich, Jagd","Hauben für Falken, bestickt, zwei"]],
+  ["Kanzlei", ["Siegel der herzoglichen Kanzlei"]]
+];
+function inv03Html(){ return INV03.map(([room, items]) => `<div class="sec" style="margin:10px 0 4px">${esc(room)}</div>${items.map(t => `<div class="invrow">${esc(t)}</div>`).join("")}`).join(""); }
+function inv75Html(picked, tap){ return INV75.map(([n, t]) => tap ? `<button class="invrow pick${picked.includes(n) ? " on" : ""}" data-inv="${n}"><b>${n}</b> ${esc(t)}</button>` : `<div class="invrow"><b>${n}</b> ${esc(t)}${INV_MISSING.includes(n) ? ' <span style="color:#c0504d">· fehlt 1503</span>' : ""}</div>`).join(""); }
 PUZZLE_4 = function(){
   const st = S.st.s4 || (S.st.s4 = { seal:false, picked:[] });
   if (!st.seal) { st.wh = st.wh || [0,0,0];
@@ -1401,17 +1416,22 @@ PUZZLE_4 = function(){
     };
     return;
   }
+  st.tab = st.tab || "75";
   openWin("Mappe", `<div class="nb" style="font-size:16px"><h3>Falkenrieds Notiz</h3>Drei alte Häuser hinter einer Maske von 1861. Wer nur auf die Fassade schaut, sieht nicht, was dahinter ist. Mit meinen Listen ist es genauso.</div>
-    <div class="target"><div class="t">Was fehlt 1503?</div><div class="s">Vergleicht beide Listen und tippt die Stücke an, die 1503 verschwunden sind.</div></div>
-    <div class="invtab"><div class="ih"><span>Nr.</span><span>H-1475</span><span>W-1503</span></div>
-    ${INV.map(r => `<button data-inv="${r[0]}" class="${st.picked.includes(r[0])?'on':''}"><span>${r[0]}</span><span>${esc(r[1])}</span><span>${esc(r[2])}</span></button>`).join("")}</div>
+    <div class="target"><div class="t">Was fehlt 1503?</div><div class="s">Zwei Inventare der herzoglichen Schatzkammer. 1475 nummeriert, 1503 nach Räumen sortiert und anders geschrieben. Findet die drei Stücke, die 1503 fehlen, und markiert sie in der Liste von 1475.</div></div>
+    <div class="seg"><button class="${st.tab==="75"?"on":""}" data-tab="75">Liste 1475 · 22</button><button class="${st.tab==="03"?"on":""}" data-tab="03">Liste 1503 · 21</button></div>
+    <div id="invList">${st.tab === "75" ? inv75Html(st.picked, true) : inv03Html()}</div>
+    <p class="empty" style="padding:8px 0 0;text-align:left">Markiert: <b id="invN">${st.picked.length}</b> von 3</p>
     <button class="btn primary" id="invGo">Prüfen</button><p id="iMsg" class="empty" style="padding:8px 0"></p>`);
-  $("#winBody").onclick = e => { const b = e.target.closest("[data-inv]"); if (!b) return;
-    const n = +b.dataset.inv; st.picked = st.picked.includes(n) ? st.picked.filter(x => x !== n) : st.picked.concat(n); save(); b.classList.toggle("on"); };
+  $("#winBody").onclick = e => {
+    const t = e.target.closest("[data-tab]"); if (t) { st.tab = t.dataset.tab; save(); return PUZZLE_4(); }
+    const b = e.target.closest("[data-inv]"); if (!b) return;
+    const n = +b.dataset.inv; st.picked = st.picked.includes(n) ? st.picked.filter(x => x !== n) : st.picked.concat(n); save(); b.classList.toggle("on"); $("#invN").textContent = st.picked.length; };
   $("#invGo").onclick = () => {
     if (!guard("4.list")) return;
-    const ok = st.picked.length === 3 && [18,19,20].every(n => st.picked.includes(n));
-    if (!ok) { $("#iMsg").textContent = "Noch nicht richtig. Was steht 1475 drin, fehlt aber 1503?"; wrong("4.list"); return; }
+    if (st.picked.length !== 3) { $("#iMsg").textContent = "Markiert genau drei Stücke in der Liste von 1475."; return; }
+    const ok = INV_MISSING.every(n => st.picked.includes(n));
+    if (!ok) { $("#iMsg").textContent = "Noch nicht richtig. Hakt jedes Stück von 1475 einzeln in der Liste von 1503 ab. Vorsicht: 1503 kam auch Neues dazu."; wrong("4.list"); return; }
     right("4.list");
     addEv("E05","E06","E07");
     sheet(`<div class="kind">Inhalt der Mappe</div><h2>Fundbericht, Herbst 2026</h2>
@@ -1985,7 +2005,7 @@ const FA = [
     open:() => docSheet("Notiz", "Notizen zur Fassade", `<div class="nb" style="font-size:16px">${NOTES.fassade.html}</div>`) },
   { k:"V_ERBE", voice:true },
   { k:"mappe", kind:"Beweis", t:"Mappe aus dem Archiv", s:"Inventare, Fundbericht, Vermerk, Preisnotiz", has:() => hasEv("E05"),
-    open:() => docSheet("Beweis", "Mappe aus dem Archiv", `<div class="invtab"><div class="ih"><span>Nr.</span><span>H-1475</span><span>W-1503</span></div>${INV.map(r => `<div class="row3"><span>${r[0]}</span><span>${esc(r[1])}</span><span>${esc(r[2])}</span></div>`).join("")}</div>
+    open:() => docSheet("Beweis", "Mappe aus dem Archiv", `<div class="sec" style="margin-top:4px">Liste 1475</div>${inv75Html([], false)}<div class="sec">Liste 1503</div>${inv03Html()}
       <p style="margin-top:10px"><b>Fundbericht:</b> „Ich habe sie gefunden. Alle drei. Sie sind in Sicherheit, bei jemandem, dem ich vertraue.“</p><p><b>${esc(CONTENT.evidence.E06.t)}:</b> ${esc(CONTENT.evidence.E06.d)}</p><p><b>${esc(CONTENT.evidence.E07.t)}:</b> ${esc(CONTENT.evidence.E07.d)}</p>`) },
   { k:"brief", kind:"Dokument", t:() => hasEv("E08") ? "Brief „1503“ – gefälscht" : "Brief „1503“", s:() => hasEv("E08") ? "Beschreibt Dinge, die es 1503 nicht gab" : "Anhang von Unbekannt", has:() => (S.events || []).includes("N02") || hasEv("E08"), open:() => openAttachment() },
   { k:"E09", kind:"Beweis", has:() => hasEv("E09") },
