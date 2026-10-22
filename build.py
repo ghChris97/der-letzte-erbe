@@ -8,7 +8,7 @@ for f in os.listdir('src/img'):
     shutil.copy(os.path.join('src/img',f),os.path.join('dist/img',f))
 t=src.index('</title>')+8
 head_extra='''<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#07090d">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
