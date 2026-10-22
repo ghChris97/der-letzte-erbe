@@ -187,6 +187,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .invrow{display:block;width:100%;text-align:left;padding:9px 10px;margin-bottom:4px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:14px;line-height:1.35}
 .invrow b{display:inline-block;min-width:24px;color:var(--amber);font-family:var(--font-mono)}
 .invrow.pick.on{background:#e3a54833;border-color:var(--amber)}
+.tll{margin:0 0 10px;padding-left:18px;font-size:14px;line-height:1.5;color:var(--ink)}.tll b{font-family:var(--font-mono);font-size:12px;color:var(--amber);margin-right:6px}
 .banner{position:absolute;left:10px;right:10px;top:44px;z-index:50;background:#1d2330f2;border:1px solid var(--line);border-radius:20px;padding:12px 14px;display:flex;gap:12px;align-items:center;text-align:left;backdrop-filter:blur(14px);animation:drop .3s ease-out}
 @keyframes drop{from{transform:translateY(-30px);opacity:0}to{transform:none;opacity:1}}
 .banner .ico{width:38px;height:38px;border-radius:10px;flex:none}
@@ -1557,6 +1558,60 @@ function walkLock(){
     }, () => { const t = $("#walkTxt"); if (t) t.textContent = "Standort nicht freigegeben. Bitte im Browser erlauben."; }, { enableHighAccuracy:true, maximumAge:3000 });
   } catch(e) {}
 }
+/* Zeitstrahl Tatabend: pro Person Aussage (gestrichelt) und Protokoll (voll). Tippen zeigt Details. */
+const TL_T0 = 20*60, TL_T1 = 21*60+30;
+const tm = s => { const [h,m] = s.split(":").map(Number); return h*60+m; };
+function tlLanes(){
+  const st = S.st.s6 || {}, solved = !!st.liesOk;
+  return [
+    { id:"falkenried", n:"Falkenried", c:"#8d93a1", claim:[], fact:[{a:"20:15",l:"kündigt Übergabe an die Stadt an"},{a:"21:25",l:"tot im Archiv gefunden"}] },
+    { id:"helena", n:"Dorn", c:"#e07a5f", say:"„Ich bin um halb neun gegangen. Kopfschmerzen. Um kurz nach neun lag ich im Hotel.“",
+      claim:[{a:"20:00",b:"20:30",l:"im Haus, bis halb neun"},{a:"21:05",l:"im Hotel"}],
+      fact:[{a:"20:00",b:"21:02",l:"Wagen verlässt erst um 21:02 das Grundstück", bad:solved},{a:"20:30",l:"verabschiedet sich im Flur"},{a:"21:18",l:"Check-in im Hotel"}] },
+    { id:"mair", n:"Mair", c:"#5b86b8", say:"„Ich habe kurz telefoniert, draußen. Mehr nicht.“",
+      claim:[{a:"20:34",b:"20:39",l:"kurz telefoniert"}], fact:[{a:"20:34",b:"20:52",l:"Telefonat draußen, 18 Minuten"}] },
+    { id:"tobias", n:"Tobias", c:"#6f8f7a", say:"„Ja, wir haben gestritten. Laut. Danach war ich rauchen, auf der Terrasse.“",
+      claim:[{a:"20:40",l:"Streit mit dem Onkel"},{a:"20:44",b:"20:59",l:"Terrasse, eine Viertelstunde"}],
+      fact:[{a:"20:40",l:"lauter Streit"},{a:"20:44",b:"20:58",l:"Terrasse, Außenkamera"},{a:"21:25",l:"findet seinen Onkel"}] },
+    { id:"clara", n:"Weiß", c:"#b07cc6", say:"„Ich war den ganzen Abend im Salon. Fragen Sie die anderen.“",
+      claim:[{a:"20:00",b:"21:30",l:"den ganzen Abend im Salon"}],
+      fact:[].concat(S.evidence.includes("E15") ? [{a:"20:44",b:"20:50",l:"Telefonat mit Käufer CW-04"}] : [], [{a:"20:51",l:"bestellt Taxi, Standort Flur", bad:solved}]) },
+    { id:"rosa", n:"Brandl", c:"#c9a24a", say:"„Kurz nach Viertel vor neun ging das Licht aus. Ich hörte Schritte im Flur, eine Frau im dunklen Mantel. Dann klickte die Archivtür.“",
+      claim:[{a:"20:47",l:"Licht aus, Schritte, Frau im Mantel, Tür klickt"}], fact:[] }
+  ];
+}
+function timelineSvg(){
+  const st = S.st.s6 || {}, W = 360, L = 70, R = 12, top = 36, lane = 40, lanes = tlLanes(), H = top + lanes.length*lane + 8;
+  const x = t => L + (tm(t) - TL_T0) / (TL_T1 - TL_T0) * (W - L - R);
+  let g = `<rect x="${x("20:47")}" y="${top-4}" width="${x("20:50")-x("20:47")}" height="${H-top}" fill="#ffffff14"/><text x="${x("20:50")+3}" y="${H-1}" fill="#8d93a1" font-size="8.5">Strom aus 20:47–20:50</text>`;
+  ["20:00","20:15","20:30","20:45","21:00","21:15","21:30"].forEach(t => { g += `<line x1="${x(t)}" y1="${top-4}" x2="${x(t)}" y2="${H-10}" stroke="#2c3443"/><text x="${x(t)}" y="12" fill="#8d93a1" font-size="9" text-anchor="middle">${t}</text>`; });
+  if (st.callDone) g += `<line x1="${x("20:48")}" y1="${top-6}" x2="${x("20:48")}" y2="${H-10}" stroke="#e05555" stroke-width="2"/><text x="${x("20:48")-3}" y="${top-10}" fill="#ff8a8a" font-size="9" text-anchor="end">Archivtür 20:48</text>`;
+  lanes.forEach((ln, i) => {
+    const y0 = top + i*lane;
+    g += `<g data-tl="${ln.id}" style="cursor:pointer"><rect x="0" y="${y0}" width="${W}" height="${lane-4}" fill="transparent"/>
+      <image href="img/${ln.id}_av.jpg" x="2" y="${y0+4}" width="26" height="26" clip-path="circle(13px at 13px 13px)"/>
+      <text x="32" y="${y0+21}" fill="#ece6da" font-size="11" font-weight="600">${esc(ln.n)}</text>`;
+    const draw = (seg, yy, claim) => seg.forEach(s => {
+      const col = s.bad ? "#e05555" : ln.c;
+      g += s.b ? `<rect x="${x(s.a)}" y="${yy}" width="${Math.max(3, x(s.b)-x(s.a))}" height="10" rx="3" fill="${claim ? "none" : col}" ${claim ? `stroke="${col}" stroke-dasharray="3 2"` : `opacity=".9"`}/>`
+        : `<circle cx="${x(s.a)}" cy="${yy+5}" r="4.5" fill="${claim ? "#0d111a" : col}" stroke="${col}" stroke-width="1.5"/>`;
+    });
+    draw(ln.claim, y0+4, true); draw(ln.fact, y0+19, false);
+    g += `</g>`;
+  });
+  return `<div class="hint" style="padding:10px 6px"><svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block;font-family:var(--font-ui)">${g}</svg>
+    <p style="margin:6px 6px 0;font-size:12px;color:var(--muted)">Oben gestrichelt: was die Person sagt. Unten voll: was die Protokolle zeigen. Tippt eine Person an.</p></div>`;
+}
+function timelineDetail(id){
+  const ln = tlLanes().find(l => l.id === id); if (!ln) return;
+  const row = s => `<li><b>${esc(s.a)}${s.b ? "–" + esc(s.b) : ""}</b> ${esc(s.l)}</li>`;
+  const p = CONTENT.suspects.find(q => q.id === id) || (id === "rosa" ? CONTENT.witness : CONTENT.victim);
+  sheet(`<img src="img/${id}_av.jpg" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px"><div class="kind">Zeitstrahl Tatabend</div><h2>${esc(p.name)}</h2>
+    ${ln.say ? `<div class="sec" style="margin-top:4px">Aussage</div><p><i>${esc(ln.say)}</i></p>` : ""}
+    ${ln.claim.length ? `<ul class="tll">${ln.claim.map(row).join("")}</ul>` : ""}
+    ${ln.fact.length ? `<div class="sec">Protokolle</div><ul class="tll">${ln.fact.map(row).join("")}</ul>` : ""}
+    <button class="btn" data-close>Schließen</button>`);
+}
 function akteView(interactive){
   const st = S.st.s6;
   const prot = PROTOCOL.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(st.callDone && r[0]==="??:??" ? "Karte R7 (J. Feld, Restaurator) – Archivtür geöffnet um 20:48" : r[1])}</td></tr>`).join("");
@@ -1565,13 +1620,14 @@ function akteView(interactive){
     ${interactive ? `<div class="acts2"><button data-mark="${x.id}:ok" class="${st.marks[x.id]==='ok'?'on':''}">passt</button><button data-mark="${x.id}:lie" class="${st.marks[x.id]==='lie'?'on':''}">passt nicht</button></div>` : ""}</div>`).join("");
   openWin("Akte 19. Dezember", `<div class="nb" style="font-size:14px;font-family:var(--font-mono)"><h3>Haustechnik</h3>Archivtür: Kartenleser akkugepuffert, arbeitet bei Netzausfall weiter.</div>
     <button class="btn" id="zeugin">Aussage der Zeugin anhören</button>
+    <div class="sec">Zeitstrahl Tatabend</div>${timelineSvg()}
     <div class="sec">Protokolle</div><div class="hint"><table class="prot">${prot}</table></div>
     <div class="sec">Aussagen</div>${interactive ? `<p class="empty" style="text-align:left;padding:0 0 8px">Vergleicht jede Aussage mit den Protokollen. Wo passt etwas nicht?</p>` : ""}${sts}
     ${interactive ? `<button class="btn primary" id="lieGo">Prüfen</button><p id="lieMsg" class="empty" style="padding:8px 0"></p>` : ""}`);
   $("#zeugin").onclick = () => sheet(`<div class="kind">Zeugin Rosa Brandl</div><div class="transcript">Kurz nach Viertel vor neun ging das Licht aus. Ich hörte Schritte im Flur, eine Frau im dunklen Mantel. Dann klickte die Archivtür. Ich dachte mir nichts. Die Tür hat ja Strom aus der Batterie.</div><button class="btn primary" id="zPlay">Abspielen</button><button class="btn" data-close>Schließen</button>`)
     || ($("#zPlay").onclick = () => { const t = "Kurz nach Viertel vor neun ging das Licht aus. Ich hörte Schritte im Flur, eine Frau im dunklen Mantel. Dann klickte die Archivtür. Ich dachte mir nichts. Die Tür hat ja Strom aus der Batterie.";
         if (!playClip("ZEUGIN_KURZ", t, { fallback: () => speak(t, "andere") })) speak(t, "andere"); });
-  $("#winBody").addEventListener("click", e => { const r = e.target.closest("[data-rec]"); if (r) toggleRec(r.dataset.rec, r); });
+  $("#winBody").addEventListener("click", e => { const r = e.target.closest("[data-rec]"); if (r) toggleRec(r.dataset.rec, r); const t = e.target.closest("[data-tl]"); if (t) timelineDetail(t.dataset.tl); });
   if (!interactive) return;
   $("#winBody").addEventListener("click", e => { const b = e.target.closest("[data-mark]"); if (!b) return;
     const [id,v] = b.dataset.mark.split(":"); st.marks[id] = v; save();
