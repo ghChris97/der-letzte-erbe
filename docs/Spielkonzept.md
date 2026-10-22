@@ -468,10 +468,10 @@ Erst danach wird die Zeile freigegeben: `20:48 – Karte R7 (J. Feld, Restaurato
 **Erzählziel:** Das Motiv aufdecken. Alle außer Helena ausschließen, durch eigenes Streichen.
 
 **Spieleransicht:**
-> „In Falkenrieds Postfach lag eine weitergeleitete Kuriernachricht vom Tatabend. Sie besteht aus einem einzigen Wort: DERKOXQJ. Falkenried schrieb darunter: ‚Der Bote hat jeden Buchstaben nach vorn geschoben. Wie weit, sagt euch das Tor.‘“
+> „In Falkenrieds Postfach lag eine weitergeleitete Kuriernachricht vom Tatabend. Sie besteht aus einem einzigen Wort: DEKROXQJ. Falkenried schrieb darunter: ‚Der Bote hat jeden Buchstaben nach vorn geschoben. Wie weit, sagt euch das Tor.‘“
 
 **Vor Ort:** Das Landshuter Wappen mit drei Helmen über dem Torbogen; die Kaiser-Notiz vom Landschaftshaus liefert die Verbindung.
-**Aktion 1: Entschlüsseln.** Jeden Buchstaben drei Stellen im Alphabet zurück: `DERKOXQJ` → **ABHOLUNG**.
+**Aktion 1: Entschlüsseln.** Jeden Buchstaben drei Stellen im Alphabet zurück: `DEKROXQJ` → **ABHOLUNG**.
 
 **Freischaltung: Abholauftrag** (zugleich die Zeile 19:30 im Zeitstrahl):
 > **Vertraulich · 19.12.2026 · 19:30 Uhr**
@@ -569,7 +569,7 @@ Nach richtiger Anklage übergibt Mair die Kassette (physisch durch Spielleitung 
 | R12 | Heiliggeist | Lügen markieren | Helena (Abfahrt), Clara (Taxi aus dem Flur) | Vergleichen | — |
 | R13 | Heiliggeist | Täterwissen im Anruf markieren | Türzeit, R7; Gold: „Pfand der Verbindung“ | Textanalyse | — |
 | R14 | Heiliggeist | R7 einordnen | beweist nur die Karte | Beweiswert | — |
-| R15 | Ländtor | `DERKOXQJ` entschlüsseln | drei Helme → **ABHOLUNG** | Chiffre | ✅ |
+| R15 | Ländtor | `DEKROXQJ` entschlüsseln | drei Helme → **ABHOLUNG** | Chiffre | ✅ |
 | R16 | Ländtor | Verdächtige streichen | Tobias, Mair, Clara, Feld | Ausschluss | — |
 | R17 | Finale | Anklage mit Beweisgruppen | Helena + Gelegenheit + Täuschung + Motiv | Beweisboard | — |
 | R18 | Finale | Der Name für das Schloss | **ELISABETH** (Falle: Hedwig) | Zuhören, Folgern | — |
@@ -773,7 +773,7 @@ Es gibt **keine Pflicht**, QR-Codes an historische Gebäude zu kleben. Sinnvolle
 | `A12` | Digitaler Forensikbericht | App-Dokument | Redaktion / Technik |
 | `A13` | Zeitstrahl Dinnerabend | App-Daten/Visuell | Redaktion / Technik |
 | `A14` | Zugangskarte R7 / Protokoll | App-Dokument | Redaktion |
-| `A15` | Ländtor-Chiffre `DERKOXQJ` | Text / Grafik | Redaktion |
+| `A15` | Ländtor-Chiffre `DEKROXQJ` | Text / Grafik | Redaktion |
 | `A16` | Transportauftrag | App-Dokument | Redaktion |
 | `AUD01` | Unbekannter Erstanruf | 20–30 Sek., MP3 + Transkript | Sprecher / Audio |
 | `AUD02` | Anruf am Denkmal | 15–20 Sek. | Sprecher / Audio |

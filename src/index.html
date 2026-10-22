@@ -745,7 +745,7 @@ function openSuspects(){
   closeSheet();
   const html = `<div class="sec">Opfer</div>${personCard(CONTENT.victim,"","data-person=\"victim\"")}
     <div class="sec">Gäste und Beteiligte · Vernehmungen in jeder Akte</div>
-    ${CONTENT.suspects.map(p => personCard(p, S.struck.includes(p.id)?"struck":"", `data-sus="${p.id}"`)).join("")}
+    ${CONTENT.suspects.filter(p => p.id !== "feld" || S.stage > 6 || (S.st.s6 && S.st.s6.callDone)).map(p => personCard(p, S.struck.includes(p.id)?"struck":"", `data-sus="${p.id}"`)).join("")}
     <div class="sec">Zeugin</div>${personCard(CONTENT.witness,"","data-person=\"witness\"")}`;
   openWin("Verdächtige", html);
   $("#winBody").onclick = e => {
@@ -1285,7 +1285,7 @@ PUZZLE_2 = function(){
   const head = cur
     ? `<div class="target"><div class="t">${esc(cur.label)}</div><div class="s">Sucht dieses Detail an der Fassade und tippt die Stelle an.</div>
        <div class="faces" style="margin-top:10px"><button tabindex="-1" style="pointer-events:none">${MOCK(cur.label + " (euer Detailfoto folgt)")}</button></div></div>`
-    : `<div class="target"><div class="t">Alle drei Fotos zugeordnet</div><div class="s">Falkenried hat mit einem Kreis markiert, wer die Hochzeit bezahlt hat. Tippt ihn an.</div></div>`;
+    : `<div class="target"><div class="t">Alle drei Fotos zugeordnet</div><div class="s">Falkenried hat mit einem Kreis markiert, wer die Hochzeit bezahlt hat. Tippt ihn an.<br><br>Seine Randnotiz: „Foto 1 zeigt den Adler der Braut, zu Füßen des Bräutigams. Die Herzöge stehen nach Generationen in einer Reihe, der Vater immer vor dem Sohn.“</div></div>`;
   openWin("Fotos", head + facadeGrid() + `<p id="fMsg" class="empty" style="padding:10px 0"></p>`);
   $("#winBody").onclick = e => {
     const b = e.target.closest("[data-pos]"); if (!b) return;
@@ -1396,6 +1396,7 @@ PUZZLE_5 = function(){
     openWin("Brief", `<div class="target"><div class="t">Bild gegen Text</div><div class="s">Tippt die Stelle im Brief an, die es 1503 so nicht gegeben haben kann. Schaut dafür auf das Gebäude vor euch.</div></div>
       <div class="nb letter">${LETTER.map((l,i) => `<button data-l="${i}">${esc(l.t)}</button>`).join(" ")}</div><p id="lMsg" class="empty" style="padding:8px 0"></p>`);
     $("#winBody").onclick = e => { const b = e.target.closest("[data-l]"); if (!b) return;
+      if (+b.dataset.l === 2) { $("#lMsg").textContent = "Gut gesehen, darauf kommen wir gleich zurück. Erst die Fassade: Welcher Satz beschreibt, was ihr gerade vor euch seht?"; return; }
       if (!guard("5.letter")) return;
       if (LETTER[+b.dataset.l].k === "ok") { right("5.letter"); b.classList.add("right"); st.detail = true; save(); setTimeout(PUZZLE_5, 800); }
       else { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); $("#lMsg").textContent = "Daran ist nichts Verdächtiges. Vergleicht mit dem, was ihr vor euch seht."; wrong("5.letter"); } };
@@ -1518,7 +1519,7 @@ function r7Question(){
 PUZZLE_7 = function(){
   const st = S.st.s7 || (S.st.s7 = { decoded:false });
   if (!st.decoded) {
-    openWin("Mail", `<div class="hint"><h3>Weitergeleitet · 19.12., 21:40</h3><p style="font-family:var(--font-mono);font-size:22px;letter-spacing:.15em;margin-top:8px">DERKOXQJ</p>
+    openWin("Mail", `<div class="hint"><h3>Weitergeleitet · 19.12., 21:40</h3><p style="font-family:var(--font-mono);font-size:22px;letter-spacing:.15em;margin-top:8px">DEKROXQJ</p>
       <p style="margin-top:8px">Falkenried: „Der Bote hat jeden Buchstaben nach vorn geschoben. Wie weit, sagt euch das Tor.“</p></div>
       <div class="abc">${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c => `<span>${c}</span>`).join("")}</div>
       <label for="dec" style="font-size:13px;color:var(--muted)">Entschlüsselte Nachricht</label><input class="field" id="dec" autocomplete="off" autocapitalize="characters">
@@ -1564,12 +1565,13 @@ function accuseEvidence(){
   S.st.acc = S.st.acc || { g0:[], g1:[], g2:[] };
   const ev = S.evidence;
   const block = (g,i) => `<div class="sec">${g[0]}</div>${ev.map(id => `<button class="pick ${S.st.acc["g"+i].includes(id)?'on':''}" data-g="${i}" data-e="${id}">${esc(CONTENT.evidence[id].t)}</button>`).join("")}`;
-  openWin("Anklage", `<div class="target"><div class="t">Dr. Helena Dorn</div><div class="s">Heftet zu jeder Beweisgruppe die passenden Belege an.</div></div>${GROUPS.map(block).join("")}
+  openWin("Anklage", `<div class="target"><div class="t">Dr. Helena Dorn</div><div class="s">Heftet zu jeder Beweisgruppe die passenden Belege an, höchstens drei pro Gruppe.</div></div>${GROUPS.map(block).join("")}
     <button class="btn primary" id="accGo">Anklage vorlegen</button><p id="aMsg" class="empty" style="padding:8px 0"></p>`);
   $("#winBody").onclick = e => { const b = e.target.closest("[data-g]"); if (!b) return; const k = "g"+b.dataset.g, id = b.dataset.e;
     S.st.acc[k] = S.st.acc[k].includes(id) ? S.st.acc[k].filter(x => x !== id) : S.st.acc[k].concat(id); save(); b.classList.toggle("on"); };
   $("#accGo").onclick = () => {
     if (!guard("8.ev")) return;
+    if (GROUPS.some((g,i) => S.st.acc["g"+i].length > 3)) { $("#aMsg").textContent = "Mair: „Nicht alles auf einmal. Höchstens drei Belege pro Gruppe, die wirklich etwas beweisen.“"; return; }
     const bad = GROUPS.findIndex((g,i) => !g[1].every(x => S.st.acc["g"+i].includes(x)));
     if (bad >= 0) { $("#aMsg").textContent = ["Was zeigt, dass sie zur Tatzeit an der Tür sein konnte?","Was zeigt, dass sie getäuscht hat?","Was war schon vor dem Mord geplant?"][bad]; wrong("8.ev"); return; }
     right("8.ev");
