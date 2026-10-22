@@ -166,6 +166,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .cbtn.yes i{background:var(--accept)}
 
 /* Benachrichtigung */
+.tnew rect:first-child{animation:tpulse 1.6s ease-in-out 3}
+@keyframes tpulse{50%{stroke-width:4;filter:drop-shadow(0 0 6px #e3a548)}}
 .banner{position:absolute;left:10px;right:10px;top:44px;z-index:50;background:#1d2330f2;border:1px solid var(--line);border-radius:20px;padding:12px 14px;display:flex;gap:12px;align-items:center;text-align:left;backdrop-filter:blur(14px);animation:drop .3s ease-out}
 @keyframes drop{from{transform:translateY(-30px);opacity:0}to{transform:none;opacity:1}}
 .banner .ico{width:38px;height:38px;border-radius:10px;flex:none}
@@ -354,7 +356,7 @@ const CONTENT = {
     { id:"mair", photo:"img/mair.jpg", name:"Benedikt Mair", age:55, role:"Notar", note:"Kennt Falkenrieds Testament.", says:"„Ich habe kurz telefoniert, draußen. Mehr nicht.“" },
     { id:"tobias", photo:"img/tobias.jpg", name:"Tobias von Falkenried", age:31, role:"Neffe", note:"Hat Schulden. Galt als möglicher Erbe.", says:"„Ja, wir haben gestritten. Laut.“" },
     { id:"clara", photo:"img/clara.jpg", name:"Clara Weiß", age:43, role:"Kunsthändlerin", note:"Hatte Interesse an Stücken aus der Sammlung.", says:"„Ich war den ganzen Abend im Salon.“" },
-    { id:"feld", photo:null, name:"Jonas Feld", age:39, role:"Externer Restaurator, Besitzer der Karte R7", note:"War am Abend nicht als Gast im Haus.", says:"„Die Karte ist mir vor einer Woche abhandengekommen.“" }
+    { id:"feld", photo:"img/feld.jpg", name:"Jonas Feld", age:39, role:"Externer Restaurator, Besitzer der Karte R7", note:"War am Abend nicht als Gast im Haus.", says:"„Die Karte ist mir vor einer Woche abhandengekommen.“" }
   ],
   victim: { photo:"img/falkenried.jpg", name:"Maximilian von Falkenried", age:62, role:"Kunstsammler, Gastgeber des Adventsdinners", note:"Am 19. Dezember um 21:25 Uhr tot in seinem Archiv aufgefunden." },
   witness: { photo:"img/rosa.jpg", name:"Rosa Brandl", age:58, role:"Haushälterin", note:"War den ganzen Abend im Haus. Ihre Aussage liegt noch nicht vor." },
@@ -528,6 +530,7 @@ const IC = {
   bulb:'<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9V16h7v-2.1A6 6 0 0 0 12 3"/>',
   lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
   back:'<path d="m15 5-7 7 7 7"/>',
+  tree:'<circle cx="12" cy="5" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M12 7.5V12M6 15.5V12h12v3.5"/>',
   hang:'<path d="M3 15c5-5 13-5 18 0l-2.5 2.5-3.5-2v-2.5a10 10 0 0 0-6 0V15l-3.5 2z"/>',
   sig:'<path d="M3 20h2v-3H3zM8 20h2v-6H8zM13 20h2v-9h-2zM18 20h2V8h-2z" fill="currentColor" stroke="none"/>',
   batt:'<rect x="2" y="8" width="18" height="9" rx="2"/><rect x="4" y="10" width="11" height="5" rx="1" fill="currentColor" stroke="none"/><path d="M22 11v3"/>'
@@ -547,6 +550,7 @@ const APPS = {
   ermittlung:{ label:"Ermittlung", icon:"folder", bg:"#2a3140", open:()=>openFolder() },
   verdaechtige:{ label:"Verdächtige", icon:"people", bg:"#5b3f64", open:()=>openSuspects() },
   beweise:  { label:"Beweisboard", icon:"board", bg:"#8b6a3a", open:()=>openEvidence() },
+  stammbaum:{ label:"Stammbaum", icon:"tree", bg:"#3f5a3a", open:()=>openTree() },
   hinweise: { label:"Hinweise",  icon:"bulb",   bg:"#b07d24", open:()=>openHints() }
 };
 
@@ -612,6 +616,7 @@ function appTile(id){
   let badge = "";
   if (id === "telefon" && S.missed) badge = `<span class="badge">${S.missed}</span>`;
   if (id === "nachrichten" && S.unread) badge = `<span class="badge">${S.unread}</span>`;
+  if (id === "stammbaum" && typeof treeNew === "function" && treeSeen().length) { const n = treeNew().length; if (n) badge = `<span class="badge">${n}</span>`; }
   return `<button class="app ${locked?'locked':''}" data-app="${id}" aria-label="${a.label}${locked?' (gesperrt)':''}">
     <span class="ico" style="background:${a.bg}">${svg(a.icon)}${locked?`<span class="lockbadge">${svg("lock")}</span>`:""}</span>
     ${badge}<span>${a.label}</span></button>`;
@@ -620,7 +625,7 @@ function renderHome(){
   screen.innerHTML = `${statusBar()}
     <div class="case"><span>${esc(CONTENT.caseNo)}</span><span>M. v. Falkenried</span></div>
     ${missionCard()}
-    <div class="grid">${["notizen","fotos","archiv","mail","karte","scanner","tresor","ermittlung"].map(appTile).join("")}</div>
+    <div class="grid">${["notizen","fotos","archiv","mail","stammbaum","scanner","tresor","ermittlung"].map(appTile).join("")}</div>
     <div class="dock">${["telefon","nachrichten","karte","scanner"].map(appTile).join("")}</div>`;
 }
 document.addEventListener("click", e => {
@@ -1801,6 +1806,128 @@ function startGeo(){
       () => { geo.err = "denied"; geo.watching = false; tickMission(); }, { enableHighAccuracy:true, maximumAge:5000, timeout:20000 });
   } catch(e) { geo.err = "error"; geo.watching = false; }
 }
+/* ============================================================
+   Stammbaum: Personen erscheinen Stück für Stück, sobald die Geschichte sie vorstellt.
+   ============================================================ */
+const TREE_HAS = {
+  start: () => true,
+  hochzeit: () => S.stage > 1 || S.apps.includes("notizen"),
+  fassade: () => S.notes.includes("fassade") || S.stage > 2,
+  erbe: () => S.voicemails.includes("V_ERBE"),
+  finale: () => S.voicemails.includes("V_FINALE") || !!S.ending
+};
+const HOUSE = { la:"#c9a24a", mu:"#5b86b8", pf:"#9a6fd0", pl:"#c0504d", rx:"#8d93a1", fk:"#6f8f7a" };
+const TREE = {
+  heinrich: { x:56,  y:36,  n:"Heinrich XVI.", s:"der Reiche|1386–1450", h:"la", when:"fassade",
+    d:"Herzog von Bayern-Landshut, der erste der drei „Reichen Herzöge“. Er ließ die Heiliggeistkirche bauen." },
+  ludwig:   { x:56,  y:128, n:"Ludwig IX.", s:"der Reiche|1417–1479", h:"la", when:"fassade",
+    d:"Georgs Vater. Er bezahlte 1475 die Landshuter Hochzeit seines Sohnes. Am Landschaftshaus steht er links neben Georg." },
+  max:      { x:304, y:128, n:"Maximilian I.", s:"König|1459–1519", h:"rx", when:"erbe",
+    d:"Römisch-deutscher König. Er stellte sich im Erbfolgekrieg auf Albrechts Seite und ließ sich das mit Land und Burgen bezahlen." },
+  georg:    { x:56,  y:236, n:"Georg", s:"der Reiche|1455–1503", h:"la", when:"hochzeit",
+    d:"Letzter Herzog von Bayern-Landshut. Heiratete 1475 in St. Martin Hedwig von Polen. Starb 1503 ohne Sohn und setzte gegen die Hausverträge seine Tochter als Erbin ein." },
+  hedwig:   { x:180, y:236, n:"Hedwig", s:"von Polen|1457–1502", h:"pl", when:"hochzeit",
+    d:"Polnische Königstochter, die Braut der Landshuter Hochzeit 1475. Sie starb 1502, ein Jahr vor Georg." },
+  albrecht: { x:304, y:236, n:"Albrecht IV.", s:"von München|1447–1508", h:"mu", when:"erbe",
+    d:"Herzog von Bayern-München, Georgs Vetter. Nach den Wittelsbacher Hausverträgen stand Landshut ihm zu, nicht einer Tochter. Er zog in den Krieg und bekam am Ende das Land." },
+  elisabeth:{ x:56,  y:364, n:"Elisabeth", s:"Erbin|1478–1504", h:"la", when:"erbe",
+    d:"Georgs Tochter. Laut seinem Testament die Erbin von Bayern-Landshut. Sie starb im September 1504, mitten im Krieg um ihr Erbe." },
+  ruprecht: { x:180, y:364, n:"Ruprecht", s:"von der Pfalz|1481–1504", h:"pf", when:"erbe",
+    d:"Pfalzgraf bei Rhein, Elisabeths Mann. Er kämpfte für ihr Erbe und starb im August 1504." },
+  kind:     { x:118, y:480, n:"Das jüngste Kind", s:"*1503|„gestorben“ 1503", h:"la", when:"finale", fiction:true,
+    d:"Offiziell im Winter 1503 gestorben. Laut Falkenrieds letzter Nachricht war das gelogen: Ein treuer Mann brachte das Kind heimlich aus der Stadt, und mit ihm drei Kisten, sein Erbe." },
+  falk:     { w:128, x:118, y:640, n:"Maximilian v.|Falkenried", s:"1964–2026", h:"fk", when:"start", photo:"img/falkenried_av.jpg", fiction:true,
+    d:"Kunstsammler, Opfer. In Kirchenbüchern in Neuburg an der Donau stieß er auf einen Eintrag aus dem Winter 1503, der ihn nicht mehr losließ." },
+  tobias:   { w:128, x:290, y:640, n:"Tobias v.|Falkenried", s:"Neffe, 31", h:"fk", when:"start", photo:"img/tobias_av.jpg", fiction:true,
+    d:"Falkenrieds Neffe, galt als möglicher Erbe." }
+};
+const TREE_EDGES = [
+  { a:"heinrich", b:"ludwig", t:"child" },
+  { a:"ludwig", b:"georg", t:"child" },
+  { a:"georg", b:"hedwig", t:"marry", label:"∞ 1475 St. Martin" },
+  { a:"elisabeth", b:"ruprecht", t:"marry", label:"∞ 1499" },
+  { a:"georg+hedwig", b:"elisabeth", t:"child", label:"Testament: Erbin", gold:true },
+  { a:"georg", b:"albrecht", t:"cousin" },
+  { a:"max", b:"albrecht", t:"ally", label:"Bündnis" },
+  { a:"albrecht", b:"elisabeth+ruprecht", t:"war" },
+  { a:"elisabeth+ruprecht", b:"kind", t:"child" },
+  { a:"kind", b:"falk", t:"descent" },
+  { a:"falk", b:"tobias", t:"kin", label:"Onkel · Neffe" }
+];
+const TW = 100, TH = 56;
+function treeOn(id){ return TREE[id] && TREE_HAS[TREE[id].when](); }
+function treeVisible(){ return Object.keys(TREE).filter(treeOn); }
+function treeSeen(){ try { return JSON.parse(localStorage.getItem("falkenried-tree") || "[]"); } catch(e) { return []; } }
+function treeMark(ids){ try { localStorage.setItem("falkenried-tree", JSON.stringify(ids)); } catch(e) {} }
+function treeNew(){ const s = treeSeen(); return treeVisible().filter(id => !s.includes(id)); }
+let treeFresh = [];
+function treeEdgeSvg(e){
+  const pt = k => { if (k.includes("+")) { const [p,q] = k.split("+"); return treeOn(p) && treeOn(q) ? { x:(TREE[p].x+TREE[q].x)/2, y:TREE[p].y, mid:true } : null; }
+    return treeOn(k) ? { x:TREE[k].x, y:TREE[k].y } : null; };
+  const A = pt(e.a), B = pt(e.b); if (!A || !B) return "";
+  const lab = (x,y,txt,col,anchor="middle") => `<text x="${x}" y="${y}" fill="${col}" font-size="10" text-anchor="${anchor}" font-family="var(--font-mono)">${esc(txt)}</text>`;
+  const w = k => (TREE[k] && TREE[k].w) || TW;
+  if (e.t === "marry") return `<line x1="${A.x+TW/2}" y1="${A.y}" x2="${B.x-TW/2}" y2="${B.y}" stroke="#e3a548" stroke-width="2.5"/><text x="${(A.x+B.x)/2}" y="${A.y-6}" fill="#e3a548" font-size="14" text-anchor="middle">∞</text>` + lab((A.x+B.x)/2+6, A.y+TH/2+13, e.label.replace("∞ ","∞ "), "#e3a548", "start");
+  if (e.t === "child") { const y0 = A.mid ? A.y : A.y+TH/2, y1 = B.y-TH/2, ym = y1-16, col = e.gold ? "#e3a548" : "#6b7385";
+    return `<path d="M${A.x} ${y0} V${ym} H${B.x} V${y1}" fill="none" stroke="${col}" stroke-width="${e.gold?2:1.5}"/>` + (e.label ? lab(A.x+6, ym-5, e.label, col, "start") : ""); }
+  if (e.t === "cousin") return `<path d="M${A.x} ${A.y-TH/2} V${A.y-TH/2-16} H${B.x} V${B.y-TH/2}" fill="none" stroke="#5b86b8" stroke-width="1.3" stroke-dasharray="2 4"/>` + lab((A.x+B.x)/2+40, A.y-TH/2-20, "Vetter · Linie München", "#5b86b8");
+  if (e.t === "ally") return `<line x1="${A.x}" y1="${A.y+TH/2}" x2="${B.x}" y2="${B.y-TH/2}" stroke="#8d93a1" stroke-width="1.5" stroke-dasharray="5 4"/>` + lab(A.x+6, A.y+TH/2+14, e.label, "#8d93a1", "start");
+  if (e.t === "war") { const bx = 304, by = 316;
+    return `<g data-war="1" style="cursor:pointer"><line x1="${bx}" y1="${A.y+TH/2}" x2="${bx}" y2="${by-17}" stroke="#e05555" stroke-width="2.2" stroke-dasharray="6 4"/>
+      <path d="M${bx} ${by+17} V${TREE.ruprecht.y} H${TREE.ruprecht.x+TW/2}" fill="none" stroke="#e05555" stroke-width="2.2" stroke-dasharray="6 4"/>
+      <rect x="${bx-54}" y="${by-17}" width="108" height="34" rx="10" fill="#3a1717" stroke="#e05555"/>
+      ${lab(bx, by-3, "⚔ Erbfolgekrieg", "#ff8a8a")}${lab(bx, by+10, "1504/05 · antippen", "#d08a8a")}</g>`; }
+  if (e.t === "descent") return `<line x1="${A.x}" y1="${A.y+TH/2}" x2="${B.x}" y2="${B.y-TH/2}" stroke="#e3a548" stroke-width="2.5" stroke-dasharray="1 6" stroke-linecap="round"/>` + lab(A.x+10, (A.y+B.y)/2-4, "≈ 500 Jahre", "#e3a548", "start") + lab(A.x+10, (A.y+B.y)/2+10, "Falkenried glaubte: seine Linie", "#c9b98f", "start");
+  if (e.t === "kin") return `<line x1="${A.x+w(e.a)/2}" y1="${A.y}" x2="${B.x-w(e.b)/2}" y2="${B.y}" stroke="#6f8f7a" stroke-width="1.5" stroke-dasharray="4 3"/>` + lab((A.x+w(e.a)/2+B.x-w(e.b)/2)/2, A.y+TH/2+14, e.label, "#8fb39a");
+  return "";
+}
+function treeNodeSvg(id){
+  const p = TREE[id], c = HOUSE[p.h], W = p.w || TW, x = p.x-W/2, y = p.y-TH/2, isNew = treeFresh.includes(id);
+  const img = p.photo ? `<clipPath id="cp_${id}"><circle cx="${x+22}" cy="${p.y}" r="16"/></clipPath><image href="${p.photo}" x="${x+6}" y="${p.y-16}" width="32" height="32" clip-path="url(#cp_${id})"/>` : "";
+  const tx = p.photo ? x+44 : p.x, an = p.photo ? "start" : "middle";
+  const lines = p.n.split("|").map(t => [t, 12, "#ece6da", 600]).concat(p.s.split("|").map(t => [t, 9.5, "#8d93a1", 400]));
+  let yy = p.y - (lines.length-1)*6.5 + 3;
+  const txt = lines.map(([t,fs,col,fw]) => { const r = `<text x="${tx}" y="${yy}" fill="${col}" font-size="${fs}" font-weight="${fw}" text-anchor="${an}">${esc(t)}</text>`; yy += 13; return r; }).join("");
+  return `<g data-tp="${id}" style="cursor:pointer" class="${isNew?"tnew":""}">
+    <rect x="${x}" y="${y}" width="${W}" height="${TH}" rx="10" fill="#171c26" stroke="${c}" stroke-width="${isNew?2.5:1.4}"/>
+    <rect x="${x}" y="${y+6}" width="3" height="${TH-12}" rx="1.5" fill="${c}"/>${img}${txt}
+    ${isNew?`<text x="${x+W-4}" y="${y-4}" fill="#e3a548" font-size="9" text-anchor="end" font-family="var(--font-mono)">NEU</text>`:""}</g>`;
+}
+function openTree(){
+  closeSheet();
+  treeFresh = treeNew(); treeMark(treeVisible());
+  const ghost = !treeOn("kind") ? `<g data-ghost="1" style="cursor:pointer"><rect x="${118-TW/2}" y="${480-TH/2}" width="${TW}" height="${TH}" rx="10" fill="none" stroke="#6b7385" stroke-dasharray="4 4"/>
+      <text x="118" y="487" fill="#8d93a1" font-size="20" text-anchor="middle">?</text></g>
+      <line x1="118" y1="${480+TH/2}" x2="118" y2="${640-TH/2}" stroke="#6b7385" stroke-dasharray="1 6" stroke-linecap="round" stroke-width="2"/>
+      <text x="128" y="564" fill="#8d93a1" font-size="10" font-family="var(--font-mono)">Woher stammt die Familie?</text>` : "";
+  const svgTree = `<svg viewBox="0 0 360 690" style="width:100%;height:auto;display:block;font-family:var(--font-ui)">
+    ${TREE_EDGES.map(treeEdgeSvg).join("")}${ghost}${treeVisible().map(treeNodeSvg).join("")}</svg>`;
+  const legend = [["la","Bayern-Landshut"],["mu","Bayern-München"],["pf","Pfalz"],["pl","Polen"],["fk","Falkenried"]]
+    .map(([k,t]) => `<span style="display:inline-flex;align-items:center;gap:5px;margin:0 10px 6px 0;font-size:12px;color:var(--muted)"><i style="width:10px;height:10px;border-radius:3px;background:${HOUSE[k]}"></i>${t}</span>`).join("");
+  openWin("Stammbaum", `<p style="color:var(--muted);font-size:13px;margin:0 0 6px">Falkenrieds Recherche. Neue Personen trägt er ein, sobald ihr auf sie stoßt. Tippt eine Person an.</p>
+    <div style="margin:4px 0 8px">${legend}</div>${svgTree}`);
+  $("#winBody").onclick = e => {
+    const n = e.target.closest("[data-tp]");
+    if (n) { const p = TREE[n.dataset.tp];
+      let d = p.d; if (n.dataset.tp === "tobias" && treeOn("kind")) d += " Wenn Falkenried recht hatte, stammt auch er von Elisabeth ab.";
+      return sheet(`<div class="kind" style="color:${HOUSE[p.h]}">${p.fiction ? "Falkenrieds Familie" : "Historische Person"}</div><h2>${esc(p.n)}</h2><p style="font-family:var(--font-mono);font-size:12px">${esc(p.s)}</p><p>${esc(d)}</p><button class="btn" data-close>Schließen</button>`); }
+    if (e.target.closest("[data-war]")) return sheet(`<div class="kind" style="color:#ff8a8a">Landshuter Erbfolgekrieg 1504/05</div><h2>Tochter gegen Vetter</h2>
+      <p>Georg setzte seine Tochter Elisabeth und ihren Mann Ruprecht als Erben ein. Nach den Hausverträgen der Wittelsbacher durfte Land aber nur an Männer der Familie fallen, also an Albrecht in München.</p>
+      <p>Albrecht zog mit König Maximilian in den Krieg. Dörfer in ganz Niederbayern brannten. Ruprecht und Elisabeth starben 1504 kurz nacheinander. 1505 fiel Landshut an München.</p><button class="btn" data-close>Schließen</button>`);
+    if (e.target.closest("[data-ghost]")) return sheet(`<div class="kind">Offene Frage</div><h2>Woher stammt die Familie?</h2><p>Falkenried hat hier eine Lücke gelassen. In seinem Tagebuch schreibt er von Kirchenbüchern in Neuburg und einem Eintrag aus dem Winter 1503.</p><button class="btn" data-close>Schließen</button>`);
+  };
+}
+function treeCheck(){
+  if (!S.unlocked || $("#call")) return;
+  const fresh = treeNew(); if (!fresh.length) { const b = document.querySelector('[data-app="stammbaum"] .badge'); if (b) b.remove(); return; }
+  const key = fresh.join(",");
+  if (treeCheck.last === key) return; treeCheck.last = key;
+  if (!treeSeen().length) { treeMark(Object.keys(TREE).filter(id => TREE[id].when === "start")); return treeCheck(); } // Startpersonen ohne Meldung
+  banner("Stammbaum", "Neu eingetragen: " + fresh.map(id => TREE[id].n).join(", "), () => { closeSheet(); openTree(); });
+  if (!$("#win")) renderHome();
+}
+setInterval(treeCheck, 2000);
+
 function tickMission(){
   if (S.phase !== "go" || !S.unlocked) return;
   startGeo();
