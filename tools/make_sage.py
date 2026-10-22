@@ -1,7 +1,7 @@
 # Sage vom Ritter am Ländtor: Falkenried erzählt, dann 7 Glockenschläge und Hufschläge (synthetisch).
 import asyncio, os, subprocess, numpy as np, edge_tts, wave
 PROXY=os.environ.get("HTTPS_PROXY"); T="tools/tmp"; SR=24000
-TEXT=("Am Ländtor erzählen sich die Leute eine alte Geschichte. Im Winter fünfzehnhundertdrei, in einer Nacht ohne Mond, "
+TEXT=("Am Ländtor erzählen sich die Leute eine alte Geschichte. Im Kriegsjahr fünfzehnhundertvier, in einer Nacht ohne Mond, "
  "schlug die Glocke von Sankt Martin die volle Stunde. Bei jedem Schlag kam ein Ritter näher, und beim letzten ritt er durch dieses Tor hinaus zur Isar. "
  "Unter seinem Mantel trug er etwas, das niemand sehen durfte. Seither, sagt man, hört man ihn wieder, wenn die Glocke diese Stunde schlägt. Hört genau hin, und zählt mit.")
 N=7
