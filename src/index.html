@@ -1095,7 +1095,8 @@ function openAdmin(){
     </div>
     <p style="margin-top:12px">Spielstand: Station ${S.stage}, ${S.phase === "go" ? "unterwegs" : "vor Ort"}</p>
     <div class="grid2"><button class="btn" id="stPrev">← Station zurück</button><button class="btn" id="stNext">Station weiter →</button></div>
-    <button class="btn" id="geoToggle">Standortprüfung: ${DEV.noGeo ? "aus" : "an"} (nur dieses Handy)</button>
+    <p style="margin-top:12px">Testmodus, gilt nur für dieses Handy:</p>
+    <div class="grid2"><button class="btn" id="geoToggle">Standortprüfung: ${DEV.noGeo ? "aus" : "an"}</button><button class="btn" id="timerToggle">5-Min-Timer: ${DEV.noTimer ? "aus" : "an"}</button></div>
     <button class="btn primary" id="printDocs">Druckvorlagen öffnen</button>
     <button class="btn" id="relock">Handy sperren</button>
     <button class="btn" id="reset" style="color:var(--decline)">Spielstand zurücksetzen</button>
@@ -1103,6 +1104,7 @@ function openAdmin(){
   document.querySelectorAll("[data-fire]").forEach(b => b.onclick = () => { closeSheet(); fire(b.dataset.fire); });
   $("#printDocs").onclick = () => { closeSheet(); openPrint(); };
   $("#geoToggle").onclick = () => { DEV.noGeo = !DEV.noGeo; saveDev(); closeSheet(); renderHome(); };
+  $("#timerToggle").onclick = () => { DEV.noTimer = !DEV.noTimer; saveDev(); closeSheet(); renderHome(); };
   $("#stNext").onclick = () => { skipStation(); S.rev = Date.now(); save(); closeSheet(); closeWin(); renderHome(); };
   $("#stPrev").onclick = () => { S.stage = Math.max(1, S.stage - 1); S.phase = "task"; if (S.stage === 1) S.apps = S.apps.filter(a => a !== "notizen"); S.rev = Date.now(); save(); closeSheet(); closeWin(); renderHome(); };
   $("#relock").onclick = () => { S.unlocked = false; save(); closeSheet(); closeWin(); renderLock(); };
@@ -1774,7 +1776,7 @@ function right(key){ S.locks = S.locks || {}; const L = S.locks[key]; if (L) { L
    ============================================================ */
 const REVEAL_MS = 5 * 60 * 1000, NEAR_M = 50, NEAR_APPROX_M = 100; /* ungefähre Koordinaten: großzügiger, bis vor Ort geprüft */
 let geo = { pos:null, acc:null, err:null, watching:false };
-function revealLeft(){ const st = curStation(); if (!st || S.revealed[st.id]) return 0; const t0 = (S.goAt || {})[st.id]; if (!t0) return 0; return Math.max(0, REVEAL_MS - (Date.now() - t0)); }
+function revealLeft(){ const st = curStation(); if (!st || S.revealed[st.id] || DEV.noTimer) return 0; const t0 = (S.goAt || {})[st.id]; if (!t0) return 0; return Math.max(0, REVEAL_MS - (Date.now() - t0)); }
 function revealLabel(){ const l = revealLeft(); if (l <= 0) return "Wo ist das?"; const s = Math.ceil(l / 1000); return `Ort anzeigen in ${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; }
 function targetDist(){ const st = curStation(); if (!st || !geo.pos) return null; return dist(geo.pos, st); }
 function nearTarget(){
