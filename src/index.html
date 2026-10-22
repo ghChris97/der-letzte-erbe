@@ -180,6 +180,10 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .wheel .wl{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center;min-height:26px}
 .wheel button{width:100%;padding:8px;border-radius:10px;background:var(--surface-2);color:var(--amber);font-size:16px}
 .wheel .wv{font-family:var(--font-display);font-size:22px;font-weight:600;min-height:30px}
+.stand{background:#efe7d6;color:#2a2620;border-radius:14px;padding:14px 16px;margin-bottom:12px}
+.stand .sk{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#7a6d55;margin-bottom:6px}
+.stand ul{margin:0;padding-left:18px;font-size:14px;line-height:1.45}.stand li{margin-bottom:6px}
+.stand .sq{margin-top:8px;padding-top:8px;border-top:1px dashed #b9ab8a;font-size:14px;color:#7c2f2f}
 .banner{position:absolute;left:10px;right:10px;top:44px;z-index:50;background:#1d2330f2;border:1px solid var(--line);border-radius:20px;padding:12px 14px;display:flex;gap:12px;align-items:center;text-align:left;backdrop-filter:blur(14px);animation:drop .3s ease-out}
 @keyframes drop{from{transform:translateY(-30px);opacity:0}to{transform:none;opacity:1}}
 .banner .ico{width:38px;height:38px;border-radius:10px;flex:none}
@@ -614,7 +618,7 @@ function renderDots(){ const d = $("#dots"); if (d) d.innerHTML = [0,1,2,3].map(
 function checkPin(){
   if (pin === CONTENT.pin) {
     S.unlocked = true; save(); pin = ""; renderHome();
-    askName(() => setTimeout(() => { fire("CALL_01"); processEvents(); }, 1500));
+    askName(() => showCast(() => setTimeout(() => { fire("CALL_01"); processEvents(); }, 1200)));
   } else {
     const d = $("#dots"); d.classList.remove("shake"); void d.offsetWidth; d.classList.add("shake");
     $("#pinhint").textContent = "Falscher Code. Schaut noch einmal in den Umschlag.";
@@ -766,11 +770,12 @@ function personCard(p, cls, attr){
 }
 function openSuspects(){
   closeSheet(); newsMark("verdaechtige");
-  const html = `<div class="sec">Opfer</div>${personCard(CONTENT.victim,"","data-person=\"victim\"")}
+  const html = `<button class="btn" id="castBtn" style="margin-top:0">Wer ist wer? Übersicht aller Personen</button><div class="sec">Opfer</div>${personCard(CONTENT.victim,"","data-person=\"victim\"")}
     <div class="sec">Gäste und Beteiligte · Vernehmungen in jeder Akte</div>
     ${CONTENT.suspects.filter(p => p.id !== "feld" || S.stage > 6 || (S.st.s6 && S.st.s6.callDone)).map(p => personCard(p, S.struck.includes(p.id)?"struck":"", `data-sus="${p.id}"`)).join("")}
     <div class="sec">Zeugin</div>${personCard(CONTENT.witness,"","data-person=\"witness\"")}`;
   openWin("Verdächtige", html);
+  $("#castBtn").onclick = () => showCast(null);
   $("#winBody").onclick = e => {
     const c = e.target.closest("[data-sus]");
     if (c) return showSuspect(CONTENT.suspects.find(p => p.id === c.dataset.sus));
@@ -1900,6 +1905,65 @@ function startGeo(){
   } catch(e) { geo.err = "error"; geo.watching = false; }
 }
 /* ============================================================
+   Wer ist wer: Personen-Übersicht (nach dem Entsperren, und in „Verdächtige“)
+   ============================================================ */
+function castRow(img, name, line, sub){
+  const av = img ? `<img src="${img}" alt="" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex:none">`
+    : `<span style="width:46px;height:46px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--surface-2);font-family:var(--font-display);font-size:22px">${esc(name[0])}</span>`;
+  return `<div style="display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)">${av}<div><b style="font-size:15px">${esc(name)}</b><div style="font-size:13px;color:var(--muted);line-height:1.4">${esc(line)}${sub ? `<br><i>${esc(sub)}</i>` : ""}</div></div></div>`;
+}
+function showCast(after){
+  const g = id => CONTENT.suspects.find(p => p.id === id);
+  sheet(`<div class="kind">Wer ist wer</div><h2>Die Personen in diesem Fall</h2>
+    <div class="sec" style="margin-top:6px">Das Opfer</div>${castRow("img/falkenried_av.jpg", "Maximilian von Falkenried, 62", "Kunstsammler. Am 19. Dezember um 21:25 tot in seinem Archiv gefunden.")}
+    <div class="sec">Die vier Gäste beim Adventsdinner</div>
+    ${castRow("img/helena_av.jpg", "Dr. Helena Dorn, 47", "Historikerin. Betreute Falkenrieds Archiv.")}
+    ${castRow("img/mair_av.jpg", "Benedikt Mair, 55", "Notar. Kennt Falkenrieds Testament.")}
+    ${castRow("img/tobias_av.jpg", "Tobias von Falkenried, 31", "Neffe. Hat Schulden, galt als Erbe.")}
+    ${castRow("img/clara_av.jpg", "Clara Weiß, 43", "Kunsthändlerin. Wollte Stücke aus der Sammlung.")}
+    <div class="sec">Außerdem</div>
+    ${castRow("img/rosa_av.jpg", "Rosa Brandl, 58", "Haushälterin. War den ganzen Abend im Haus, Zeugin.")}
+    ${castRow(null, "Ermittlungsleiterin Seidl", "Leitet die Ermittlung. Meldet sich per Sprachnachricht.")}
+    ${castRow(null, "Unbekannt", "Ruft mit unterdrückter Nummer an. Wer das ist, wisst ihr nicht.")}
+    ${castRow(null, "Ihr", "Ermittlungsgruppe 1475. Ihr habt Falkenrieds Handy.")}
+    <p style="margin-top:12px">Diese Übersicht findet ihr jederzeit in „Verdächtige“.</p>
+    <button class="btn primary" id="castOk">Verstanden</button>`);
+  $("#castOk").onclick = () => { closeSheet(); if (after) after(); };
+}
+
+/* ============================================================
+   Stand der Ermittlung: was das Team bisher weiß (oben in der Fallakte)
+   ============================================================ */
+function standFacts(){
+  const f = [], st = S.st || {}, e = id => S.evidence.includes(id);
+  f.push("Maximilian von Falkenried wurde am 19. Dezember um 21:25 tot in seinem Archiv gefunden. Beim Adventsdinner waren vier Gäste: Dr. Helena Dorn, Notar Benedikt Mair, sein Neffe Tobias und die Kunsthändlerin Clara Weiß.");
+  if (S.apps.includes("notizen")) f.push("Falkenried forschte über die Landshuter Hochzeit von 1475. Er traute niemandem in seinem Haus und hat seine Spur in der Stadt versteckt.");
+  if (e("E03")) f.push("Bezahlt hat die Hochzeit Herzog Ludwig der Reiche, der Vater des Bräutigams Georg.");
+  if (S.voicemails.includes("V_ERBE")) f.push("1503 starb Georg ohne Sohn. Seine Tochter Elisabeth sollte erben, es folgte der Landshuter Erbfolgekrieg. Damals brachte jemand drei Kisten heimlich aus der Stadt.");
+  if (e("E05")) f.push("Falkenried hatte die drei Stücke gefunden: Brosche, zwölf Silberschalen, Doppelsiegel. Er gab sie Notar Mair zur Verwahrung. Am Rand steht „CW: 40.000?“, offenbar ein Käufer.");
+  if (e("E08")) f.push("Der Brief „1503“ ist eine Fälschung. Erstellt unter dem Kürzel von Dr. Helena Dorn, später von Notar Mair geöffnet.");
+  if (e("E10")) f.push("Dr. Helena Dorn und Clara Weiß haben über den Abend gelogen. Um 20:47 fiel der Strom aus, die Archivtür ging trotzdem auf (Akkuleser).");
+  if (e("E12")) f.push("Um 20:48 öffnete die Karte R7 die Archivtür. Sie gehört Restaurator Jonas Feld, der in Regensburg war. Jemand hat seine Karte benutzt.");
+  if (e("E13")) f.push("Der unbekannte Anrufer kannte Uhrzeit und Karte, bevor sie bekannt waren.");
+  if (S.voicemails.includes("V_ZEUGIN")) f.push("Rosa Brandl hörte eine Frau im dunklen Mantel an der Archivtür.");
+  if (e("E14")) f.push("Abholauftrag von 19:30: Anbieter „HD“ verkauft die drei Stücke an Käufer „CW-04“, Übergabe Ringelstecherwiese. Clara Weiß telefonierte zur Tatzeit mit diesem Käufer.");
+  if (st.s7 && st.s7.struck) f.push("Sichere Alibis um 20:48: Tobias (Außenkamera), Notar Mair (Telefonat), Clara Weiß (Telefonat), Jonas Feld (Regensburg).");
+  if (st.accused) f.push("Die Anklage gegen Dr. Helena Dorn ist angenommen. Notar Mair hat Falkenrieds Kassette übergeben.");
+  return f;
+}
+function standQuestion(){
+  if (S.ending) return "Fall gelöst.";
+  return ({ 1:"Was steht in Falkenrieds Notizbuch?", 2:"Wer hat die Hochzeit von 1475 bezahlt?", 3:"Mit welchem Jahr ist Falkenrieds Archiv gesichert?",
+    4:"Was genau ist aus dem Erbe verschwunden?", 5:"Ist der Brief aus dem Winter 1503 echt?", 6:"Wer kam um 20:48 an die Archivtür?",
+    7:"Wer hatte um 20:48 ein sicheres Alibi, und wer nicht?", 8: S.st.accused ? "Welcher Name öffnet die Kassette?" : "Wer war es, und womit beweist ihr es?" })[S.stage] || "";
+}
+function standCard(){
+  const f = standFacts();
+  return `<div class="stand"><div class="sk">Stand der Ermittlung</div><ul>${f.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+    <div class="sq"><b>Offene Frage:</b> ${esc(standQuestion())}</div></div>`;
+}
+
+/* ============================================================
    Fallakte: alles Gefundene an einem Ort. Neu-Zähler pro App.
    ============================================================ */
 const evSheet = (id, extra="") => { const E = CONTENT.evidence[id]; sheet(`<div class="kind">Beweis</div><h2>${esc(E.t)}</h2><p>${esc(E.d)}</p>${extra}<button class="btn" data-close>Schließen</button>`); };
@@ -1970,8 +2034,8 @@ function openFallakte(){
   const list = items.map(x => `<button class="farow" data-fa="${x.k}">
       <span class="fk">${esc(x.kind)}${fresh.includes(x.k) ? ` <b class="neu">NEU</b>` : ""}</span>
       <span class="ft">${esc(x.t)}</span><span class="fs">${esc(x.s)}</span></button>`).join("");
-  openWin("Fallakte", items.length ? `<p class="empty" style="text-align:left;padding:0 0 10px">Alles, was ihr gefunden habt, das Neueste oben. Tippt einen Eintrag an.</p>${cta}${list}`
-    : `<div class="empty">Noch nichts gefunden.<br>Alles, was ihr findet, landet hier.</div>`);
+  openWin("Fallakte", `${standCard()}${cta}<div class="sec">Gefunden · das Neueste oben</div>` + (items.length ? list
+    : `<div class="empty">Noch nichts gefunden.<br>Alles, was ihr findet, landet hier.</div>`));
   $("#winBody").onclick = e => { const r = e.target.closest("[data-fa]"); if (r) { const it = faItems().find(x => x.k === r.dataset.fa); if (it) it.open(); } };
   const a = $("#accuse"); if (a) a.onclick = () => PUZZLE[8]();
   renderHome();
