@@ -405,7 +405,7 @@ const CONTENT = {
       clue:null,
       task:"Falkenrieds Notizbuch ist mit einem Gesicht gesperrt. Ein Zettel von ihm klebt daran und erklärt, warum. Öffnet die Notizen und lest ihn.",
       action:"Notizen öffnen" },
-    { id:2, name:"Landschaftshaus", spot:"Altstadt 28, die bemalte Fassade", lat:48.533888, lng:12.150226,
+    { id:2, name:"Landschaftshaus", spot:"Altstadt 28, die bemalte Fassade", lat:48.533888, lng:12.150226, revealMin:3,
       clue:"Bezahlt hat ein anderer. Wer, das steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit.",
       task:"Auf Falkenrieds Handy sind drei Fotos von dieser Wand, ganz nah, ohne Zusammenhang. Findet heraus, was er fotografiert hat und warum.",
       action:"Fotos öffnen" },
@@ -777,7 +777,7 @@ function openHints(){
   const key = "S"+S.stage, H = CONTENT.hints[key], open = S.hintsOpen[key] || 0;
   const st = curStation();
   let html;
-  if (S.phase === "go") html = `<div class="hint"><h3>Unterwegs zu Station ${st.id}</h3><p>Erst selbst überlegen: Wohin führt die Spur? Nach fünf Minuten könnt ihr euch im Auftrag oben auf dem Homescreen den Ort zeigen lassen, die Karte führt euch dann hin.</p><p>„Wir sind da“ funktioniert erst, wenn ihr wirklich vor Ort seid, im Umkreis von etwa 50 Metern.</p></div>`;
+  if (S.phase === "go") html = `<div class="hint"><h3>Unterwegs zu Station ${st.id}</h3><p>Erst selbst überlegen: Wohin führt die Spur? Nach ${st.revealMin || 5} Minuten könnt ihr euch im Auftrag oben auf dem Homescreen den Ort zeigen lassen, die Karte führt euch dann hin.</p><p>„Wir sind da“ funktioniert erst, wenn ihr wirklich vor Ort seid, im Umkreis von etwa 50 Metern.</p></div>`;
   else if (!H) html = `<div class="empty">Für diese Station gibt es noch keine Hinweise.</div>`;
   else html = `<div class="hint"><h3>${esc(H.title)}</h3>
     ${H.steps.slice(0,open).map((t,i)=>`<p><b>Hinweis ${i+1}:</b> ${esc(t)}</p>`).join("")}
@@ -1096,7 +1096,7 @@ function openAdmin(){
     <p style="margin-top:12px">Spielstand: Station ${S.stage}, ${S.phase === "go" ? "unterwegs" : "vor Ort"}</p>
     <div class="grid2"><button class="btn" id="stPrev">← Station zurück</button><button class="btn" id="stNext">Station weiter →</button></div>
     <p style="margin-top:12px">Testmodus, gilt nur für dieses Handy:</p>
-    <div class="grid2"><button class="btn" id="geoToggle">Standortprüfung: ${DEV.noGeo ? "aus" : "an"}</button><button class="btn" id="timerToggle">5-Min-Timer: ${DEV.noTimer ? "aus" : "an"}</button></div>
+    <div class="grid2"><button class="btn" id="geoToggle">Standortprüfung: ${DEV.noGeo ? "aus" : "an"}</button><button class="btn" id="timerToggle">Ort-Timer: ${DEV.noTimer ? "aus" : "an"}</button></div>
     <button class="btn primary" id="printDocs">Druckvorlagen öffnen</button>
     <button class="btn" id="relock">Handy sperren</button>
     <button class="btn" id="reset" style="color:var(--decline)">Spielstand zurücksetzen</button>
@@ -1774,9 +1774,9 @@ function right(key){ S.locks = S.locks || {}; const L = S.locks[key]; if (L) { L
 /* ============================================================
    Unterwegs: Ort erst nach 5 Minuten aufdecken, "Wir sind da" nur im Umkreis von 50 m
    ============================================================ */
-const REVEAL_MS = 5 * 60 * 1000, NEAR_M = 50, NEAR_APPROX_M = 100; /* ungefähre Koordinaten: großzügiger, bis vor Ort geprüft */
+const REVEAL_MS_DEFAULT = 5 * 60 * 1000, NEAR_M = 50, NEAR_APPROX_M = 100; /* ungefähre Koordinaten: großzügiger, bis vor Ort geprüft */
 let geo = { pos:null, acc:null, err:null, watching:false };
-function revealLeft(){ const st = curStation(); if (!st || S.revealed[st.id] || DEV.noTimer) return 0; const t0 = (S.goAt || {})[st.id]; if (!t0) return 0; return Math.max(0, REVEAL_MS - (Date.now() - t0)); }
+function revealLeft(){ const st = curStation(); if (!st || S.revealed[st.id] || DEV.noTimer) return 0; const t0 = (S.goAt || {})[st.id]; if (!t0) return 0; const ms = st.revealMin ? st.revealMin * 60000 : REVEAL_MS_DEFAULT; return Math.max(0, ms - (Date.now() - t0)); }
 function revealLabel(){ const l = revealLeft(); if (l <= 0) return "Wo ist das?"; const s = Math.ceil(l / 1000); return `Ort anzeigen in ${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; }
 function targetDist(){ const st = curStation(); if (!st || !geo.pos) return null; return dist(geo.pos, st); }
 function nearTarget(){
