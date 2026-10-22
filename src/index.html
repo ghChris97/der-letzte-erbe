@@ -2157,13 +2157,13 @@ const TREE_HAS = {
 };
 const HOUSE = { la:"#c9a24a", mu:"#5b86b8", pf:"#9a6fd0", pl:"#c0504d", rx:"#8d93a1", fk:"#6f8f7a" };
 const TREE = {
-  heinrich: { x:56,  y:36,  n:"Heinrich XVI.", s:"der Reiche|1386–1450", h:"la", when:"fassade",
+  heinrich: { pic:"img/hist_heinrich.jpg", x:56,  y:36,  n:"Heinrich XVI.", s:"der Reiche|1386–1450", h:"la", when:"fassade",
     d:"Herzog von Bayern-Landshut, der erste der drei „Reichen Herzöge“. In seiner Zeit begann 1407 der Bau der Heiliggeistkirche." },
-  ludwig:   { x:56,  y:128, n:"Ludwig IX.", s:"der Reiche|1417–1479", h:"la", when:"fassade",
+  ludwig:   { pic:"img/hist_ludwig.jpg", x:56,  y:128, n:"Ludwig IX.", s:"der Reiche|1417–1479", h:"la", when:"fassade",
     d:"Georgs Vater. Er bezahlte 1475 die Landshuter Hochzeit seines Sohnes. Am Landschaftshaus steht er links neben Georg." },
-  max:      { x:304, y:128, n:"Maximilian I.", s:"König|1459–1519", h:"rx", when:"erbe",
+  max:      { pic:"img/hist_max.jpg", x:304, y:128, n:"Maximilian I.", s:"König|1459–1519", h:"rx", when:"erbe",
     d:"Römisch-deutscher König. Er stellte sich im Erbfolgekrieg auf Albrechts Seite und ließ sich das mit Land und Burgen bezahlen." },
-  georg:    { x:56,  y:236, n:"Georg", s:"der Reiche|1455–1503", h:"la", when:"hochzeit",
+  georg:    { pic:"img/hist_georg.jpg", x:56,  y:236, n:"Georg", s:"der Reiche|1455–1503", h:"la", when:"hochzeit",
     d:"Letzter Herzog von Bayern-Landshut. Heiratete 1475 in St. Martin Hedwig von Polen. Starb 1503 ohne Sohn und setzte gegen die Hausverträge seine Tochter als Erbin ein." },
   hedwig:   { x:180, y:236, n:"Hedwig", s:"von Polen|1457–1502", h:"pl", when:"hochzeit",
     d:"Polnische Königstochter, die Braut der Landshuter Hochzeit 1475. Sie starb 1502, ein Jahr vor Georg." },
@@ -2171,7 +2171,7 @@ const TREE = {
     d:"Herzog von Bayern-München, Georgs Vetter. Nach den Wittelsbacher Hausverträgen stand Landshut ihm zu, nicht einer Tochter. Er zog in den Krieg und bekam am Ende das Land." },
   elisabeth:{ x:56,  y:364, n:"Elisabeth", s:"Erbin|1478–1504", h:"la", when:"erbe",
     d:"Georgs Tochter. Laut seinem Testament die Erbin von Bayern-Landshut. Sie starb im September 1504, mitten im Krieg um ihr Erbe." },
-  ruprecht: { x:180, y:364, n:"Ruprecht", s:"von der Pfalz|1481–1504", h:"pf", when:"erbe",
+  ruprecht: { pic:"img/hist_ruprecht.jpg", x:180, y:364, n:"Ruprecht", s:"von der Pfalz|1481–1504", h:"pf", when:"erbe",
     d:"Pfalzgraf bei Rhein, Elisabeths Mann. Er kämpfte für ihr Erbe und starb im August 1504." },
   kind:     { x:118, y:480, n:"Das jüngste Kind", s:"*1503|„gestorben“ 1503", h:"la", when:"finale", fiction:true,
     d:"Offiziell im Winter 1503 gestorben. Laut Falkenrieds letzter Nachricht war das gelogen: Ein treuer Mann brachte das Kind heimlich aus der Stadt, und mit ihm drei Kisten, sein Erbe." },
@@ -2193,7 +2193,7 @@ const TREE_EDGES = [
   { a:"kind", b:"falk", t:"descent" },
   { a:"falk", b:"tobias", t:"kin", label:"Onkel · Neffe" }
 ];
-const TW = 100, TH = 56;
+const TW = 112, TH = 56;
 function treeOn(id){ return TREE[id] && TREE_HAS[TREE[id].when](); }
 function treeVisible(){ return Object.keys(TREE).filter(treeOn); }
 function treeSeen(){ try { return JSON.parse(localStorage.getItem("falkenried-tree") || "[]"); } catch(e) { return []; } }
@@ -2222,16 +2222,15 @@ function treeEdgeSvg(e){
 }
 function treeNodeSvg(id){
   const p = TREE[id], c = HOUSE[p.h], W = p.w || TW, x = p.x-W/2, y = p.y-TH/2, isNew = treeFresh.includes(id);
-  const bx = x + 16, by = y + 1;
-  const badge = p.pic ? `<clipPath id="cb_${id}"><circle cx="${bx}" cy="${by}" r="14.5"/></clipPath><circle cx="${bx}" cy="${by}" r="16.5" fill="${c}"/><image href="${p.pic}" x="${bx-15}" y="${by-15}" width="30" height="30" preserveAspectRatio="xMidYMid slice" clip-path="url(#cb_${id})"/>` : "";
-  const img = p.photo ? `<clipPath id="cp_${id}"><circle cx="${x+22}" cy="${p.y}" r="16"/></clipPath><image href="${p.photo}" x="${x+6}" y="${p.y-16}" width="32" height="32" clip-path="url(#cp_${id})"/>` : "";
-  const tx = p.photo ? x+44 : p.x, an = p.photo ? "start" : "middle";
-  const lines = p.n.split("|").map(t => [t, 12, "#ece6da", 600]).concat(p.s.split("|").map(t => [t, 9.5, "#8d93a1", 400]));
+  const ph = p.photo || p.pic;
+  const img = ph ? `<clipPath id="cp_${id}"><circle cx="${x+21}" cy="${p.y}" r="15"/></clipPath><circle cx="${x+21}" cy="${p.y}" r="16.5" fill="${c}"/><image href="${ph}" x="${x+6}" y="${p.y-15}" width="30" height="30" preserveAspectRatio="xMidYMid slice" clip-path="url(#cp_${id})"/>` : "";
+  const tx = ph ? x+42 : p.x, an = ph ? "start" : "middle";
+  const lines = p.n.split("|").map(t => [t, ph ? 11 : 12, "#ece6da", 600]).concat(p.s.split("|").map(t => [t, ph ? 9 : 9.5, "#8d93a1", 400]));
   let yy = p.y - (lines.length-1)*6.5 + 3;
   const txt = lines.map(([t,fs,col,fw]) => { const r = `<text x="${tx}" y="${yy}" fill="${col}" font-size="${fs}" font-weight="${fw}" text-anchor="${an}">${esc(t)}</text>`; yy += 13; return r; }).join("");
   return `<g data-tp="${id}" style="cursor:pointer" class="${isNew?"tnew":""}">
     <rect x="${x}" y="${y}" width="${W}" height="${TH}" rx="10" fill="#171c26" stroke="${c}" stroke-width="${isNew?2.5:1.4}"/>
-    <rect x="${x}" y="${y+6}" width="3" height="${TH-12}" rx="1.5" fill="${c}"/>${img}${txt}${badge}
+    <rect x="${x}" y="${y+6}" width="3" height="${TH-12}" rx="1.5" fill="${c}"/>${img}${txt}
     ${isNew?`<text x="${x+W-4}" y="${y-4}" fill="#e3a548" font-size="9" text-anchor="end" font-family="var(--font-mono)">NEU</text>`:""}</g>`;
 }
 function openTree(){
@@ -2252,7 +2251,7 @@ function openTree(){
     const n = e.target.closest("[data-tp]");
     if (n) { const p = TREE[n.dataset.tp];
       let d = p.d; if (n.dataset.tp === "tobias" && treeOn("kind")) d += " Wenn Falkenried recht hatte, stammt auch er von Elisabeth ab.";
-      return sheet(`<div class="kind" style="color:${HOUSE[p.h]}">${p.fiction ? "Falkenrieds Familie" : "Historische Person"}</div><h2>${esc(p.n)}</h2><p style="font-family:var(--font-mono);font-size:12px">${esc(p.s)}</p><p>${esc(d)}</p><button class="btn" data-close>Schließen</button>`); }
+      return sheet(`${p.pic ? `<img src="${p.pic}" alt="" style="width:76px;height:76px;border-radius:50%;object-fit:cover;float:right;margin-left:10px;border:2px solid ${HOUSE[p.h]}">` : ""}<div class="kind" style="color:${HOUSE[p.h]}">${p.fiction ? "Falkenrieds Familie" : "Historische Person"}</div><h2>${esc(p.n)}</h2><p style="font-family:var(--font-mono);font-size:12px">${esc(p.s)}</p><p>${esc(d)}</p>${p.pic ? `<p style="font-size:11px">Bild: historisches Porträt, gemeinfrei (Wikimedia Commons)</p>` : ""}<button class="btn" data-close>Schließen</button>`); }
     if (e.target.closest("[data-war]")) return sheet(`<div class="kind" style="color:#ff8a8a">Landshuter Erbfolgekrieg 1504/05</div><h2>Tochter gegen Vetter</h2>
       <p>Georg setzte seine Tochter Elisabeth und ihren Mann Ruprecht als Erben ein. Nach den Hausverträgen der Wittelsbacher durfte Land aber nur an Männer der Familie fallen, also an Albrecht in München.</p>
       <p>Albrecht zog mit König Maximilian in den Krieg. Dörfer in ganz Niederbayern brannten. Ruprecht und Elisabeth starben 1504 kurz nacheinander. 1505 fiel Landshut an München.</p><button class="btn" data-close>Schließen</button>`);
