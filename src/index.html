@@ -191,6 +191,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .tll{margin:0 0 10px;padding-left:18px;font-size:14px;line-height:1.5;color:var(--ink)}.tll b{font-family:var(--font-mono);font-size:12px;color:var(--amber);margin-right:6px}
 .glued{background:#fff;padding:6px 6px 16px;margin:10px auto;max-width:86%;box-shadow:0 2px 6px #0004;transform:rotate(-1.5deg)}
 .glued:nth-of-type(2n){transform:rotate(1.8deg)}.glued .ph{display:block;min-height:90px;color:#666;font-family:var(--font-ui);font-size:12px}
+.btn .ico svg{width:18px;height:18px;color:#fff}
 .banner{position:absolute;left:10px;right:10px;top:44px;z-index:50;background:#1d2330f2;border:1px solid var(--line);border-radius:20px;padding:12px 14px;display:flex;gap:12px;align-items:center;text-align:left;backdrop-filter:blur(14px);animation:drop .3s ease-out}
 @keyframes drop{from{transform:translateY(-30px);opacity:0}to{transform:none;opacity:1}}
 .banner .ico{width:38px;height:38px;border-radius:10px;flex:none}
@@ -1029,9 +1030,21 @@ function pumpShow(){ if (!showQ.length || !S.unlocked || $("#sheet") || $("#call
 function ackItem(id){ S.acks = S.acks || {}; const a = S.acks[id] || (S.acks[id] = []); if (!a.includes(DEV.id)) { a.push(DEV.id); save(); } }
 /* Ein Hinweis gilt als gesehen, sobald ihn mindestens ein Handy geöffnet hat */
 function pendingAcks(){ return (S.mustSee || []).filter(id => !((S.acks || {})[id] || []).length); }
+/* Apps mit rotem Punkt auf diesem Handy */
+function unreadApps(){
+  return ["fallakte","verdaechtige","stammbaum","notizen","nachrichten","telefon"].filter(id => { const a = APPS[id]; return !(a.lock && !S.apps.includes(id)) && newsCount(id) > 0; });
+}
 function ackGate(){
   /* Eigene ungelesene Hinweise kommen immer zuerst, bevor dieses Handy ein Rätsel öffnet */
   if (showQ.length) { pumpShow(); return false; }
+  const ua = DEV.noLimit ? [] : unreadApps();
+  if (ua.length) {
+    sheet(`<div class="kind">Erst die Neuigkeiten</div><h2>Es gibt noch Neues zu sehen</h2>
+      <p>Schaut euch zuerst an, was neu dazugekommen ist. Danach geht es mit dem Rätsel weiter.</p>
+      ${ua.map(id => `<button class="btn" data-openapp="${id}" style="display:flex;align-items:center;gap:10px"><span class="ico" style="background:${APPS[id].bg};width:30px;height:30px;border-radius:8px;display:grid;place-items:center">${svg(APPS[id].icon)}</span>${esc(APPS[id].label)} <span style="margin-left:auto;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--decline);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center">${newsCount(id) > 9 ? "9+" : newsCount(id)}</span></button>`).join("")}`);
+    document.querySelectorAll("[data-openapp]").forEach(b => b.onclick = () => { const id = b.dataset.openapp; closeSheet(); (APP_VIEW[id] || APPS[id].open)(); });
+    return false;
+  }
   if (DEV.noLimit || !pendingAcks().length) return true;
   sheet(`<div class="kind">Kurz warten</div><h2>Ein neuer Hinweis ist noch ungelesen</h2>
     <p>Gerade ist etwas Neues angekommen, das noch niemand im Team geöffnet hat. Schaut es euch zuerst an.</p><button class="btn primary" data-close>Okay</button>`);
