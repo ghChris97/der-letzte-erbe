@@ -260,6 +260,10 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .mission .k{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);display:flex;justify-content:space-between;gap:8px}
 .mission .tx{font-size:14.5px;line-height:1.45}
 .mission .clue{font-family:var(--font-display);font-size:19px;line-height:1.3;font-style:italic}
+.ndot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--decline);margin-left:6px;vertical-align:middle;box-shadow:0 0 0 2px #0008;flex:none}
+.newsrow{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;border-radius:12px;background:#e0555522;border:1px solid #e0555566;font-size:14px;font-weight:600;color:var(--text,#ece6da)}
+.newsrow .ndot{margin:0}.newsrow small{display:block;font-weight:400;color:var(--muted);font-size:12px;margin-top:2px}.newsrow .go2{margin-left:auto;color:#ff8a8a;font-size:13px;white-space:nowrap}
+.ddots i.nw{background:var(--decline)!important}
 .mission .acts{display:flex;flex-wrap:wrap;gap:8px}
 .mission .acts button{padding:8px 12px;border-radius:10px;background:var(--surface-2);font-size:13px;font-weight:600}
 .mission .acts button.tip{margin-left:auto;background:#e3a5481f;color:var(--amber)}
@@ -474,7 +478,7 @@ const CONTENT = {
   evidence: {
     E01:{ t:"Hochzeitsrechnung 1475", d:"Abschrift aus Falkenrieds Manteltasche. Vermerk: Bezahlt hat nicht der Bräutigam." },
     E03:{ t:"Notizen zur Fassade", d:"Der Kaiser gab Landshut drei Helme ins Wappen. Ludwig X. begann seine Residenz erst 1536. Unter Heinrich dem Reichen begann 1407 der Bau der Heiliggeistkirche." },
-    E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 2, 5 und 7: Rubinbrosche, zehn goldene Taler, Familiensiegel mit dem W. Falkenried notierte daneben: „Hochzeitsgaben, Kiste A, B, C“." },
+    E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 2, 5 und 7: Rubinbrosche, zehn goldene Taler, Familiensiegel mit dem W der Wittelsbacher. Falkenried notierte daneben: „Hochzeitsgaben, Kiste A, B, C“." },
     E06:{ t:"Verwahrvermerk Notariat Mair", d:"„Notariat Mair – Verwahrung“. Inhalt geschwärzt." },
     E07:{ t:"Preisnotizen „CW“", d:"Bleistift am Rand von H-1475: „CW: 40.000?“" },
     E08:{ t:"Brief „1503“ – gefälscht", d:"Nennt eine Residenz, deren Bau erst 1536 begann. Zweck laut Seidl: eine falsche Herkunft, damit die Stücke für einen Käufer echt und wertvoll aussehen." },
@@ -529,7 +533,7 @@ try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(fresh(),
 let PUZZLE_2, PUZZLE_3, PUZZLE_4, PUZZLE_5, PUZZLE_6, PUZZLE_7, PUZZLE_8;
 const PUZZLE = { 1:() => openFaceLock(), 2:() => PUZZLE_2(), 3:() => PUZZLE_3(), 4:() => PUZZLE_4(), 5:() => PUZZLE_5(), 6:() => PUZZLE_6(), 7:() => PUZZLE_7(), 8:() => PUZZLE_8() };
 const AFTER_CALL = {};
-const APP_VIEW = { notizen:() => openNotebook(), tresor:() => (S.ending ? showEnding() : tresor()) };
+const APP_VIEW = { notizen:() => { if (diaryPages().some(d => isNew("notizen", d.date))) nbPage = null; openNotebook(); }, tresor:() => (S.ending ? showEnding() : tresor()) };
 const localSave = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} };
 const save = () => { localSave(); schedulePush(); };
 
@@ -715,7 +719,6 @@ function openFolder(){
 let phoneTab = "anrufe";
 function openPhone(){
   if (newsUnseen("telefon").length) phoneTab = "mailbox";
-  if (phoneTab === "mailbox") newsMark("telefon");
   S.missed = 0; save();
   const list = S.calls.slice().reverse();
   const calls = list.length ? list.map((c,i) => `
@@ -725,10 +728,10 @@ function openPhone(){
       <span class="meta">${esc(c.time)}</span></button>`).join("")
     : `<div class="empty">Noch keine Anrufe.</div>`;
   const box = S.voicemails.length ? S.voicemails.slice().reverse().map(v => { const V = CONTENT.voice[v]; return `
-    <button class="row" data-vm="${v}"><span class="av">▶</span><span class="main"><span class="t">${esc(V.from)}</span>
+    <button class="row" data-vm="${v}"><span class="av">▶</span><span class="main"><span class="t">${esc(V.from)}${isNew("telefon", v) ? '<i class="ndot"></i>' : ""}</span>
     <span class="s">${esc(V.title)}${V.memo ? " · Memo, " + esc(V.memo.split("aufgenommen am ")[1] || "") : ""}</span></span></button>`; }).join("")
     : `<div class="empty">Keine Sprachnachrichten.<br>Falkenrieds Mailbox füllt sich, wenn ihr seinen Spuren folgt.</div>`;
-  openWin("Telefon", `<div class="seg"><button class="${phoneTab==='anrufe'?'on':''}" data-tab="anrufe">Anrufe</button><button class="${phoneTab==='mailbox'?'on':''}" data-tab="mailbox">Mailbox</button></div>${phoneTab==='anrufe'?calls:box}`);
+  openWin("Telefon", `<div class="seg"><button class="${phoneTab==='anrufe'?'on':''}" data-tab="anrufe">Anrufe</button><button class="${phoneTab==='mailbox'?'on':''}" data-tab="mailbox">Mailbox${newsUnseen("telefon").length ? '<i class="ndot"></i>' : ""}</button></div>${phoneTab==='anrufe'?calls:box}`);
   $("#winBody").onclick = e => {
     const tab = e.target.closest("[data-tab]"); if (tab) { phoneTab = tab.dataset.tab; return openPhone(); }
     const r = e.target.closest("[data-call]"); if (r) showCallDetail(S.calls[+r.dataset.call]);
@@ -750,18 +753,17 @@ function showCallDetail(c){
    Nachrichten
    ============================================================ */
 function openThreads(){
-  newsMark("nachrichten");
   const th = S.threads.unbekannt;
   const last = th[th.length-1];
   const mail = S.stage >= 7 ? `<button class="row" data-mail="1"><span class="av">${svg("mail")}</span>
-      <span class="main"><span class="t">Postfach · Kripo</span><span class="s">${S.st.s7 && S.st.s7.decoded ? "ABHOLUNG · Drei Stücke aus der Falkenried-Sammlung" : "Kuriernachricht vom Tatabend, verschlüsselt"}</span></span></button>` : "";
+      <span class="main"><span class="t">Postfach · Kripo${isNew("nachrichten","postfach") ? '<i class="ndot"></i>' : ""}</span><span class="s">${S.st.s7 && S.st.s7.decoded ? "ABHOLUNG · Drei Stücke aus der Falkenried-Sammlung" : "Kuriernachricht vom Tatabend, verschlüsselt"}</span></span></button>` : "";
   const html = (th.length ? `<button class="row" data-thread="unbekannt"><span class="av">?</span>
-      <span class="main"><span class="t">Unbekannt</span><span class="s">${esc(last.text)}</span></span><span class="meta">${esc(last.time)}</span></button>` : "") + mail;
+      <span class="main"><span class="t">Unbekannt${th.some((m, i) => isNew("nachrichten", m.id || "m" + i)) ? '<i class="ndot"></i>' : ""}</span><span class="s">${esc(last.text)}</span></span><span class="meta">${esc(last.time)}</span></button>` : "") + mail;
   openWin("Nachrichten", html || `<div class="empty">Keine Nachrichten.</div>`);
-  $("#winBody").onclick = e => { if (e.target.closest("[data-thread]")) openChat(); if (e.target.closest("[data-mail]")) { if (S.stage === 7 && S.phase === "task" && !ackGate()) return; PUZZLE_7(); } };
+  $("#winBody").onclick = e => { if (e.target.closest("[data-thread]")) openChat(); if (e.target.closest("[data-mail]")) openPostfach(); };
 }
 function openChat(){
-  S.unread = 0; save();
+  S.unread = 0; save(); newsSeen("nachrichten", ...S.threads.unbekannt.map((m, i) => m.id || "m" + i));
   const th = S.threads.unbekannt;
   const html = `<div class="chat"><span class="sys">Nummer unterdrückt</span>${th.map(m => `
     <div class="bub ${m.attachment?'att':''}">${esc(m.text)}${m.attachment?`<br><br><button class="attbtn" data-att="${esc(m.attachment)}">📎 ${esc(m.attachment)} <span style="font-size:12px;opacity:.7">· öffnen</span></button>`:""}<span class="when">${esc(m.time)}</span></div>`).join("")}</div>`;
@@ -800,18 +802,18 @@ function alibiCheck(){
   const names = add.map(id => CONTENT.suspects.find(p => p.id === id).name).join(", ");
   setTimeout(() => banner("Neues Alibi", names + " war um 20:48 woanders. In „Verdächtige“ streichen.", () => { closeSheet(); openSuspects(); }), $("#banner") ? 6500 : 0);
 }
-setInterval(alibiCheck, 1500);
+/* Alibis melden jetzt die allgemeinen Hinweise (newsCheck) */
 function personCard(p, cls, attr){
   return `<button class="card ${cls||""}" ${attr||""}>
-    <span class="av">${p.photo ? `<img src="${p.photo.replace(".jpg","_av.jpg")}" alt="">` : esc(p.name[0])}</span><span class="n">${esc(p.name)}, ${p.age}</span>
+    <span class="av">${p.photo ? `<img src="${p.photo.replace(".jpg","_av.jpg")}" alt="">` : esc(p.name[0])}</span><span class="n">${esc(p.name)}, ${p.age}${CONTENT.suspects.includes(p) && (isNew("verdaechtige", p.id) || (alibiOf(p.id) && isNew("verdaechtige", "alibi:" + p.id))) ? '<i class="ndot"></i>' : ""}</span>
     <span class="r">${esc(p.role)}</span><span class="q">${esc(p.note)}${p.says?`<br><i>${esc(p.says)}</i>`:""}${alibiOf(p.id) ? `<br><span style="color:#6fbf8a">✓ Alibi: ${esc(alibiOf(p.id))}${(cls||"").includes("struck") ? "" : " Tippen zum Streichen."}</span>` : ""}</span></button>`;
 }
 function openSuspects(){
-  closeSheet(); newsMark("verdaechtige");
+  closeSheet();
   const html = `<button class="btn" id="castBtn" style="margin-top:0">Wer ist wer? Übersicht aller Personen</button><div class="sec">Opfer</div>${personCard(CONTENT.victim,"","data-person=\"victim\"")}
     ${S.stage >= 7 ? `<div class="sec">Zeitplan Tatabend · Wer war um 20:48 woanders?</div>${timelineSvg()}` : ""}
     <div class="sec">Gäste und Beteiligte · Vernehmungen in jeder Akte</div>
-    ${CONTENT.suspects.filter(p => p.id !== "feld" || S.stage > 6 || (S.st.s6 && S.st.s6.callDone)).map(p => personCard(p, S.struck.includes(p.id)?"struck":"", `data-sus="${p.id}"`)).join("")}
+    ${visibleSuspects().map(p => personCard(p, S.struck.includes(p.id)?"struck":"", `data-sus="${p.id}"`)).join("")}
     <div class="sec">Zeugin</div>${personCard(CONTENT.witness,"","data-person=\"witness\"")}
     <div class="sec">Ermittlung</div>${personCard(CONTENT.lead,"","data-person=\"lead\"")}`;
   openWin("Verdächtige", html);
@@ -831,6 +833,8 @@ function openSuspects(){
 }
 function showSuspect(p){
   const struck = S.struck.includes(p.id);
+  newsSeen("verdaechtige", p.id, ...(alibiOf(p.id) ? ["alibi:" + p.id] : []));
+  document.querySelectorAll(`#winBody [data-sus="${p.id}"] .ndot`).forEach(x => x.remove());
   sheet(`${p.photo ? `<img class="portrait" src="${p.photo}" alt="${esc(p.name)}">` : ""}<div class="kind">${esc(p.role)}</div>
     <h2>${esc(p.name)}, ${p.age}</h2><p>${esc(p.note)}</p>
     ${RECORDINGS[p.id] ? `<button class="btn primary" id="recPlay">▶ Vernehmung anhören</button>
@@ -866,13 +870,15 @@ function openHints(){
    Auftrag und Fortschritt
    ============================================================ */
 const curStation = () => CONTENT.stations.find(x => x.id === S.stage);
+function newsBar(){ if (!S.unlocked) return ""; const un = allUnseen(); if (!un.length) return "";
+  return `<button class="newsrow" data-mact="news"><span class="ndot"></span><span>${un.length === 1 ? "Neuer Hinweis" : un.length + " neue Hinweise"}<small>${esc(un[0].t)}${un.length > 1 ? " und mehr" : ""}</small></span><span class="go2">ansehen ›</span></button>`; }
 function missionCard(){
   const st = curStation(); if (!st) return "";
   if (S.phase === "go") {
     const shown = S.revealed[st.id];
     return `<section class="mission" aria-label="Aktueller Auftrag">
       <div class="k"><span>Nächste Spur</span><span>Station ${st.id} von 8</span></div>
-      <div class="clue">„${esc(st.clue)}“</div>${st.src ? `<div class="place" style="margin-top:-4px">– ${esc(st.src)}</div>` : ""}
+      ${newsBar()}<div class="clue">„${esc(st.clue)}“</div>${st.src ? `<div class="place" style="margin-top:-4px">– ${esc(st.src)}</div>` : ""}
       ${shown ? `<div class="place">Ziel: <b>${esc(st.name)}</b> · ${esc(st.spot)}</div>` : ""}
       <div class="acts">
         ${shown ? `<button data-mact="map">Auf der Karte zeigen</button>` : `<button data-mact="reveal" id="revealBtn">${revealLabel()}</button>`}
@@ -882,7 +888,7 @@ function missionCard(){
   }
   return `<section class="mission" aria-label="Aktueller Auftrag">
     <div class="k"><span>Auftrag · ${esc(st.name)}</span><span>Station ${st.id} von 8</span></div>
-    <div class="tx">${esc(S.ending ? "Fall abgeschlossen. Danke, Ermittler." : (st.id === 8 && S.st.accused ? "Mair hat euch die Kassette übergeben. Hört Falkenrieds letzte Nachricht in der Mailbox. Dann öffnet den Tresor." : st.task))}</div>
+    ${newsBar()}<div class="tx">${esc(S.ending ? "Fall abgeschlossen. Danke, Ermittler." : (st.id === 8 && S.st.accused ? "Mair hat euch die Kassette übergeben. Hört Falkenrieds letzte Nachricht in der Mailbox. Dann öffnet den Tresor." : st.task))}</div>
     ${S.ending ? `<div class="acts"><button class="go" data-mact="ending">Auflösung ansehen</button></div>` : `<div class="acts"><button class="go" data-mact="action">${esc(st.id === 8 && S.st.accused ? "Tresor öffnen" : st.action)}</button><button class="tip" data-mact="hint">💡 Tipp</button></div>`}
   </section>`;
 }
@@ -894,6 +900,7 @@ document.addEventListener("click", e => {
   if (act === "arrive") { if (!nearTarget()) { toast(geoText()); return; } S.phase = "task"; S.revealed[st.id] = true; save(); renderHome(); }
   if (act === "action") { closeSheet(); if (!ackGate()) return; PUZZLE[st.id](); }
   if (act === "ending") showEnding();
+  if (act === "news") newsSheet(allUnseen());
   if (act === "hint") openHints();
 });
 function advance(from){
@@ -932,17 +939,17 @@ function openFaceLock(){
 let nbPage = null;
 function diaryPages(){ return CONTENT.diary.filter(d => !d.req || S.notes.includes(d.req)).map(d => d.req === "fassade" ? Object.assign({}, d, { html: d.html + "<br><br>" + NOTES.fassade.html }) : d); }
 function openNotebook(first, jumpReq){
-  newsMark("notizen");
   const pages = diaryPages();
   if (jumpReq) nbPage = pages.findIndex(d => d.req === jumpReq);
+  else if (nbPage === null && pages.some(d => isNew("notizen", d.date))) nbPage = pages.findIndex(d => isNew("notizen", d.date));
   if (nbPage === null || nbPage < 0 || nbPage >= pages.length) nbPage = Math.max(0, pages.findIndex(d => d.start));
-  const d = pages[nbPage];
+  const d = pages[nbPage]; const unseenNb = pages.map(x => isNew("notizen", x.date)); newsSeen("notizen", d.date);
   openWin("Notizen", `${first ? `<div class="target"><div class="t">Entsperrt</div><div class="s">Falkenrieds Tagebuch ist offen. Blättert durch, darin steht, wohin es weitergeht.</div></div>` : ""}
     <div class="diary" id="diary">
       <div class="dpage" id="dpage"><div class="ddate">${esc(d.date)}</div><div class="dtext">${d.html}</div>
         <div class="dfoot">Seite ${nbPage + 1} von ${pages.length}</div></div>
       <div class="dnav"><button id="dPrev" ${nbPage === 0 ? "disabled" : ""} aria-label="Vorherige Seite">‹ früher</button>
-        <span class="ddots">${pages.map((_, i) => `<i class="${i === nbPage ? "on" : ""}"></i>`).join("")}</span>
+        <span class="ddots">${pages.map((_, i) => `<i class="${i === nbPage ? "on" : unseenNb[i] ? "nw" : ""}"></i>`).join("")}</span>
         <button id="dNext" ${nbPage === pages.length - 1 ? "disabled" : ""} aria-label="Nächste Seite">später ›</button></div>
     </div>`);
   const go = dir => { const n = nbPage + dir; if (n < 0 || n >= pages.length) return; nbPage = n; openNotebook(false); const pg = $("#dpage"); if (pg) pg.classList.add(dir > 0 ? "inR" : "inL"); };
@@ -1021,7 +1028,7 @@ function playEvent(id){
   S.seen.push(id); localSave();
   if (CONTENT.calls[id]) { if ($("#call")) { S.seen = S.seen.filter(x => x !== id); setTimeout(() => playEvent(id), 4000); return; } return incomingCall(id); }
   if (CONTENT.voice[id]) return newVoice(id);
-  if (INFOS[id]) return enqueueShow(() => sheet(INFOS[id]), id);
+  if (INFOS[id]) return enqueueShow(() => { sheet(INFOS[id]); if (id === "I_CW04") newsSeen("verdaechtige", "alibi:clara"); }, id);
   const M = CONTENT.messages[id]; if (!M) return;
   S.threads[M.thread].push({ id, text:M.text, attachment:M.attachment, time:nowStr() });
   S.unread++; if (!S.fired.includes(id)) S.fired.push(id); save();
@@ -1044,17 +1051,16 @@ function ackItem(id){ S.acks = S.acks || {}; const a = S.acks[id] || (S.acks[id]
 function pendingAcks(){ return (S.mustSee || []).filter(id => !((S.acks || {})[id] || []).length); }
 /* Apps mit rotem Punkt auf diesem Handy */
 function unreadApps(){
-  return ["verdaechtige","stammbaum","notizen","nachrichten","telefon"].filter(id => { const a = APPS[id]; return !(a.lock && !S.apps.includes(id)) && newsCount(id) > 0; });
+  return Array.from(new Set(allUnseen().filter(x => x.k !== "postfach").map(x => x.app)));
 }
 function ackGate(){
   /* Eigene ungelesene Hinweise kommen immer zuerst, bevor dieses Handy ein Rätsel öffnet */
   if (showQ.length) { pumpShow(); return false; }
-  const ua = DEV.noLimit ? [] : unreadApps();
+  const ua = DEV.noLimit ? [] : allUnseen().filter(x => x.k !== "postfach");
   if (ua.length) {
     sheet(`<div class="kind">Erst die Neuigkeiten</div><h2>Es gibt noch Neues zu sehen</h2>
-      <p>Schaut euch zuerst an, was neu dazugekommen ist. Danach geht es mit dem Rätsel weiter.</p>
-      ${ua.map(id => `<button class="btn" data-openapp="${id}" style="display:flex;align-items:center;gap:10px"><span class="ico" style="background:${APPS[id].bg};width:30px;height:30px;border-radius:8px;display:grid;place-items:center">${svg(APPS[id].icon)}</span>${esc(APPS[id].label)} <span style="margin-left:auto;min-width:22px;height:22px;padding:0 6px;border-radius:11px;background:var(--decline);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center">${newsCount(id) > 9 ? "9+" : newsCount(id)}</span></button>`).join("")}`);
-    document.querySelectorAll("[data-openapp]").forEach(b => b.onclick = () => { const id = b.dataset.openapp; closeSheet(); (APP_VIEW[id] || APPS[id].open)(); });
+      <p>Schaut euch zuerst diese Hinweise an. Danach geht es mit dem Rätsel weiter.</p>${ua.map(newsRow).join("")}`);
+    document.querySelectorAll("#sheet [data-news]").forEach(b => b.onclick = () => { const x = ua[+b.dataset.news]; closeSheet(); x.open(); });
     return false;
   }
   if (DEV.noLimit || !pendingAcks().length) return true;
@@ -1065,19 +1071,19 @@ function ackGate(){
 setInterval(pumpShow, 700);
 function showMessage(id){
   const M = CONTENT.messages[id];
-  S.unread = Math.max(0, (S.unread || 0) - 1); save(); if (!$("#win")) renderHome();
+  S.unread = Math.max(0, (S.unread || 0) - 1); save(); newsSeen("nachrichten", id); if (!$("#win")) renderHome();
   sheet(`<div class="kind">Neue Nachricht · Unbekannt · Nummer unterdrückt</div>
     <div class="bub" style="margin:10px 0 12px;max-width:100%">${esc(M.text)}</div>
     ${M.attachment ? `<button class="btn primary" id="msgAtt">📎 ${esc(M.attachment)} öffnen</button>` : ""}
     <button class="btn ${M.attachment ? "" : "primary"}" data-close>Schließen</button>`);
   const a = $("#msgAtt"); if (a) a.onclick = () => { const sh = $("#sheet"); if (sh) sh._user = true; closeSheet(); openAttachment(); };
 }
-function banner(title, text, onTap){
+function banner(title, text, onTap, app){
   const old = $("#banner"); if (old) old.remove();
-  const b = document.createElement("button"); b.className = "banner"; b.id = "banner";
-  b.innerHTML = `<span class="ico" style="background:${APPS.nachrichten.bg}">${svg("msg")}</span><span class="main"><b>${esc(title)}</b><span>${esc(text)}</span></span>`;
+  const b = document.createElement("button"); b.className = "banner"; b.id = "banner"; const A = APPS[app] || APPS.nachrichten;
+  b.innerHTML = `<span class="ico" style="background:${A.bg}">${svg(app ? A.icon : "msg")}</span><span class="main"><b>${esc(title)}</b><span>${esc(text)}</span></span>`;
   b.onclick = () => { b.remove(); onTap(); };
-  layer.appendChild(b); setTimeout(() => b.remove(), 6000);
+  layer.appendChild(b); setTimeout(() => b.remove(), app ? 9000 : 6000);
 }
 
 let callTimer = null;
@@ -1395,7 +1401,8 @@ function newVoice(id){
   layer.appendChild(b); setTimeout(() => b.remove(), 9000);
 }
 function playVoice(id, auto){
-  const V = CONTENT.voice[id];
+  const V = CONTENT.voice[id]; newsSeen("telefon", id);
+  document.querySelectorAll(`#winBody [data-vm="${id}"] .ndot`).forEach(x => x.remove()); if (!newsUnseen("telefon").length) document.querySelectorAll(`#winBody [data-tab="mailbox"] .ndot`).forEach(x => x.remove());
   sheet(`${V.photo ? `<img src="${V.photo}" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px">` : ""}<div class="kind">${V.memo ? "Aufnahme von vor seinem Tod" : "Sprachnachricht"} · ${esc(V.from)}</div><h2>${esc(V.title)}</h2>${V.memo ? `<p style="font-size:12px;margin:-2px 0 10px">${esc(V.memo)}</p>` : ""}
     <div class="grid2" style="margin-bottom:10px"><button class="btn primary" id="vPlay" style="margin:0">Abspielen</button><button class="btn" data-close style="margin:0">Schließen</button></div>
     <div class="transcript">${esc(V.text)}</div>`);
@@ -1477,7 +1484,7 @@ const WHEEL_OK = ["3","Helm","Rot"];
 /* Station 4: zwei Inventare. 1475 nummeriert (8), 1503 nach Räumen sortiert und anders formuliert (5). Es fehlen 2, 5, 7. */
 const INV75 = [
   [1,"Goldener Hochzeitsbecher"],[2,"Rubinbesetzte Brosche"],[3,"Zwölf silberne Löffel"],[4,"Polnisches Brautkleid aus Brokat"],
-  [5,"Zehn goldene Taler"],[6,"Silberne Gürtelschnalle"],[7,"Familiensiegel mit dem Buchstaben W"],[8,"Reliquienkreuz aus Bergkristall"]
+  [5,"Zehn goldene Taler"],[6,"Silberne Gürtelschnalle"],[7,"Familiensiegel mit dem W der Wittelsbacher"],[8,"Reliquienkreuz aus Bergkristall"]
 ];
 const INV_MISSING = [2, 5, 7];
 const INV03 = [
@@ -1724,7 +1731,7 @@ AFTER_CALL.CALL_06 = () => { if (S.stage !== 6 || !S.st.s6 || S.st.s6.callOk) re
     <p>Seidl: „Habt ihr das gehört? Der Anrufer nannte 20:48 und die Karte R7. Beides stand zu dem Zeitpunkt noch geschwärzt in der Akte. Das kann nur jemand wissen, der an dem Abend an der Archivtür war.“</p>
     <p>Die geschwärzte Zeile ist jetzt frei: Um 20:48 öffnete Karte R7 die Archivtür.</p><button class="btn primary" id="kwOk">Weiter</button>`); $("#kwOk").onclick = () => r7Question(); }, 600); };
 function r7Question(){
-  const st = S.st.s6;
+  const st = S.st.s6; newsSeen("verdaechtige", "feld");
   sheet(`<div class="kind">Neue Person · Ermittlungsleiterin Seidl</div>
     <div style="display:flex;gap:12px;align-items:center;margin:6px 0 10px"><img src="img/feld_av.jpg" alt="" style="width:60px;height:60px;border-radius:50%;object-fit:cover;flex:none"><div><b>Jonas Feld, 39</b><div style="font-size:13px;color:var(--muted)">Restaurator, arbeitete für Falkenried im Archiv</div></div></div>
     <p>Seidl: „Die Karte R7 gehört Jonas Feld. Er hat für Falkenried an den Urkunden im Archiv gearbeitet. Wir haben ihn telefonisch erreicht: Er war an dem Abend in Regensburg, das bestätigen drei Kollegen. Die Karte hat er seit einer Woche vermisst. Zuletzt hatte er sie im Archiv, wo Dr. Dorn arbeitet.“</p>
@@ -1734,7 +1741,7 @@ function r7Question(){
   const fr = $("#feldRec"); if (fr) fr.onclick = () => toggleRec("feld", fr);
   document.querySelectorAll("[data-r7]").forEach(b => b.onclick = () => {
     if (!guard("6.r7")) return;
-    if (b.dataset.r7 === "b") { right("6.r7"); st.r7 = true; addEv("E12","E11"); save(); closeSheet(); done("Neue Spur: die Zeugin hat noch etwas gehört.", 6); setTimeout(() => fire("V_ZEUGIN"), 900); }
+    if (b.dataset.r7 === "b") { right("6.r7"); st.r7 = true; addEv("E12","E11"); save(); newsSeen("verdaechtige", "alibi:feld"); closeSheet(); done("Neue Spur: die Zeugin hat noch etwas gehört.", 6); setTimeout(() => fire("V_ZEUGIN"), 900); }
     else { $("#r7Msg").textContent = "Er war in Regensburg. Was zeigt die Karte also wirklich?"; wrong("6.r7"); }
   });
 }
@@ -1764,7 +1771,7 @@ PUZZLE_7 = function(){
     };
     return;
   }
-  newsMark("mail");
+  newsSeen("nachrichten","postfach");
   openWin("Postfach", `<div class="nb" style="font-size:15px;font-family:var(--font-mono)"><h3>Vertraulich · 19.12.2026 · 19:30 Uhr</h3>ABHOLUNG<br><br>Drei Stücke aus der Falkenried-Sammlung: Brosche, Taler, Siegel.<br>Anbieter: <b>HD</b> · Käufer: <b>CW-04</b><br>Übergabe: <b>Ringelstecherwiese</b>, sobald die Ware greifbar ist.</div>
     <div class="hint"><h3>Handyauswertung Clara Weiß (Kripo)</h3><p>Die Kripo hat nach dem Käufercode CW-04 gesucht und ihn in Clara Weiß' Handy gefunden: Sie telefonierte von 20:44 bis 20:50 mit genau diesem Käufer. Deshalb hat sie über den Abend gelogen, sie verhandelte heimlich.</p></div>
     <div class="target"><div class="t">Streicht, wer um 20:48 nachweislich woanders war</div><div class="s">Öffnet „Verdächtige“ und streicht alle mit sicherem Alibi. Wer übrig bleibt, war es.</div>
@@ -1867,7 +1874,7 @@ function newsArticle(names, dateStr){
     <figure><div id="tpSlot"><div class="photoPh">Foto der Ermittler</div></div><figcaption>Sie haben den Fall gelöst: ${esc(team)}.</figcaption></figure>
     <p><b>Landshut.</b> Der Tod des Kunstsammlers Maximilian von Falkenried (62) ist aufgeklärt. Falkenried war am Abend seines Adventsdinners in seinem Archiv getötet worden. Tatverdächtig ist Dr. Helena Dorn, die das Archiv des Sammlers betreute. Sie wurde auf der Ringelstecherwiese festgenommen, als sie eine Kassette aus Falkenrieds Nachlass abholen wollte, und sitzt in Untersuchungshaft.</p>
     <p>Dorn hatte die Ermittler als anonyme Anruferin auf eine falsche Spur gelockt. Verraten hat sie sich durch Details zur Tatzeit, die nur die Täterin kennen konnte. Die Ermittlungsgruppe 1475 folgte ihren Spuren durch die Altstadt, von St. Martin bis zum Ländtor.</p>
-    <p>„Ohne dieses Team wäre der Fall nicht gelöst worden“, sagt Kriminalhauptkommissarin Martina Seidl. Die Kassette enthielt eine Rubinbrosche, zehn goldene Taler und ein Familiensiegel mit dem Buchstaben W. Alles geht an die Stadt Landshut.</p></article>`;
+    <p>„Ohne dieses Team wäre der Fall nicht gelöst worden“, sagt Kriminalhauptkommissarin Martina Seidl. Die Kassette enthielt eine Rubinbrosche, zehn goldene Taler und ein Familiensiegel mit dem W der Wittelsbacher. Alles geht an die Stadt Landshut.</p></article>`;
 }
 function teamNames(){ return Object.values(S.devices || {}).filter(d => !d.removed && d.name).map(d => d.name); }
 function showEnding(){
@@ -1886,7 +1893,7 @@ function showEnding(){
       <span class="red" style="text-align:center">Martina Seidl, Ermittlungsleiterin</span></div>
     ${newsArticle(names, new Date().toLocaleDateString("de-DE",{ weekday:"long", day:"numeric", month:"long", year:"numeric" }))}
     <div class="hint" style="display:flex;gap:12px;align-items:flex-start;margin-top:12px"><img src="img/seidl_av.jpg" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none"><p style="margin:0"><b>Seidl:</b> „Wir haben sie. Dr. Helena Dorn kam an den Rand der Wiese, um die Kassette abzuholen. Wir haben sie festgenommen. Gute Arbeit, Ermittlungsgruppe 1475.“</p></div>
-    <div class="sec">Die Auflösung</div><div class="nb"><h3>Akte 1475 · geschlossen</h3>Die Kassette ist offen: eine Rubinbrosche, zehn goldene Taler, ein Familiensiegel mit dem Buchstaben W. Das Erbe Elisabeths, 523 Jahre verborgen.<br><br>
+    <div class="sec">Die Auflösung</div><div class="nb"><h3>Akte 1475 · geschlossen</h3>Die Kassette ist offen: eine Rubinbrosche, zehn goldene Taler, ein Familiensiegel mit dem W der Wittelsbacher. Das Erbe Elisabeths, 523 Jahre verborgen.<br><br>
     Die Stimme am Telefon war <b>Dr. Helena Dorn</b>. Sie brauchte euch, um an die Kassette zu kommen. Verraten hat sie sich am Telefon: Sie kannte Uhrzeit und Karte, bevor beides bekannt war.
     <span class="red">Das Erbe geht zurück nach Landshut.</span></div>
     <div class="sec">Was war echt?</div>
@@ -2152,6 +2159,7 @@ function showCast(after){
     ${castRow(null, "Ihr", "Ermittlungsgruppe 1475. Ihr habt Falkenrieds Handy.")}
     <p style="margin-top:12px">Diese Übersicht findet ihr jederzeit in „Verdächtige“.</p>
     <button class="btn primary" id="castOk">Verstanden</button>`);
+  newsSeen("verdaechtige", ...visibleSuspects().map(p => p.id));
   $("#castOk").onclick = () => { closeSheet(); if (after) after(); };
 }
 
@@ -2164,7 +2172,7 @@ function standFacts(){
   if (S.apps.includes("notizen")) f.push("Falkenried forschte über die Landshuter Hochzeit von 1475. Er traute niemandem in seinem Haus und hat seine Spur in der Stadt versteckt.");
   if (e("E03")) f.push("Bezahlt hat die Hochzeit Herzog Ludwig der Reiche, der Vater des Bräutigams Georg.");
   if (S.voicemails.includes("V_ERBE")) f.push("1503 starb Georg ohne Sohn. Seine Tochter Elisabeth sollte erben, es folgte der Landshuter Erbfolgekrieg. Damals brachte jemand drei Kisten heimlich aus der Stadt.");
-  if (e("E05")) f.push("Falkenried hatte die drei Stücke gefunden: Brosche, zehn goldene Taler, Familiensiegel mit dem W. Er gab sie Notar Mair zur Verwahrung. Am Rand steht „CW: 40.000?“, offenbar ein Käufer.");
+  if (e("E05")) f.push("Falkenried hatte die drei Stücke gefunden: Brosche, zehn goldene Taler, Familiensiegel mit dem W der Wittelsbacher. Er gab sie Notar Mair zur Verwahrung. Am Rand steht „CW: 40.000?“, offenbar ein Käufer.");
   if (e("E08")) f.push("Der Brief „1503“ ist eine Fälschung, erstellt unter dem Kürzel von Dr. Helena Dorn und später von Notar Mair geöffnet. Er sollte den Stücken eine falsche Herkunft geben, damit ein Käufer viel dafür zahlt.");
   if (e("E10")) f.push("Dr. Helena Dorn und Clara Weiß haben über den Abend gelogen. Dr. Dorn war noch im Haus, ihr Wagen fuhr erst um 21:02.");
   if (e("E12")) f.push("Um 20:48 öffnete die Karte R7 die Archivtür. Sie gehört Restaurator Jonas Feld, der in Regensburg war. Er verlor sie im Archiv, dort, wo Dr. Dorn arbeitet. Jemand hat seine Karte benutzt.");
@@ -2226,26 +2234,68 @@ function faItems(){
 
 /* Neu-Zähler: pro Handy, wie bei Messengern */
 const NEWS_KEY = "falkenried-news";
-function newsAll(){ try { return JSON.parse(localStorage.getItem(NEWS_KEY) || "{}"); } catch(e) { return {}; } }
-function newsKeys(app){
-  if (app === "fallakte") return faItems().map(x => x.k);
-  if (app === "verdaechtige") { const k = ["victim"].concat(CONTENT.suspects.filter(p => p.id !== "feld" || S.stage > 6 || (S.st.s6 && S.st.s6.callDone)).map(p => p.id)); if (S.voicemails.includes("V_ZEUGIN")) k.push("rosa"); return k; }
-  if (app === "notizen") return S.apps.includes("notizen") ? diaryPages().map(d => d.date) : [];
-  if (app === "nachrichten") return S.stage >= 7 ? ["postfach"] : [];
-  if (app === "telefon") return S.voicemails.slice();
+/* Neuigkeiten pro Handy: jeder Hinweis hat einen Schlüssel. Er gilt als gesehen, sobald er auf diesem Handy geöffnet wurde. */
+function newsAll(){ let a; try { a = JSON.parse(localStorage.getItem(NEWS_KEY) || "{}"); } catch(e) { a = {}; } return a && a._r === (S.resetAt || 0) ? a : { _r:S.resetAt || 0 }; }
+function newsSave(a){ try { localStorage.setItem(NEWS_KEY, JSON.stringify(a)); } catch(e) {} }
+function newsSeen(app, ...keys){ const a = newsAll(); a[app] = Array.from(new Set((a[app] || []).concat(keys))); newsSave(a); }
+function isNew(app, key){ return !(newsAll()[app] || []).includes(key); }
+const NEWS_APPS = ["verdaechtige","notizen","nachrichten","telefon"];
+function visibleSuspects(){ return CONTENT.suspects.filter(p => p.id !== "feld" || S.stage > 6 || (S.st.s6 && S.st.s6.callDone)); }
+function openPostfach(){ newsSeen("nachrichten","postfach"); closeSheet(); if (S.stage === 7 && S.phase === "task" && !ackGate()) return; PUZZLE_7(); }
+function newsItems(app){
+  if (app === "verdaechtige") { const out = [];
+    visibleSuspects().forEach(p => { out.push({ k:p.id, t:"Neue Person: " + p.name, open:() => showSuspect(p) });
+      if (alibiOf(p.id)) out.push({ k:"alibi:" + p.id, t:"Alibi für " + p.name + (S.struck.includes(p.id) ? "" : ", jetzt streichen"), open:() => showSuspect(p) }); });
+    return out; }
+  if (app === "telefon") return S.voicemails.map(v => ({ k:v, t:(CONTENT.voice[v].memo ? "Aufnahme: " : "Sprachnachricht: ") + CONTENT.voice[v].title, open:() => playVoice(v) }));
+  if (app === "notizen") return S.apps.includes("notizen") ? diaryPages().map((d, i) => ({ k:d.date, t:"Tagebuch, Seite vom " + d.date, open:() => { nbPage = i; openNotebook(false); } })) : [];
+  if (app === "nachrichten") return S.threads.unbekannt.map((m, i) => ({ k:m.id || "m" + i, t:"Nachricht von Unbekannt", open:() => { closeSheet(); openChat(); } }))
+    .concat(S.stage >= 7 ? [{ k:"postfach", t:"Postfach: Kuriernachricht vom Tatabend", open:openPostfach }] : []);
   return [];
 }
+function newsKeys(app){ return app === "fallakte" ? faItems().map(x => x.k) : newsItems(app).map(x => x.k); }
 function newsCount(app){
   if (app === "fallakte") return 0; /* Fallakte ist Nachschlagewerk: alles darin wurde schon an seiner Quelle gezeigt */
   if (app === "stammbaum") return treeSeen().length ? treeNew().length : 0;
-  const seen = newsAll()[app] || [];
-  let n = newsKeys(app).filter(k => !seen.includes(k)).length;
+  let n = newsItems(app).filter(x => isNew(app, x.k)).length;
   if (app === "telefon") n += S.missed || 0;
-  if (app === "nachrichten") n += S.unread || 0;
   return n;
 }
-function newsUnseen(app){ const seen = newsAll()[app] || []; return newsKeys(app).filter(k => !seen.includes(k)); }
-function newsMark(app){ const a = newsAll(); a[app] = Array.from(new Set((a[app] || []).concat(newsKeys(app)))); try { localStorage.setItem(NEWS_KEY, JSON.stringify(a)); } catch(e) {} }
+function newsUnseen(app){ return newsKeys(app).filter(k => isNew(app, k)); }
+function newsMark(app){ newsSeen(app, ...newsKeys(app)); }
+function appOpen(app){ const a = APPS[app]; return !(a.lock && !S.apps.includes(app)); }
+/* Alle ungesehenen Hinweise auf diesem Handy, in der Reihenfolge, in der man sie ansehen sollte */
+function allUnseen(){
+  const out = [];
+  NEWS_APPS.filter(appOpen).forEach(app => newsItems(app).forEach(x => { if (isNew(app, x.k)) out.push(Object.assign({ app }, x)); }));
+  if (treeSeen().length && treeNew().length) out.push({ app:"stammbaum", k:"tree", t:"Stammbaum: " + treeNew().map(id => TREE[id].n).join(", "), open:() => { closeSheet(); openTree(); } });
+  return out;
+}
+function newsRow(x, i){ return `<button class="newsrow" data-news="${i}" style="margin-bottom:8px"><span class="ndot"></span><span>${esc(x.t)}<small>${esc(APPS[x.app].label)}</small></span><span class="go2">ansehen ›</span></button>`; }
+function newsSheet(list, title){
+  if (list.length === 1) { closeSheet(); return list[0].open(); }
+  sheet(`<div class="kind">Neue Hinweise</div><h2>${esc(title || "Das ist neu")}</h2><p>Tippt jeden Hinweis an. Danach verschwindet der rote Punkt.</p>${list.map(newsRow).join("")}<button class="btn" data-close>Später</button>`);
+  document.querySelectorAll("#sheet [data-news]").forEach(b => b.onclick = () => { const x = list[+b.dataset.news]; closeSheet(); x.open(); });
+}
+/* Meldung „Neuer Hinweis“, sobald etwas Neues da ist, das nicht ohnehin direkt angezeigt wird */
+let newsPend = {}, newsLastN = -1;
+function newsCheck(){
+  if (!S.unlocked) return;
+  const a = newsAll();
+  if (!a._b) { NEWS_APPS.forEach(app => a[app] = Array.from(new Set((a[app] || []).concat(newsItems(app).map(x => x.k))))); a._b = 1; a._ann = []; newsSave(a); return; }
+  const un = allUnseen();
+  if (un.length !== newsLastN) { newsLastN = un.length; if (!$("#win") && !$("#call")) renderHome(); }
+  if ($("#call") || showQ.length || document.querySelector("#sheet[data-ack]")) return; /* direkt angezeigte Hinweise haben Vorrang */
+  const ann = a._ann || [];
+  const fresh = un.filter(x => x.app !== "stammbaum" && !ann.includes(x.app + ":" + x.k));
+  const ready = fresh.filter(x => newsPend[x.app + ":" + x.k]); fresh.forEach(x => newsPend[x.app + ":" + x.k] = 1);
+  if (!ready.length) return;
+  a._ann = ann.concat(ready.map(x => x.app + ":" + x.k)); newsSave(a);
+  const one = ready.length === 1;
+  banner("Neuer Hinweis · " + (new Set(ready.map(x => x.app)).size === 1 ? APPS[ready[0].app].label : "mehrere Apps"), one ? ready[0].t + " · Tippen zum Ansehen" : ready.length + " neue Hinweise, z. B. " + ready[0].t + " · Tippen zum Ansehen",
+    () => { closeSheet(); newsSheet(ready); }, ready[0].app);
+}
+setInterval(newsCheck, 1500);
 
 function openFallakte(){
   closeSheet();
