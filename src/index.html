@@ -404,9 +404,9 @@ const CONTENT = {
       "Denkt an Falkenrieds Fassadennotiz: Der Kaiser schenkte der Stadt drei … für ihr Wappen. Danach die Listen Zeile für Zeile vergleichen.",
       "Schloss: 3 · Helm · Rot. Listen: Es fehlen die Nummern 2, 5 und 7. Achtung, die Gürtelschnalle ist keine Brosche." ] },
     S5: { title:"Stadtresidenz – Der Brief", steps:[
-      "Sucht im Brief eine Beschreibung, die ihr an der Fassade vor euch seht.",
-      "Diese Fassade ist viel jünger als der Bau dahinter. Und was wisst ihr seit dem Landschaftshaus über diesen Bau?",
-      "Heftet die Notiz „Erst 1536 begann er seine Residenz“ an." ] },
+      "Lest den Brief Zeile für Zeile. Welche Angabe passt nicht in das Jahr 1503?",
+      "Schaut in Falkenrieds Notizen zur Fassade: Wann begann der Bauherr von gegenüber seine Residenz?",
+      "Die Residenz wurde erst 1536 begonnen. Tippt „lagern sicher in der Stadtresidenz des Herzogs“." ] },
     S6: { title:"Heiliggeist – Rundgang und Tatabend", steps:[
       "Lasst den Ordner offen und geht einmal ganz um die Kirche. Drei der vier Seiten reichen. Bei ungenauem GPS kurz stehen bleiben.",
       "Vergleicht jede Aussage mit den Protokollen. Wann fuhr der Wagen von Dr. Helena Dorn weg? Von wo bestellte Clara Weiß ihr Taxi?",
@@ -447,7 +447,7 @@ const CONTENT = {
       action:"Mappe öffnen" },
     { id:5, name:"Stadtresidenz", spot:"Altstadt, gegenüber dem Rathaus", lat:48.536103, lng:12.151237,
       src:"Nachricht von Unbekannt", clue:"Ich habe euch einen Brief aus jenem Winter angehängt. Er sagt, wo die Kisten lagerten. Dreht euch um.",
-      task:"Unbekannt behauptet, dieser Brief stamme aus dem Winter 1503. Vergleicht ihn mit dem Gebäude vor euch.",
+      task:"Unbekannt behauptet, dieser Brief stamme aus dem Winter 1503. Ihr steht vor dem Gebäude, das er nennt. Kann das stimmen?",
       action:"Brief öffnen" },
     { id:6, name:"Heiliggeistkirche", spot:"Einmal rund um die Kirche", lat:48.538667, lng:12.152562,
       src:"Ermittlungsleiterin Seidl", clue:"Wer kam am Abend an die Archivtür? Falkenrieds Zutrittsdaten liegen in einem gesperrten Ordner. Er öffnet sich nur an der Kirche, deren Bau unter Heinrich dem Reichen begann. Falkenrieds Notizen zur Fassade nennen sie.",
@@ -468,7 +468,7 @@ const CONTENT = {
     E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 2, 5 und 7: Rubinbrosche, zwölf Silberschalen, Doppelsiegel. Falkenried notierte daneben: „Hochzeitsgaben, Kiste A, B, C“." },
     E06:{ t:"Verwahrvermerk Notariat Mair", d:"„Notariat Mair – Verwahrung“. Inhalt geschwärzt." },
     E07:{ t:"Preisnotizen „CW“", d:"Bleistift am Rand von H-1475: „CW: 40.000?“" },
-    E08:{ t:"Brief „1503“ – gefälscht", d:"Beschreibt die heutige Fassade und eine Residenz, die erst ab 1536 gebaut wurde. Zweck laut Seidl: eine falsche Herkunft, damit die Stücke für einen Käufer echt und wertvoll aussehen." },
+    E08:{ t:"Brief „1503“ – gefälscht", d:"Nennt eine Residenz, deren Bau erst 1536 begann. Zweck laut Seidl: eine falsche Herkunft, damit die Stücke für einen Käufer echt und wertvoll aussehen." },
     E09:{ t:"Dateiprotokoll", d:"LETTER-1503-B erstellt unter HDORN (Dr. Helena Dorn) am 18.12., 23:14 Uhr. Geöffnet unter BMAIR (Notar Mair) am 19.12., 10:02 Uhr." },
     E10:{ t:"Widersprüche der Aussagen", d:"Dr. Helena Dorn sagt, sie sei um halb neun gegangen. Ihr Wagen fuhr um 21:02. Clara Weiß sagt, sie habe den ganzen Abend bei den anderen am Tisch gesessen. Ihr Taxi bestellte sie aus dem Flur." },
     E11:{ t:"Zeugin: Frau an der Archivtür", d:"Rosa Brandl hörte kurz vor neun Schritte im Flur und sah eine Frau im dunklen Mantel zum Archiv gehen. Dann klickte die Archivtür." },
@@ -1515,36 +1515,26 @@ PUZZLE_4 = function(){
 const LETTER = [
   { t:"Anno 1503, im Advent.", k:"x" },
   { t:"Die drei versiegelten Kisten des Erbes", k:"x" },
-  { t:"lagern sicher in der Stadtresidenz des Herzogs.", k:"x" },
-  { t:"Wer davorsteht, erkennt sie an ihrer hellen Fassade mit dem schmuckvollen Portal.", k:"ok" },
+  { t:"lagern sicher in der Stadtresidenz des Herzogs,", k:"ok" },
+  { t:"bewacht von zwei Männern seines Vertrauens.", k:"x" },
   { t:"Gott schütze das Erbe des Hauses.", k:"x" }
-]; /* ⚠ Fassadendetail nach Vor-Ort-Foto anpassen */
+]; /* Fehler im Brief: die Stadtresidenz wurde erst 1536 begonnen (steht in Falkenrieds Fassadennotiz) */
 PUZZLE_5 = function(){
-  const st = S.st.s5 || (S.st.s5 = { detail:false });
-  if (!st.detail) {
-    openWin("Brief", `<div class="target"><div class="t">Bild gegen Text</div><div class="s">Tippt die Stelle im Brief an, die es 1503 so nicht gegeben haben kann. Schaut dafür auf das Gebäude vor euch.</div></div>
-      <div class="nb letter">${LETTER.map((l,i) => `<button data-l="${i}">${esc(l.t)}</button>`).join(" ")}</div><p id="lMsg" class="empty" style="padding:8px 0"></p>`);
-    $("#winBody").onclick = e => { const b = e.target.closest("[data-l]"); if (!b) return;
-      if (+b.dataset.l === 2) { $("#lMsg").textContent = "Gut gesehen, darauf kommen wir gleich zurück. Erst die Fassade: Welcher Satz beschreibt, was ihr gerade vor euch seht?"; return; }
-      if (!guard("5.letter")) return;
-      if (LETTER[+b.dataset.l].k === "ok") { right("5.letter"); b.classList.add("right"); st.detail = true; save(); setTimeout(PUZZLE_5, 800); }
-      else { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); $("#lMsg").textContent = "Daran ist nichts Verdächtiges. Vergleicht mit dem, was ihr vor euch seht."; wrong("5.letter"); } };
-    return;
-  }
-  const opts = [["helme","Der Kaiser gab Landshut drei Helme ins Wappen."],["1536","Erst 1536 begann Ludwig X. seine Residenz."],["heilig","Unter Heinrich dem Reichen begann der Bau von Heiliggeist."]];
-  openWin("Brief", `<div class="target"><div class="t">Der Schreiber stand vor der heutigen Fassade</div><div class="s">Die Fassade entstand erst im 18. Jahrhundert. Welche eurer Notizen widerlegt den Brief zusätzlich?</div></div>
-    ${opts.map(o => `<button class="btn" data-n="${o[0]}">${esc(o[1])}</button>`).join("")}<p id="nMsg" class="empty" style="padding:8px 0"></p>`);
-  $("#winBody").onclick = e => { const b = e.target.closest("[data-n]"); if (!b) return;
-    if (!guard("5.note")) return;
-    if (b.dataset.n !== "1536") { $("#nMsg").textContent = "Das stimmt, widerlegt aber den Brief nicht."; wrong("5.note"); return; }
-    right("5.note");
+  openWin("Brief", `<div class="target"><div class="t">Ist der Brief echt?</div><div class="s">Ihr steht vor dem Gebäude, das der Brief nennt. Tippt die Stelle an, die es im Jahr 1503 so nicht gegeben haben kann. Eure Notizen helfen.</div></div>
+    <div class="nb letter">${LETTER.map((l,i) => `<button data-l="${i}">${esc(l.t)}</button>`).join(" ")}</div><p id="lMsg" class="empty" style="padding:8px 0"></p>
+    <button class="btn" id="toNotes">Falkenrieds Notizen zur Fassade ansehen</button>`);
+  $("#toNotes").onclick = () => { nbPage = null; openNotebook(false, "fassade"); };
+  $("#winBody").onclick = e => { const b = e.target.closest("[data-l]"); if (!b) return;
+    if (!guard("5.letter")) return;
+    if (LETTER[+b.dataset.l].k !== "ok") { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); $("#lMsg").textContent = "Daran ist nichts Verdächtiges. Was wisst ihr über das Gebäude vor euch?"; wrong("5.letter"); return; }
+    right("5.letter"); b.classList.add("right");
     addEv("E08","E09");
-    sheet(`<div class="kind">Doppelt widerlegt</div><h2>Der Brief ist gefälscht</h2><p>Ein Brief von 1503 kann keinen Bau beschreiben, der erst 1536 begonnen wurde, und schon gar nicht seine heutige Fassade.</p>
+    setTimeout(() => { sheet(`<div class="kind">Widerlegt</div><h2>Der Brief ist gefälscht</h2><p>Im Jahr 1503 gab es diese Residenz noch gar nicht. Ihr Bau begann erst 1536, so steht es in Falkenrieds Notizen zur Fassade.</p>
       <p>Falkenrieds Server verrät, wer die Datei bearbeitet hat:</p><div class="transcript">LETTER-1503-B
 erstellt unter HDORN · 18.12.2026, 23:14
 geöffnet unter BMAIR · 19.12.2026, 10:02</div>
       <button class="btn primary" data-close id="s5Done">Weiter</button>`);
-    $("#s5Done").onclick = () => { if (S.stage !== 5) return; done(null, 5); setTimeout(() => { fire("V_RESIDENZ"); setTimeout(() => fire("N03"), 8000); }, 600); };
+      $("#s5Done").onclick = () => { if (S.stage !== 5) return; done(null, 5); setTimeout(() => { fire("V_RESIDENZ"); setTimeout(() => fire("N03"), 8000); }, 600); }; }, 700);
   };
 };
 
