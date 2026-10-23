@@ -318,8 +318,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .acts2 button.on{background:var(--amber);color:#1b1408}
 .pick{display:block;width:100%;text-align:left;padding:10px 12px;border-radius:12px;background:var(--surface);margin-bottom:6px;font-size:14px;border:2px solid transparent}
 .pick.on{border-color:var(--amber);background:var(--amber-soft)}
-.abc{display:grid;grid-template-columns:repeat(13,1fr);gap:3px;margin:4px 0 12px;font-family:var(--font-mono);font-size:12px;text-align:center}
-.abc span{background:var(--surface);border-radius:4px;padding:4px 0}
+.abc{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:4px 0 12px;font-family:var(--font-mono);font-size:16px;text-align:center}
+.abc button{background:var(--surface);border:0;color:inherit;font:inherit;border-radius:6px;padding:9px 0;cursor:pointer;-webkit-tap-highlight-color:transparent}.abc button:active{background:var(--gold,#d9a75a);color:#111}.abc .del{grid-column:span 2}
 .prot{width:100%;border-collapse:collapse;font-size:13px}
 .prot td{padding:5px 4px;border-top:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums}
 .prot td:first-child{white-space:nowrap;color:var(--amber);font-family:var(--font-mono);font-size:12px}
@@ -405,7 +405,7 @@ const CONTENT = {
       "Schloss: 3 · Helm · Rot. Listen: Es fehlen die Nummern 2, 5 und 7. Achtung, die Gürtelschnalle ist keine Brosche." ] },
     S5: { title:"Stadtresidenz – Der Brief", steps:[
       "Lest den Brief Zeile für Zeile. Welche Angabe passt nicht in das Jahr 1503?",
-      "Schaut in Falkenrieds Notizen zur Fassade: Wann begann der Bauherr von gegenüber seine Residenz?",
+      "Schaut in den Steckbrief: Wann wurde mit dem Bau der Residenz begonnen?",
       "Die Residenz wurde erst 1536 begonnen. Tippt „lagern sicher in der Stadtresidenz des Herzogs“." ] },
     S6: { title:"Heiliggeist – Rundgang und Tatabend", steps:[
       "Lasst den Ordner offen und geht einmal ganz um die Kirche. Drei der vier Seiten reichen. Bei ungenauem GPS kurz stehen bleiben.",
@@ -1520,16 +1520,15 @@ const LETTER = [
   { t:"Gott schütze das Erbe des Hauses.", k:"x" }
 ]; /* Fehler im Brief: die Stadtresidenz wurde erst 1536 begonnen (steht in Falkenrieds Fassadennotiz) */
 PUZZLE_5 = function(){
-  openWin("Brief", `<div class="target"><div class="t">Ist der Brief echt?</div><div class="s">Ihr steht vor dem Gebäude, das der Brief nennt. Tippt die Stelle an, die es im Jahr 1503 so nicht gegeben haben kann. Eure Notizen helfen.</div></div>
-    <div class="nb letter">${LETTER.map((l,i) => `<button data-l="${i}">${esc(l.t)}</button>`).join(" ")}</div><p id="lMsg" class="empty" style="padding:8px 0"></p>
-    <button class="btn" id="toNotes">Falkenrieds Notizen zur Fassade ansehen</button>`);
-  $("#toNotes").onclick = () => { nbPage = null; openNotebook(false, "fassade"); };
+  openWin("Brief", `<div class="target"><div class="t">Ist der Brief echt?</div><div class="s">Vergleicht den Brief mit dem Steckbrief des Gebäudes vor euch. Tippt die Stelle an, die im Jahr 1503 nicht stimmen kann.</div></div>
+    <div class="hint"><h3>Steckbrief · Stadtresidenz Landshut</h3><p>Bauherr: Herzog Ludwig X.<br><b>Baubeginn: 1536</b><br>Erster Palast im Stil der italienischen Renaissance nördlich der Alpen.</p></div>
+    <div class="nb letter">${LETTER.map((l,i) => `<button data-l="${i}">${esc(l.t)}</button>`).join(" ")}</div><p id="lMsg" class="empty" style="padding:8px 0"></p>`);
   $("#winBody").onclick = e => { const b = e.target.closest("[data-l]"); if (!b) return;
     if (!guard("5.letter")) return;
-    if (LETTER[+b.dataset.l].k !== "ok") { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); $("#lMsg").textContent = "Daran ist nichts Verdächtiges. Was wisst ihr über das Gebäude vor euch?"; wrong("5.letter"); return; }
+    if (LETTER[+b.dataset.l].k !== "ok") { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); $("#lMsg").textContent = "Daran ist nichts Verdächtiges. Schaut auf den Baubeginn im Steckbrief."; wrong("5.letter"); return; }
     right("5.letter"); b.classList.add("right");
     addEv("E08","E09");
-    setTimeout(() => { sheet(`<div class="kind">Widerlegt</div><h2>Der Brief ist gefälscht</h2><p>Im Jahr 1503 gab es diese Residenz noch gar nicht. Ihr Bau begann erst 1536, so steht es in Falkenrieds Notizen zur Fassade.</p>
+    setTimeout(() => { sheet(`<div class="kind">Widerlegt</div><h2>Der Brief ist gefälscht</h2><p>Im Jahr 1503 gab es diese Residenz noch gar nicht. Ihr Bau begann erst 1536, über dreißig Jahre nach dem angeblichen Datum des Briefs.</p>
       <p>Falkenrieds Server verrät, wer die Datei bearbeitet hat:</p><div class="transcript">LETTER-1503-B
 erstellt unter HDORN · 18.12.2026, 23:14
 geöffnet unter BMAIR · 19.12.2026, 10:02</div>
@@ -1724,13 +1723,15 @@ PUZZLE_7 = function(){
     openWin("Postfach", `<div class="hint"><h3>Von der Kripo abgelegt · gefunden auf Falkenrieds Archiv-Server</h3><p style="font-family:var(--font-mono);font-size:22px;letter-spacing:.15em;margin-top:8px">HIOVSBUN</p>
       <p style="margin-top:8px">Seidl: „Jeder Buchstabe wurde nach vorn geschoben. Falkenried hatte im selben Ordner eine Aufnahme: die Sage vom Ritter am Ländtor. Hört sie euch am Tor an.“</p>
       <button class="btn" id="sagePlay" style="margin-top:4px">▶ Die Sage vom Ritter am Ländtor</button></div>
-      <div class="abc">${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c => `<span>${c}</span>`).join("")}</div>
+      <div class="abc">${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c => `<button type="button" data-ch="${c}">${c}</button>`).join("")}<button type="button" class="del" data-ch="del" aria-label="Löschen">⌫</button></div>
       <label for="dec" style="font-size:13px;color:var(--muted)">Entschlüsselte Nachricht</label><input class="field" id="dec" autocomplete="off" autocapitalize="characters">
       <button class="btn primary" id="decGo">Prüfen</button><p id="dMsg" class="empty" style="padding:8px 0"></p>`);
     $("#sagePlay").onclick = () => { const b = $("#sagePlay");
       if (curAudio && !curAudio.paused) { stopAudio(); b.textContent = "▶ Die Sage vom Ritter am Ländtor"; return; }
       b.textContent = "■ Stopp"; stopAudio(); const a = new Audio("audio/SAGE_LAENDTOR.mp3"); curAudio = a;
       a.addEventListener("ended", () => { b.textContent = "▶ Nochmal anhören"; }); a.play().catch(() => { b.textContent = "▶ Die Sage vom Ritter am Ländtor"; }); };
+    $(".abc").onclick = e => { const b = e.target.closest("[data-ch]"); if (!b) return; const f = $("#dec");
+      f.value = b.dataset.ch === "del" ? f.value.slice(0, -1) : f.value + b.dataset.ch; $("#dMsg").textContent = ""; };
     $("#decGo").onclick = () => {
       if (!$("#dec").value.trim()) return;
       if (!guard("7.dec")) return;
