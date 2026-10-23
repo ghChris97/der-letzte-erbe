@@ -2140,9 +2140,7 @@ const evSheet = (id, extra="") => { const E = CONTENT.evidence[id]; sheet(`<div 
 const docSheet = (kind, title, html) => sheet(`<div class="kind">${esc(kind)}</div><h2>${esc(title)}</h2>${html}<button class="btn" data-close>Schließen</button>`);
 const hasEv = id => S.evidence.includes(id), hasVm = id => S.voicemails.includes(id);
 const FA = [
-  { k:"rechnung", kind:"Dokument", t:"Hochzeitsrechnung 1475", s:"Wer hat die Hochzeit bezahlt?", has:() => hasEv("E01"),
-    open:() => docSheet("Dokument", "Hochzeitsrechnung 1475", `<div class="nb" style="font-size:16px">${CONTENT.diary.find(d => d.html.includes("Hochzeitsrechnung")).html.replace(/^.*?Hochzeitsrechnung:/, "")}</div>`) },
-  { k:"tagebuch", kind:"Dokument", t:"Falkenrieds Tagebuch", s:() => diaryPages().length + " Seiten", has:() => S.apps.includes("notizen"), open:() => openNotebook() },
+  { k:"tagebuch", kind:"Dokument", t:"Falkenrieds Tagebuch", s:() => diaryPages().length + " Seiten, mit der Hochzeitsrechnung von 1475", has:() => S.apps.includes("notizen"), open:() => openNotebook() },
   { k:"fassade", kind:"Notiz", t:"Notizen zur Fassade", s:"Adler, Kaiser, Residenz, Heiliggeist", has:() => hasEv("E03"),
     open:() => { nbPage = null; openNotebook(false, "fassade"); } },
   { k:"V_ERBE", voice:true },
