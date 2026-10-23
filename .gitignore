@@ -3,3 +3,4 @@ tools/tmp/
 .netlify/
 __pycache__/
 .DS_Store
+play.html

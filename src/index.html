@@ -474,7 +474,7 @@ const CONTENT = {
   evidence: {
     E01:{ t:"Hochzeitsrechnung 1475", d:"Abschrift aus Falkenrieds Manteltasche. Vermerk: Bezahlt hat nicht der Bräutigam." },
     E03:{ t:"Notizen zur Fassade", d:"Der Kaiser gab Landshut drei Helme ins Wappen. Ludwig X. begann seine Residenz erst 1536. Unter Heinrich dem Reichen begann 1407 der Bau der Heiliggeistkirche." },
-    E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 2, 5 und 7: Rubinbrosche, zwölf Silberschalen, Doppelsiegel. Falkenried notierte daneben: „Hochzeitsgaben, Kiste A, B, C“." },
+    E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 2, 5 und 7: Rubinbrosche, zehn goldene Taler, Familiensiegel mit dem W. Falkenried notierte daneben: „Hochzeitsgaben, Kiste A, B, C“." },
     E06:{ t:"Verwahrvermerk Notariat Mair", d:"„Notariat Mair – Verwahrung“. Inhalt geschwärzt." },
     E07:{ t:"Preisnotizen „CW“", d:"Bleistift am Rand von H-1475: „CW: 40.000?“" },
     E08:{ t:"Brief „1503“ – gefälscht", d:"Nennt eine Residenz, deren Bau erst 1536 begann. Zweck laut Seidl: eine falsche Herkunft, damit die Stücke für einen Käufer echt und wertvoll aussehen." },
@@ -809,6 +809,7 @@ function personCard(p, cls, attr){
 function openSuspects(){
   closeSheet(); newsMark("verdaechtige");
   const html = `<button class="btn" id="castBtn" style="margin-top:0">Wer ist wer? Übersicht aller Personen</button><div class="sec">Opfer</div>${personCard(CONTENT.victim,"","data-person=\"victim\"")}
+    ${S.stage >= 7 ? `<div class="sec">Zeitplan Tatabend · Wer war um 20:48 woanders?</div>${timelineSvg()}` : ""}
     <div class="sec">Gäste und Beteiligte · Vernehmungen in jeder Akte</div>
     ${CONTENT.suspects.filter(p => p.id !== "feld" || S.stage > 6 || (S.st.s6 && S.st.s6.callDone)).map(p => personCard(p, S.struck.includes(p.id)?"struck":"", `data-sus="${p.id}"`)).join("")}
     <div class="sec">Zeugin</div>${personCard(CONTENT.witness,"","data-person=\"witness\"")}
@@ -816,6 +817,8 @@ function openSuspects(){
   openWin("Verdächtige", html);
   $("#castBtn").onclick = () => showCast(null);
   $("#winBody").onclick = e => {
+    const t = e.target.closest("[data-tl]"); const tp = t && CONTENT.suspects.find(p => p.id === t.dataset.tl);
+    if (tp) return showSuspect(tp);
     const c = e.target.closest("[data-sus]");
     if (c) return showSuspect(CONTENT.suspects.find(p => p.id === c.dataset.sus));
     const o = e.target.closest("[data-person]");
@@ -1474,7 +1477,7 @@ const WHEEL_OK = ["3","Helm","Rot"];
 /* Station 4: zwei Inventare. 1475 nummeriert (8), 1503 nach Räumen sortiert und anders formuliert (5). Es fehlen 2, 5, 7. */
 const INV75 = [
   [1,"Goldener Hochzeitsbecher"],[2,"Rubinbesetzte Brosche"],[3,"Zwölf silberne Löffel"],[4,"Polnisches Brautkleid aus Brokat"],
-  [5,"Zwölf Silberschalen"],[6,"Silberne Gürtelschnalle"],[7,"Doppeltes Familiensiegel"],[8,"Reliquienkreuz aus Bergkristall"]
+  [5,"Zehn goldene Taler"],[6,"Silberne Gürtelschnalle"],[7,"Familiensiegel mit dem Buchstaben W"],[8,"Reliquienkreuz aus Bergkristall"]
 ];
 const INV_MISSING = [2, 5, 7];
 const INV03 = [
@@ -1762,7 +1765,7 @@ PUZZLE_7 = function(){
     return;
   }
   newsMark("mail");
-  openWin("Postfach", `<div class="nb" style="font-size:15px;font-family:var(--font-mono)"><h3>Vertraulich · 19.12.2026 · 19:30 Uhr</h3>ABHOLUNG<br><br>Drei Stücke aus der Falkenried-Sammlung: Brosche, Schalen, Siegel.<br>Anbieter: <b>HD</b> · Käufer: <b>CW-04</b><br>Übergabe: <b>Ringelstecherwiese</b>, sobald die Ware greifbar ist.</div>
+  openWin("Postfach", `<div class="nb" style="font-size:15px;font-family:var(--font-mono)"><h3>Vertraulich · 19.12.2026 · 19:30 Uhr</h3>ABHOLUNG<br><br>Drei Stücke aus der Falkenried-Sammlung: Brosche, Taler, Siegel.<br>Anbieter: <b>HD</b> · Käufer: <b>CW-04</b><br>Übergabe: <b>Ringelstecherwiese</b>, sobald die Ware greifbar ist.</div>
     <div class="hint"><h3>Handyauswertung Clara Weiß (Kripo)</h3><p>Die Kripo hat nach dem Käufercode CW-04 gesucht und ihn in Clara Weiß' Handy gefunden: Sie telefonierte von 20:44 bis 20:50 mit genau diesem Käufer. Deshalb hat sie über den Abend gelogen, sie verhandelte heimlich.</p></div>
     <div class="target"><div class="t">Streicht, wer um 20:48 nachweislich woanders war</div><div class="s">Öffnet „Verdächtige“ und streicht alle mit sicherem Alibi. Wer übrig bleibt, war es.</div>
     <button class="btn primary" id="toSus" style="margin-top:10px">Verdächtige öffnen</button></div>`);
@@ -1864,7 +1867,7 @@ function newsArticle(names, dateStr){
     <figure><div id="tpSlot"><div class="photoPh">Foto der Ermittler</div></div><figcaption>Sie haben den Fall gelöst: ${esc(team)}.</figcaption></figure>
     <p><b>Landshut.</b> Der Tod des Kunstsammlers Maximilian von Falkenried (62) ist aufgeklärt. Falkenried war am Abend seines Adventsdinners in seinem Archiv getötet worden. Tatverdächtig ist Dr. Helena Dorn, die das Archiv des Sammlers betreute. Sie wurde auf der Ringelstecherwiese festgenommen, als sie eine Kassette aus Falkenrieds Nachlass abholen wollte, und sitzt in Untersuchungshaft.</p>
     <p>Dorn hatte die Ermittler als anonyme Anruferin auf eine falsche Spur gelockt. Verraten hat sie sich durch Details zur Tatzeit, die nur die Täterin kennen konnte. Die Ermittlungsgruppe 1475 folgte ihren Spuren durch die Altstadt, von St. Martin bis zum Ländtor.</p>
-    <p>„Ohne dieses Team wäre der Fall nicht gelöst worden“, sagt Kriminalhauptkommissarin Martina Seidl. Die Kassette enthielt eine Rubinbrosche, zwölf Silberschalen und ein Doppelsiegel. Sie gehen an die Stadt Landshut.</p></article>`;
+    <p>„Ohne dieses Team wäre der Fall nicht gelöst worden“, sagt Kriminalhauptkommissarin Martina Seidl. Die Kassette enthielt eine Rubinbrosche, zehn goldene Taler und ein Familiensiegel mit dem Buchstaben W. Alles geht an die Stadt Landshut.</p></article>`;
 }
 function teamNames(){ return Object.values(S.devices || {}).filter(d => !d.removed && d.name).map(d => d.name); }
 function showEnding(){
@@ -1883,7 +1886,7 @@ function showEnding(){
       <span class="red" style="text-align:center">Martina Seidl, Ermittlungsleiterin</span></div>
     ${newsArticle(names, new Date().toLocaleDateString("de-DE",{ weekday:"long", day:"numeric", month:"long", year:"numeric" }))}
     <div class="hint" style="display:flex;gap:12px;align-items:flex-start;margin-top:12px"><img src="img/seidl_av.jpg" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none"><p style="margin:0"><b>Seidl:</b> „Wir haben sie. Dr. Helena Dorn kam an den Rand der Wiese, um die Kassette abzuholen. Wir haben sie festgenommen. Gute Arbeit, Ermittlungsgruppe 1475.“</p></div>
-    <div class="sec">Die Auflösung</div><div class="nb"><h3>Akte 1475 · geschlossen</h3>Die Kassette ist offen: eine Rubinbrosche, zwölf Silberschalen, ein Doppelsiegel. Das Erbe Elisabeths, 523 Jahre verborgen.<br><br>
+    <div class="sec">Die Auflösung</div><div class="nb"><h3>Akte 1475 · geschlossen</h3>Die Kassette ist offen: eine Rubinbrosche, zehn goldene Taler, ein Familiensiegel mit dem Buchstaben W. Das Erbe Elisabeths, 523 Jahre verborgen.<br><br>
     Die Stimme am Telefon war <b>Dr. Helena Dorn</b>. Sie brauchte euch, um an die Kassette zu kommen. Verraten hat sie sich am Telefon: Sie kannte Uhrzeit und Karte, bevor beides bekannt war.
     <span class="red">Das Erbe geht zurück nach Landshut.</span></div>
     <div class="sec">Was war echt?</div>
@@ -2161,7 +2164,7 @@ function standFacts(){
   if (S.apps.includes("notizen")) f.push("Falkenried forschte über die Landshuter Hochzeit von 1475. Er traute niemandem in seinem Haus und hat seine Spur in der Stadt versteckt.");
   if (e("E03")) f.push("Bezahlt hat die Hochzeit Herzog Ludwig der Reiche, der Vater des Bräutigams Georg.");
   if (S.voicemails.includes("V_ERBE")) f.push("1503 starb Georg ohne Sohn. Seine Tochter Elisabeth sollte erben, es folgte der Landshuter Erbfolgekrieg. Damals brachte jemand drei Kisten heimlich aus der Stadt.");
-  if (e("E05")) f.push("Falkenried hatte die drei Stücke gefunden: Brosche, zwölf Silberschalen, Doppelsiegel. Er gab sie Notar Mair zur Verwahrung. Am Rand steht „CW: 40.000?“, offenbar ein Käufer.");
+  if (e("E05")) f.push("Falkenried hatte die drei Stücke gefunden: Brosche, zehn goldene Taler, Familiensiegel mit dem W. Er gab sie Notar Mair zur Verwahrung. Am Rand steht „CW: 40.000?“, offenbar ein Käufer.");
   if (e("E08")) f.push("Der Brief „1503“ ist eine Fälschung, erstellt unter dem Kürzel von Dr. Helena Dorn und später von Notar Mair geöffnet. Er sollte den Stücken eine falsche Herkunft geben, damit ein Käufer viel dafür zahlt.");
   if (e("E10")) f.push("Dr. Helena Dorn und Clara Weiß haben über den Abend gelogen. Dr. Dorn war noch im Haus, ihr Wagen fuhr erst um 21:02.");
   if (e("E12")) f.push("Um 20:48 öffnete die Karte R7 die Archivtür. Sie gehört Restaurator Jonas Feld, der in Regensburg war. Er verlor sie im Archiv, dort, wo Dr. Dorn arbeitet. Jemand hat seine Karte benutzt.");
