@@ -173,6 +173,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .farow{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;padding:12px 14px;margin-bottom:8px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
 .farow .fk{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .farow .ft{font-weight:600;font-size:15px}.farow .fs{font-size:13px;color:var(--muted);line-height:1.4}
+.neuR{display:inline-block;color:#fff;background:var(--decline);border-radius:6px;padding:1px 6px;font-size:10px;font-weight:700;letter-spacing:.06em;margin-left:8px;vertical-align:middle;font-family:var(--font-ui)}
+.isnew{box-shadow:inset 3px 0 0 var(--decline);background:#e055551a!important}
+.bub.isnew{box-shadow:0 0 0 2px var(--decline)}
 .neu{color:#1b1408;background:var(--amber);border-radius:6px;padding:1px 6px;font-size:9.5px;letter-spacing:.06em;margin-left:6px}
 .tipbtn{font:inherit;color:var(--amber);background:#e3a54822;border-radius:8px;padding:2px 7px;letter-spacing:0;text-transform:none;font-size:12px}
 .row3{display:grid;grid-template-columns:34px 1fr 1fr;gap:8px;padding:6px 4px;font-size:13px;border-bottom:1px solid var(--line)}
@@ -263,7 +266,10 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .ndot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--decline);margin-left:6px;vertical-align:middle;box-shadow:0 0 0 2px #0008;flex:none}
 .newsrow{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;border-radius:12px;background:#e0555522;border:1px solid #e0555566;font-size:14px;font-weight:600;color:var(--text,#ece6da)}
 .newsrow .ndot{margin:0}.newsrow small{display:block;font-weight:400;color:var(--muted);font-size:12px;margin-top:2px}.newsrow .go2{margin-left:auto;color:#ff8a8a;font-size:13px;white-space:nowrap}
-.ddots i.nw{background:var(--decline)!important}
+.dnav .ddots button{width:22px;height:22px;min-width:0;display:grid;place-items:center;padding:0!important;background:none!important;border:0;border-radius:50%;cursor:pointer;box-shadow:none}
+.ddots button i{width:10px;height:10px;border-radius:50%;background:var(--line);display:block}
+.ddots button i.rd{background:#6fbf8a}.ddots button i.nw{background:var(--decline)}.ddots button i.on{background:var(--amber);box-shadow:0 0 0 3px #e3a54840}
+.dread{text-align:center;font-size:12px;color:var(--muted);margin-top:6px}.seenmark{color:#6fbf8a;font-size:12px;font-weight:600;margin-left:8px;font-family:var(--font-ui)}
 .mission .acts{display:flex;flex-wrap:wrap;gap:8px}
 .mission .acts button{padding:8px 12px;border-radius:10px;background:var(--surface-2);font-size:13px;font-weight:600}
 .mission .acts button.tip{margin-left:auto;background:#e3a5481f;color:var(--amber)}
@@ -728,7 +734,7 @@ function openPhone(){
       <span class="meta">${esc(c.time)}</span></button>`).join("")
     : `<div class="empty">Noch keine Anrufe.</div>`;
   const box = S.voicemails.length ? S.voicemails.slice().reverse().map(v => { const V = CONTENT.voice[v]; return `
-    <button class="row" data-vm="${v}"><span class="av">▶</span><span class="main"><span class="t">${esc(V.from)}${isNew("telefon", v) ? '<i class="ndot"></i>' : ""}</span>
+    <button class="row${isNew("telefon", v) ? " isnew" : ""}" data-vm="${v}"><span class="av">▶</span><span class="main"><span class="t">${esc(V.from)}${isNew("telefon", v) ? '<b class="neuR">NEU</b>' : '<span class="seenmark">✓ angehört</span>'}</span>
     <span class="s">${esc(V.title)}${V.memo ? " · Memo, " + esc(V.memo.split("aufgenommen am ")[1] || "") : ""}</span></span></button>`; }).join("")
     : `<div class="empty">Keine Sprachnachrichten.<br>Falkenrieds Mailbox füllt sich, wenn ihr seinen Spuren folgt.</div>`;
   openWin("Telefon", `<div class="seg"><button class="${phoneTab==='anrufe'?'on':''}" data-tab="anrufe">Anrufe</button><button class="${phoneTab==='mailbox'?'on':''}" data-tab="mailbox">Mailbox${newsUnseen("telefon").length ? '<i class="ndot"></i>' : ""}</button></div>${phoneTab==='anrufe'?calls:box}`);
@@ -755,18 +761,18 @@ function showCallDetail(c){
 function openThreads(){
   const th = S.threads.unbekannt;
   const last = th[th.length-1];
-  const mail = S.stage >= 7 ? `<button class="row" data-mail="1"><span class="av">${svg("mail")}</span>
-      <span class="main"><span class="t">Postfach · Kripo${isNew("nachrichten","postfach") ? '<i class="ndot"></i>' : ""}</span><span class="s">${S.st.s7 && S.st.s7.decoded ? "ABHOLUNG · Drei Stücke aus der Falkenried-Sammlung" : "Kuriernachricht vom Tatabend, verschlüsselt"}</span></span></button>` : "";
-  const html = (th.length ? `<button class="row" data-thread="unbekannt"><span class="av">?</span>
-      <span class="main"><span class="t">Unbekannt${th.some((m, i) => isNew("nachrichten", m.id || "m" + i)) ? '<i class="ndot"></i>' : ""}</span><span class="s">${esc(last.text)}</span></span><span class="meta">${esc(last.time)}</span></button>` : "") + mail;
+  const mail = S.stage >= 7 ? `<button class="row${isNew("nachrichten","postfach") ? " isnew" : ""}" data-mail="1"><span class="av">${svg("mail")}</span>
+      <span class="main"><span class="t">Postfach · Kripo${isNew("nachrichten","postfach") ? '<b class="neuR">NEU</b>' : ""}</span><span class="s">${S.st.s7 && S.st.s7.decoded ? "ABHOLUNG · Drei Stücke aus der Falkenried-Sammlung" : "Kuriernachricht vom Tatabend, verschlüsselt"}</span></span></button>` : "";
+  const html = (th.length ? `<button class="row${th.some((m, i) => isNew("nachrichten", m.id || "m" + i)) ? " isnew" : ""}" data-thread="unbekannt"><span class="av">?</span>
+      <span class="main"><span class="t">Unbekannt${th.some((m, i) => isNew("nachrichten", m.id || "m" + i)) ? '<b class="neuR">NEU</b>' : ""}</span><span class="s">${esc(last.text)}</span></span><span class="meta">${esc(last.time)}</span></button>` : "") + mail;
   openWin("Nachrichten", html || `<div class="empty">Keine Nachrichten.</div>`);
   $("#winBody").onclick = e => { if (e.target.closest("[data-thread]")) openChat(); if (e.target.closest("[data-mail]")) openPostfach(); };
 }
 function openChat(){
-  S.unread = 0; save(); newsSeen("nachrichten", ...S.threads.unbekannt.map((m, i) => m.id || "m" + i));
-  const th = S.threads.unbekannt;
-  const html = `<div class="chat"><span class="sys">Nummer unterdrückt</span>${th.map(m => `
-    <div class="bub ${m.attachment?'att':''}">${esc(m.text)}${m.attachment?`<br><br><button class="attbtn" data-att="${esc(m.attachment)}">📎 ${esc(m.attachment)} <span style="font-size:12px;opacity:.7">· öffnen</span></button>`:""}<span class="when">${esc(m.time)}</span></div>`).join("")}</div>`;
+  const th = S.threads.unbekannt; const nw = th.map((m, i) => isNew("nachrichten", m.id || "m" + i));
+  S.unread = 0; save(); newsSeen("nachrichten", ...th.map((m, i) => m.id || "m" + i));
+  const html = `<div class="chat"><span class="sys">Nummer unterdrückt</span>${th.map((m, i) => `
+    <div class="bub ${m.attachment?'att':''}${nw[i] ? " isnew" : ""}">${nw[i] ? '<b class="neuR" style="margin:0 0 6px;display:table">NEU</b>' : ""}${esc(m.text)}${m.attachment?`<br><br><button class="attbtn" data-att="${esc(m.attachment)}">📎 ${esc(m.attachment)} <span style="font-size:12px;opacity:.7">· öffnen</span></button>`:""}<span class="when">${esc(m.time)}</span></div>`).join("")}</div>`;
   openWin("Unbekannt", html, { back:"Nachrichten", onBack:openThreads });
   const b = $("#winBody"); b.scrollTop = b.scrollHeight;
   b.onclick = e => { if (e.target.closest("[data-att]")) openAttachment(); };
@@ -804,8 +810,9 @@ function alibiCheck(){
 }
 /* Alibis melden jetzt die allgemeinen Hinweise (newsCheck) */
 function personCard(p, cls, attr){
-  return `<button class="card ${cls||""}" ${attr||""}>
-    <span class="av">${p.photo ? `<img src="${p.photo.replace(".jpg","_av.jpg")}" alt="">` : esc(p.name[0])}</span><span class="n">${esc(p.name)}, ${p.age}${CONTENT.suspects.includes(p) && (isNew("verdaechtige", p.id) || (alibiOf(p.id) && isNew("verdaechtige", "alibi:" + p.id))) ? '<i class="ndot"></i>' : ""}</span>
+  const nw = CONTENT.suspects.includes(p) && (isNew("verdaechtige", p.id) || (alibiOf(p.id) && isNew("verdaechtige", "alibi:" + p.id)));
+  return `<button class="card ${cls||""}${nw ? " isnew" : ""}" ${attr||""}>
+    <span class="av">${p.photo ? `<img src="${p.photo.replace(".jpg","_av.jpg")}" alt="">` : esc(p.name[0])}</span><span class="n">${esc(p.name)}, ${p.age}${CONTENT.suspects.includes(p) && (isNew("verdaechtige", p.id) || (alibiOf(p.id) && isNew("verdaechtige", "alibi:" + p.id))) ? '<b class="neuR">NEU</b>' : ""}</span>
     <span class="r">${esc(p.role)}</span><span class="q">${esc(p.note)}${p.says?`<br><i>${esc(p.says)}</i>`:""}${alibiOf(p.id) ? `<br><span style="color:#6fbf8a">✓ Alibi: ${esc(alibiOf(p.id))}${(cls||"").includes("struck") ? "" : " Tippen zum Streichen."}</span>` : ""}</span></button>`;
 }
 function openSuspects(){
@@ -834,7 +841,7 @@ function openSuspects(){
 function showSuspect(p){
   const struck = S.struck.includes(p.id);
   newsSeen("verdaechtige", p.id, ...(alibiOf(p.id) ? ["alibi:" + p.id] : []));
-  document.querySelectorAll(`#winBody [data-sus="${p.id}"] .ndot`).forEach(x => x.remove());
+  document.querySelectorAll(`#winBody [data-sus="${p.id}"] .neuR`).forEach(x => x.remove()); document.querySelectorAll(`#winBody [data-sus="${p.id}"]`).forEach(x => x.classList.remove("isnew"));
   sheet(`${p.photo ? `<img class="portrait" src="${p.photo}" alt="${esc(p.name)}">` : ""}<div class="kind">${esc(p.role)}</div>
     <h2>${esc(p.name)}, ${p.age}</h2><p>${esc(p.note)}</p>
     ${RECORDINGS[p.id] ? `<button class="btn primary" id="recPlay">▶ Vernehmung anhören</button>
@@ -946,14 +953,16 @@ function openNotebook(first, jumpReq){
   const d = pages[nbPage]; const unseenNb = pages.map(x => isNew("notizen", x.date)); newsSeen("notizen", d.date);
   openWin("Notizen", `${first ? `<div class="target"><div class="t">Entsperrt</div><div class="s">Falkenrieds Tagebuch ist offen. Blättert durch, darin steht, wohin es weitergeht.</div></div>` : ""}
     <div class="diary" id="diary">
-      <div class="dpage" id="dpage"><div class="ddate">${esc(d.date)}</div><div class="dtext">${d.html}</div>
+      <div class="dpage" id="dpage"><div class="ddate">${esc(d.date)}${unseenNb[nbPage] ? '<b class="neuR">NEU</b>' : '<span class="seenmark">✓ gelesen</span>'}</div><div class="dtext">${d.html}</div>
         <div class="dfoot">Seite ${nbPage + 1} von ${pages.length}</div></div>
       <div class="dnav"><button id="dPrev" ${nbPage === 0 ? "disabled" : ""} aria-label="Vorherige Seite">‹ früher</button>
-        <span class="ddots">${pages.map((_, i) => `<i class="${i === nbPage ? "on" : unseenNb[i] ? "nw" : ""}"></i>`).join("")}</span>
+        <span class="ddots">${pages.map((p, i) => `<button data-pg="${i}" aria-label="Seite ${i + 1}${unseenNb[i] && i !== nbPage ? ", neu" : ", gelesen"}"><i class="${i === nbPage ? "on" : unseenNb[i] ? "nw" : "rd"}"></i></button>`).join("")}</span>
         <button id="dNext" ${nbPage === pages.length - 1 ? "disabled" : ""} aria-label="Nächste Seite">später ›</button></div>
+      <div class="dread">${(() => { const left = pages.filter(x => isNew("notizen", x.date)).length; return left ? `<b style="color:#ff8a8a">${left} ${left === 1 ? "Seite" : "Seiten"} noch ungelesen</b> · rote Punkte` : "✓ Alle Seiten gelesen"; })()}</div>
     </div>`);
   const go = dir => { const n = nbPage + dir; if (n < 0 || n >= pages.length) return; nbPage = n; openNotebook(false); const pg = $("#dpage"); if (pg) pg.classList.add(dir > 0 ? "inR" : "inL"); };
   $("#dPrev").onclick = () => go(-1); $("#dNext").onclick = () => go(1);
+  document.querySelectorAll("[data-pg]").forEach(b => b.onclick = () => { const n = +b.dataset.pg; if (n !== nbPage) go(n - nbPage); });
   let x0 = null; const el = $("#diary");
   el.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; }, { passive:true });
   el.addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1); });
@@ -1402,7 +1411,7 @@ function newVoice(id){
 }
 function playVoice(id, auto){
   const V = CONTENT.voice[id]; newsSeen("telefon", id);
-  document.querySelectorAll(`#winBody [data-vm="${id}"] .ndot`).forEach(x => x.remove()); if (!newsUnseen("telefon").length) document.querySelectorAll(`#winBody [data-tab="mailbox"] .ndot`).forEach(x => x.remove());
+  document.querySelectorAll(`#winBody [data-vm="${id}"] .neuR`).forEach(x => x.remove()); document.querySelectorAll(`#winBody [data-vm="${id}"]`).forEach(x => x.classList.remove("isnew")); if (!newsUnseen("telefon").length) document.querySelectorAll(`#winBody [data-tab="mailbox"] .ndot`).forEach(x => x.remove());
   sheet(`${V.photo ? `<img src="${V.photo}" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px">` : ""}<div class="kind">${V.memo ? "Aufnahme von vor seinem Tod" : "Sprachnachricht"} · ${esc(V.from)}</div><h2>${esc(V.title)}</h2>${V.memo ? `<p style="font-size:12px;margin:-2px 0 10px">${esc(V.memo)}</p>` : ""}
     <div class="grid2" style="margin-bottom:10px"><button class="btn primary" id="vPlay" style="margin:0">Abspielen</button><button class="btn" data-close style="margin:0">Schließen</button></div>
     <div class="transcript">${esc(V.text)}</div>`);
