@@ -97,8 +97,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .row{display:flex;align-items:center;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line);width:100%;text-align:left}
 .row .av{width:42px;height:42px;border-radius:50%;background:var(--surface-2);display:grid;place-items:center;font-weight:700;font-size:14px;flex:none}
 .row .main{flex:1;min-width:0}
-.row .t{font-weight:600;font-size:15px}
-.row .s{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .t{font-weight:600;font-size:15px;display:block}
+.row .av svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.row .s{display:block;font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .row .meta{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
 .row.missed .t{color:var(--decline)}
 .empty{color:var(--muted);font-size:14px;line-height:1.5;padding:28px 6px;text-align:center}
@@ -188,6 +189,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .invrow b{display:inline-block;min-width:24px;color:var(--amber);font-family:var(--font-mono)}
 .invrow.pick.on{background:#e3a54833;border-color:var(--amber)}
 .tll{margin:0 0 10px;padding-left:18px;font-size:14px;line-height:1.5;color:var(--ink)}.tll b{font-family:var(--font-mono);font-size:12px;color:var(--amber);margin-right:6px}
+.glued{background:#fff;padding:6px 6px 16px;margin:10px auto;max-width:86%;box-shadow:0 2px 6px #0004;transform:rotate(-1.5deg)}
+.glued:nth-of-type(2n){transform:rotate(1.8deg)}.glued .ph{display:block;min-height:90px;color:#666;font-family:var(--font-ui);font-size:12px}
 .banner{position:absolute;left:10px;right:10px;top:44px;z-index:50;background:#1d2330f2;border:1px solid var(--line);border-radius:20px;padding:12px 14px;display:flex;gap:12px;align-items:center;text-align:left;backdrop-filter:blur(14px);animation:drop .3s ease-out}
 @keyframes drop{from{transform:translateY(-30px);opacity:0}to{transform:none;opacity:1}}
 .banner .ico{width:38px;height:38px;border-radius:10px;flex:none}
@@ -431,8 +434,8 @@ const CONTENT = {
       action:"Notizen öffnen" },
     { id:2, name:"Landschaftshaus", spot:"Altstadt 28, die bemalte Fassade", lat:48.533888, lng:12.150226, revealMin:3,
       src:"Falkenrieds Tagebuch, Eintrag vom 18. Dezember", clue:"Bezahlt hat nicht der Bräutigam. Wer es war, das steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit.",
-      task:"Auf Falkenrieds Handy sind drei Fotos von dieser Wand, ganz nah, ohne Zusammenhang. Findet heraus, was er fotografiert hat und warum.",
-      action:"Fotos öffnen" },
+      task:"In Falkenrieds Notizbuch kleben drei Fotos von dieser Wand, ganz nah, ohne Zusammenhang. Findet heraus, was er fotografiert hat und warum.",
+      action:"Eingeklebte Fotos ansehen" },
     { id:3, name:"Denkmal Ludwigs des Reichen", spot:"Dreifaltigkeitsplatz", lat:48.532417, lng:12.149794,
       src:"Falkenrieds Notizen zur Fassade", clue:"Er steht noch einmal in dieser Stadt, aus Bronze, dort, wo die Dreifaltigkeit wacht.",
       task:"Falkenrieds Archiv ist mit dem Jahr gesichert, in dem ihm die Stadt dieses Denkmal setzte. Seine Passwort-Notiz: „Es steht auf seinem Rücken. In der Schrift der Römer.“",
@@ -452,7 +455,7 @@ const CONTENT = {
     { id:7, name:"Ländtor", spot:"Wappen über dem Torbogen", lat:48.535305, lng:12.149236,
       src:"Aussage der Zeugin Rosa Brandl", clue:"Später hörte ich am Telefon, der Wagen sollte die Stadt durch das Tor verlassen, über dem die drei Helme hängen.",
       task:"Die Kripo hat auf Falkenrieds Archiv-Server eine verschlüsselte Kuriernachricht vom Tatabend gefunden und in sein Postfach gelegt. Wie weit die Buchstaben verschoben sind, verrät Falkenrieds Aufnahme der Sage vom Ritter am Ländtor.",
-      action:"Mail öffnen" },
+      action:"Postfach öffnen" },
     { id:8, name:"Ringelstecherwiese", spot:"Treffpunkt am Christkindlmarkt", lat:48.532814, lng:12.146553,
       src:"Abholauftrag vom Tatabend", clue:"Übergabe: Ringelstecherwiese, sobald die Ware greifbar ist.",
       task:"Ermittlungsleiterin Seidl wartet auf der Wiese, Notar Mair mit Falkenrieds Kassette. Mair gibt sie erst heraus, wenn ihr Seidl sagt, wer es war, und es beweisen könnt.",
@@ -485,6 +488,7 @@ const CONTENT = {
   diary: [
     { date:"Sonntag, 2. November 2026", html:"Neuburg an der Donau, Kirchenbücher. Zwei Tage zwischen Staub und Latein. Im Jahr 1504 ein Eintrag, der nicht zu den anderen passt: ein Kindername, durchgestrichen, daneben eine andere Hand.<br><br>Und heute habe ich gefunden, wonach ich seit Jahren suche.<span class=\"red\">Bester Tag meines Lebens. Mehr schreibe ich nicht, nicht einmal hier.</span>" },
     { date:"Freitag, 28. November 2026", html:"Jemand war an meinem Schreibtisch. Die Mappe lag anders, als ich sie hingelegt hatte, und im Archivprogramm war eine Datei geöffnet, die ich seit Wochen nicht angefasst habe.<br><br>Wer hat einen Schlüssel? Zu viele." },
+    { date:"Mittwoch, 10. Dezember 2026", req:"fassade", html:"Lange vor dem Haus der Landstände gestanden. Drei Reihen, dreißig Herzöge. Meine Fotos:<div class=\"glued\"><span class=\"ph\">Foto 1: weißer Adler unter einer Krone</span></div><div class=\"glued\"><span class=\"ph\">Foto 2: Hand mit Reichsapfel</span></div><div class=\"glued\"><span class=\"ph\">Foto 3: Detail einer Figur in der unteren Reihe</span></div>" },
     { date:"Freitag, 12. Dezember 2026", html:"Tobias war wieder da. Mein Neffe hat wieder nach Geld gefragt.<span class=\"red\">Nein.</span>" },
     { date:"Donnerstag, 18. Dezember 2026", start:true, html:"Für den, der das hier liest.<br><br>In Sankt Martin hat Georg 1475 seine Hedwig geheiratet. Hier meine Abschrift der Hochzeitsrechnung:<table style=\"margin-top:8px\"><tr><td>Ochsen</td><td>323</td></tr><tr><td>Schweine</td><td>285</td></tr><tr><td>Ungarische Schafe</td><td>1.133</td></tr><tr><td>Gänse</td><td>11.500</td></tr><tr><td>Hühner</td><td>40.000</td></tr><tr><td>Eier</td><td>194.345</td></tr></table><span class=\"red\">Bezahlt hat nicht der Bräutigam.</span><br>Wer es war, das steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit." },
     { date:"Samstag, 19. Dezember 2026, morgens", html:"Heute Abend sage ich es allen. Die Gäste kommen um sieben. Nach dem Dessert.<br><br>Es gehört nicht mir. Es gehört dieser Stadt.<span class=\"red\">Und wenn mir etwas zustößt: Notar Mair weiß, was zu tun ist.</span>" }
@@ -515,7 +519,7 @@ try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(fresh(),
 let PUZZLE_2, PUZZLE_3, PUZZLE_4, PUZZLE_5, PUZZLE_6, PUZZLE_7, PUZZLE_8;
 const PUZZLE = { 1:() => openFaceLock(), 2:() => PUZZLE_2(), 3:() => PUZZLE_3(), 4:() => PUZZLE_4(), 5:() => PUZZLE_5(), 6:() => PUZZLE_6(), 7:() => PUZZLE_7(), 8:() => PUZZLE_8() };
 const AFTER_CALL = {};
-const APP_VIEW = { notizen:() => openNotebook(), fotos:() => viewPhotos(), archiv:() => viewArchive(), mail:() => PUZZLE_7(), tresor:() => (S.ending ? showEnding() : tresor()) };
+const APP_VIEW = { notizen:() => openNotebook(), tresor:() => (S.ending ? showEnding() : tresor()) };
 const localSave = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} };
 const save = () => { localSave(); schedulePush(); };
 
@@ -554,9 +558,6 @@ const APPS = {
   telefon:  { label:"Telefon",   icon:"phone",  bg:"#2f8f5b", open:()=>openPhone() },
   nachrichten:{ label:"Nachrichten", icon:"msg", bg:"#3d7be0", open:()=>openThreads() },
   notizen:  { label:"Notizen",   icon:"notes",  bg:"#c9a24a", lock:"notizen" },
-  fotos:    { label:"Fotos",     icon:"photos", bg:"#8a5cc4", lock:"fotos" },
-  archiv:   { label:"Archiv",    icon:"archive",bg:"#6b5a44", lock:"archiv" },
-  mail:     { label:"Mail",      icon:"mail",   bg:"#4f6d8f", lock:"mail" },
   karte:    { label:"Karte",     icon:"map",    bg:"#3a8c86", open:()=>openMap() },
   tresor:   { label:"Tresor",    icon:"safe",   bg:"#7c2f2f", lock:"tresor" },
   ermittlung:{ label:"Ermittlung", icon:"folder", bg:"#2a3140", open:()=>openFolder() },
@@ -646,14 +647,14 @@ function renderHome(){
   screen.innerHTML = `${statusBar()}
     <div class="case"><span>${esc(CONTENT.caseNo)}</span><span>M. v. Falkenried</span></div>
     ${missionCard()}
-    <div class="grid">${["fallakte","verdaechtige","stammbaum","notizen","fotos","archiv","mail","tresor"].map(appTile).join("")}</div>
+    <div class="grid">${["fallakte","verdaechtige","stammbaum","notizen","tresor"].map(appTile).join("")}</div>
     <div class="dock" style="grid-template-columns:repeat(3,1fr)">${["telefon","nachrichten","karte"].map(appTile).join("")}</div>`;
 }
 document.addEventListener("click", e => {
   const t = e.target.closest("[data-app]"); if (!t) return;
   const id = t.dataset.app, a = APPS[id];
   if (a.lock && !S.apps.includes(id)) {
-    const route = { notizen:1, fotos:2, archiv:3, mail:7, tresor:8 }[id];
+    const route = { notizen:1, tresor:8 }[id];
     if (route === S.stage && S.phase === "task" && !(id === "tresor" && !S.st.accused)) { closeSheet(); if (!ackGate()) return; return PUZZLE[S.stage](); }
     return openLocked(a);
   }
@@ -739,13 +740,15 @@ function showCallDetail(c){
    Nachrichten
    ============================================================ */
 function openThreads(){
+  newsMark("nachrichten");
   const th = S.threads.unbekannt;
   const last = th[th.length-1];
-  const html = th.length ? `<button class="row" data-thread="unbekannt"><span class="av">?</span>
-      <span class="main"><span class="t">Unbekannt</span><span class="s">${esc(last.text)}</span></span><span class="meta">${esc(last.time)}</span></button>`
-    : `<div class="empty">Keine Nachrichten.</div>`;
-  openWin("Nachrichten", html);
-  $("#winBody").onclick = e => { if (e.target.closest("[data-thread]")) openChat(); };
+  const mail = S.stage >= 7 ? `<button class="row" data-mail="1"><span class="av">${svg("mail")}</span>
+      <span class="main"><span class="t">Postfach · Kripo</span><span class="s">${S.st.s7 && S.st.s7.decoded ? "ABHOLUNG · Drei Stücke aus der Falkenried-Sammlung" : "Kuriernachricht vom Tatabend, verschlüsselt"}</span></span></button>` : "";
+  const html = (th.length ? `<button class="row" data-thread="unbekannt"><span class="av">?</span>
+      <span class="main"><span class="t">Unbekannt</span><span class="s">${esc(last.text)}</span></span><span class="meta">${esc(last.time)}</span></button>` : "") + mail;
+  openWin("Nachrichten", html || `<div class="empty">Keine Nachrichten.</div>`);
+  $("#winBody").onclick = e => { if (e.target.closest("[data-thread]")) openChat(); if (e.target.closest("[data-mail]")) { if (S.stage === 7 && S.phase === "task" && !ackGate()) return; PUZZLE_7(); } };
 }
 function openChat(){
   S.unread = 0; save();
@@ -914,7 +917,7 @@ function openFaceLock(){
   };
 }
 let nbPage = null;
-function diaryPages(){ return CONTENT.diary.filter(d => !d.req || S.notes.includes(d.req)); }
+function diaryPages(){ return CONTENT.diary.filter(d => !d.req || S.notes.includes(d.req)).map(d => d.req === "fassade" ? Object.assign({}, d, { html: d.html + "<br><br>" + NOTES.fassade.html }) : d); }
 function openNotebook(first, jumpReq){
   newsMark("notizen");
   const pages = diaryPages();
@@ -1384,7 +1387,7 @@ PUZZLE_2 = function(){
     ? `<div class="target"><div class="t">${esc(cur.label)}</div><div class="s">Sucht dieses Detail an der Fassade und tippt die Stelle an.</div>
        <div class="faces" style="margin-top:10px"><button tabindex="-1" style="pointer-events:none">${MOCK(cur.label + " (euer Detailfoto folgt)")}</button></div></div>`
     : `<div class="target"><div class="t">Alle drei Fotos zugeordnet</div><div class="s">Falkenried hat mit einem Kreis markiert, wer die Hochzeit bezahlt hat. Tippt ihn an.<br><br>Seine Randnotiz: „Foto 1 zeigt den Adler der Braut, zu Füßen des Bräutigams. Bezahlt hat sein Vater. Die Herzöge stehen nach Generationen in einer Reihe, der Vater immer links vom Sohn.“</div></div>`;
-  openWin("Fotos", head + facadeGrid() + `<p id="fMsg" class="empty" style="padding:10px 0"></p>`);
+  openWin("Eingeklebte Fotos", head + facadeGrid() + `<p id="fMsg" class="empty" style="padding:10px 0"></p>`);
   $("#winBody").onclick = e => {
     const b = e.target.closest("[data-pos]"); if (!b) return;
     const st = S.st.s2 || (S.st.s2 = { found:[], step:0 }); st.found = st.found || [];
@@ -1402,11 +1405,6 @@ PUZZLE_2 = function(){
     else { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); msg.textContent = "Das ist nicht der Vater. Wo stand er laut Foto 1?"; wrong(lk); }
   };
 };
-function viewPhotos(){
-  newsMark("fotos");
-  openWin("Fotos", FACADE_TARGETS.map(t => `<div class="faces"><button tabindex="-1" style="pointer-events:none">${MOCK(t.label)}</button></div>`).join("") +
-    `<div class="nb" style="margin-top:6px"><h3>Notizen</h3>${NOTES.fassade.html}</div>`);
-}
 
 /* ---------- Station 3: Archiv-Passwort ---------- */
 PUZZLE_3 = function(){
@@ -1491,20 +1489,6 @@ PUZZLE_4 = function(){
     $("#s4Done").onclick = () => { if (S.stage !== 4) return; done(null, 4); setTimeout(() => fire("N02"), 700); };
   };
 };
-function viewArchive(){
-  newsMark("archiv");
-  const items = [];
-  items.push(`<div class="hint"><h3>Hochzeitsrechnung 1475</h3><p>Abschrift aus Falkenrieds Manteltasche.</p></div>`);
-  if (S.evidence.includes("E05")) items.push(`<div class="hint"><h3>Mappe: Inventare und Fundbericht</h3><p>${esc(CONTENT.evidence.E05.d)}</p></div>`);
-  if (S.evidence.includes("E08")) items.push(`<div class="hint"><h3>Brief „1503“</h3><p>${esc(CONTENT.evidence.E08.d)}</p></div>`);
-  if (S.evidence.includes("E09")) items.push(`<div class="hint"><h3>Dateiprotokoll</h3><p>${esc(CONTENT.evidence.E09.d)}</p></div>`);
-  if (S.st.s6 && S.st.s6.open) items.push(`<button class="btn" id="openAkte">Akte „19. Dezember“ öffnen</button>`);
-  const cur = S.phase === "task" && [4,5,6].includes(S.stage) ? `<button class="btn primary" id="curPz">${esc(curStation().action)}</button>` : "";
-  openWin("Archiv", cur + items.join("") + `<button class="btn" id="toFA">Alles Gefundene in der Fallakte</button>`);
-  $("#toFA").onclick = () => openFallakte();
-  const c = $("#curPz"); if (c) c.onclick = () => PUZZLE[S.stage]();
-  const a = $("#openAkte"); if (a) a.onclick = () => akteView();
-}
 
 /* ---------- Station 5: Brief ---------- */
 const LETTER = [
@@ -1726,7 +1710,7 @@ function r7Question(){
 PUZZLE_7 = function(){
   const st = S.st.s7 || (S.st.s7 = { decoded:false });
   if (!st.decoded) {
-    openWin("Mail", `<div class="hint"><h3>Von der Kripo abgelegt · gefunden auf Falkenrieds Archiv-Server</h3><p style="font-family:var(--font-mono);font-size:22px;letter-spacing:.15em;margin-top:8px">HIOVSBUN</p>
+    openWin("Postfach", `<div class="hint"><h3>Von der Kripo abgelegt · gefunden auf Falkenrieds Archiv-Server</h3><p style="font-family:var(--font-mono);font-size:22px;letter-spacing:.15em;margin-top:8px">HIOVSBUN</p>
       <p style="margin-top:8px">Seidl: „Jeder Buchstabe wurde nach vorn geschoben. Falkenried hatte im selben Ordner eine Aufnahme: die Sage vom Ritter am Ländtor. Hört sie euch am Tor an.“</p>
       <button class="btn" id="sagePlay" style="margin-top:4px">▶ Die Sage vom Ritter am Ländtor</button></div>
       <div class="abc">${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c => `<span>${c}</span>`).join("")}</div>
@@ -1746,7 +1730,7 @@ PUZZLE_7 = function(){
     return;
   }
   newsMark("mail");
-  openWin("Mail", `<div class="nb" style="font-size:15px;font-family:var(--font-mono)"><h3>Vertraulich · 19.12.2026 · 19:30 Uhr</h3>ABHOLUNG<br><br>Drei Stücke aus der Falkenried-Sammlung: Brosche, Schalen, Siegel.<br>Anbieter: <b>HD</b> · Käufer: <b>CW-04</b><br>Übergabe: <b>Ringelstecherwiese</b>, sobald die Ware greifbar ist.</div>
+  openWin("Postfach", `<div class="nb" style="font-size:15px;font-family:var(--font-mono)"><h3>Vertraulich · 19.12.2026 · 19:30 Uhr</h3>ABHOLUNG<br><br>Drei Stücke aus der Falkenried-Sammlung: Brosche, Schalen, Siegel.<br>Anbieter: <b>HD</b> · Käufer: <b>CW-04</b><br>Übergabe: <b>Ringelstecherwiese</b>, sobald die Ware greifbar ist.</div>
     <div class="hint"><h3>Handyauswertung Clara Weiß (Kripo)</h3><p>Die Kripo hat nach dem Käufercode CW-04 gesucht und ihn in Clara Weiß' Handy gefunden: Sie telefonierte von 20:44 bis 20:50 mit genau diesem Käufer. Deshalb hat sie über den Abend gelogen, sie verhandelte heimlich.</p></div>
     <div class="target"><div class="t">Streicht, wer um 20:48 nachweislich woanders war</div><div class="s">Öffnet „Verdächtige“ und streicht alle mit sicherem Alibi. Wer übrig bleibt, war es.</div>
     <button class="btn primary" id="toSus" style="margin-top:10px">Verdächtige öffnen</button></div>`);
@@ -2153,7 +2137,7 @@ const FA = [
     open:() => docSheet("Dokument", "Hochzeitsrechnung 1475", `<div class="nb" style="font-size:16px">${CONTENT.diary.find(d => d.html.includes("Hochzeitsrechnung")).html.replace(/^.*?Hochzeitsrechnung:/, "")}</div>`) },
   { k:"tagebuch", kind:"Dokument", t:"Falkenrieds Tagebuch", s:() => diaryPages().length + " Seiten", has:() => S.apps.includes("notizen"), open:() => openNotebook() },
   { k:"fassade", kind:"Notiz", t:"Notizen zur Fassade", s:"Adler, Kaiser, Residenz, Heiliggeist", has:() => hasEv("E03"),
-    open:() => docSheet("Notiz", "Notizen zur Fassade", `<div class="nb" style="font-size:16px">${NOTES.fassade.html}</div>`) },
+    open:() => { nbPage = null; openNotebook(false, "fassade"); } },
   { k:"V_ERBE", voice:true },
   { k:"mappe", kind:"Beweis", t:"Mappe aus dem Archiv", s:"Inventare, Fundbericht, Vermerk, Preisnotiz", has:() => hasEv("E05"),
     open:() => docSheet("Beweis", "Mappe aus dem Archiv", `<div class="sec" style="margin-top:4px">Liste 1475</div>${inv75Html([], false)}<div class="sec">Liste 1503</div>${inv03Html()}
@@ -2188,9 +2172,7 @@ function newsKeys(app){
   if (app === "fallakte") return faItems().map(x => x.k);
   if (app === "verdaechtige") { const k = ["victim"].concat(CONTENT.suspects.filter(p => p.id !== "feld" || S.stage > 6 || (S.st.s6 && S.st.s6.callDone)).map(p => p.id)); if (S.voicemails.includes("V_ZEUGIN")) k.push("rosa"); return k; }
   if (app === "notizen") return S.apps.includes("notizen") ? diaryPages().map(d => d.date) : [];
-  if (app === "fotos") return S.apps.includes("fotos") ? ["fotos"] : [];
-  if (app === "archiv") return S.apps.includes("archiv") ? ["rechnung"].concat(["E05","E08","E09"].filter(hasEv), S.st.s6 && S.st.s6.open ? ["akte"] : []) : [];
-  if (app === "mail") return S.apps.includes("mail") ? ["abholung"] : [];
+  if (app === "nachrichten") return S.stage >= 7 ? ["postfach"] : [];
   if (app === "telefon") return S.voicemails.slice();
   return [];
 }
