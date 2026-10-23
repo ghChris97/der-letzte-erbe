@@ -1467,38 +1467,42 @@ const INV03 = [
 ];
 function inv03Html(){ return INV03.map(([room, items]) => `<div class="sec" style="margin:10px 0 4px">${esc(room)}</div>${items.map(t => `<div class="invrow">${esc(t)}</div>`).join("")}`).join(""); }
 function inv75Html(picked, tap){ return INV75.map(([n, t]) => tap ? `<button class="invrow pick${picked.includes(n) ? " on" : ""}" data-inv="${n}"><b>${n}</b> ${esc(t)}</button>` : `<div class="invrow"><b>${n}</b> ${esc(t)}${INV_MISSING.includes(n) ? ' <span style="color:#c0504d">· fehlt 1503</span>' : ""}</div>`).join(""); }
+/* Auswahlen beim Rätseln gelten nur für dieses Handy (jeder probiert selbst, gelöst wird gemeinsam) */
+let LOC = (() => { try { return JSON.parse(localStorage.getItem("falkenried-local") || "null") || {}; } catch(e) { return {}; } })();
+function locFor(){ if (LOC.reset !== (S.resetAt || 0)) LOC = { reset:S.resetAt || 0 }; LOC.wh = LOC.wh || [0,0,0]; LOC.picked = LOC.picked || []; LOC.marks = LOC.marks || {}; LOC.tab = LOC.tab || "75"; return LOC; }
+const saveLoc = () => { try { localStorage.setItem("falkenried-local", JSON.stringify(LOC)); } catch(e) {} };
 const S4 = () => { S.st.s4 = S.st.s4 || { seal:false, picked:[] }; S.st.s4.wh = S.st.s4.wh || [0,0,0]; S.st.s4.picked = S.st.s4.picked || []; return S.st.s4; };
 PUZZLE_4 = function(){
   const st = S.st.s4 || (S.st.s4 = { seal:false, picked:[] });
-  if (!st.seal) { st.wh = st.wh || [0,0,0];
+  if (!st.seal) { const L = locFor();
     openWin("Mappe", `<div class="target"><div class="t">Wappenschloss</div><div class="s">Falkenrieds Mappe hat ein Schloss mit drei Rädern. Stellt ein, was über der Rathausuhr hängt: wie viele, was und in welcher Farbe.</div></div>
-      <div class="wheels">${WHEELS.map((w,k) => `<div class="wheel"><div class="wl">${esc(w[0])}</div><button data-wh="${k}:-1" aria-label="hoch">▲</button><div class="wv" id="wv${k}">${esc(w[1][st.wh[k]])}</div><button data-wh="${k}:1" aria-label="runter">▼</button></div>`).join("")}</div>
+      <div class="wheels">${WHEELS.map((w,k) => `<div class="wheel"><div class="wl">${esc(w[0])}</div><button data-wh="${k}:-1" aria-label="hoch">▲</button><div class="wv" id="wv${k}">${esc(w[1][L.wh[k]])}</div><button data-wh="${k}:1" aria-label="runter">▼</button></div>`).join("")}</div>
       <button class="btn primary" id="whGo">Öffnen</button><p id="sMsg" class="empty" style="padding:8px 0"></p>`);
     $("#winBody").onclick = e => { const b = e.target.closest("[data-wh]"); if (!b) return; const st = S4();
       const [k,d] = b.dataset.wh.split(":").map(Number), n = WHEELS[k][1].length;
-      st.wh[k] = (st.wh[k] + d + n) % n; save(); $("#wv"+k).textContent = WHEELS[k][1][st.wh[k]]; };
+      const L = locFor(); L.wh[k] = (L.wh[k] + d + n) % n; saveLoc(); $("#wv"+k).textContent = WHEELS[k][1][L.wh[k]]; };
     $("#whGo").onclick = () => { const st = S4();
       if (!guard("4.seal")) return;
-      if (st.wh.every((x,k) => WHEELS[k][1][x] === WHEEL_OK[k])) { right("4.seal"); st.seal = true; save(); $("#sMsg").textContent = "Klick. Die Mappe ist offen."; setTimeout(PUZZLE_4, 900); }
+      if (locFor().wh.every((x,k) => WHEELS[k][1][x] === WHEEL_OK[k])) { right("4.seal"); st.seal = true; save(); $("#sMsg").textContent = "Klick. Die Mappe ist offen."; setTimeout(PUZZLE_4, 900); }
       else { $("#sMsg").textContent = "Das Schloss klemmt. Schaut noch einmal genau auf das Wappen über der Uhr."; wrong("4.seal"); }
     };
     return;
   }
-  st.tab = st.tab || "75";
+  const L = locFor();
   openWin("Mappe", `<div class="nb" style="font-size:16px"><h3>Falkenrieds Notiz</h3>Drei alte Häuser hinter einer Maske von 1861. Wer nur auf die Fassade schaut, sieht nicht, was dahinter ist. Mit meinen Listen ist es genauso.</div>
     <div class="target"><div class="t">Was fehlt 1503?</div><div class="s">Zwei Inventare der herzoglichen Schatzkammer. 1475 nummeriert, 1503 nach Räumen sortiert und anders geschrieben. Findet die drei Stücke, die 1503 fehlen, und markiert sie in der Liste von 1475.</div></div>
-    <div class="seg"><button class="${st.tab==="75"?"on":""}" data-tab="75">Liste 1475 · 12</button><button class="${st.tab==="03"?"on":""}" data-tab="03">Liste 1503 · 11</button></div>
-    <div id="invList">${st.tab === "75" ? inv75Html(st.picked, true) : inv03Html()}</div>
-    <p class="empty" style="padding:8px 0 0;text-align:left">Markiert: <b id="invN">${st.picked.length}</b> von 3</p>
+    <div class="seg"><button class="${L.tab==="75"?"on":""}" data-tab="75">Liste 1475 · 12</button><button class="${L.tab==="03"?"on":""}" data-tab="03">Liste 1503 · 11</button></div>
+    <div id="invList">${L.tab === "75" ? inv75Html(L.picked, true) : inv03Html()}</div>
+    <p class="empty" style="padding:8px 0 0;text-align:left">Markiert: <b id="invN">${L.picked.length}</b> von 3</p>
     <button class="btn primary" id="invGo">Prüfen</button><p id="iMsg" class="empty" style="padding:8px 0"></p>`);
   $("#winBody").onclick = e => { const st = S4();
-    const t = e.target.closest("[data-tab]"); if (t) { st.tab = t.dataset.tab; save(); return PUZZLE_4(); }
+    const t = e.target.closest("[data-tab]"); if (t) { locFor().tab = t.dataset.tab; saveLoc(); return PUZZLE_4(); }
     const b = e.target.closest("[data-inv]"); if (!b) return;
-    const n = +b.dataset.inv; st.picked = st.picked.includes(n) ? st.picked.filter(x => x !== n) : st.picked.concat(n); save(); b.classList.toggle("on"); $("#invN").textContent = st.picked.length; };
+    const L = locFor(), n = +b.dataset.inv; L.picked = L.picked.includes(n) ? L.picked.filter(x => x !== n) : L.picked.concat(n); saveLoc(); b.classList.toggle("on", L.picked.includes(n)); $("#invN").textContent = L.picked.length; };
   $("#invGo").onclick = () => { const st = S4();
     if (!guard("4.list")) return;
-    if (st.picked.length !== 3) { $("#iMsg").textContent = "Markiert genau drei Stücke in der Liste von 1475."; return; }
-    const ok = INV_MISSING.every(n => st.picked.includes(n));
+    if (locFor().picked.length !== 3) { $("#iMsg").textContent = "Markiert genau drei Stücke in der Liste von 1475."; return; }
+    const ok = INV_MISSING.every(n => locFor().picked.includes(n));
     if (!ok) { $("#iMsg").textContent = "Noch nicht richtig. Hakt jedes Stück von 1475 einzeln in der Liste von 1503 ab. Vorsicht: 1503 kam auch Neues dazu."; wrong("4.list"); return; }
     right("4.list");
     addEv("E05","E06","E07");
@@ -1680,7 +1684,7 @@ function akteView(interactive){
   const prot = PROTOCOL.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(st.callDone && r[0]==="??:??" ? "Karte R7 (J. Feld, Restaurator) – Archivtür geöffnet um 20:48" : r[1])}</td></tr>`).join("");
   const sts = STATEMENTS.map(x => `<div class="hint"><h3 style="display:flex;align-items:center;gap:12px"><img src="img/${x.id}_av.jpg" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none">${esc(x.who)}</h3><p style="margin-top:4px">${esc(x.t)}</p>
     <button class="recmini" data-rec="${x.id}">▶ Vernehmung</button>
-    ${interactive ? `<div class="acts2"><button data-mark="${x.id}:ok" class="${st.marks[x.id]==='ok'?'on':''}">passt</button><button data-mark="${x.id}:lie" class="${st.marks[x.id]==='lie'?'on':''}">passt nicht</button></div>` : ""}</div>`).join("");
+    ${interactive ? `<div class="acts2"><button data-mark="${x.id}:ok" class="${locFor().marks[x.id]==='ok'?'on':''}">passt</button><button data-mark="${x.id}:lie" class="${locFor().marks[x.id]==='lie'?'on':''}">passt nicht</button></div>` : ""}</div>`).join("");
   openWin("Akte 19. Dezember", `<div class="nb" style="font-size:14px;font-family:var(--font-mono)"><h3>Haustechnik</h3>Archivtür: Zutritt nur mit Karte. Jeder Zutritt wird protokolliert.</div>
     ${S.voicemails.includes("V_ZEUGIN") ? `<button class="btn" id="zeugin">Aussage der Zeugin anhören</button>` : ""}
     <div class="sec">Zeitstrahl Tatabend</div>${timelineSvg()}
@@ -1693,10 +1697,10 @@ function akteView(interactive){
   $("#winBody").addEventListener("click", e => { const r = e.target.closest("[data-rec]"); if (r) toggleRec(r.dataset.rec, r); const t = e.target.closest("[data-tl]"); if (t) timelineDetail(t.dataset.tl); });
   if (!interactive) return;
   $("#winBody").addEventListener("click", e => { const b = e.target.closest("[data-mark]"); if (!b) return;
-    const [id,v] = b.dataset.mark.split(":"); st.marks[id] = v; save();
+    const [id,v] = b.dataset.mark.split(":"); locFor().marks[id] = v; saveLoc();
     b.parentElement.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); });
   $("#lieGo").onclick = () => {
-    const m = st.marks;
+    const m = locFor().marks;
     if (!guard("6.lies")) return;
     if (m.helena === "lie" && m.clara === "lie" && m.tobias !== "lie") {
       right("6.lies"); st.liesOk = true; addEv("E10"); save();
