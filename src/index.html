@@ -523,9 +523,9 @@ const CONTENT = {
 const TEAM = ((new URLSearchParams(location.search).get("team") || "haupt").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 30)) || "haupt";
 const KEY = "falkenried-v2-" + TEAM;
 /* Gemeinsam für alle Handys des Teams */
-const SHARED = ["stage","phase","revealed","apps","evidence","voicemails","notes","st","ending","struck","hintsOpen","events","locks","devices","solvedBy","rev","resetAt","goAt","acks","mustSee","startedAt"];
+const SHARED = ["stage","phase","revealed","apps","evidence","voicemails","notes","st","ending","struck","hintsOpen","events","locks","devices","solvedBy","rev","resetAt","goAt","acks","mustSee","startedAt","heard"];
 const fresh = () => ({ stage:1, phase:"task", revealed:{}, apps:[], evidence:[], voicemails:[], notes:[], st:{}, ending:null, struck:[], hintsOpen:{},
-  events:[], locks:{}, devices:{}, solvedBy:null, rev:0, resetAt:0, goAt:{}, acks:{}, mustSee:[],
+  events:[], locks:{}, devices:{}, solvedBy:null, rev:0, resetAt:0, goAt:{}, acks:{}, mustSee:[], heard:{},
   /* nur auf diesem Handy */
   introSeen:false, unlocked:false, calls:[], threads:{ unbekannt:[] }, fired:[], unread:0, missed:0, seen:[] });
 /* Dieses Gerät */
@@ -644,7 +644,7 @@ function renderDots(){ const d = $("#dots"); if (d) d.innerHTML = [0,1,2,3].map(
 function checkPin(){
   if (pin === CONTENT.pin) {
     S.unlocked = true; if (!S.startedAt) S.startedAt = Date.now(); save(); pin = ""; renderHome();
-    askName(() => showCast(() => setTimeout(() => { fire("CALL_01"); processEvents(); }, 1200)));
+    askName(() => showCast(() => showInterrogations(() => setTimeout(() => { fire("CALL_01"); processEvents(); }, 1200))));
   } else {
     const d = $("#dots"); d.classList.remove("shake"); void d.offsetWidth; d.classList.add("shake");
     $("#pinhint").textContent = "Falscher Code. Schaut noch einmal in den Umschlag.";
@@ -810,9 +810,9 @@ function alibiCheck(){
 }
 /* Alibis melden jetzt die allgemeinen Hinweise (newsCheck) */
 function personCard(p, cls, attr){
-  const nw = CONTENT.suspects.includes(p) && (isNew("verdaechtige", p.id) || (alibiOf(p.id) && isNew("verdaechtige", "alibi:" + p.id)));
+  const nw = CONTENT.suspects.includes(p) && (isNew("verdaechtige", p.id) || (alibiOf(p.id) && isNew("verdaechtige", "alibi:" + p.id)) || (REC_MUST.includes(p.id) && !(S.heard || {})[p.id]));
   return `<button class="card ${cls||""}${nw ? " isnew" : ""}" ${attr||""}>
-    <span class="av">${p.photo ? `<img src="${p.photo.replace(".jpg","_av.jpg")}" alt="">` : esc(p.name[0])}</span><span class="n">${esc(p.name)}, ${p.age}${CONTENT.suspects.includes(p) && (isNew("verdaechtige", p.id) || (alibiOf(p.id) && isNew("verdaechtige", "alibi:" + p.id))) ? '<b class="neuR">NEU</b>' : ""}</span>
+    <span class="av">${p.photo ? `<img src="${p.photo.replace(".jpg","_av.jpg")}" alt="">` : esc(p.name[0])}</span><span class="n">${esc(p.name)}, ${p.age}${CONTENT.suspects.includes(p) && nw ? '<b class="neuR">NEU</b>' : ""}</span>
     <span class="r">${esc(p.role)}</span><span class="q">${esc(p.note)}${p.says?`<br><i>${esc(p.says)}</i>`:""}${alibiOf(p.id) ? `<br><span style="color:#6fbf8a">✓ Alibi: ${esc(alibiOf(p.id))}${(cls||"").includes("struck") ? "" : " Tippen zum Streichen."}</span>` : ""}</span></button>`;
 }
 function openSuspects(){
@@ -844,12 +844,12 @@ function showSuspect(p){
   document.querySelectorAll(`#winBody [data-sus="${p.id}"] .neuR`).forEach(x => x.remove()); document.querySelectorAll(`#winBody [data-sus="${p.id}"]`).forEach(x => x.classList.remove("isnew"));
   sheet(`${p.photo ? `<img class="portrait" src="${p.photo}" alt="${esc(p.name)}">` : ""}<div class="kind">${esc(p.role)}</div>
     <h2>${esc(p.name)}, ${p.age}</h2><p>${esc(p.note)}</p>
-    ${RECORDINGS[p.id] ? `<button class="btn primary" id="recPlay">▶ Vernehmung anhören</button>
+    ${RECORDINGS[p.id] ? `${REC_MUST.includes(p.id) ? `<p id="recState" style="margin:0 0 6px;font-size:13px">${(S.heard || {})[p.id] ? '<span style="color:#6fbf8a">✓ Vernehmung angehört</span>' : '<span style="color:#ff8a8a">Bitte einmal komplett anhören.</span>'}</p>` : ""}<button class="btn primary" id="recPlay">▶ Vernehmung anhören</button>
       <details style="margin:8px 0 4px"><summary style="cursor:pointer;color:var(--muted);font-size:13px">Mitschrift der Vernehmung</summary><div class="transcript" style="margin-top:8px">${esc(RECORDINGS[p.id].text)}</div></details>` : `<p><i>${esc(p.says)}</i></p>`}
     ${alibiOf(p.id) ? `<div class="hint" style="border-color:#6fbf8a"><p style="margin:0;color:#6fbf8a"><b>✓ Alibi um 20:48:</b> ${esc(alibiOf(p.id))}</p></div>` : ""}
     <button class="btn ${struck?"":"primary"}" id="strike">${struck?"Wieder als verdächtig führen":"Streichen: hat ein sicheres Alibi"}</button>
     <button class="btn" data-close>Schließen</button>`);
-  const rp = $("#recPlay"); if (rp) rp.onclick = () => toggleRec(p.id, rp);
+  const rp = $("#recPlay"); if (rp) rp.onclick = () => { window.onHeard = who => { const st = $("#recState"); if (st && who === p.id) st.innerHTML = '<span style="color:#6fbf8a">✓ Vernehmung angehört</span>'; document.querySelectorAll(`#winBody [data-sus="${p.id}"] .neuR`).forEach(x => x.remove()); document.querySelectorAll(`#winBody [data-sus="${p.id}"]`).forEach(x => x.classList.remove("isnew")); }; toggleRec(p.id, rp); };
   $("#strike").onclick = () => { S.struck = struck ? S.struck.filter(x=>x!==p.id) : S.struck.concat(p.id); save(); closeSheet(); openSuspects(); checkStrikes(); };
 }
 function openEvidence(){
@@ -1191,8 +1191,9 @@ function toggleRec(who, btn){
   const label = btn.textContent;
   if (curAudio && !curAudio.paused) { stopAudio(); btn.textContent = btn.dataset.l || label; return; }
   btn.dataset.l = btn.dataset.l || label; btn.textContent = "■ Stopp";
-  if (!playClip(R.id, R.text, { end: () => { btn.textContent = btn.dataset.l; }, fallback: () => speak(R.text.replace(/^\w+: /gm, ""), "andere") }))
-    speak(R.text.replace(/^\w+: /gm, ""), "andere");
+  const fin = () => { if (RECORDINGS[who]) { S.heard = S.heard || {}; if (!S.heard[who]) { S.heard[who] = true; save(); } } btn.textContent = btn.dataset.l; if (window.onHeard) onHeard(who); };
+  const sp = () => speak(R.text.replace(/^\w+: /gm, ""), "andere", { onend: fin });
+  if (!playClip(R.id, R.text, { end: fin, fallback: sp })) sp();
 }
 /* Platzhalter-Stimme über die Sprachausgabe des Geräts. Später durch eingesprochene bzw. KI-generierte MP3s ersetzen. */
 function speak(text, voice, cb){
@@ -2152,6 +2153,24 @@ function castRow(img, name, line, sub){
     : `<span style="width:46px;height:46px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--surface-2);font-family:var(--font-display);font-size:22px">${esc(name[0])}</span>`;
   return `<div style="display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)">${av}<div><b style="font-size:15px">${esc(name)}</b><div style="font-size:13px;color:var(--muted);line-height:1.4">${esc(line)}${sub ? `<br><i>${esc(sub)}</i>` : ""}</div></div></div>`;
 }
+/* Zu Beginn: die vier Vernehmungen einmal komplett anhören (zählt fürs ganze Team) */
+const REC_MUST = ["helena","mair","tobias","clara"];
+const heardAll = () => REC_MUST.every(id => (S.heard || {})[id]);
+function showInterrogations(after){
+  if (heardAll()) { if (after) after(); return; }
+  const g = id => CONTENT.suspects.find(p => p.id === id);
+  const n = REC_MUST.filter(id => (S.heard || {})[id]).length;
+  sheet(`<div class="kind">Ermittlungsleiterin Seidl</div><h2>Hört euch die Vernehmungen an</h2>
+    <p>Seidl hat die vier Gäste noch in der Nacht befragt. Hört jede Vernehmung einmal komplett an, bevor ihr loslegt. Darin stecken Hinweise, die ihr später braucht.</p>
+    ${REC_MUST.map(id => { const p = g(id), ok = (S.heard || {})[id]; return `<div class="hint" style="display:flex;align-items:center;gap:12px;margin-bottom:8px${ok ? "" : ";box-shadow:inset 3px 0 0 var(--decline)"}">
+      <img src="img/${id}_av.jpg" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none"><div style="flex:1;min-width:0"><b>${esc(p.name)}</b><div style="font-size:12px">${ok ? '<span style="color:#6fbf8a">✓ angehört</span>' : '<span style="color:#ff8a8a">noch nicht angehört</span>'}</div></div>
+      <button class="btn${ok ? "" : " primary"}" data-rec="${id}" style="width:auto;margin:0;padding:8px 12px">${ok ? "▶ Nochmal" : "▶ Anhören"}</button></div>`; }).join("")}
+    <p style="text-align:center;font-weight:600">${n} von ${REC_MUST.length} angehört</p>
+    <button class="btn primary" id="recGo" ${heardAll() || DEV.noLimit ? "" : "disabled"}>${heardAll() ? "Weiter" : "Erst alle vier anhören"}</button>`);
+  document.querySelectorAll("#sheet [data-rec]").forEach(b => b.onclick = () => toggleRec(b.dataset.rec, b));
+  window.onHeard = () => { if ($("#recGo")) { const sh = $("#sheet"); if (sh) sh._user = true; closeSheet(); showInterrogations(after); } };
+  $("#recGo").onclick = () => { if (!heardAll() && !DEV.noLimit) return; window.onHeard = null; stopAudio(); const sh = $("#sheet"); if (sh) sh._user = true; closeSheet(); if (after) after(); };
+}
 function showCast(after){
   const g = id => CONTENT.suspects.find(p => p.id === id);
   sheet(`<div class="kind">Wer ist wer</div><h2>Die Personen in diesem Fall</h2>
@@ -2253,6 +2272,7 @@ function visibleSuspects(){ return CONTENT.suspects.filter(p => p.id !== "feld" 
 function openPostfach(){ newsSeen("nachrichten","postfach"); closeSheet(); if (S.stage === 7 && S.phase === "task" && !ackGate()) return; PUZZLE_7(); }
 function newsItems(app){
   if (app === "verdaechtige") { const out = [];
+    REC_MUST.forEach(id => { const p = CONTENT.suspects.find(x => x.id === id); out.push({ k:"rec:" + id, done:!!(S.heard || {})[id], t:"Vernehmung anhören: " + p.name, open:() => showSuspect(p) }); });
     visibleSuspects().forEach(p => { out.push({ k:p.id, t:"Neue Person: " + p.name, open:() => showSuspect(p) });
       if (alibiOf(p.id)) out.push({ k:"alibi:" + p.id, t:"Alibi für " + p.name + (S.struck.includes(p.id) ? "" : ", jetzt streichen"), open:() => showSuspect(p) }); });
     return out; }
@@ -2266,17 +2286,18 @@ function newsKeys(app){ return app === "fallakte" ? faItems().map(x => x.k) : ne
 function newsCount(app){
   if (app === "fallakte") return 0; /* Fallakte ist Nachschlagewerk: alles darin wurde schon an seiner Quelle gezeigt */
   if (app === "stammbaum") return treeSeen().length ? treeNew().length : 0;
-  let n = newsItems(app).filter(x => isNew(app, x.k)).length;
+  let n = newsItems(app).filter(x => unseenItem(app, x)).length;
   if (app === "telefon") n += S.missed || 0;
   return n;
 }
-function newsUnseen(app){ return newsKeys(app).filter(k => isNew(app, k)); }
+function unseenItem(app, x){ return x.done !== undefined ? !x.done : isNew(app, x.k); }
+function newsUnseen(app){ return newsItems(app).filter(x => unseenItem(app, x)).map(x => x.k); }
 function newsMark(app){ newsSeen(app, ...newsKeys(app)); }
 function appOpen(app){ const a = APPS[app]; return !(a.lock && !S.apps.includes(app)); }
 /* Alle ungesehenen Hinweise auf diesem Handy, in der Reihenfolge, in der man sie ansehen sollte */
 function allUnseen(){
   const out = [];
-  NEWS_APPS.filter(appOpen).forEach(app => newsItems(app).forEach(x => { if (isNew(app, x.k)) out.push(Object.assign({ app }, x)); }));
+  NEWS_APPS.filter(appOpen).forEach(app => newsItems(app).forEach(x => { if (unseenItem(app, x)) out.push(Object.assign({ app }, x)); }));
   if (treeSeen().length && treeNew().length) out.push({ app:"stammbaum", k:"tree", t:"Stammbaum: " + treeNew().map(id => TREE[id].n).join(", "), open:() => { closeSheet(); openTree(); } });
   return out;
 }
@@ -2291,7 +2312,7 @@ let newsPend = {}, newsLastN = -1;
 function newsCheck(){
   if (!S.unlocked) return;
   const a = newsAll();
-  if (!a._b) { NEWS_APPS.forEach(app => a[app] = Array.from(new Set((a[app] || []).concat(newsItems(app).map(x => x.k))))); a._b = 1; a._ann = []; newsSave(a); return; }
+  if (!a._b) { NEWS_APPS.forEach(app => a[app] = Array.from(new Set((a[app] || []).concat(newsItems(app).map(x => x.k))))); a._b = 1; a._ann = REC_MUST.map(id => "verdaechtige:rec:" + id); newsSave(a); return; }
   const un = allUnseen();
   if (un.length !== newsLastN) { newsLastN = un.length; if (!$("#win") && !$("#call")) renderHome(); }
   if ($("#call") || showQ.length || document.querySelector("#sheet[data-ack]")) return; /* direkt angezeigte Hinweise haben Vorrang */
@@ -2305,6 +2326,8 @@ function newsCheck(){
     () => { closeSheet(); newsSheet(ready); }, ready[0].app);
 }
 setInterval(newsCheck, 1500);
+/* Falls das Vernehmungsfenster anders geschlossen wurde: der erste Anruf kommt, sobald alle vier angehört sind */
+setInterval(() => { if (S.unlocked && S.stage === 1 && heardAll() && !(S.events || []).includes("CALL_01") && !$("#sheet") && !$("#call")) { fire("CALL_01"); processEvents(); } }, 3000);
 
 function openFallakte(){
   closeSheet();
