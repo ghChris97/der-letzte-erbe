@@ -276,6 +276,15 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .ph{display:grid!important;place-items:center;background:#e9e3d6;color:#5d5a55;font-size:13px;text-align:center;padding:12px}
 /* Notizbuch */
 .nb{background:#efe7d6;color:#2a2620;border-radius:6px 14px 14px 6px;padding:18px 18px 18px 22px;margin-bottom:12px;box-shadow:inset 6px 0 0 #c9b98f;font-family:var(--font-display);font-size:18px;line-height:1.45}
+.paper{background:#f3eee2;color:#1d1b17;border-radius:4px;padding:14px 14px 16px;margin:14px 0 12px;font-family:Georgia,"Times New Roman",serif;box-shadow:0 2px 12px rgba(0,0,0,.35)}
+.paper .mast{text-align:center;font-weight:700;font-size:22px;letter-spacing:.02em;border-bottom:3px double #1d1b17;padding-bottom:4px}
+.paper .meta{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid #1d1b17;padding:3px 0;margin-bottom:10px;color:#3a362e}
+.paper h2{font-size:25px;line-height:1.12;margin:0 0 6px}
+.paper .sub{text-align:left;font-style:italic;font-size:15px;margin:0 0 10px;color:#3a362e}
+.paper figure{margin:0 0 10px}.paper figure img{width:100%;display:block;filter:grayscale(1) contrast(1.08);border:1px solid #1d1b17}
+.paper figcaption{font-size:11.5px;color:#4a453b;margin-top:4px;font-family:var(--font-ui)}
+.paper p{font-size:14.5px;line-height:1.45;margin:0 0 8px;text-align:justify;hyphens:auto}
+.paper .photoPh{border:1px dashed #8a8270;padding:26px 10px;text-align:center;font-size:13px;color:#6a6355}
 .nb h3{margin:0 0 8px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#7a6d55}
 .nb .red{color:#9c1f1f;font-style:italic;font-size:16px;display:block;margin-top:10px;transform:rotate(-1.5deg)}
 .nb table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:14px}
@@ -318,8 +327,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .acts2 button.on{background:var(--amber);color:#1b1408}
 .pick{display:block;width:100%;text-align:left;padding:10px 12px;border-radius:12px;background:var(--surface);margin-bottom:6px;font-size:14px;border:2px solid transparent}
 .pick.on{border-color:var(--amber);background:var(--amber-soft)}
-.abc{display:grid;grid-template-columns:repeat(13,1fr);gap:3px;margin:4px 0 12px;font-family:var(--font-mono);font-size:12px;text-align:center}
-.abc span{background:var(--surface);border-radius:4px;padding:4px 0}
+.abc{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:4px 0 12px;font-family:var(--font-mono);font-size:16px;text-align:center}
+.abc button{background:var(--surface);border:0;color:inherit;font:inherit;border-radius:6px;padding:9px 0;cursor:pointer;-webkit-tap-highlight-color:transparent}.abc button:active{background:var(--gold,#d9a75a);color:#111}.abc .del{grid-column:span 2}
 .prot{width:100%;border-collapse:collapse;font-size:13px}
 .prot td{padding:5px 4px;border-top:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums}
 .prot td:first-child{white-space:nowrap;color:var(--amber);font-family:var(--font-mono);font-size:12px}
@@ -405,7 +414,7 @@ const CONTENT = {
       "Schloss: 3 · Helm · Rot. Listen: Es fehlen die Nummern 2, 5 und 7. Achtung, die Gürtelschnalle ist keine Brosche." ] },
     S5: { title:"Stadtresidenz – Der Brief", steps:[
       "Lest den Brief Zeile für Zeile. Welche Angabe passt nicht in das Jahr 1503?",
-      "Schaut in Falkenrieds Notizen zur Fassade: Wann begann der Bauherr von gegenüber seine Residenz?",
+      "Schaut in den Steckbrief: Wann wurde mit dem Bau der Residenz begonnen?",
       "Die Residenz wurde erst 1536 begonnen. Tippt „lagern sicher in der Stadtresidenz des Herzogs“." ] },
     S6: { title:"Heiliggeist – Rundgang und Tatabend", steps:[
       "Lasst den Ordner offen und geht einmal ganz um die Kirche. Drei der vier Seiten reichen. Bei ungenauem GPS kurz stehen bleiben.",
@@ -1207,6 +1216,10 @@ function openAdmin(){
     <p style="margin-top:12px">Testmodus, gilt nur für dieses Handy:</p>
     <div class="grid2"><button class="btn" id="geoToggle">Standortprüfung: ${DEV.noGeo ? "aus" : "an"}</button><button class="btn" id="timerToggle">Ort-Timer: ${DEV.noTimer ? "aus" : "an"}</button></div>
     <button class="btn" id="limitToggle">Begrenzte Versuche: ${DEV.noLimit ? "aus" : "an"}</button>
+    <div class="sec" style="margin-top:12px">Teamfoto für den Zeitungsartikel am Ende</div>
+    <div id="tpPrev">${teamPhoto() ? `<img src="${teamPhoto()}" alt="Teamfoto" style="width:100%;border-radius:10px;display:block;margin-bottom:8px">` : `<p>Noch kein Foto. Am besten ein Gruppenselfie vom ganzen Team.</p>`}</div>
+    <input type="file" id="tpFile" accept="image/*" hidden>
+    <button class="btn" id="tpBtn">${teamPhoto() ? "Teamfoto ersetzen" : "Teamfoto aufnehmen oder hochladen"}</button>
     <button class="btn primary" id="shareApp">Spieler einladen: Link teilen</button>
     <button class="btn" id="printDocs">Druckvorlagen öffnen</button>
     <button class="btn" id="relock">Handy sperren</button>
@@ -1214,6 +1227,13 @@ function openAdmin(){
     <p id="resetMsg"></p></div>`);
   document.querySelectorAll("[data-fire]").forEach(b => b.onclick = () => { closeSheet(); fire(b.dataset.fire); });
   $("#printDocs").onclick = () => { closeSheet(); openPrint(); };
+  $("#tpBtn").onclick = () => $("#tpFile").click();
+  $("#tpFile").onchange = async () => { const f = $("#tpFile").files[0]; if (!f) return;
+    $("#tpBtn").textContent = "Wird gespeichert …";
+    try { const url = await shrinkPhoto(f); const ok = await saveTeamPhoto(url);
+      $("#tpPrev").innerHTML = `<img src="${url}" alt="Teamfoto" style="width:100%;border-radius:10px;display:block;margin-bottom:8px">`;
+      $("#tpBtn").textContent = "Teamfoto ersetzen"; $("#resetMsg").textContent = ok ? "Teamfoto gespeichert, alle Handys im Team zeigen es am Ende." : "Nur auf diesem Handy gespeichert (keine Verbindung).";
+    } catch(e) { $("#tpBtn").textContent = "Teamfoto aufnehmen oder hochladen"; $("#resetMsg").textContent = "Foto konnte nicht gelesen werden."; } };
   $("#shareApp").onclick = async () => {
     const url = location.origin + location.pathname + (TEAM !== "haupt" ? "?team=" + encodeURIComponent(TEAM) : "");
     const data = { title:"Akte 1475", text:"Ermittlungsgruppe 1475: Öffnet das sichergestellte Handy von Maximilian von Falkenried.", url };
@@ -1520,16 +1540,15 @@ const LETTER = [
   { t:"Gott schütze das Erbe des Hauses.", k:"x" }
 ]; /* Fehler im Brief: die Stadtresidenz wurde erst 1536 begonnen (steht in Falkenrieds Fassadennotiz) */
 PUZZLE_5 = function(){
-  openWin("Brief", `<div class="target"><div class="t">Ist der Brief echt?</div><div class="s">Ihr steht vor dem Gebäude, das der Brief nennt. Tippt die Stelle an, die es im Jahr 1503 so nicht gegeben haben kann. Eure Notizen helfen.</div></div>
-    <div class="nb letter">${LETTER.map((l,i) => `<button data-l="${i}">${esc(l.t)}</button>`).join(" ")}</div><p id="lMsg" class="empty" style="padding:8px 0"></p>
-    <button class="btn" id="toNotes">Falkenrieds Notizen zur Fassade ansehen</button>`);
-  $("#toNotes").onclick = () => { nbPage = null; openNotebook(false, "fassade"); };
+  openWin("Brief", `<div class="target"><div class="t">Ist der Brief echt?</div><div class="s">Vergleicht den Brief mit dem Steckbrief des Gebäudes vor euch. Tippt die Stelle an, die im Jahr 1503 nicht stimmen kann.</div></div>
+    <div class="hint"><h3>Steckbrief · Stadtresidenz Landshut</h3><p>Bauherr: Herzog Ludwig X.<br><b>Baubeginn: 1536</b><br>Erster Palast im Stil der italienischen Renaissance nördlich der Alpen.</p></div>
+    <div class="nb letter">${LETTER.map((l,i) => `<button data-l="${i}">${esc(l.t)}</button>`).join(" ")}</div><p id="lMsg" class="empty" style="padding:8px 0"></p>`);
   $("#winBody").onclick = e => { const b = e.target.closest("[data-l]"); if (!b) return;
     if (!guard("5.letter")) return;
-    if (LETTER[+b.dataset.l].k !== "ok") { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); $("#lMsg").textContent = "Daran ist nichts Verdächtiges. Was wisst ihr über das Gebäude vor euch?"; wrong("5.letter"); return; }
+    if (LETTER[+b.dataset.l].k !== "ok") { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); $("#lMsg").textContent = "Daran ist nichts Verdächtiges. Schaut auf den Baubeginn im Steckbrief."; wrong("5.letter"); return; }
     right("5.letter"); b.classList.add("right");
     addEv("E08","E09");
-    setTimeout(() => { sheet(`<div class="kind">Widerlegt</div><h2>Der Brief ist gefälscht</h2><p>Im Jahr 1503 gab es diese Residenz noch gar nicht. Ihr Bau begann erst 1536, so steht es in Falkenrieds Notizen zur Fassade.</p>
+    setTimeout(() => { sheet(`<div class="kind">Widerlegt</div><h2>Der Brief ist gefälscht</h2><p>Im Jahr 1503 gab es diese Residenz noch gar nicht. Ihr Bau begann erst 1536, über dreißig Jahre nach dem angeblichen Datum des Briefs.</p>
       <p>Falkenrieds Server verrät, wer die Datei bearbeitet hat:</p><div class="transcript">LETTER-1503-B
 erstellt unter HDORN · 18.12.2026, 23:14
 geöffnet unter BMAIR · 19.12.2026, 10:02</div>
@@ -1724,13 +1743,15 @@ PUZZLE_7 = function(){
     openWin("Postfach", `<div class="hint"><h3>Von der Kripo abgelegt · gefunden auf Falkenrieds Archiv-Server</h3><p style="font-family:var(--font-mono);font-size:22px;letter-spacing:.15em;margin-top:8px">HIOVSBUN</p>
       <p style="margin-top:8px">Seidl: „Jeder Buchstabe wurde nach vorn geschoben. Falkenried hatte im selben Ordner eine Aufnahme: die Sage vom Ritter am Ländtor. Hört sie euch am Tor an.“</p>
       <button class="btn" id="sagePlay" style="margin-top:4px">▶ Die Sage vom Ritter am Ländtor</button></div>
-      <div class="abc">${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c => `<span>${c}</span>`).join("")}</div>
+      <div class="abc">${"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(c => `<button type="button" data-ch="${c}">${c}</button>`).join("")}<button type="button" class="del" data-ch="del" aria-label="Löschen">⌫</button></div>
       <label for="dec" style="font-size:13px;color:var(--muted)">Entschlüsselte Nachricht</label><input class="field" id="dec" autocomplete="off" autocapitalize="characters">
       <button class="btn primary" id="decGo">Prüfen</button><p id="dMsg" class="empty" style="padding:8px 0"></p>`);
     $("#sagePlay").onclick = () => { const b = $("#sagePlay");
       if (curAudio && !curAudio.paused) { stopAudio(); b.textContent = "▶ Die Sage vom Ritter am Ländtor"; return; }
       b.textContent = "■ Stopp"; stopAudio(); const a = new Audio("audio/SAGE_LAENDTOR.mp3"); curAudio = a;
       a.addEventListener("ended", () => { b.textContent = "▶ Nochmal anhören"; }); a.play().catch(() => { b.textContent = "▶ Die Sage vom Ritter am Ländtor"; }); };
+    $(".abc").onclick = e => { const b = e.target.closest("[data-ch]"); if (!b) return; const f = $("#dec");
+      f.value = b.dataset.ch === "del" ? f.value.slice(0, -1) : f.value + b.dataset.ch; $("#dMsg").textContent = ""; };
     $("#decGo").onclick = () => {
       if (!$("#dec").value.trim()) return;
       if (!guard("7.dec")) return;
@@ -1822,6 +1843,29 @@ function confetti(){
   (function f(){ g.clearRect(0,0,W,H); P.forEach(p => { p.y += p.v; p.x += Math.sin((p.y+p.w*40)/40); p.r += 0.1; g.save(); g.translate(p.x,p.y); g.rotate(p.r); g.fillStyle = p.c; g.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); g.restore(); });
     if (Date.now() - t0 < 6000) requestAnimationFrame(f); else c.remove(); })();
 }
+const PHOTO_KEY = "falkenried-photo-" + TEAM;
+function teamPhoto(){ try { return localStorage.getItem(PHOTO_KEY) || ""; } catch(e) { return ""; } }
+function shrinkPhoto(file){ return new Promise((res, rej) => { const img = new Image(); const u = URL.createObjectURL(file);
+  img.onload = () => { const max = 1000, k = Math.min(1, max / Math.max(img.width, img.height)); const c = document.createElement("canvas");
+    c.width = Math.round(img.width * k); c.height = Math.round(img.height * k); c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(u);
+    let q = 0.8, d = c.toDataURL("image/jpeg", q); while (d.length > 380000 && q > 0.35) { q -= 0.1; d = c.toDataURL("image/jpeg", q); } res(d); };
+  img.onerror = rej; img.src = u; }); }
+async function saveTeamPhoto(d){ try { localStorage.setItem(PHOTO_KEY, d); } catch(e) {}
+  if (!sb) return false; try { const r = await sb.from("team_photos").upsert({ id:TEAM, data:d, updated_at:new Date().toISOString() }); return !r.error; } catch(e) { return false; } }
+async function loadTeamPhoto(){ if (!sb) return teamPhoto();
+  try { const r = await sb.from("team_photos").select("data").eq("id", TEAM).maybeSingle(); if (r.data && r.data.data) { try { localStorage.setItem(PHOTO_KEY, r.data.data); } catch(e) {} return r.data.data; } } catch(e) {}
+  return teamPhoto(); }
+function newsArticle(names, dateStr){
+  const team = names.length ? names.join(", ") : "die Ermittlungsgruppe 1475";
+  return `<article class="paper"><div class="mast">Landshuter Abendpost</div>
+    <div class="meta"><span>Lokales</span><span>${dateStr}</span></div>
+    <h2>Mordfall Falkenried aufgeklärt</h2>
+    <p class="sub">Historikerin Dr. Helena Dorn auf der Ringelstecherwiese festgenommen</p>
+    <figure><div id="tpSlot"><div class="photoPh">Foto der Ermittler</div></div><figcaption>Sie haben den Fall gelöst: ${esc(team)}.</figcaption></figure>
+    <p><b>Landshut.</b> Der Tod des Kunstsammlers Maximilian von Falkenried (62) ist aufgeklärt. Falkenried war am Abend seines Adventsdinners in seinem Archiv getötet worden. Tatverdächtig ist Dr. Helena Dorn, die das Archiv des Sammlers betreute. Sie wurde auf der Ringelstecherwiese festgenommen, als sie eine Kassette aus Falkenrieds Nachlass abholen wollte, und sitzt in Untersuchungshaft.</p>
+    <p>Dorn hatte die Ermittler als anonyme Anruferin auf eine falsche Spur gelockt. Verraten hat sie sich durch Details zur Tatzeit, die nur die Täterin kennen konnte. Die Ermittlungsgruppe 1475 folgte ihren Spuren durch die Altstadt, von St. Martin bis zum Ländtor.</p>
+    <p>„Ohne dieses Team wäre der Fall nicht gelöst worden“, sagt Kriminalhauptkommissarin Martina Seidl. Die Kassette enthielt eine Rubinbrosche, zwölf Silberschalen und ein Doppelsiegel. Sie gehen an die Stadt Landshut.</p></article>`;
+}
 function teamNames(){ return Object.values(S.devices || {}).filter(d => !d.removed && d.name).map(d => d.name); }
 function showEnding(){
   const mins = S.startedAt ? Math.round((Date.now() - S.startedAt) / 60000) : null;
@@ -1837,6 +1881,7 @@ function showEnding(){
       Die Ermittlungsgruppe 1475<br><b style="font-size:20px">${esc(names.join(" · ") || "Ermittlungsgruppe 1475")}</b><br>hat den Fall Falkenried gelöst.
       <div style="font-family:var(--font-ui);font-size:13px;margin-top:10px;color:#5a5244">${new Date().toLocaleDateString("de-DE",{ day:"numeric", month:"long", year:"numeric" })}${dur ? ` · Ermittlungszeit ${dur}` : ""} · ${tips ? `${tips} ${tips === 1 ? "Tipp" : "Tipps"} benutzt` : "ganz ohne Tipps"}</div>
       <span class="red" style="text-align:center">Martina Seidl, Ermittlungsleiterin</span></div>
+    ${newsArticle(names, new Date().toLocaleDateString("de-DE",{ weekday:"long", day:"numeric", month:"long", year:"numeric" }))}
     <div class="hint" style="display:flex;gap:12px;align-items:flex-start;margin-top:12px"><img src="img/seidl_av.jpg" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none"><p style="margin:0"><b>Seidl:</b> „Wir haben sie. Dr. Helena Dorn kam an den Rand der Wiese, um die Kassette abzuholen. Wir haben sie festgenommen. Gute Arbeit, Ermittlungsgruppe 1475.“</p></div>
     <div class="sec">Die Auflösung</div><div class="nb"><h3>Akte 1475 · geschlossen</h3>Die Kassette ist offen: eine Rubinbrosche, zwölf Silberschalen, ein Doppelsiegel. Das Erbe Elisabeths, 523 Jahre verborgen.<br><br>
     Die Stimme am Telefon war <b>Dr. Helena Dorn</b>. Sie brauchte euch, um an die Kassette zu kommen. Verraten hat sie sich am Telefon: Sie kannte Uhrzeit und Karte, bevor beides bekannt war.
@@ -1849,6 +1894,8 @@ function showEnding(){
     stopAudio(); const a = new Audio("audio/SEIDL_ENDE.mp3"); curAudio = a; b.textContent = "■ Stopp";
     a.addEventListener("ended", () => { b.textContent = "▶ Nochmal anhören"; }); a.play().catch(() => { b.textContent = "▶ Glückwünsche von Seidl"; }); };
   b.onclick = play;
+  const fillPhoto = d => { const slot = $("#tpSlot"); if (slot && d) slot.innerHTML = `<img src="${d}" alt="Foto der Ermittlungsgruppe">`; };
+  fillPhoto(teamPhoto()); loadTeamPhoto().then(fillPhoto);
   if (!showEnding.done) { showEnding.done = true; confetti(); play(); }
 }
 
