@@ -1032,7 +1032,7 @@ function ackItem(id){ S.acks = S.acks || {}; const a = S.acks[id] || (S.acks[id]
 function pendingAcks(){ return (S.mustSee || []).filter(id => !((S.acks || {})[id] || []).length); }
 /* Apps mit rotem Punkt auf diesem Handy */
 function unreadApps(){
-  return ["fallakte","verdaechtige","stammbaum","notizen","nachrichten","telefon"].filter(id => { const a = APPS[id]; return !(a.lock && !S.apps.includes(id)) && newsCount(id) > 0; });
+  return ["verdaechtige","stammbaum","notizen","nachrichten","telefon"].filter(id => { const a = APPS[id]; return !(a.lock && !S.apps.includes(id)) && newsCount(id) > 0; });
 }
 function ackGate(){
   /* Eigene ungelesene Hinweise kommen immer zuerst, bevor dieses Handy ein Rätsel öffnet */
@@ -2195,6 +2195,7 @@ function newsKeys(app){
   return [];
 }
 function newsCount(app){
+  if (app === "fallakte") return 0; /* Fallakte ist Nachschlagewerk: alles darin wurde schon an seiner Quelle gezeigt */
   if (app === "stammbaum") return treeSeen().length ? treeNew().length : 0;
   const seen = newsAll()[app] || [];
   let n = newsKeys(app).filter(k => !seen.includes(k)).length;
@@ -2233,7 +2234,7 @@ function faCheck(){
   const its = faItems().filter(x => add.includes(x.k));
   banner("Fallakte", "Neu: " + its.map(x => x.t).join(", "), () => openFallakte());
 }
-setInterval(faCheck, 1500);
+/* keine eigene Meldung für die Fallakte */
 
 /* ============================================================
    Stammbaum: Personen erscheinen Stück für Stück, sobald die Geschichte sie vorstellt.
