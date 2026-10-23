@@ -106,7 +106,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 
 /* Chat */
 .chat{display:flex;flex-direction:column;gap:8px;padding-top:8px}
-.bub{max-width:82%;padding:10px 13px;border-radius:18px;font-size:15px;line-height:1.4;background:var(--surface-2);align-self:flex-start;border-bottom-left-radius:6px}
+.bub{overflow-wrap:anywhere;max-width:82%;padding:10px 13px;border-radius:18px;font-size:15px;line-height:1.4;background:var(--surface-2);align-self:flex-start;border-bottom-left-radius:6px}
 .bub.att{border:1px dashed var(--amber);background:var(--amber-soft)}
 .bub .when{display:block;font-size:11px;color:var(--muted);margin-top:4px}
 .sys{align-self:center;font-size:11px;color:var(--muted);font-family:var(--font-mono);letter-spacing:.05em}
@@ -1194,12 +1194,19 @@ function openAdmin(){
     <p style="margin-top:12px">Testmodus, gilt nur für dieses Handy:</p>
     <div class="grid2"><button class="btn" id="geoToggle">Standortprüfung: ${DEV.noGeo ? "aus" : "an"}</button><button class="btn" id="timerToggle">Ort-Timer: ${DEV.noTimer ? "aus" : "an"}</button></div>
     <button class="btn" id="limitToggle">Begrenzte Versuche: ${DEV.noLimit ? "aus" : "an"}</button>
-    <button class="btn primary" id="printDocs">Druckvorlagen öffnen</button>
+    <button class="btn primary" id="shareApp">Spieler einladen: Link teilen</button>
+    <button class="btn" id="printDocs">Druckvorlagen öffnen</button>
     <button class="btn" id="relock">Handy sperren</button>
     <button class="btn" id="reset" style="color:var(--decline)">Spielstand zurücksetzen</button>
     <p id="resetMsg"></p></div>`);
   document.querySelectorAll("[data-fire]").forEach(b => b.onclick = () => { closeSheet(); fire(b.dataset.fire); });
   $("#printDocs").onclick = () => { closeSheet(); openPrint(); };
+  $("#shareApp").onclick = async () => {
+    const url = location.origin + location.pathname + (TEAM !== "haupt" ? "?team=" + encodeURIComponent(TEAM) : "");
+    const data = { title:"Akte 1475", text:"Ermittlungsgruppe 1475: Öffnet das sichergestellte Handy von Maximilian von Falkenried.", url };
+    try { if (navigator.share) { await navigator.share(data); return; } } catch(e) { if (e && e.name === "AbortError") return; }
+    try { await navigator.clipboard.writeText(url); $("#resetMsg").textContent = "Link kopiert: " + url; } catch(e) { $("#resetMsg").textContent = "Link: " + url; }
+  };
   $("#geoToggle").onclick = () => { DEV.noGeo = !DEV.noGeo; saveDev(); closeSheet(); renderHome(); };
   $("#timerToggle").onclick = () => { DEV.noTimer = !DEV.noTimer; saveDev(); closeSheet(); renderHome(); };
   document.querySelectorAll("[data-rmdev]").forEach(b => b.onclick = () => removeDevice(b.dataset.rmdev));
