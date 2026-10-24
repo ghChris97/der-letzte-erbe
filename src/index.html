@@ -422,7 +422,7 @@ const CONTENT = {
     S2: { title:"Landschaftshaus – Die Herzogswand", steps:[
       "Die Wand ist wie ein Buch: drei Reihen mit je zehn Herzögen, von links oben nach rechts unten, nach Generationen geordnet. Lest die Beschreibung unter jedem Foto.",
       "Obere Reihe: der Erste auf 1, der Gründer auf 2, der Eifersüchtige auf 3, der Kaiser (sitzt) auf 4.",
-      "Mittlere Reihe: Bauherr 6, Richter 7, Bräutigam 10. Bezahlt hat der Vater des Bräutigams auf Platz 9." ] },
+      "Mittlere Reihe: Bauherr 6, Richter 7, Liebender 8, Bräutigam 10. Bezahlt hat der Vater des Bräutigams auf Platz 9." ] },
     S3: { title:"Denkmal – Das Jahr auf dem Rücken", steps:[
       "Geht um den Sockel herum.",
       "M = 1000, D = 500, C = 100, L = 50, V = 5, I = 1.",
@@ -495,7 +495,7 @@ const CONTENT = {
   ],
   evidence: {
     E01:{ t:"Hochzeitsrechnung 1475", d:"Abschrift in Falkenrieds Tagebuch. Vermerk: Bezahlt hat nicht der Bräutigam." },
-    E03:{ t:"Notizen zur Fassade", d:"Sieben Herzöge der Wand und ihre Geschichten. Bezahlt hat Ludwig der Reiche. Ludwig X. begann seine Residenz erst 1536. Unter Heinrich dem Reichen begann 1407 der Bau der Heiliggeistkirche." },
+    E03:{ t:"Notizen zur Fassade", d:"Acht Herzöge der Wand und ihre Geschichten. Bezahlt hat Ludwig der Reiche. Ludwig X. begann seine Residenz erst 1536. Unter Heinrich dem Reichen begann 1407 der Bau der Heiliggeistkirche." },
     E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 2, 5 und 7: Rubinbrosche, zehn goldene Taler, Familiensiegel mit dem W der Wittelsbacher. Falkenried notierte daneben: „Hochzeitsgaben, alle drei in einer Kiste“." },
     E06:{ t:"Verwahrvermerk Notariat Mair", d:"„Notariat Mair – Verwahrung“. Inhalt geschwärzt." },
     E07:{ t:"Preisnotizen „CW“", d:"Bleistift am Rand von H-1475: „CW: 40.000?“" },
@@ -522,7 +522,7 @@ const CONTENT = {
   diary: [
     { date:"Sonntag, 2. November 2026", html:"Neuburg an der Donau, Kirchenbücher. Zwei Tage zwischen Staub und Latein. Im Jahr 1504 ein Eintrag, der nicht zu den anderen passt: ein Kindername, durchgestrichen, daneben eine andere Hand.<br><br>Und heute habe ich gefunden, wonach ich seit Jahren suche.<span class=\"red\">Bester Tag meines Lebens. Mehr schreibe ich nicht, nicht einmal hier.</span>" },
     { date:"Freitag, 28. November 2026", html:"Jemand war an meinem Schreibtisch. Die Mappe lag anders, als ich sie hingelegt hatte, und im Archivprogramm war eine Datei geöffnet, die ich seit Wochen nicht angefasst habe.<br><br>Wer hat einen Schlüssel? Zu viele." },
-    { date:"Mittwoch, 10. Dezember 2026", fk:"fassade", html:"Lange vor dem Haus der Landstände gestanden. Drei Reihen, dreißig Herzöge. Sieben Fotos, fest eingeklebt. Was ich darauf gefunden habe, schreibe ich nicht offen hin:<div class=\"glued\"><span class=\"ph\">Sieben Detailfotos von der Wand, kreuz und quer eingeklebt</span></div>" },
+    { date:"Mittwoch, 10. Dezember 2026", fk:"fassade", html:"Lange vor dem Haus der Landstände gestanden. Drei Reihen, dreißig Herzöge. Acht Fotos, fest eingeklebt. Was ich darauf gefunden habe, schreibe ich nicht offen hin:<div class=\"glued\"><span class=\"ph\">Acht Detailfotos von der Wand, kreuz und quer eingeklebt</span></div>" },
     { date:"Freitag, 12. Dezember 2026", html:"Tobias war wieder da. Mein Neffe hat wieder nach Geld gefragt.<span class=\"red\">Nein.</span>" },
     { date:"Donnerstag, 18. Dezember 2026", start:true, html:"Für den, der das hier liest.<br><br>In Sankt Martin hat Georg 1475 seine Hedwig geheiratet. Hier meine Abschrift der Hochzeitsrechnung:<table style=\"margin-top:8px\"><tr><td>Ochsen</td><td>323</td></tr><tr><td>Schweine</td><td>285</td></tr><tr><td>Ungarische Schafe</td><td>1.133</td></tr><tr><td>Gänse</td><td>11.500</td></tr><tr><td>Hühner</td><td>40.000</td></tr><tr><td>Eier</td><td>194.345</td></tr></table><span class=\"red\">Bezahlt hat nicht der Bräutigam.</span><br>Wer es war, das steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit." },
     { date:"Samstag, 19. Dezember 2026, morgens", html:"Heute Abend sage ich es allen. Die Gäste kommen um sieben. Nach dem Dessert.<br><br>Es gehört nicht mir. Es gehört dieser Stadt.<span class=\"red\">Und wenn mir etwas zustößt: Notar Mair weiß, was zu tun ist.</span>" }
@@ -1542,7 +1542,7 @@ const MOCK = (label) => `<span class="ph">Platzhalter: ${esc(label)}</span>`;
 function addEv(...ids){ ids.forEach(id => { if (!S.evidence.includes(id)) S.evidence.push(id); }); save(); }
 function addNote(id){ if (!S.notes.includes(id)) S.notes.push(id); save(); }
 const NOTES = {
-  fassade:{ title:"Notizen zur Fassade", html:"Der Erste, der Gründer, der Eifersüchtige, der Kaiser, der Bauherr, der Richter, der Bräutigam. Eine Familie voller Macht, Mord und Erbe. Bezahlt hat die Hochzeit Ludwig, der Vater des Bräutigams. Einer fehlt noch, unten links. Zu ihm komme ich später.<br><br><b>Der Bauherr von gegenüber.</b> Erst 1536 begann er seine Residenz. Vorher stand dort nichts, was ein Herzog bewohnt hätte.<span class=\"red\">Unter Heinrich, dem Ältesten der drei Reichen, begann 1407 der Bau einer zweiten großen Kirche: Heiliggeist.<br><br><b>Ludwig</b> steht noch einmal in dieser Stadt, aus Bronze, dort, wo die Dreifaltigkeit wacht.</span>" }
+  fassade:{ title:"Notizen zur Fassade", html:"Der Erste, der Gründer, der Eifersüchtige, der Kaiser, der Bauherr, der Richter, der Liebende, der Bräutigam. Eine Familie voller Macht, Mord und Erbe. Bezahlt hat die Hochzeit Ludwig, der Vater des Bräutigams. Einer fehlt noch, unten links. Zu ihm komme ich später.<br><br><b>Der Bauherr von gegenüber.</b> Erst 1536 begann er seine Residenz. Vorher stand dort nichts, was ein Herzog bewohnt hätte.<span class=\"red\">Unter Heinrich, dem Ältesten der drei Reichen, begann 1407 der Bau einer zweiten großen Kirche: Heiliggeist.<br><br><b>Ludwig</b> steht noch einmal in dieser Stadt, aus Bronze, dort, wo die Dreifaltigkeit wacht.</span>" }
 };
 function toast(msg){ banner("Falkenrieds Handy", msg, () => {}); }
 function newVoice(id){
@@ -1591,11 +1591,13 @@ const FACADE_TARGETS = [
     story:"Heinrich der Reiche. Unter ihm begann 1407 der Bau einer zweiten großen Kirche in der Altstadt, der Heiliggeistkirche. Merkt sie euch." },
   { id:"ernst", name:"Herzog Ernst", pos:"M7", title:"Der Richter", img:"img/fassade_ernst.jpg", look:"Mittlere Reihe, gleich rechts neben dem Bauherrn. In seinem Wappen windet sich eine Schlange.",
     story:"Herzog Ernst. Sein Sohn Albrecht hatte heimlich Agnes Bernauer geheiratet, die Tochter eines Baders aus Augsburg. Für den Vater war das eine Schande. 1435 ließ er Agnes als Hexe verurteilen und in Straubing in der Donau ertränken. Auch in dieser Familie wurde schon für ein Erbe gemordet." },
-  { id:"braeutigam", name:"Georg der Reiche", pos:"M10", title:"Der Bräutigam", look:"Zu seinen Füßen zwei Wappen, eines davon mit einem weißen Adler unter einer Krone.",
+  { id:"albrecht3", name:"Albrecht III.", pos:"M8", title:"Der Liebende", img:"img/fassade_albrecht3.jpg", look:"Direkt rechts neben dem Richter. Er streckt eine Hand aus, als wolle er etwas erklären.",
+    story:"Albrecht III. Der Sohn des Richters. Er hatte Agnes Bernauer heimlich geheiratet. Als sein Vater sie ertränken ließ, griff Albrecht gegen ihn zu den Waffen. Später versöhnten sich die beiden, und Albrecht heiratete eine Frau von Stand." },
+  { id:"braeutigam", name:"Georg der Reiche", pos:"M10", title:"Der Bräutigam", img:"img/fassade_georg.jpg", look:"Zu seinen Füßen zwei Wappen, eines davon mit einem weißen Adler unter einer Krone.",
     story:"Georg der Reiche. 1475 heiratete er hier in Landshut die polnische Königstochter Hedwig. Der weiße Adler zu seinen Füßen ist ihr Wappen. Die Landshuter Hochzeit wurde eines der größten Feste des Mittelalters." }
 ];
 /* Zwischenstopp nach dem Denkmal: der Letzte, der an der Wand noch fehlt */
-const ALBRECHT = { id:"albrecht", name:"Albrecht der Weise", pos:"U1", title:"Der Gegenspieler", look:"Untere Reihe, ganz links. Mit ihm beginnt eine neue Zeile.",
+const ALBRECHT = { id:"albrecht", name:"Albrecht der Weise", pos:"U1", title:"Der Gegenspieler", img:"img/fassade_albrecht.jpg", look:"Untere Reihe, ganz links. Mit ihm beginnt eine neue Zeile.",
     story:"Albrecht der Weise. Er kam aus München und war Georgs Vetter. Nach den alten Hausverträgen durfte nur ein Mann der Familie das Land erben. Darum zog er nach Georgs Tod gegen dessen Tochter in den Krieg, und er gewann. Doch Georgs Testament war eindeutig: Die rechtmäßige Erbin war Elisabeth. Vergesst ihren Namen nicht." };
 function facadeGrid(){
   const rows = [["O","obere Reihe"],["M","mittlere Reihe"],["U","untere Reihe"]];
@@ -1625,7 +1627,7 @@ PUZZLE_2 = function(){
       return;
     }
     if (pos === "M9") { if (S.apps.includes("fotos")) return; right(lk); b.classList.add("right"); S.apps.push("fotos"); addNote("fassade"); addEv("E03");
-      setTimeout(() => { sheet(`<div class="kind">Der Mann, der bezahlt hat</div><h2>Ludwig der Reiche</h2><p>Georgs Vater, Herzog Ludwig IX. Er bezahlte die Landshuter Hochzeit: Wochenlang wurden tausende Gäste bewirtet, die ganze Stadt aß mit. Daher sein Beiname, der Reiche.</p><p>Ihr löst die Fotos aus dem Notizbuch. Auf der Rückseite hat Falkenried etwas notiert.</p><button class="btn primary" data-close id="fEnd">Rückseite lesen</button>`);
+      setTimeout(() => { sheet(`<img src="img/fassade_ludwig.jpg" alt="" style="width:96px;border-radius:10px;float:right;margin:0 0 8px 10px"><div class="kind">Der Mann, der bezahlt hat</div><h2>Ludwig der Reiche</h2><p>Georgs Vater, Herzog Ludwig IX. Er bezahlte die Landshuter Hochzeit: Wochenlang wurden tausende Gäste bewirtet, die ganze Stadt aß mit. Daher sein Beiname, der Reiche.</p><p>Ihr löst die Fotos aus dem Notizbuch. Auf der Rückseite hat Falkenried etwas notiert.</p><button class="btn primary" data-close id="fEnd">Rückseite lesen</button>`);
         $("#fEnd").onclick = () => { if (S.stage !== 2) return; done(null, 2); setTimeout(() => { nbPage = null; openNotebook(false, "fassade"); }, 100); fireWhenFree("N01", 6000); }; }, 600); }
     else if (pos === "M6") { msg.textContent = "Heinrich kennt ihr schon: Er ist der Großvater. Gesucht ist der Vater des Bräutigams."; wrong(lk); }
     else { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); msg.textContent = "Das ist nicht der Vater. Wo steht der Bräutigam, und wer steht links neben ihm?"; wrong(lk); }
@@ -1636,7 +1638,7 @@ PUZZLE_2 = function(){
 function openVia(){
   if (S.st.via4) { closeWin(); return renderHome(); }
   openWin("Herzogswand", `<div class="target"><div class="t">Der Letzte · ${esc(ALBRECHT.title)}</div><div class="s">Sucht ihn an der Wand und tippt seinen Platz an. ${esc(ALBRECHT.look)}</div>
-    <div class="faces" style="margin-top:10px"><button tabindex="-1" style="pointer-events:none">${MOCK("Foto: " + ALBRECHT.title + " (Detailfoto folgt)")}</button></div></div>` + facadeGrid() + `<p id="fMsg" class="empty" style="padding:10px 0"></p>`);
+    <img src="${ALBRECHT.img}" alt="Foto: ${esc(ALBRECHT.title)}" style="display:block;width:100%;max-height:52vh;object-fit:contain;border-radius:12px;margin-top:10px;background:#0a0c10"></div>` + facadeGrid() + `<p id="fMsg" class="empty" style="padding:10px 0"></p>`);
   $("#winBody").onclick = e => { const b = e.target.closest("[data-pos]"); if (!b) return;
     if (S.st.via4) return openVia();
     if (!guard("4.via")) return;
