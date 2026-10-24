@@ -1091,6 +1091,11 @@ function playEvent(id){
    nacheinander und erst, wenn gerade kein anderes Fenster oder Anruf offen ist. */
 const showQ = []; let autoVoice = null;
 const INFOS = {
+  I_TRAUSNITZ: `<div class="kind">Blick nach oben · Burg Trausnitz</div><h2>Die Burg über der Stadt</h2>
+    <p>Schaut vom Platz aus den Hang hinauf: Dort oben thront Burg Trausnitz. Ludwig der Kelheimer gründete sie 1204, zusammen mit der Stadt.</p>
+    <p>Von 1255 bis 1503 regierten von hier oben die Herzöge von Niederbayern über Landshut. Die drei Reichen Herzöge bauten sie prächtig aus, mit neuen Sälen, Mauern und Türmen.</p>
+    <p>In der Nacht auf den 21. Oktober 1961 brannte der Fürstenbau aus. Die prunkvollen Zimmer, darunter die Räume von König Ludwig II., gingen verloren. In den Ermittlungsakten taucht als Ursache ein Tauchsieder auf. Restauriert wird bis heute.</p>
+    <button class="btn primary" data-close>Weiter</button>`,
   I_CW04: `<img src="img/seidl_av.jpg" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px"><div class="kind">Neue Erkenntnis · Ermittlungsleiterin Seidl</div><h2>Der Käufer CW-04</h2>
     <p>Seidl: „Wir haben nach dem Code CW-04 gesucht und ihn in Clara Weiß' Handy gefunden. Sie telefonierte von 20:44 bis 20:50 mit genau diesem Käufer. Deshalb hat sie über den Abend gelogen. Zur Tatzeit hing sie am Telefon.“</p><button class="btn primary" data-close>Verstanden</button>`
 };
@@ -1654,7 +1659,7 @@ PUZZLE_3 = function(){
     if (!guard("3.pw")) return;
     if (v === "1858" || v === "MDCCCLVIII") { right("3.pw");
       S.apps.push("archiv"); done("Archiv entsperrt. Falkenried hat ein Memo für euch hinterlassen.", 3);
-      setTimeout(() => { autoVoice = "V_ERBE"; fire("V_ERBE"); }, 1200);
+      setTimeout(() => { autoVoice = "V_ERBE"; fire("V_ERBE"); fire("I_TRAUSNITZ"); }, 1200);
     } else { $("#pwMsg").textContent = "Falsches Passwort. Die Zahl steht auf der Rückseite des Sockels."; wrong("3.pw"); }
   };
 };
@@ -2089,7 +2094,7 @@ function showEnding(){
     Die Stimme am Telefon war <b>Dr. Helena Dorn</b>. Sie brauchte euch, um an die Kassette zu kommen. Verraten hat sie sich am Telefon: Sie kannte Uhrzeit und Karte, bevor beides bekannt war.
     <span class="red">Das Erbe geht zurück nach Landshut.</span></div>
     <div class="sec">Was war echt?</div>
-    <div class="hint"><p style="margin:0">Echt: alle Herzöge der Wand und ihre Geschichten (Otto I. 1180, Gründung Landshuts 1204, Maria von Brabant 1256, Kaiser Ludwig der Bayer, Agnes Bernauer 1435), die Landshuter Hochzeit 1475, die Hochzeitsrechnung, die Fassade des Landschaftshauses, das Denkmal von 1858, Georgs Tod 1503, Elisabeth und der Landshuter Erbfolgekrieg, die Stadtresidenz ab 1536, der Turm von St. Martin, der Baubeginn von Heiliggeist 1407, der Kölner Spruch von 1505, Elisabeths vier Söhne und die drei Helme im Wappen.</p>
+    <div class="hint"><p style="margin:0">Echt: Burg Trausnitz und ihr Brand 1961, alle Herzöge der Wand und ihre Geschichten (Otto I. 1180, Gründung Landshuts 1204, Maria von Brabant 1256, Kaiser Ludwig der Bayer, Agnes Bernauer 1435), die Landshuter Hochzeit 1475, die Hochzeitsrechnung, die Fassade des Landschaftshauses, das Denkmal von 1858, Georgs Tod 1503, Elisabeth und der Landshuter Erbfolgekrieg, die Stadtresidenz ab 1536, der Turm von St. Martin, der Baubeginn von Heiliggeist 1407, der Kölner Spruch von 1505, Elisabeths vier Söhne und die drei Helme im Wappen.</p>
     <p>Erfunden: Falkenried und alle Figuren, der Mord, die Kiste, dass Elisabeths Sohn Georg 1504 überlebt hat, jede Abstammung davon, die Sage vom Ritter am Ländtor.</p></div>`);
   const b = $("#endPlay");
   const play = () => { if (curAudio && !curAudio.paused) { stopAudio(); b.textContent = "▶ Glückwünsche von Seidl"; return; }
