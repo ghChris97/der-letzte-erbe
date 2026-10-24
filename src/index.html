@@ -779,7 +779,7 @@ function showCallDetail(c){
 function openThreads(){
   const th = S.threads.unbekannt;
   const last = th[th.length-1];
-  const mail = S.stage >= 7 ? `<button class="row${isNew("nachrichten","postfach") ? " isnew" : ""}" data-mail="1"><span class="av">${svg("mail")}</span>
+  const mail = postfachOpen() ? `<button class="row${isNew("nachrichten","postfach") ? " isnew" : ""}" data-mail="1"><span class="av">${svg("mail")}</span>
       <span class="main"><span class="t">Postfach · Kripo${isNew("nachrichten","postfach") ? '<b class="neuR">NEU</b>' : ""}</span><span class="s">${S.st.s7 && S.st.s7.decoded ? "ABHOLUNG · Drei Stücke aus der Falkenried-Sammlung" : "Kuriernachricht vom Tatabend, verschlüsselt"}</span></span></button>` : "";
   const html = (th.length ? `<button class="row${th.some((m, i) => isNew("nachrichten", m.id || "m" + i)) ? " isnew" : ""}" data-thread="unbekannt"><span class="av">?</span>
       <span class="main"><span class="t">Unbekannt${th.some((m, i) => isNew("nachrichten", m.id || "m" + i)) ? '<b class="neuR">NEU</b>' : ""}</span><span class="s">${esc(last.text)}</span></span><span class="meta">${esc(last.time)}</span></button>` : "") + mail;
@@ -2500,17 +2500,19 @@ function newsSeen(app, ...keys){ const a = newsAll(); a[app] = Array.from(new Se
 function isNew(app, key){ return !(newsAll()[app] || []).includes(key); }
 const NEWS_APPS = ["verdaechtige","notizen","nachrichten","telefon"];
 function visibleSuspects(){ return CONTENT.suspects.filter(p => p.id !== "feld" || S.stage > 6 || (S.st.s6 && S.st.s6.callDone)); }
+/* Das Postfach mit der verschlüsselten Nachricht gibt es erst am Ländtor */
+const postfachOpen = () => S.stage > 7 || (S.stage === 7 && S.phase === "task");
 function openPostfach(){ newsSeen("nachrichten","postfach"); closeSheet(); if (S.stage === 7 && S.phase === "task" && !ackGate()) return; PUZZLE_7(); }
 function newsItems(app){
   if (app === "verdaechtige") { const out = [];
     REC_MUST.forEach(id => { const p = CONTENT.suspects.find(x => x.id === id); out.push({ k:"rec:" + id, done:!!(S.heard || {})[id], t:"Vernehmung anhören: " + p.name, open:() => showSuspect(p) }); });
     visibleSuspects().forEach(p => { out.push({ k:p.id, t:"Neue Person: " + p.name, open:() => showSuspect(p) });
-      if (alibiOf(p.id)) out.push({ k:"alibi:" + p.id, t:"Alibi für " + p.name + (S.struck.includes(p.id) ? "" : ", jetzt streichen"), open:() => showSuspect(p) }); });
+      if (alibiOf(p.id)) out.push({ k:"alibi:" + p.id, t:"Alibi für " + p.name + (S.struck.includes(p.id) || !(S.st.s7 && S.st.s7.decoded) ? "" : ", jetzt streichen"), open:() => showSuspect(p) }); });
     return out; }
   if (app === "telefon") return S.voicemails.map(v => ({ k:v, t:(CONTENT.voice[v].memo ? "Aufnahme: " : "Sprachnachricht: ") + CONTENT.voice[v].title, open:() => playVoice(v) }));
   if (app === "notizen") return S.apps.includes("notizen") ? diaryPages().map((d, i) => ({ k:d.key, t:"Tagebuch, Seite vom " + d.date + (d.key !== d.date ? " (Rückseite der Fotos)" : ""), open:() => { nbPage = i; openNotebook(false); } })) : [];
   if (app === "nachrichten") return S.threads.unbekannt.map((m, i) => ({ k:m.id || "m" + i, t:"Nachricht von Unbekannt", open:() => { closeSheet(); openChat(); } }))
-    .concat(S.stage >= 7 ? [{ k:"postfach", t:"Postfach: Kuriernachricht vom Tatabend", open:openPostfach }] : []);
+    .concat(postfachOpen() ? [{ k:"postfach", t:"Postfach: Kuriernachricht vom Tatabend", open:openPostfach }] : []);
   return [];
 }
 function newsKeys(app){ return app === "fallakte" ? faItems().map(x => x.k) : newsItems(app).map(x => x.k); }
