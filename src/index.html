@@ -831,7 +831,7 @@ function personCard(p, cls, attr){
   const nw = CONTENT.suspects.includes(p) && (isNew("verdaechtige", p.id) || (alibiOf(p.id) && isNew("verdaechtige", "alibi:" + p.id)) || (REC_MUST.includes(p.id) && !(S.heard || {})[p.id]));
   return `<button class="card ${cls||""}${nw ? " isnew" : ""}" ${attr||""}>
     <span class="av">${p.photo ? `<img src="${p.photo.replace(".jpg","_av.jpg")}" alt="">` : esc(p.name[0])}</span><span class="n">${esc(p.name)}, ${p.age}${CONTENT.suspects.includes(p) && nw ? '<b class="neuR">NEU</b>' : ""}</span>
-    <span class="r">${esc(p.role)}</span><span class="q">${esc(p.note)}${p.says?`<br><i>${esc(p.says)}</i>`:""}${alibiOf(p.id) ? `<br><span style="color:#6fbf8a">✓ Alibi: ${esc(alibiOf(p.id))}${(cls||"").includes("struck") ? "" : " Tippen zum Streichen."}</span>` : ""}</span></button>`;
+    <span class="r">${esc(p.role)}</span><span class="q">${esc(p === CONTENT.witness && S.voicemails.includes("V_ZEUGIN") ? "War den ganzen Abend im Haus. Ihre Aussage liegt vor, tippen zum Anhören." : p.note)}${p.says?`<br><i>${esc(p.says)}</i>`:""}${alibiOf(p.id) ? `<br><span style="color:#6fbf8a">✓ Alibi: ${esc(alibiOf(p.id))}${(cls||"").includes("struck") ? "" : " Tippen zum Streichen."}</span>` : ""}</span></button>`;
 }
 function openSuspects(){
   closeSheet();
@@ -853,7 +853,7 @@ function openSuspects(){
       sheet(`<img class="portrait" src="${p.photo}" alt="${esc(p.name)}"><div class="kind">${esc(p.role)}</div><h2>${esc(p.name)}, ${p.age}</h2>
         <p>${esc(isW ? (ready ? "Ihre Aussage liegt jetzt vor. Sie war den ganzen Abend im Haus." : "War den ganzen Abend im Haus. Ihre Aussage wird noch aufgenommen.") : p.note)}</p>
         ${ready ? `<button class="btn primary" id="recPlay">▶ Aussage anhören</button>` : ""}<button class="btn" data-close>Schließen</button>`);
-      const rp = $("#recPlay"); if (rp) rp.onclick = () => toggleRec("witness", rp); }
+      const rp = $("#recPlay"); if (rp) rp.onclick = () => { closeSheet(); playVoice("V_ZEUGIN"); }; }
   };
 }
 function showSuspect(p){
