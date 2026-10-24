@@ -1579,25 +1579,25 @@ function done(msg, from){ if (from && S.stage !== from) return; advance(from); c
 /* Station 2: Figuren der Herzogswand finden, jede mit ihrer Geschichte. Danach: Wer hat die Hochzeit bezahlt?
    Positionen laut Landshuter Gästeführern (obere Reihe Otto I. … Otto V., mittlere Stephan III. … Georg). Vor Ort noch einmal prüfen. */
 const FACADE_TARGETS = [
-  { id:"otto", name:"Otto I. von Wittelsbach", pos:"O1", title:"Der Erste", img:"img/fassade_otto.jpg", look:"Ganz oben links. Über ihm steht OTTO COMES WITTELS.",
+  { id:"otto", name:"Otto I. von Wittelsbach", pos:"O1", title:"Der Erste", img:"img/fassade_otto.jpg", look:"Rüstung, goldener Umhang, eine Feder am Helm. Über ihm steht OTTO COMES WITTELS.",
     story:"Otto I. von Wittelsbach. 1180 bekam er Bayern vom Kaiser. Damit begann eine Familie, die über 700 Jahre lang regierte, bis 1918. Die Inschrift nennt ihn sogar „Gründer dieser Stadt“. Ganz stimmt das nicht: Gegründet hat Landshut sein Sohn, gleich rechts neben ihm." },
-  { id:"gruender", name:"Ludwig der Kelheimer", pos:"O2", title:"Der Gründer", img:"img/fassade_gruender.jpg", look:"Oben, gleich rechts neben dem Ersten. Hermelinkragen über der Rüstung, ein Schwert in der Hand.",
+  { id:"gruender", name:"Ludwig der Kelheimer", pos:"O2", title:"Der Gründer", img:"img/fassade_gruender.jpg", look:"Hermelinkragen über der Rüstung, roter Mantel. Er ist der Sohn des Ersten.",
     story:"Ludwig der Kelheimer. Er gründete 1204 die Stadt Landshut, baute die Burg über der Isar und ließ eine Brücke über den Fluss schlagen. Ohne ihn gäbe es diese Wand nicht." },
-  { id:"strenge", name:"Ludwig der Strenge", pos:"O3", title:"Der Eifersüchtige", img:"img/fassade_strenge.jpg", look:"Oben, direkt rechts neben dem Gründer. Vor der Brust hält er einen goldenen Reichsapfel.",
+  { id:"strenge", name:"Ludwig der Strenge", pos:"O3", title:"Der Eifersüchtige", img:"img/fassade_strenge.jpg", look:"Vor der Brust hält er stehend einen goldenen Reichsapfel. Er ist der Sohn des Gründers.",
     story:"Ludwig der Strenge. 1256 ließ er seine eigene Frau Maria von Brabant hinrichten, weil er sie für untreu hielt. Sie war unschuldig. Seinen Beinamen hat er nicht umsonst." },
   { id:"kaiser", name:"Ludwig der Bayer", pos:"O4", title:"Der Kaiser", img:"img/fassade_kaiser.jpg", look:"Der Einzige auf der ganzen Wand, der sitzt. In der Hand den Reichsapfel.",
     story:"Ludwig der Bayer. 1328 wurde er in Rom zum Kaiser gekrönt, als einziger Wittelsbacher des Mittelalters. Darum thront er hier, während alle anderen stehen." },
-  { id:"heinrich", name:"Heinrich der Reiche", pos:"M6", title:"Der Bauherr", img:"img/fassade_heinrich.jpg", look:"Mittlere Reihe. Der erste der drei Reichen, Großvater des Bräutigams.",
+  { id:"heinrich", name:"Heinrich der Reiche", pos:"M6", title:"Der Bauherr", img:"img/fassade_heinrich.jpg", look:"Goldener Umhang, ein Schwert quer vor dem Bauch. Der erste der drei Reichen.",
     story:"Heinrich der Reiche. Unter ihm begann 1407 der Bau einer zweiten großen Kirche in der Altstadt, der Heiliggeistkirche. Merkt sie euch." },
-  { id:"ernst", name:"Herzog Ernst", pos:"M7", title:"Der Richter", img:"img/fassade_ernst.jpg", look:"Mittlere Reihe, gleich rechts neben dem Bauherrn. In seinem Wappen windet sich eine Schlange.",
+  { id:"ernst", name:"Herzog Ernst", pos:"M7", title:"Der Richter", img:"img/fassade_ernst.jpg", look:"Grünes Gewand mit Puffärmeln. In seinem Wappen windet sich eine Schlange.",
     story:"Herzog Ernst. Sein Sohn Albrecht hatte heimlich Agnes Bernauer geheiratet, die Tochter eines Baders aus Augsburg. Für den Vater war das eine Schande. 1435 ließ er Agnes als Hexe verurteilen und in Straubing in der Donau ertränken. Auch in dieser Familie wurde schon für ein Erbe gemordet." },
-  { id:"albrecht3", name:"Albrecht III.", pos:"M8", title:"Der Liebende", img:"img/fassade_albrecht3.jpg", look:"Direkt rechts neben dem Richter. Er streckt eine Hand aus, als wolle er etwas erklären.",
+  { id:"albrecht3", name:"Albrecht III.", pos:"M8", title:"Der Liebende", img:"img/fassade_albrecht3.jpg", look:"Er streckt eine Hand aus, als wolle er etwas erklären. Sein Vater steht direkt links neben ihm.",
     story:"Albrecht III. Der Sohn des Richters. Er hatte Agnes Bernauer heimlich geheiratet. Als sein Vater sie ertränken ließ, griff Albrecht gegen ihn zu den Waffen. Später versöhnten sich die beiden, und Albrecht heiratete eine Frau von Stand." },
   { id:"braeutigam", name:"Georg der Reiche", pos:"M10", title:"Der Bräutigam", img:"img/fassade_georg.jpg", look:"Zu seinen Füßen zwei Wappen, eines davon mit einem weißen Adler unter einer Krone.",
     story:"Georg der Reiche. 1475 heiratete er hier in Landshut die polnische Königstochter Hedwig. Der weiße Adler zu seinen Füßen ist ihr Wappen. Die Landshuter Hochzeit wurde eines der größten Feste des Mittelalters." }
 ];
 /* Zwischenstopp nach dem Denkmal: der Letzte, der an der Wand noch fehlt */
-const ALBRECHT = { id:"albrecht", name:"Albrecht der Weise", pos:"U1", title:"Der Gegenspieler", img:"img/fassade_albrecht.jpg", look:"Untere Reihe, ganz links. Mit ihm beginnt eine neue Zeile.",
+const ALBRECHT = { id:"albrecht", name:"Albrecht der Weise", pos:"U1", title:"Der Gegenspieler", img:"img/fassade_albrecht.jpg", look:"Langer roter Mantel mit Pelzkragen, eine Urkunde in der Hand.",
     story:"Albrecht der Weise. Er kam aus München und war Georgs Vetter. Nach den alten Hausverträgen durfte nur ein Mann der Familie das Land erben. Darum zog er nach Georgs Tod gegen dessen Tochter in den Krieg, und er gewann. Doch Georgs Testament war eindeutig: Die rechtmäßige Erbin war Elisabeth. Vergesst ihren Namen nicht." };
 function facadeGrid(){
   const rows = [["O","obere Reihe"],["M","mittlere Reihe"],["U","untere Reihe"]];
@@ -1642,7 +1642,7 @@ function openVia(){
   $("#winBody").onclick = e => { const b = e.target.closest("[data-pos]"); if (!b) return;
     if (S.st.via4) return openVia();
     if (!guard("4.via")) return;
-    if (b.dataset.pos !== ALBRECHT.pos) { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); $("#fMsg").textContent = "Dort ist er nicht. Er steht ganz am Anfang einer Reihe."; wrong("4.via"); return; }
+    if (b.dataset.pos !== ALBRECHT.pos) { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); $("#fMsg").textContent = "Dort ist er nicht. Er steht ganz am Anfang der unteren Reihe."; wrong("4.via"); return; }
     right("4.via"); b.classList.add("right");
     setTimeout(() => { sheet(`<div class="kind">Gefunden · ${esc(ALBRECHT.title)}</div><h2>${esc(ALBRECHT.name)}</h2><p>${esc(ALBRECHT.story.slice(ALBRECHT.name.length).replace(/^[.,\s]+/, ""))}</p><button class="btn primary" data-close id="viaGo">Falkenrieds Memo anhören</button>`);
       $("#viaGo").onclick = () => { if (S.st.via4) return; S.st.via4 = true; S.goAt = S.goAt || {}; S.goAt[4] = Date.now(); save(); closeWin(); renderHome(); setTimeout(() => { autoVoice = "V_ALBRECHT"; fire("V_ALBRECHT"); }, 400); }; }, 500);
