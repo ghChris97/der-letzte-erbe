@@ -2354,10 +2354,13 @@ function startGeo(){
 /* ============================================================
    Wer ist wer: Personen-Übersicht (nach dem Entsperren, und in „Verdächtige“)
    ============================================================ */
-function castRow(img, name, line, sub){
+function castRow(img, name, line, sub, rec){
   const av = img ? `<img src="${img}" alt="" style="width:46px;height:46px;border-radius:50%;object-fit:cover;flex:none">`
     : `<span style="width:46px;height:46px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--surface-2);font-family:var(--font-display);font-size:22px">${esc(name[0])}</span>`;
-  return `<div style="display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)">${av}<div><b style="font-size:15px">${esc(name)}</b><div style="font-size:13px;color:var(--muted);line-height:1.4">${esc(line)}${sub ? `<br><i>${esc(sub)}</i>` : ""}</div></div></div>`;
+  const ok = rec && (S.heard || {})[rec];
+  return `<div style="display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)">${av}<div style="flex:1;min-width:0"><b style="font-size:15px">${esc(name)}</b><div style="font-size:13px;color:var(--muted);line-height:1.4">${esc(line)}${sub ? `<br><i>${esc(sub)}</i>` : ""}</div>
+    ${rec ? `<div data-recst="${rec}" style="font-size:12px;margin-top:3px">${ok ? '<span style="color:#6fbf8a">✓ Vernehmung angehört</span>' : '<span style="color:#ff8a8a">Vernehmung noch nicht angehört</span>'}</div>` : ""}</div>
+    ${rec ? `<button class="btn${ok ? "" : " primary"}" data-rec="${rec}" style="width:auto;margin:0;padding:8px 12px;flex:none">▶</button>` : ""}</div>`;
 }
 /* Zu Beginn: die vier Vernehmungen einmal komplett anhören (zählt fürs ganze Team) */
 const REC_MUST = ["helena","mair","tobias","clara"];
@@ -2382,10 +2385,11 @@ function showCast(after){
   sheet(`<div class="kind">Wer ist wer</div><h2>Die Personen in diesem Fall</h2>
     <div class="sec" style="margin-top:6px">Das Opfer</div>${castRow("img/falkenried_av.jpg", "Maximilian von Falkenried, 62", "Kunstsammler. Am 19. Dezember um 21:25 tot in seinem Archiv gefunden.")}
     <div class="sec">Die vier Gäste beim Adventsdinner</div>
-    ${castRow("img/helena_av.jpg", "Dr. Helena Dorn, 47", "Historikerin. Betreute Falkenrieds Archiv.")}
-    ${castRow("img/mair_av.jpg", "Benedikt Mair, 55", "Notar. Kennt Falkenrieds Testament.")}
-    ${castRow("img/tobias_av.jpg", "Tobias von Falkenried, 31", "Neffe. Hat Schulden, galt als Erbe.")}
-    ${castRow("img/clara_av.jpg", "Clara Weiß, 43", "Kunsthändlerin. Wollte Stücke aus der Sammlung.")}
+    <p style="margin:2px 0 4px;font-size:13px">Seidl hat alle vier noch in der Nacht vernommen. Tippt auf ▶ und hört jede Vernehmung einmal ganz an.</p>
+    ${castRow("img/helena_av.jpg", "Dr. Helena Dorn, 47", "Historikerin. Betreute Falkenrieds Archiv.", null, "helena")}
+    ${castRow("img/mair_av.jpg", "Benedikt Mair, 55", "Notar. Kennt Falkenrieds Testament.", null, "mair")}
+    ${castRow("img/tobias_av.jpg", "Tobias von Falkenried, 31", "Neffe. Hat Schulden, galt als Erbe.", null, "tobias")}
+    ${castRow("img/clara_av.jpg", "Clara Weiß, 43", "Kunsthändlerin. Wollte Stücke aus der Sammlung.", null, "clara")}
     <div class="sec">Außerdem</div>
     ${castRow("img/rosa_av.jpg", "Rosa Brandl, 58", "Haushälterin. War den ganzen Abend im Haus, Zeugin.")}
     ${castRow("img/seidl_av.jpg", "Martina Seidl, 52", "Kriminalhauptkommissarin, leitet die Ermittlung. Meldet sich per Sprachnachricht.")}
@@ -2394,7 +2398,14 @@ function showCast(after){
     <p style="margin-top:12px">Diese Übersicht findet ihr jederzeit in „Verdächtige“.</p>
     <button class="btn primary" id="castOk">Verstanden</button>`);
   newsSeen("verdaechtige", ...visibleSuspects().map(p => p.id));
-  $("#castOk").onclick = () => { closeSheet(); if (after) after(); };
+  const need = () => !!after && !heardAll() && !DEV.noLimit;   /* beim Start: erst alle vier Vernehmungen */
+  const upd = () => { const b = $("#castOk"); if (!b) return; const n = REC_MUST.filter(id => (S.heard || {})[id]).length;
+    b.disabled = need(); b.textContent = need() ? `Erst alle Vernehmungen anhören (${n} von 4)` : "Verstanden";
+    REC_MUST.forEach(id => { const e = document.querySelector(`#sheet [data-recst="${id}"]`); if (e && (S.heard || {})[id]) e.innerHTML = '<span style="color:#6fbf8a">✓ Vernehmung angehört</span>'; }); };
+  upd();
+  document.querySelectorAll("#sheet [data-rec]").forEach(b => b.onclick = () => toggleRec(b.dataset.rec, b));
+  window.onHeard = () => { if ($("#castOk")) upd(); };
+  $("#castOk").onclick = () => { if (need()) return; window.onHeard = null; stopAudio(); const sh = $("#sheet"); if (sh) sh._user = true; closeSheet(); if (after) after(); };
 }
 
 /* ============================================================
