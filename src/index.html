@@ -458,7 +458,7 @@ const CONTENT = {
   /* Stationen. phase "go" = unterwegs (Hinweis), "task" = vor Ort (Aufgabe). */
   stations: [
     { id:1, name:"St. Martin", spot:"Vor dem Turm von St. Martin", lat:48.534237, lng:12.151014,
-      clue:null,
+      src:"Ermittlungsleiterin Seidl", clue:"Wir treffen uns am Turm von Sankt Martin.",
       task:"Falkenrieds Notizbuch hat ein Zahlenschloss. Ein Zettel von ihm klebt daran und erklärt, warum. Öffnet die Notizen und lest ihn.",
       action:"Notizen öffnen" },
     { id:2, name:"Landschaftshaus", spot:"Altstadt 28, die bemalte Fassade", lat:48.533888, lng:12.150226, revealMin:3,
@@ -491,7 +491,7 @@ const CONTENT = {
       action:"Anklage erheben" }
   ],
   evidence: {
-    E01:{ t:"Hochzeitsrechnung 1475", d:"Abschrift aus Falkenrieds Manteltasche. Vermerk: Bezahlt hat nicht der Bräutigam." },
+    E01:{ t:"Hochzeitsrechnung 1475", d:"Abschrift in Falkenrieds Tagebuch. Vermerk: Bezahlt hat nicht der Bräutigam." },
     E03:{ t:"Notizen zur Fassade", d:"Der Kaiser gab Landshut drei Helme ins Wappen. Ludwig X. begann seine Residenz erst 1536. Unter Heinrich dem Reichen begann 1407 der Bau der Heiliggeistkirche." },
     E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 2, 5 und 7: Rubinbrosche, zehn goldene Taler, Familiensiegel mit dem W der Wittelsbacher. Falkenried notierte daneben: „Hochzeitsgaben, Kiste A, B, C“." },
     E06:{ t:"Verwahrvermerk Notariat Mair", d:"„Notariat Mair – Verwahrung“. Inhalt geschwärzt." },
@@ -506,7 +506,7 @@ const CONTENT = {
     E15:{ t:"Handyauswertung Clara Weiß", d:"Clara telefonierte von 20:44 bis 20:50 mit dem Käufer CW-04." }
   },
   voice: {
-    V_START:{ from:"Ermittlungsleiterin Seidl", photo:"img/seidl_av.jpg", title:"Ich brauche eure Hilfe", text:"Hallo, hier spricht Martina Seidl, Kriminalhauptkommissarin bei der Kripo Landshut. Danke, dass ihr so schnell erreichbar seid. Gestern Abend wurde der Kunstsammler Maximilian von Falkenried tot in seinem Archiv gefunden. Wir gehen von Mord aus. Den ersten Bericht schicke ich euch gleich hinterher. Falkenrieds Handy haben wir sichergestellt und alle Daten heruntergeladen. Ein Abbild davon wird gerade auf eure Handys gespielt. Ihr könnt es bedienen wie sein eigenes Telefon, mit Nachrichten, Mailbox und Notizen. Der Code zum Entsperren lautet: eins, vier, sieben, fünf. Merkt ihn euch gut. Ich brauche eure Hilfe, und zwar dringend. Gebt mir eure Namen, dann trage ich euch als Ermittlungsgruppe ein. Danach kommt niemand mehr dazu." },
+    V_START:{ from:"Ermittlungsleiterin Seidl", photo:"img/seidl_av.jpg", title:"Ich brauche eure Hilfe", text:"Hallo, hier spricht Martina Seidl, Kriminalhauptkommissarin bei der Kripo Landshut. Danke, dass ihr so schnell erreichbar seid. Gestern Abend wurde der Kunstsammler Maximilian von Falkenried tot in seinem Archiv gefunden. Wir gehen von Mord aus. Den ersten Bericht schicke ich euch gleich hinterher. Falkenrieds Handy haben wir sichergestellt und alle Daten heruntergeladen. Ein Abbild davon wird gerade auf eure Handys gespielt. Ihr könnt es bedienen wie sein eigenes Telefon, mit Nachrichten, Mailbox und Notizen. Der Code zum Entsperren lautet: eins, vier, sieben, fünf. Merkt ihn euch gut. Ich brauche eure Hilfe, und zwar dringend. Gebt mir eure Namen, dann trage ich euch als Ermittlungsgruppe ein. Danach kommt niemand mehr dazu. Noch etwas zum Code: Vierzehnhundertfünfundsiebzig, das ist das Jahr der Landshuter Hochzeit. Falkenried war besessen von dieser Hochzeit und von den Wittelsbachern. Jahrelang hat er ihren Stammbaum erforscht. Warum, wissen wir noch nicht. Wir treffen uns am Turm von Sankt Martin." },
     V_ERBE:{ from:"Falkenried", memo:"im Archiv gespeichert, aufgenommen am 16. Oktober 2026", title:"Die Familie", text:"Wenn ihr das hört, steht ihr vor Ludwig dem Reichen. Lasst mich euch seine Familie erzählen, denn um sie geht es in allem, was ich gefunden habe. Ludwigs Vater war Heinrich, der erste der drei Reichen Herzöge von Landshut. In seiner Zeit begann der Bau von Heiliggeist, und er hinterließ seinem Sohn eine volle Schatzkammer. Ludwig machte daraus das prächtigste Fest, das diese Stadt je gesehen hat. 1475 heiratete sein Sohn Georg in Sankt Martin Hedwig, die Tochter des polnischen Königs. Tausende Gäste kamen, Ritter aus halb Europa, und Ludwig hat alles bezahlt. Georg und Hedwig bekamen Kinder, doch ihre Söhne starben früh. Am Ende blieben zwei Töchter. Und genau das wurde zum Problem. Nach den Hausverträgen der Wittelsbacher durfte das Land nur an Männer der Familie fallen. Georg setzte trotzdem seine Tochter Elisabeth als Erbin ein, sie und ihren Mann, Ruprecht von der Pfalz. Am ersten Dezember 1503 starb Georg in Ingolstadt. In München las sein Vetter, Herzog Albrecht, das Testament, und er lachte nicht. Was folgte, war kein Streit mehr. Es war der Landshuter Erbfolgekrieg. Dörfer brannten in ganz Niederbayern. Der König stellte sich auf Albrechts Seite und ließ sich das gut bezahlen. Im Sommer 1504 starb Ruprecht, wenige Wochen später auch Elisabeth. Sie hinterließen vier kleine Söhne in einem Land voller Feinde. Die Zwillinge Georg und Ruprecht starben noch im selben Jahr, so steht es jedenfalls in den Büchern. Ich habe angefangen, daran zu zweifeln. 1505 tagte der Reichstag in Köln, und der König entschied. Landshut ging an Albrecht nach München. Für die beiden anderen, Ottheinrich und Philipp, schuf man ein kleines neues Land an der Donau, mit der Hauptstadt Neuburg. Aber in den Wintertagen nach Georgs Tod, als noch niemand wusste, wer gewinnen würde, hat jemand drei Kisten aus der Stadt gebracht. Was in ihnen war, steht in zwei Listen in meiner Mappe. Ihr Schloss stellt ihr dort ein, wo die Bürger dieser Stadt seit Jahrhunderten ihren Rat halten. Nicht oben auf der Burg, sondern unten in der Altstadt." },
     V_RESIDENZ:{ from:"Ermittlungsleiterin Seidl", photo:"img/seidl_av.jpg", title:"Die Archivtür", text:"Hier Seidl. Gute Arbeit, der Brief ist eine Fälschung. Ich glaube, ich weiß auch, wozu: Wer alte Stücke verkaufen will, braucht eine Herkunft. Ein Brief aus der Herzogsresidenz macht aus drei Kisten einen Schatz, den ein Sammler teuer bezahlt. Jetzt die entscheidende Frage: Wer kam am Abend an die Archivtür? Falkenrieds Haustechnik speichert jeden Zutritt in einem Ordner auf seinem Handy. Er hat ihn im Herbst gesperrt. Wo er sich öffnet, steht in Falkenrieds Notizen zur Fassade." },
     V_TURM:{ from:"Falkenried", memo:"im Ordner Haustechnik gespeichert, aufgenommen am 9. November 2026", title:"Der Turm", text:"Sie wollten hier einen Turm, höher als Sankt Martin. Das Geld reichte nicht. Manche wollen eben mehr, als ihnen zusteht." },
@@ -534,7 +534,7 @@ const TEAM = ((new URLSearchParams(location.search).get("team") || "haupt").toLo
 const KEY = "falkenried-v2-" + TEAM;
 /* Gemeinsam für alle Handys des Teams */
 const SHARED = ["stage","phase","revealed","apps","evidence","voicemails","notes","st","ending","struck","hintsOpen","events","locks","devices","solvedBy","rev","resetAt","goAt","acks","mustSee","startedAt","heard","teamName","teamLocked"];
-const fresh = () => ({ stage:1, phase:"task", revealed:{}, apps:[], evidence:[], voicemails:[], notes:[], st:{}, ending:null, struck:[], hintsOpen:{},
+const fresh = () => ({ stage:1, phase:"go", revealed:{ 1:true }, apps:[], evidence:[], voicemails:[], notes:[], st:{}, ending:null, struck:[], hintsOpen:{},
   events:[], locks:{}, devices:{}, solvedBy:null, rev:0, resetAt:0, goAt:{}, acks:{}, mustSee:[], heard:{},
   /* nur auf diesem Handy */
   introSeen:false, unlocked:false, calls:[], threads:{ unbekannt:[] }, fired:[], unread:0, missed:0, seen:[] });
@@ -655,7 +655,7 @@ function renderDots(){ const d = $("#dots"); if (d) d.innerHTML = [0,1,2,3].map(
 function checkPin(){
   if (pin === CONTENT.pin) {
     S.unlocked = true; if (!S.startedAt) S.startedAt = Date.now(); save(); pin = ""; renderHome();
-    askName(() => showCast(() => showInterrogations(() => setTimeout(() => { fire("CALL_01"); processEvents(); }, 1200))));
+    askName(() => showCast(() => showInterrogations(() => { processEvents(); renderHome(); if (S.stage === 1 && S.phase === "go") setTimeout(() => toast("Seidl wartet am Turm von St. Martin. Tippt dort auf „Wir sind da“."), 600); })));
   } else {
     const d = $("#dots"); d.classList.remove("shake"); void d.offsetWidth; d.classList.add("shake");
     $("#pinhint").textContent = "Falscher Code. Hört Seidls Nachricht noch einmal an.";
@@ -1071,12 +1071,12 @@ function ackItem(id){ S.acks = S.acks || {}; const a = S.acks[id] || (S.acks[id]
 function pendingAcks(){ return (S.mustSee || []).filter(id => !((S.acks || {})[id] || []).length); }
 /* Apps mit rotem Punkt auf diesem Handy */
 function unreadApps(){
-  return Array.from(new Set(allUnseen().filter(x => x.k !== "postfach").map(x => x.app)));
+  return Array.from(new Set(allUnseen().filter(gateItem).map(x => x.app)));
 }
 function ackGate(){
   /* Eigene ungelesene Hinweise kommen immer zuerst, bevor dieses Handy ein Rätsel öffnet */
   if (showQ.length) { pumpShow(); return false; }
-  const ua = DEV.noLimit ? [] : allUnseen().filter(x => x.k !== "postfach");
+  const ua = DEV.noLimit ? [] : allUnseen().filter(gateItem);
   if (ua.length) {
     sheet(`<div class="kind">Erst die Neuigkeiten</div><h2>Es gibt noch Neues zu sehen</h2>
       <p>Schaut euch zuerst diese Hinweise an. Danach geht es mit dem Rätsel weiter.</p>${ua.map(newsRow).join("")}`);
@@ -1164,7 +1164,7 @@ function acceptCall(id, w){
    Vorproduzierte Stimmen (audio/*.mp3) mit Satz-Zeitmarken.
    Fehlt eine Datei oder schlägt die Wiedergabe fehl, springt die Sprachausgabe des Geräts ein.
    ============================================================ */
-const CUES = {"V_START": [[0.0, 5.08], [5.36, 7.36], [7.76, 13.44], [13.68, 15.12], [15.36, 18.08], [18.16, 22.4], [22.64, 25.72], [25.92, 31.28], [31.52, 35.92], [36.0, 37.12], [37.36, 40.0], [40.24, 43.92], [44.0, 45.84]], "CALL_01": [[0.0, 1.521], [1.761, 4.722], [4.962, 6.923], [7.123, 11.525], [11.632, 15.686], [16.086, 20.008]], "CALL_06": [[0.0, 0.8], [1.24, 3.121], [3.201, 6.403], [6.483, 8.964], [9.044, 13.766]], "CALL_07": [[0.0, 1.681], [1.801, 4.082], [4.122, 5.082], [5.282, 8.723]], "V_ERBE": [[0.0, 3.2], [3.52, 8.68], [9.04, 13.84], [14.32, 20.28], [20.64, 25.68], [25.76, 32.72], [33.2, 38.72], [39.04, 43.52], [43.6, 45.48], [45.76, 48.0], [48.32, 53.6], [53.72, 60.08], [60.64, 64.92], [65.2, 70.52], [70.8, 73.0], [73.2, 75.36], [75.84, 78.24], [78.48, 82.48], [82.96, 88.08], [88.56, 92.6], [92.88, 98.64], [99.12, 101.76], [101.84, 106.16], [106.64, 109.08], [109.36, 116.56], [117.12, 124.92], [125.2, 128.16], [128.72, 133.96], [134.24, 137.68]], "V_RESIDENZ": [[0.0, 0.8], [1.2, 4.0], [4.08, 9.08], [9.28, 15.64], [15.92, 20.16], [20.48, 24.96], [25.36, 27.16], [27.36, 31.28]], "V_TURM": [[0.0, 3.28], [3.52, 4.72], [5.12, 7.84]], "V_ZEUGIN": [[0.0, 2.48], [2.96, 6.16], [6.2, 7.76], [8.32, 10.0], [10.48, 17.12]], "ZEUGIN_KURZ": [[0.0, 2.48], [3.04, 5.96], [6.24, 7.84], [8.4, 9.92]], "V_MAIR": [[0.0, 2.04], [2.32, 7.68], [8.0, 13.28], [13.32, 18.4], [19.04, 22.8]], "V_FINALE": [[0.0, 2.84], [3.12, 6.16], [6.4, 7.76], [8.64, 16.12], [16.4, 17.28], [17.76, 24.16], [24.64, 26.56], [26.88, 30.48], [30.96, 32.88], [33.44, 36.0], [36.24, 37.52], [37.76, 40.72], [41.36, 45.84], [46.32, 48.8]]};
+const CUES = {"V_START": [[0.0, 5.08], [5.36, 7.36], [7.76, 13.44], [13.68, 15.12], [15.36, 18.08], [18.16, 22.4], [22.64, 25.72], [25.92, 31.28], [31.52, 35.92], [36.0, 37.12], [37.36, 40.0], [40.24, 43.92], [44.0, 45.84], [46.392, 52.592], [52.872, 57.152], [57.432, 59.952], [60.152, 61.872], [62.152, 64.632]], "CALL_01": [[0.0, 1.521], [1.761, 4.722], [4.962, 6.923], [7.123, 11.525], [11.632, 15.686], [16.086, 20.008]], "CALL_06": [[0.0, 0.8], [1.24, 3.121], [3.201, 6.403], [6.483, 8.964], [9.044, 13.766]], "CALL_07": [[0.0, 1.681], [1.801, 4.082], [4.122, 5.082], [5.282, 8.723]], "V_ERBE": [[0.0, 3.2], [3.52, 8.68], [9.04, 13.84], [14.32, 20.28], [20.64, 25.68], [25.76, 32.72], [33.2, 38.72], [39.04, 43.52], [43.6, 45.48], [45.76, 48.0], [48.32, 53.6], [53.72, 60.08], [60.64, 64.92], [65.2, 70.52], [70.8, 73.0], [73.2, 75.36], [75.84, 78.24], [78.48, 82.48], [82.96, 88.08], [88.56, 92.6], [92.88, 98.64], [99.12, 101.76], [101.84, 106.16], [106.64, 109.08], [109.36, 116.56], [117.12, 124.92], [125.2, 128.16], [128.72, 133.96], [134.24, 137.68]], "V_RESIDENZ": [[0.0, 0.8], [1.2, 4.0], [4.08, 9.08], [9.28, 15.64], [15.92, 20.16], [20.48, 24.96], [25.36, 27.16], [27.36, 31.28]], "V_TURM": [[0.0, 3.28], [3.52, 4.72], [5.12, 7.84]], "V_ZEUGIN": [[0.0, 2.48], [2.96, 6.16], [6.2, 7.76], [8.32, 10.0], [10.48, 17.12]], "ZEUGIN_KURZ": [[0.0, 2.48], [3.04, 5.96], [6.24, 7.84], [8.4, 9.92]], "V_MAIR": [[0.0, 2.04], [2.32, 7.68], [8.0, 13.28], [13.32, 18.4], [19.04, 22.8]], "V_FINALE": [[0.0, 2.84], [3.12, 6.16], [6.4, 7.76], [8.64, 16.12], [16.4, 17.28], [17.76, 24.16], [24.64, 26.56], [26.88, 30.48], [30.96, 32.88], [33.44, 36.0], [36.24, 37.52], [37.76, 40.72], [41.36, 45.84], [46.32, 48.8]]};
 let curAudio = null;
 ["VERHOER_HELENA","VERHOER_MAIR","VERHOER_TOBIAS","VERHOER_CLARA","VERHOER_FELD"].forEach(k => { CUES[k] = []; });
 const RECORDINGS = {"helena": {"id": "VERHOER_HELENA", "text": "Seidl: Frau Dr. Dorn, wann haben Sie das Haus verlassen?\nDorn: Ich bin um halb neun gegangen. Kopfschmerzen. Ich habe mich im Flur verabschiedet, das hat Frau Brandl gesehen.\nSeidl: Und dann?\nDorn: Direkt ins Hotel. Um kurz nach neun lag ich im Bett. Von alldem habe ich erst heute Morgen erfahren.\nSeidl: Sie haben Herrn von Falkenrieds Archiv betreut?\nDorn: Seit drei Jahren. Ich kenne jedes Blatt darin. Gerade deshalb tut das so weh."}, "mair": {"id": "VERHOER_MAIR", "text": "Seidl: Herr Mair, Sie waren während des Abends eine Weile nicht am Tisch.\nMair: Ich habe kurz telefoniert, draußen. Ein beruflicher Anruf.\nSeidl: Mit wem?\nMair: Dazu kann ich nichts sagen. Ich bin an meine Schweigepflicht gebunden.\nSeidl: Wie lange waren Sie draußen?\nMair: Ein paar Minuten. Mehr nicht."}, "tobias": {"id": "VERHOER_TOBIAS", "text": "Seidl: Herr von Falkenried, man hat Sie mit Ihrem Onkel streiten hören.\nTobias: Ja, wir haben gestritten. Laut. Es ging um Geld, um was sonst.\nSeidl: Und danach?\nTobias: Danach war ich rauchen, auf der Terrasse. Bestimmt eine Viertelstunde. Ich wollte nicht mehr rein.\nSeidl: Sie haben ihn gefunden.\nTobias: Kurz vor halb zehn. Die Archivtür stand offen. Ich … ich will darüber nicht reden."}, "clara": {"id": "VERHOER_CLARA", "text": "Seidl: Frau Weiß, wo waren Sie zwischen halb neun und neun?\nWeiß: Am Tisch, bei den anderen Gästen. Den ganzen Abend. Fragen Sie sie.\nSeidl: Sie haben ein Taxi bestellt.\nWeiß: Ja, gegen neun. Ich wollte nach Hause, die Stimmung war … unangenehm.\nSeidl: Kannten Sie Herrn von Falkenrieds Sammlung?\nWeiß: Natürlich. Ich bin Kunsthändlerin. Aber nur aus seinen Erzählungen."}, "feld": {"id": "VERHOER_FELD", "text": "Telefonische Vernehmung\nSeidl: Herr Feld, danke, dass Sie zurückrufen. Wo waren Sie am Abend des 19. Dezember?\nFeld: In Regensburg. Ich restauriere gerade ein Altarbild im Dom. Wir haben bis nach zehn gearbeitet, das können Ihnen drei Kollegen bestätigen.\nSeidl: Ihre Zutrittskarte wurde an diesem Abend an der Archivtür benutzt.\nFeld: Das kann nicht sein. Die Karte ist mir vor einer Woche abhandengekommen. Zuletzt hatte ich sie im Archiv, als ich dort an den Urkunden gearbeitet habe.\nSeidl: Haben Sie den Verlust gemeldet?\nFeld: Ich hab es Herrn von Falkenried gesagt. Er meinte nur, die taucht schon wieder auf."}};
@@ -1321,7 +1321,7 @@ const members = () => Object.entries(S.devices || {}).filter(([id, v]) => v.name
 let introTimer = null;
 function renderBlocked(){
   clearInterval(introTimer); stopAudio();
-  screen.innerHTML = `${statusBar()}<div class="intro"><span class="flash">Zugriff gesperrt</span>
+  screen.innerHTML = `${statusBar()}<div class="intro" id="blockedScr"><span class="flash">Zugriff gesperrt</span>
     <h1>Diese Ermittlungsgruppe ist vollständig</h1>
     <p>${esc(teamLabel())} hat die Ermittlung bereits begonnen. Neue Handys können jetzt nicht mehr dazukommen.</p>
     <p style="color:var(--muted)">Ihr gehört dazu? Dann muss die Spielleitung das Team kurz wieder öffnen.</p></div>`;
@@ -1329,7 +1329,9 @@ function renderBlocked(){
 function renderIntro(step){
   clearInterval(introTimer);
   if (teamBlocked()) return renderBlocked();
-  step = step || (isMember() ? "team" : "push");
+  const saved = DEV.iStep && DEV.iStep.r === (S.resetAt || 0) ? DEV.iStep.s : null;   /* nach Neuladen dort weiter, wo man war */
+  step = step || (isMember() ? "team" : saved || "push");
+  if (step !== "upload") { DEV.iStep = { r:S.resetAt || 0, s:step }; saveDev(); }
   const go = st => { stopAudio(); renderIntro(st); };
   if (step === "push") {
     const d = new Date().toLocaleDateString("de-DE",{ weekday:"long", day:"numeric", month:"long" });
@@ -1355,7 +1357,7 @@ function renderIntro(step){
     const btn = $("#vsPlay"), next = $("#toReport");
     const unlockNext = () => { DEV.vsDone = "r" + (S.resetAt || 0); saveDev(); next.disabled = false; next.classList.add("primary"); btn.classList.remove("primary"); $("#vsHint").textContent = "Merkt euch den Code: 1475."; };
     if (DEV.noLimit || DEV.vsDone === "r" + (S.resetAt || 0)) unlockNext();
-    const show = n => { $("#vsTx").innerHTML = `<b>${esc(V.text.slice(0, n))}</b>${esc(V.text.slice(n))}`; };
+    const show = n => { if (!$("#vsTx")) return; $("#vsTx").innerHTML = `<b>${esc(V.text.slice(0, n))}</b>${esc(V.text.slice(n))}`; };
     btn.onclick = () => {
       if (curAudio && !curAudio.paused) { stopAudio(); btn.textContent = "▶ Weiter abspielen"; return; }
       btn.textContent = "■ Pause";
@@ -1384,16 +1386,13 @@ function renderIntro(step){
     if (!isMember()) {
       screen.innerHTML = `${statusBar()}<div class="intro"><span class="flash" style="background:#3b5b8c">Ermittlungsgruppe</span>
         <div style="display:flex;gap:12px;align-items:center"><img src="img/seidl_av.jpg" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover"><p style="margin:0"><b>Seidl:</b> „Gebt mir eure Namen. Jeder trägt sich auf seinem eigenen Handy ein.“</p></div>
-        ${S.teamName ? `<p>Euer Team: <b>${esc(S.teamName)}</b></p>` : `<label for="tmName" style="font-size:13px;color:var(--muted)">Name eures Teams</label><input class="field" id="tmName" maxlength="28" placeholder="z. B. Die Spürnasen">`}
         <label for="devName" style="font-size:13px;color:var(--muted)">Dein Vorname</label><input class="field" id="devName" autocomplete="given-name" maxlength="20" value="${esc(DEV.name || "")}">
         <p id="tmMsg" style="color:#ff8a8a;font-size:13px"></p>
         <button class="btn primary" id="tmGo">Eintragen</button></div>`;
       $("#tmGo").onclick = () => {
-        const n = $("#devName").value.trim(), tn = $("#tmName") ? $("#tmName").value.trim() : "";
+        const n = $("#devName").value.trim();
         if (!n) { $("#tmMsg").textContent = "Bitte deinen Vornamen eingeben."; return; }
-        if ($("#tmName") && !tn && !S.teamName) { $("#tmMsg").textContent = "Bitte einen Namen für euer Team eingeben."; return; }
         if (teamBlocked()) return renderBlocked();
-        if (!S.teamName && tn) S.teamName = tn.slice(0, 28);
         DEV.name = n.slice(0, 20); saveDev(); heartbeat(); renderIntro("team");
       };
       return;
@@ -1403,18 +1402,22 @@ function renderIntro(step){
     screen.innerHTML = `${statusBar()}<div class="intro"><span class="flash" style="background:#3b5b8c">Ermittlungsgruppe</span>
       <h1>${esc(S.teamName || "Euer Team")}</h1>
       <p>Alle aus eurem Team öffnen jetzt den Link auf ihrem eigenen Handy und tragen sich ein. Hier erscheint jeder, der dabei ist.</p>
+      <div style="display:flex;gap:8px;align-items:center"><input class="field" id="tmName" maxlength="28" placeholder="Name eures Teams, z. B. Die Spürnasen" value="${esc(S.teamName || "")}" style="margin:0;flex:1"><button class="btn" id="tmNameGo" style="width:auto;margin:0;padding:12px 14px">${S.teamName ? "Ändern" : "Speichern"}</button></div>
       <div style="display:grid;gap:8px">${list.map(([id, v]) => `<div class="member"><i>✓</i>${esc(v.name)}${id === DEV.id ? ' <span style="color:var(--muted);font-weight:400">(du)</span>' : ""}</div>`).join("")}</div>
       <button class="btn" id="tmShare">Weitere Handys einladen: Link teilen</button>
       <p style="color:var(--muted);font-size:13px">Wenn alle eingetragen sind, schließt einer das Team ab. Danach kann niemand mehr dazukommen.</p>
       <button class="btn primary" id="tmLock">Team ist komplett · ${list.length} ${list.length === 1 ? "Person" : "Personen"}</button><p id="tmMsg" style="font-size:13px"></p></div>`;
     $("#tmShare").onclick = shareLink;
-    let armed = false;
+    let armed = false, typing = false;
+    $("#tmName").addEventListener("input", () => { typing = true; });
+    $("#tmNameGo").onclick = () => { const v = $("#tmName").value.trim(); if (!v) return; S.teamName = v.slice(0, 28); save(); typing = false; renderIntro("team"); };
     $("#tmLock").onclick = () => {
+      if (!S.teamName) { $("#tmMsg").textContent = "Gebt eurem Team zuerst einen Namen."; $("#tmName").focus(); return; }
       if (!armed) { armed = true; $("#tmLock").textContent = "Wirklich abschließen? Nochmal tippen"; $("#tmMsg").textContent = members().map(([i, v]) => v.name).join(", "); return; }
       S.teamLocked = true; save(); go("upload");
     };
     const sig = () => JSON.stringify([members().map(m => m[0]), !!S.teamLocked, S.teamName]); let last = sig();
-    introTimer = setInterval(() => { if (sig() !== last && !armed) renderIntro("team"); else if (S.teamLocked) renderIntro("upload"); }, 1500);
+    introTimer = setInterval(() => { if (S.teamLocked) renderIntro("upload"); else if (sig() !== last && !armed && !typing) renderIntro("team"); }, 1500);
     return;
   }
   if (step === "upload") {
@@ -1424,6 +1427,7 @@ function renderIntro(step){
     const steps = ["Verbindung zum Asservat 1475/26 …","Kontakte und Anrufliste …","Nachrichten …","Mailbox und Sprachmemos …","Notizen und Tagebuch …","Fotos …","Sperre übernommen: Code erforderlich","Fertig."];
     let k = 0;
     introTimer = setInterval(() => {
+      if (!$("#upLog")) { clearInterval(introTimer); return; }
       if (k < steps.length) { $("#upLog").innerHTML += `✓ ${esc(steps[k])}<br>`; k++; $("#upBar").style.width = Math.round(k / steps.length * 100) + "%"; return; }
       clearInterval(introTimer); S.introSeen = true; save(); renderLock();
     }, 650);
@@ -1565,7 +1569,7 @@ PUZZLE_2 = function(){
       return;
     }
     if (pos === "M9") { if (S.apps.includes("fotos")) return; right(lk); b.classList.add("right"); S.apps.push("fotos"); addNote("fassade"); addEv("E03");
-      setTimeout(() => done("Ludwig IX., der Vater des Bräutigams. Neue Spur im Auftrag.", 2), 700); }
+      setTimeout(() => { done("Ludwig IX., der Vater des Bräutigams. Neue Spur im Auftrag.", 2); fireWhenFree("N01", 5000); }, 700); }
     else if (pos === "M6") { msg.textContent = "Der Älteste der drei Reichen ist am leichtesten zu finden – und der falsche. Gesucht ist der Vater des Bräutigams."; wrong(lk); }
     else { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); msg.textContent = "Das ist nicht der Vater. Wo stand er laut Foto 1?"; wrong(lk); }
   };
@@ -1583,7 +1587,7 @@ PUZZLE_3 = function(){
     if (!guard("3.pw")) return;
     if (v === "1858" || v === "MDCCCLVIII") { right("3.pw");
       S.apps.push("archiv"); done("Archiv entsperrt. Falkenried hat ein Memo für euch hinterlassen.", 3);
-      setTimeout(() => { autoVoice = "V_ERBE"; fire("V_ERBE"); fireWhenFree("N01", 6000); }, 1200);
+      setTimeout(() => { autoVoice = "V_ERBE"; fire("V_ERBE"); }, 1200);
     } else { $("#pwMsg").textContent = "Falsches Passwort. Die Zahl steht auf der Rückseite des Sockels."; wrong("3.pw"); }
   };
 };
@@ -1704,7 +1708,7 @@ PUZZLE_6 = function(){
   if (!st.liesOk) return akteView(true);
   if (!st.callDone) return akteView(false);
   if (!st.callOk) return akteView(false);
-  if (!st.r7) return r7Question();
+  if (!st.r7) { akteView(false); return r7Question(); }
 };
 /* Station 6: Rundgang um die Heiliggeistkirche. Drei der vier Himmelsrichtungen genügen (GPS in engen Gassen). */
 const WALK_DIRS = [["N","Norden"],["O","Osten"],["S","Süden"],["W","Westen"]];
@@ -1727,7 +1731,7 @@ function walkLock(){
     <div class="target"><div class="t">Rundgang</div><div class="s">Das Handy merkt sich, auf welchen Seiten der Kirche ihr schon wart. Es zählt für das ganze Team.</div><div id="rose">${rose()}</div><div class="s" id="walkTxt">Standort wird gesucht …</div>
     ${DEV.noGeo ? `<button class="btn" id="walkSim" style="margin-top:8px">Rundgang simulieren (Testmodus)</button>` : ""}</div>`);
   const step = k => {
-    if (k && !st.walk[k]) { st.walk[k] = true; save(); $("#rose").innerHTML = rose(); }
+    if (k && !st.walk[k]) { st.walk[k] = true; save(); if ($("#rose")) $("#rose").innerHTML = rose(); }
     if (n() >= 3) { st.open = true; save(); $("#walkTxt").textContent = "Rundgang geschafft. Der Ordner öffnet sich …"; if (watchId !== null) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; }
       setTimeout(() => { PUZZLE_6(); fire("V_TURM"); }, 1200); return true; }
     return false;
@@ -1905,12 +1909,13 @@ function checkStrikes(){
 /* ---------- Station 8: Anklage, Tresor ---------- */
 PUZZLE_8 = function(){
   if (S.st.accused) return tresor();
+  if (S.st.accWho) return accuseEvidence();
   const people = CONTENT.suspects.filter(p => p.id !== "feld");
   sheet(`<div class="kind">Anklage bei Ermittlungsleiterin Seidl · Schritt 1</div><h2>Wer hat Falkenried getötet?</h2>${people.map(p => `<button class="btn" data-acc="${p.id}">${esc(p.name)}</button>`).join("")}<p id="accMsg"></p>`);
   document.querySelectorAll("[data-acc]").forEach(b => b.onclick = () => {
     if (!guard("8.who")) return;
     if (b.dataset.acc !== "helena") { $("#accMsg").textContent = "Seidl schüttelt den Kopf: „Was beweist das? Und wer war nachweislich woanders, als die Tür aufging?“"; wrong("8.who"); return; }
-    right("8.who");
+    right("8.who"); S.st.accWho = true; save();
     accuseEvidence();
   });
 };
@@ -1923,9 +1928,16 @@ const ACC_Q = [
   { q:"Warum hat sie es getan?", ok:2, why:"Lest noch einmal die entschlüsselte Mail von 19:30.",
     a:["Sie wollte Falkenried beerben.","Sie wollte Tobias decken.","Sie wollte die drei Stücke an Käufer CW-04 verkaufen. Der Abholauftrag nennt „HD“ als Anbieterin."] }
 ];
+function finishAccuse(){
+  if (S.st.accused) return; S.st.accused = true; save(); closeWin(); renderHome();
+  fire("V_MAIR");
+  setTimeout(() => { fire("N06"); setTimeout(() => fire("V_FINALE"), 4000); }, 9000);
+  toast("Seidl nimmt die Anklage an. Notar Mair übergibt die Kassette.");
+}
 function accuseEvidence(){
   closeSheet();
   const st = S.st; st.accQ = st.accQ || 0;
+  if (st.accQ >= ACC_Q.length || st.accused) return finishAccuse();
   const Q = ACC_Q[st.accQ];
   openWin("Anklage", `<div class="target"><div class="t">Dr. Helena Dorn</div><div class="s">Ermittlungsleiterin Seidl hat noch ${3 - st.accQ === 1 ? "eine Frage" : (3 - st.accQ) + " Fragen"}.</div></div>
     <div class="sec">Frage ${st.accQ + 1} von 3</div><h2 style="margin:4px 0 12px;font-size:19px">${esc(Q.q)}</h2>
@@ -1933,12 +1945,9 @@ function accuseEvidence(){
   $("#winBody").onclick = e => { const b = e.target.closest("[data-qa]"); if (!b) return;
     if (!guard("8.ev")) return;
     if (+b.dataset.qa !== Q.ok) { $("#aMsg").textContent = "Seidl: „Das reicht nicht. " + Q.why + "“"; wrong("8.ev"); return; }
-    right("8.ev"); st.accQ++; save();
+    right("8.ev"); st.accQ = Math.max(st.accQ, ACC_Q.indexOf(Q) + 1); save();
     if (st.accQ < ACC_Q.length) return accuseEvidence();
-    S.st.accused = true; save(); closeWin(); renderHome();
-    fire("V_MAIR");
-    setTimeout(() => { fire("N06"); setTimeout(() => fire("V_FINALE"), 4000); }, 9000);
-    toast("Seidl nimmt die Anklage an. Notar Mair übergibt die Kassette.");
+    finishAccuse();
   };
 }
 function tresor(){
@@ -2079,7 +2088,7 @@ function deepLocal(r, l){
   if (Array.isArray(l)) return l;
   if (r && l && typeof r === "object" && typeof l === "object") { const o = Object.assign({}, r); Object.keys(l).forEach(k => o[k] = (k in r) ? deepLocal(r[k], l[k]) : clone(l[k])); return o; }
   if (typeof r === "boolean" || typeof l === "boolean") return !!(r || l);
-  if (typeof r === "number" && typeof l === "number" && !Array.isArray(l)) return l;
+  if (typeof r === "number" && typeof l === "number" && !Array.isArray(l)) return Math.max(r, l);
   return l === undefined || l === null ? r : l;
 }
 function deep(r, l){
@@ -2098,7 +2107,9 @@ function merge(remote, local, b){
     if (b && same(local[k], b[k])) return;                       /* hier nichts geändert */
     const r = remote[k], l = local[k];
     if (k === "stage" || k === "phase") return;
-    if (k === "struck" || k === "solvedBy") { out[k] = clone(l); return; }
+    if (k === "solvedBy") { out[k] = clone(l); return; }
+    if (k === "struck") { const B = (b && b.struck) || [], R = r || [], L = l || [];   /* Streichen auf mehreren Handys zusammenführen */
+      out[k] = union(R, L).filter(x => !(B.includes(x) && (!R.includes(x) || !L.includes(x)))); return; }
     if (k === "locks") { const o = clone(r || {}); Object.keys(l || {}).forEach(key => { const R = o[key], L = l[key];
         if (!R || L.round > R.round) o[key] = clone(L); else if (L.round === R.round) o[key] = { round:R.round, ids:union(R.ids, L.ids) }; }); out[k] = o; return; }
     if (k === "devices") { const o = clone(r || {}); Object.keys(l || {}).forEach(id => { if (!o[id] || (l[id].seen || 0) > (o[id].seen || 0)) o[id] = clone(l[id]); }); out[k] = o; return; }
@@ -2127,8 +2138,16 @@ async function push(){
   pushing = false;
 }
 /* Übernimmt einen fremden Stand. merging=true: eigene ungesendete Änderungen behalten */
+const PZ_WIN = { "Notizen":1, "Eingeklebte Fotos":2, "Archiv":3, "Mappe":4, "Brief":5, "Ordner Haustechnik":6, "Akte 19. Dezember":6, "Postfach":7, "Anklage":8, "Tresor":8 };
+/* Hat ein anderes Handy einen Zwischenschritt gelöst, springt ein offenes Rätsel hier auf den aktuellen Schritt */
+function refreshPuzzle(){
+  const h = $("#win h1"); if (!h || $("#sheet") || $("#call") || !S.unlocked) return;
+  const t = h.textContent;
+  if (t === "Verdächtige") return openSuspects();
+  if (PZ_WIN[t] === S.stage && S.phase === "task" && !(t === "Notizen" && !$("#nm1"))) PUZZLE[S.stage]();
+}
 function adoptRemote(state, ver, merging){
-  const before = { stage:S.stage, resetAt:S.resetAt, rev:S.rev };
+  const before = { stage:S.stage, resetAt:S.resetAt, rev:S.rev, sub:JSON.stringify([S.st, S.struck]) };
   if (state.resetAt && state.resetAt !== S.resetAt && state.resetAt > (S.resetAt || 0)) {
     S = Object.assign(fresh(), clone(state)); S.unlocked = false; S.introSeen = false; /* neue Runde: alle starten mit dem Intro */
     version = ver; base = clone(state); localSave();
@@ -2141,6 +2160,7 @@ function adoptRemote(state, ver, merging){
   ["revealed","apps","evidence","voicemails","notes","st","struck","hintsOpen","events","locks","devices","acks","mustSee"].forEach(k => { if (S[k] == null) S[k] = fresh()[k]; });
   version = ver; base = clone(state); localSave();
   if (teamBlocked()) { closeSheet(); closeWin(); const c = $("#call"); if (c) c.remove(); S.unlocked = false; renderBlocked(); return; }
+  if ($("#blockedScr")) { renderIntro(); return; }   /* Spielleitung hat das Team wieder geöffnet */
   if (!S.unlocked) return;
   processEvents();
   if (S.stage !== before.stage) {
@@ -2149,7 +2169,8 @@ function adoptRemote(state, ver, merging){
     renderHome();
     if (S.stage > before.stage) setTimeout(() => toast(`${S.solvedBy || "Jemand"} hat Station ${before.stage} gelöst.`), 300);
   } else if (!$("#win")) renderHome();
-  if (S.ending && $("#win") && !$("#call")) {}
+  else if (JSON.stringify([S.st, S.struck]) !== before.sub) refreshPuzzle();
+  checkStrikes();
 }
 async function syncInit(){
   if (!window.supabase || !window.supabase.createClient) return;
@@ -2168,7 +2189,7 @@ async function syncInit(){
     adoptRemote(r.data.state, r.data.version, false);
     sb.channel("g-" + TEAM).on("postgres_changes", { event:"UPDATE", schema:"public", table:"games", filter:"id=eq." + TEAM },
       p => { if (p.new && p.new.version > version) adoptRemote(p.new.state, p.new.version, !!pushT || pushing); }).subscribe();
-    heartbeat(); setInterval(heartbeat, 60000);
+    heartbeat(); setInterval(heartbeat, 30000);
   } catch(e) { sb = null; syncOk = false; }
 }
 function devList(){
@@ -2186,7 +2207,8 @@ function removeDevice(id){
   save(); openAdmin();
 }
 function heartbeat(){ S.devices = S.devices || {}; const me = S.devices[DEV.id]; if ((me && me.removed) || teamBlocked()) return; S.devices[DEV.id] = { name:DEV.name || "", seen:Date.now() }; save(); }
-function activeDevices(){ const now = Date.now(); const d = Object.entries(S.devices || {}).filter(([id, v]) => !v.removed && now - (v.seen || 0) < 20 * 60000); if (!d.some(([id]) => id === DEV.id)) d.push([DEV.id, { name:DEV.name }]); return d; }
+function activeDevices(){ const now = Date.now(); /* nur eingetragene Teammitglieder, die gerade spielen (Herzschlag alle 30 s) */
+  const d = Object.entries(S.devices || {}).filter(([id, v]) => !v.removed && v.name && now - (v.seen || 0) < 4 * 60000); if (!d.some(([id]) => id === DEV.id)) d.push([DEV.id, { name:DEV.name }]); return d; }
 const activeNames = () => activeDevices().map(([id, v]) => (v.name || "Handy") + (id === DEV.id ? " (du)" : ""));
 function askName(after){
   if (DEV.name) { if (after) after(); return; }
@@ -2200,7 +2222,10 @@ function askName(after){
    Ein Versuch pro Handy und Rätselschritt.
    Wer falsch lag, ist für diesen Schritt gesperrt. Haben alle aktiven Handys falsch gelegen, sind alle wieder frei.
    ============================================================ */
-function lockedFor(key){ const L = (S.locks || {})[key]; return !!(L && L.ids.includes(DEV.id)); }
+function lockedFor(key){ const L = (S.locks || {})[key]; if (!L || !L.ids.includes(DEV.id)) return false;
+  /* alle, die gerade spielen, lagen falsch (z. B. gleichzeitig): dann ist jeder wieder frei */
+  if (activeDevices().every(([id]) => L.ids.includes(id))) { L.round++; L.ids = []; save(); return false; }
+  return true; }
 function guard(key){ if (DEV.noLimit || !lockedFor(key)) return true; showLock(key); return false; }
 function showLock(key){
   const L = (S.locks || {})[key] || { ids:[] };
@@ -2215,7 +2240,7 @@ function wrong(key){
   const L = S.locks[key] || (S.locks[key] = { round:0, ids:[] });
   if (!L.ids.includes(DEV.id)) L.ids.push(DEV.id);
   const n = activeDevices().length;
-  if (L.ids.length >= n) { L.round++; L.ids = []; save(); if (n > 1) setTimeout(() => toast("Alle lagen einmal falsch. Jeder hat wieder einen Versuch."), 600); return; }
+  if (activeDevices().every(([id]) => L.ids.includes(id))) { L.round++; L.ids = []; save(); if (n > 1) setTimeout(() => toast("Alle lagen einmal falsch. Jeder hat wieder einen Versuch."), 600); return; }
   save(); setTimeout(() => showLock(key), 1100);
 }
 function right(key){ S.locks = S.locks || {}; const L = S.locks[key]; if (L) { L.round++; L.ids = []; } }
@@ -2406,6 +2431,9 @@ function allUnseen(){
   if (treeSeen().length && treeNew().length) out.push({ app:"stammbaum", k:"tree", t:"Stammbaum: " + treeNew().map(id => TREE[id].n).join(", "), open:() => { closeSheet(); openTree(); } });
   return out;
 }
+/* Vor dem nächsten Rätsel müssen nur Sprachnachrichten, Nachrichten und die Vernehmungen gesehen sein.
+   Stammbaum, Tagebuchseiten, Alibis und neue Personen bleiben als „NEU“ markiert, sperren aber nicht. */
+const gateItem = x => (x.app === "telefon" || (x.app === "nachrichten" && x.k !== "postfach") || /^rec:/.test(x.k));
 function newsRow(x, i){ return `<button class="newsrow" data-news="${i}" style="margin-bottom:8px"><span class="ndot"></span><span>${esc(x.t)}<small>${esc(APPS[x.app].label)}</small></span><span class="go2">ansehen ›</span></button>`; }
 function newsSheet(list, title){
   if (list.length === 1) { closeSheet(); return list[0].open(); }
@@ -2432,7 +2460,8 @@ function newsCheck(){
 }
 setInterval(newsCheck, 1500);
 /* Falls das Vernehmungsfenster anders geschlossen wurde: der erste Anruf kommt, sobald alle vier angehört sind */
-setInterval(() => { if (S.unlocked && S.stage === 1 && heardAll() && !(S.events || []).includes("CALL_01") && !$("#sheet") && !$("#call")) { fire("CALL_01"); processEvents(); } }, 3000);
+/* Erster Anruf: sobald das Team an St. Martin ist und die Vernehmungen gehört hat */
+setInterval(() => { if (S.unlocked && S.stage === 1 && S.phase === "task" && heardAll() && !(S.events || []).includes("CALL_01") && !$("#sheet") && !$("#call")) { fire("CALL_01"); processEvents(); } }, 2000);
 
 function openFallakte(){
   closeSheet();
