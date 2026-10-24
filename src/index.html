@@ -1739,16 +1739,16 @@ PUZZLE_4 = function(){
 
 /* ---------- Station 5: Brief ---------- */
 const LETTER = [
-  { t:"Anno 1503, im Advent.", k:"x" },
+  { t:"Anno 1503, im Advent.", k:"date" },
   { t:"Die versiegelte Kiste des Erbes", k:"x" },
   { t:"lagert sicher in der Stadtresidenz des Herzogs,", k:"ok" },
   { t:"bewacht von zwei Männern seines Vertrauens.", k:"x" },
   { t:"Gott schütze das Erbe des Hauses.", k:"x" }
 ]; /* Fehler im Brief: die Stadtresidenz wurde erst 1536 begonnen (steht in Falkenrieds Fassadennotiz) */
 PUZZLE_5 = function(){
-  openWin("Brief", `<div class="target"><div class="t">Ist der Brief echt?</div><div class="s">Vergleicht den Brief mit dem Steckbrief des Gebäudes vor euch. Tippt die Stelle an, die im Jahr 1503 nicht stimmen kann.</div></div>
+  openWin("Brief", `<div class="target"><div class="t">Ist der Brief echt?</div><div class="s">Der Brief behauptet, er sei im Advent 1503 geschrieben. Vergleicht ihn mit dem Steckbrief des Gebäudes vor euch: Welche Angabe im Brief kann es 1503 noch gar nicht gegeben haben?</div></div>
     <div class="hint"><h3>Steckbrief · Stadtresidenz Landshut</h3><p>Bauherr: Herzog Ludwig X.<br><b>Baubeginn: 1536</b><br>Erster Palast im Stil der italienischen Renaissance nördlich der Alpen.</p></div>
-    <div class="nb letter">${LETTER.map((l,i) => `<button data-l="${i}">${esc(l.t)}</button>`).join(" ")}</div><p id="lMsg" class="empty" style="padding:8px 0"></p>`);
+    <div class="nb letter">${LETTER.map((l,i) => l.k === "date" ? `<div style="font-style:italic;margin-bottom:6px">${esc(l.t)}</div>` : `<button data-l="${i}">${esc(l.t)}</button>`).join(" ")}</div><p id="lMsg" class="empty" style="padding:8px 0"></p>`);
   $("#winBody").onclick = e => { const b = e.target.closest("[data-l]"); if (!b) return;
     if (!guard("5.letter")) return;
     if (LETTER[+b.dataset.l].k !== "ok") { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); $("#lMsg").textContent = "Daran ist nichts Verdächtiges. Schaut auf den Baubeginn im Steckbrief."; wrong("5.letter"); return; }
