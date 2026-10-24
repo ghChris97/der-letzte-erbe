@@ -400,7 +400,7 @@ const CONTENT = {
   },
   messages: {
     N01: { thread: "unbekannt", text: "Ihr habt den Vater gefunden. Schön. Fragt euch lieber, wo Notar Mair am Tatabend war. Achtzehn Minuten sind eine lange Zeit für ein Telefonat." },
-    N02: { thread: "unbekannt", text: "Drei Kisten, verschwunden im Winter 1503. Ich habe euch einen Brief aus jenem Winter angehängt. Er sagt, wo sie lagerten. Dreht euch um.", attachment: "Brief_1503.pdf" },
+    N02: { thread: "unbekannt", text: "Eine Kiste, verschwunden im Winter 1503. Ich habe euch einen Brief aus jenem Winter angehängt. Er sagt, wo sie lagerte. Dreht euch um.", attachment: "Brief_1503.pdf" },
     N03: { thread: "unbekannt", text: "Ein falscher Brief? Dann hat jemand im Archiv gepfuscht. Notar Mair hatte die Datei offen. Nur so als Hinweis." },
     N06: { thread: "unbekannt", text: "Ihr habt sie. Öffnet sie nicht. Ich hole sie gleich ab." }
   },
@@ -434,7 +434,7 @@ const CONTENT = {
     S5: { title:"Stadtresidenz – Der Brief", steps:[
       "Lest den Brief Zeile für Zeile. Welche Angabe passt nicht in das Jahr 1503?",
       "Schaut in den Steckbrief: Wann wurde mit dem Bau der Residenz begonnen?",
-      "Die Residenz wurde erst 1536 begonnen. Tippt „lagern sicher in der Stadtresidenz des Herzogs“." ] },
+      "Die Residenz wurde erst 1536 begonnen. Tippt „lagert sicher in der Stadtresidenz des Herzogs“." ] },
     S6: { title:"Heiliggeist – Rundgang und Tatabend", steps:[
       "Lasst die App Haustechnik offen und geht einmal ganz um die Kirche. Drei der vier Seiten reichen. Bei ungenauem GPS kurz stehen bleiben.",
       "Vergleicht jede Aussage mit den Protokollen. Wann fuhr der Wagen von Dr. Helena Dorn weg? Von wo bestellte Clara Weiß ihr Taxi?",
@@ -473,11 +473,11 @@ const CONTENT = {
       task:"Falkenrieds Archiv ist mit dem Jahr gesichert, in dem ihm die Stadt dieses Denkmal setzte. Seine Passwort-Notiz: „Es steht auf seinem Rücken. In der Schrift der Römer.“",
       action:"Archiv öffnen" },
     { id:4, name:"Rathaus", spot:"Altstadt 315", lat:48.536228, lng:12.152024,
-      src:"Falkenrieds Sprachmemo, aufgenommen am 16. Oktober", clue:"Was in den drei Kisten war, steht in zwei Listen in meiner Mappe. Ihr Schloss stellt ihr dort ein, wo die Bürger dieser Stadt seit Jahrhunderten ihren Rat halten. Nicht oben auf der Burg, sondern unten in der Altstadt.",
+      src:"Falkenrieds Sprachmemo, aufgenommen am 16. Oktober", clue:"Was in der Kiste war, steht in zwei Listen in meiner Mappe. Ihr Schloss stellt ihr dort ein, wo die Bürger dieser Stadt seit Jahrhunderten ihren Rat halten. Nicht oben auf der Burg, sondern unten in der Altstadt.",
       task:"Im Archiv liegt Falkenrieds Mappe. Sie hat ein Wappenschloss mit drei Rädern. Die richtige Einstellung hängt über der Rathausuhr.",
       action:"Mappe öffnen" },
     { id:5, name:"Stadtresidenz", spot:"Altstadt, gegenüber dem Rathaus", lat:48.536103, lng:12.151237,
-      src:"Nachricht von Unbekannt", clue:"Ich habe euch einen Brief aus jenem Winter angehängt. Er sagt, wo die Kisten lagerten. Dreht euch um.",
+      src:"Nachricht von Unbekannt", clue:"Ich habe euch einen Brief aus jenem Winter angehängt. Er sagt, wo die Kiste lagerte. Dreht euch um.",
       task:"Unbekannt behauptet, dieser Brief stamme aus dem Winter 1503. Ihr steht vor dem Gebäude, das er nennt. Kann das stimmen?",
       action:"Brief öffnen" },
     { id:6, name:"Heiliggeistkirche", spot:"Einmal rund um die Kirche", lat:48.538667, lng:12.152562,
@@ -496,7 +496,7 @@ const CONTENT = {
   evidence: {
     E01:{ t:"Hochzeitsrechnung 1475", d:"Abschrift in Falkenrieds Tagebuch. Vermerk: Bezahlt hat nicht der Bräutigam." },
     E03:{ t:"Notizen zur Fassade", d:"Sieben Herzöge der Wand und ihre Geschichten. Bezahlt hat Ludwig der Reiche. Ludwig X. begann seine Residenz erst 1536. Unter Heinrich dem Reichen begann 1407 der Bau der Heiliggeistkirche." },
-    E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 2, 5 und 7: Rubinbrosche, zehn goldene Taler, Familiensiegel mit dem W der Wittelsbacher. Falkenried notierte daneben: „Hochzeitsgaben, Kiste A, B, C“." },
+    E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 2, 5 und 7: Rubinbrosche, zehn goldene Taler, Familiensiegel mit dem W der Wittelsbacher. Falkenried notierte daneben: „Hochzeitsgaben, alle drei in einer Kiste“." },
     E06:{ t:"Verwahrvermerk Notariat Mair", d:"„Notariat Mair – Verwahrung“. Inhalt geschwärzt." },
     E07:{ t:"Preisnotizen „CW“", d:"Bleistift am Rand von H-1475: „CW: 40.000?“" },
     E08:{ t:"Brief „1503“ – gefälscht", d:"Nennt eine Residenz, deren Bau erst 1536 begann. Zweck laut Seidl: eine falsche Herkunft, damit die Stücke für einen Käufer echt und wertvoll aussehen." },
@@ -511,12 +511,12 @@ const CONTENT = {
   voice: {
     V_START:{ from:"Ermittlungsleiterin Seidl", photo:"img/seidl_av.jpg", title:"Ich brauche eure Hilfe", text:"Hallo, hier spricht Martina Seidl, Kriminalhauptkommissarin bei der Kripo Landshut. Danke, dass ihr so schnell erreichbar seid. Gestern Abend wurde der Kunstsammler Maximilian von Falkenried tot in seinem Archiv gefunden. Wir gehen von Mord aus. Den ersten Bericht schicke ich euch gleich hinterher. Falkenrieds Handy haben wir sichergestellt und alle Daten heruntergeladen. Ein Abbild davon wird gerade auf eure Handys gespielt. Ihr könnt es bedienen wie sein eigenes Telefon, mit Nachrichten, Mailbox und Notizen. Der Code zum Entsperren lautet: eins, vier, sieben, fünf. Merkt ihn euch gut. Ich brauche eure Hilfe, und zwar dringend. Gebt mir eure Namen, dann trage ich euch als Ermittlungsgruppe ein. Danach kommt niemand mehr dazu. Noch etwas zum Code: Vierzehnhundertfünfundsiebzig, das ist das Jahr der Landshuter Hochzeit. Falkenried war besessen von dieser Hochzeit und von den Wittelsbachern. Jahrelang hat er ihren Stammbaum erforscht. Warum, wissen wir noch nicht. Wir treffen uns am Turm von Sankt Martin." },
     V_ERBE:{ from:"Falkenried", memo:"im Archiv gespeichert, aufgenommen am 16. Oktober 2026", title:"Die Familie", text:"Wenn ihr das hört, steht ihr vor Ludwig dem Reichen. Lasst mich euch seine Familie erzählen, denn um sie geht es in allem, was ich gefunden habe. Ludwigs Vater war Heinrich, der erste der drei Reichen Herzöge von Landshut. In seiner Zeit begann der Bau von Heiliggeist, und er hinterließ seinem Sohn eine volle Schatzkammer. Ludwig machte daraus das prächtigste Fest, das diese Stadt je gesehen hat. 1475 heiratete sein Sohn Georg in Sankt Martin Hedwig, die Tochter des polnischen Königs. Tausende Gäste kamen, Ritter aus halb Europa, und Ludwig hat alles bezahlt. Georg und Hedwig bekamen Kinder, doch ihre Söhne starben früh. Am Ende blieben zwei Töchter." },
-    V_ALBRECHT:{ from:"Falkenried", memo:"im Archiv gespeichert, aufgenommen am 16. Oktober 2026", title:"Der Erbfolgekrieg", text:"Und genau das wurde zum Problem. Nach den Hausverträgen der Wittelsbacher durfte das Land nur an Männer der Familie fallen. Georg setzte trotzdem seine Tochter Elisabeth als Erbin ein, sie und ihren Mann, Ruprecht von der Pfalz. Am ersten Dezember 1503 starb Georg in Ingolstadt. In München las sein Vetter, Herzog Albrecht, das Testament, und er lachte nicht. Was folgte, war kein Streit mehr. Es war der Landshuter Erbfolgekrieg. Dörfer brannten in ganz Niederbayern. Der König stellte sich auf Albrechts Seite und ließ sich das gut bezahlen. Im Sommer 1504 starb Ruprecht, wenige Wochen später auch Elisabeth. Sie hinterließen vier kleine Söhne in einem Land voller Feinde. Die Zwillinge Georg und Ruprecht starben noch im selben Jahr, so steht es jedenfalls in den Büchern. Ich habe angefangen, daran zu zweifeln. 1505 tagte der Reichstag in Köln, und der König entschied. Landshut ging an Albrecht nach München. Für die beiden anderen, Ottheinrich und Philipp, schuf man ein kleines neues Land an der Donau, mit der Hauptstadt Neuburg. Aber in den Wintertagen nach Georgs Tod, als noch niemand wusste, wer gewinnen würde, hat jemand drei Kisten aus der Stadt gebracht. Was in ihnen war, steht in zwei Listen in meiner Mappe. Ihr Schloss stellt ihr dort ein, wo die Bürger dieser Stadt seit Jahrhunderten ihren Rat halten. Nicht oben auf der Burg, sondern unten in der Altstadt." },
-    V_RESIDENZ:{ from:"Ermittlungsleiterin Seidl", photo:"img/seidl_av.jpg", title:"Die Archivtür", text:"Hier Seidl. Gute Arbeit, der Brief ist eine Fälschung. Ich glaube, ich weiß auch, wozu: Wer alte Stücke verkaufen will, braucht eine Herkunft. Ein Brief aus der Herzogsresidenz macht aus drei Kisten einen Schatz, den ein Sammler teuer bezahlt. Jetzt die entscheidende Frage: Wer kam am Abend an die Archivtür? Falkenrieds Haustechnik speichert jeden Zutritt in einem Ordner auf seinem Handy. Er hat ihn im Herbst gesperrt. Wo er sich öffnet, steht in Falkenrieds Notizen zur Fassade." },
+    V_ALBRECHT:{ from:"Falkenried", memo:"im Archiv gespeichert, aufgenommen am 16. Oktober 2026", title:"Der Erbfolgekrieg", text:"Und genau das wurde zum Problem. Nach den Hausverträgen der Wittelsbacher durfte das Land nur an Männer der Familie fallen. Georg setzte trotzdem seine Tochter Elisabeth als Erbin ein, sie und ihren Mann, Ruprecht von der Pfalz. Am ersten Dezember 1503 starb Georg in Ingolstadt. In München las sein Vetter, Herzog Albrecht, das Testament, und er lachte nicht. Was folgte, war kein Streit mehr. Es war der Landshuter Erbfolgekrieg. Dörfer brannten in ganz Niederbayern. Der König stellte sich auf Albrechts Seite und ließ sich das gut bezahlen. Im Sommer 1504 starb Ruprecht, wenige Wochen später auch Elisabeth. Sie hinterließen vier kleine Söhne in einem Land voller Feinde. Die Zwillinge Georg und Ruprecht starben noch im selben Jahr, so steht es jedenfalls in den Büchern. Ich habe angefangen, daran zu zweifeln. 1505 tagte der Reichstag in Köln, und der König entschied. Landshut ging an Albrecht nach München. Für die beiden anderen, Ottheinrich und Philipp, schuf man ein kleines neues Land an der Donau, mit der Hauptstadt Neuburg. Aber in den Wintertagen nach Georgs Tod, als noch niemand wusste, wer gewinnen würde, hat jemand eine Kiste aus der Stadt gebracht. Was in ihr war, steht in zwei Listen in meiner Mappe. Ihr Schloss stellt ihr dort ein, wo die Bürger dieser Stadt seit Jahrhunderten ihren Rat halten. Nicht oben auf der Burg, sondern unten in der Altstadt." },
+    V_RESIDENZ:{ from:"Ermittlungsleiterin Seidl", photo:"img/seidl_av.jpg", title:"Die Archivtür", text:"Hier Seidl. Gute Arbeit, der Brief ist eine Fälschung. Ich glaube, ich weiß auch, wozu: Wer alte Stücke verkaufen will, braucht eine Herkunft. Ein Brief aus der Herzogsresidenz macht aus einer alten Kiste einen Schatz, den ein Sammler teuer bezahlt. Jetzt die entscheidende Frage: Wer kam am Abend an die Archivtür? Falkenrieds Haustechnik speichert jeden Zutritt in einem Ordner auf seinem Handy. Er hat ihn im Herbst gesperrt. Wo er sich öffnet, steht in Falkenrieds Notizen zur Fassade." },
     V_TURM:{ from:"Falkenried", memo:"in der App Haustechnik gespeichert, aufgenommen am 9. November 2026", title:"Der Turm", text:"Sie wollten hier einen Turm, höher als Sankt Martin. Das Geld reichte nicht. Manche wollen eben mehr, als ihnen zusteht." },
     V_ZEUGIN:{ from:"Rosa Brandl", title:"Aussage der Zeugin", text:"Kurz vor neun hörte ich Schritte im Flur. Eine Frau im dunklen Mantel ging zum Archiv. Dann klickte die Archivtür. Ich dachte mir nichts dabei. Später hörte ich am Telefon, der Wagen sollte die Stadt durch das Tor verlassen, über dem die drei Helme hängen." },
     V_MAIR:{ from:"Benedikt Mair", title:"Der Notar", text:"Ja, ich habe geschwiegen. Herr von Falkenried hat mir eine Kassette anvertraut und mich zur Verschwiegenheit verpflichtet. Am Tatabend habe ich mit der Verwahrstelle telefoniert, wegen der Übergabe an die Stadt. Die Datei habe ich geöffnet, weil ich prüfen wollte, was Frau Dorn ihm da vorgelegt hatte. Die Kassette und seine letzte Nachricht gebe ich nur Ermittlern." },
-    V_FINALE:{ from:"Falkenried", memo:"bei Notar Mair hinterlegt, aufgenommen am 13. Dezember 2026", title:"Letzte Nachricht", text:"Wenn ihr das hört, ist mir etwas zugestoßen. Dann hat jemand versucht, meine Geschichte zu Geld zu machen. Ich wollte nichts verkaufen. Im Kriegsjahr 1504 hieß es, Elisabeths kleiner Sohn Georg sei gestorben, wie sein Zwillingsbruder Ruprecht. Es war gelogen. Derselbe treue Mann, der im Winter davor die drei Kisten aus der Stadt gebracht hatte, holte auch den Jungen heraus. Die Kisten waren sein Erbe. Man hat Elisabeth das Land genommen, den Mann und das Leben. Aber ihren Sohn haben sie nicht bekommen. Ich glaube, dass ich von diesem Georg abstamme. Vielleicht irre ich mich. Aber das, was er mitnahm, gehört zurück nach Landshut. Das Schloss kennt nur einen Namen: den der Frau, der all das gehören sollte. Und gebt es niemandem, der sich nicht zeigt." }
+    V_FINALE:{ from:"Falkenried", memo:"bei Notar Mair hinterlegt, aufgenommen am 13. Dezember 2026", title:"Letzte Nachricht", text:"Wenn ihr das hört, ist mir etwas zugestoßen. Dann hat jemand versucht, meine Geschichte zu Geld zu machen. Ich wollte nichts verkaufen. Im Kriegsjahr 1504 hieß es, Elisabeths kleiner Sohn Georg sei gestorben, wie sein Zwillingsbruder Ruprecht. Es war gelogen. Derselbe treue Mann, der im Winter davor die Kiste aus der Stadt gebracht hatte, holte auch den Jungen heraus. Die Kiste war sein Erbe. Man hat Elisabeth das Land genommen, den Mann und das Leben. Aber ihren Sohn haben sie nicht bekommen. Ich glaube, dass ich von diesem Georg abstamme. Vielleicht irre ich mich. Aber das, was er mitnahm, gehört zurück nach Landshut. Das Schloss kennt nur einen Namen: den der Frau, der all das gehören sollte. Und gebt es niemandem, der sich nicht zeigt." }
   },
   /* Falkenrieds Tagebuch. req: erscheint erst, wenn diese Notiz freigeschaltet ist. start: hier schlägt das Buch beim ersten Öffnen auf. */
   diary: [
@@ -1730,8 +1730,8 @@ PUZZLE_4 = function(){
 /* ---------- Station 5: Brief ---------- */
 const LETTER = [
   { t:"Anno 1503, im Advent.", k:"x" },
-  { t:"Die drei versiegelten Kisten des Erbes", k:"x" },
-  { t:"lagern sicher in der Stadtresidenz des Herzogs,", k:"ok" },
+  { t:"Die versiegelte Kiste des Erbes", k:"x" },
+  { t:"lagert sicher in der Stadtresidenz des Herzogs,", k:"ok" },
   { t:"bewacht von zwei Männern seines Vertrauens.", k:"x" },
   { t:"Gott schütze das Erbe des Hauses.", k:"x" }
 ]; /* Fehler im Brief: die Stadtresidenz wurde erst 1536 begonnen (steht in Falkenrieds Fassadennotiz) */
@@ -2089,7 +2089,7 @@ function showEnding(){
     <span class="red">Das Erbe geht zurück nach Landshut.</span></div>
     <div class="sec">Was war echt?</div>
     <div class="hint"><p style="margin:0">Echt: alle Herzöge der Wand und ihre Geschichten (Otto I. 1180, Gründung Landshuts 1204, Maria von Brabant 1256, Kaiser Ludwig der Bayer, Agnes Bernauer 1435), die Landshuter Hochzeit 1475, die Hochzeitsrechnung, die Fassade des Landschaftshauses, das Denkmal von 1858, Georgs Tod 1503, Elisabeth und der Landshuter Erbfolgekrieg, die Stadtresidenz ab 1536, der Turm von St. Martin, der Baubeginn von Heiliggeist 1407, der Kölner Spruch von 1505, Elisabeths vier Söhne und die drei Helme im Wappen.</p>
-    <p>Erfunden: Falkenried und alle Figuren, der Mord, die drei Kisten, dass Elisabeths Sohn Georg 1504 überlebt hat, jede Abstammung davon, die Sage vom Ritter am Ländtor.</p></div>`);
+    <p>Erfunden: Falkenried und alle Figuren, der Mord, die Kiste, dass Elisabeths Sohn Georg 1504 überlebt hat, jede Abstammung davon, die Sage vom Ritter am Ländtor.</p></div>`);
   const b = $("#endPlay");
   const play = () => { if (curAudio && !curAudio.paused) { stopAudio(); b.textContent = "▶ Glückwünsche von Seidl"; return; }
     stopAudio(); const a = new Audio("audio/SEIDL_ENDE.mp3"); curAudio = a; b.textContent = "■ Stopp";
@@ -2397,7 +2397,7 @@ function standFacts(){
   f.push("Maximilian von Falkenried wurde am 19. Dezember um 21:25 tot in seinem Archiv gefunden. Beim Adventsdinner waren vier Gäste: Dr. Helena Dorn, Notar Benedikt Mair, sein Neffe Tobias und die Kunsthändlerin Clara Weiß.");
   if (S.apps.includes("notizen")) f.push("Falkenried forschte über die Landshuter Hochzeit von 1475. Er traute niemandem in seinem Haus und hat seine Spur in der Stadt versteckt.");
   if (e("E03")) f.push("Bezahlt hat die Hochzeit Herzog Ludwig der Reiche, der Vater des Bräutigams Georg.");
-  if (S.voicemails.includes("V_ALBRECHT")) f.push("1503 starb Georg ohne Sohn. Seine Tochter Elisabeth sollte erben, es folgte der Landshuter Erbfolgekrieg. Damals brachte jemand drei Kisten heimlich aus der Stadt.");
+  if (S.voicemails.includes("V_ALBRECHT")) f.push("1503 starb Georg ohne Sohn. Seine Tochter Elisabeth sollte erben, es folgte der Landshuter Erbfolgekrieg. Damals brachte jemand eine Kiste heimlich aus der Stadt.");
   if (e("E05")) f.push("Falkenried hatte die drei Stücke gefunden: Brosche, zehn goldene Taler, Familiensiegel mit dem W der Wittelsbacher. Er gab sie Notar Mair zur Verwahrung. Am Rand steht „CW: 40.000?“, offenbar ein Käufer.");
   if (e("E08")) f.push("Der Brief „1503“ ist eine Fälschung, erstellt unter dem Kürzel von Dr. Helena Dorn und später von Notar Mair geöffnet. Er sollte den Stücken eine falsche Herkunft geben, damit ein Käufer viel dafür zahlt.");
   if (e("E10")) f.push("Dr. Helena Dorn und Clara Weiß haben über den Abend gelogen. Dr. Dorn war noch im Haus, ihr Wagen fuhr erst um 21:02.");
@@ -2594,7 +2594,7 @@ const TREE = {
     d:"Georgs Zwillingsbruder. Er starb 1504 als kleines Kind, im Jahr des Krieges." },
   kind:     { emoji:"🍼", w:84, x:135, y:470, n:"Georg", s:"Zwilling|1500–1504", h:"pf", when:"erbe",
     d:"Ruprechts Zwillingsbruder, benannt nach seinem Großvater. So steht es in den Büchern: 1504 als kleines Kind gestorben.",
-    sF:"Zwilling|1500–„1504“", dF:"Ruprechts Zwillingsbruder, benannt nach seinem Großvater. Offiziell 1504 gestorben. Laut Falkenrieds letzter Nachricht war das gelogen: Derselbe treue Mann, der die drei Kisten aus der Stadt gebracht hatte, holte auch ihn heraus. Falkenried glaubte, von ihm abzustammen." },
+    sF:"Zwilling|1500–„1504“", dF:"Ruprechts Zwillingsbruder, benannt nach seinem Großvater. Offiziell 1504 gestorben. Laut Falkenrieds letzter Nachricht war das gelogen: Derselbe treue Mann, der die Kiste aus der Stadt gebracht hatte, holte auch ihn heraus. Falkenried glaubte, von ihm abzustammen." },
   ott:      { pic:"img/hist_ott.jpg", w:84, x:225, y:470, n:"Ottheinrich", s:"1502–1559", h:"pf", when:"erbe",
     d:"Bekam 1505 mit seinem Bruder die Junge Pfalz mit der Hauptstadt Neuburg an der Donau. Wurde 1556 Kurfürst von der Pfalz und baute in Heidelberg den Ottheinrichsbau. Er starb kinderlos." },
   phil:     { pic:"img/hist_philipp.jpg", w:84, x:315, y:470, n:"Philipp", s:"der Streitbare|1503–1548", h:"pf", when:"erbe",
