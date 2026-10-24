@@ -436,7 +436,7 @@ const CONTENT = {
       "Schaut in den Steckbrief: Wann wurde mit dem Bau der Residenz begonnen?",
       "Die Residenz wurde erst 1536 begonnen. Tippt „lagern sicher in der Stadtresidenz des Herzogs“." ] },
     S6: { title:"Heiliggeist – Rundgang und Tatabend", steps:[
-      "Lasst den Ordner offen und geht einmal ganz um die Kirche. Drei der vier Seiten reichen. Bei ungenauem GPS kurz stehen bleiben.",
+      "Lasst die App Haustechnik offen und geht einmal ganz um die Kirche. Drei der vier Seiten reichen. Bei ungenauem GPS kurz stehen bleiben.",
       "Vergleicht jede Aussage mit den Protokollen. Wann fuhr der Wagen von Dr. Helena Dorn weg? Von wo bestellte Clara Weiß ihr Taxi?",
       "Nach dem Anruf fragt Seidl nach der Karte R7: Jonas Feld war in Regensburg, also wurde nur seine Karte benutzt." ] },
     S7: { title:"Ländtor – Der Ritter", steps:[
@@ -453,7 +453,8 @@ const CONTENT = {
     fotos:   { kind:"Keine Bilder", text:"Die Galerie ist leer. Falkenrieds Fotos erscheinen, sobald ihr am richtigen Ort seid." },
     archiv:  { kind:"Passwort", text:"Falkenrieds Archiv ist mit einem Passwort gesichert. Noch habt ihr keine Spur dorthin." },
     mail:    { kind:"Verschlüsselt", text:"Ein Postfach mit einer einzigen ungelesenen Nachricht. Ihr Inhalt ist verschlüsselt." },
-    tresor:  { kind:"Name", text:"Eine Verbindung zu einer Kassette. Das Schloss verlangt einen Namen." }
+    tresor:  { kind:"Name", text:"Eine Verbindung zu einer Kassette. Das Schloss verlangt einen Namen." },
+    haustechnik: { kind:"Gesperrt", text:"Falkenrieds Haustechnik: Zutrittsprotokolle der Archivtür, Kameras, Anrufzeiten. Er hat die App im Herbst gesperrt. Wo sie sich öffnet, wisst ihr noch nicht." }
   },
   /* Ortstipps für unterwegs, vom vagen zum deutlichen Hinweis */
   where: {"1": ["Der höchste Kirchturm der Stadt. Ihr seht ihn fast von überall in der Altstadt.", "Die große Backsteinkirche St. Martin am südlichen Ende der Altstadt."], "2": ["Eine Hausfassade in der Altstadt, über und über mit Figuren bemalt.", "Die Straße heißt Altstadt, Hausnummer 28. Nur ein paar Schritte von St. Martin."], "3": ["Ein Herzog aus Bronze auf einem hohen Sockel, auf einem Platz.", "Der Dreifaltigkeitsplatz, gleich südwestlich von St. Martin, Richtung Burg."], "4": ["Hier hält die Stadt seit Jahrhunderten ihren Rat. Über dem Eingang hängen Uhr und Stadtwappen.", "Das Rathaus, mitten in der Straße Altstadt."], "5": ["Ihr müsst nicht weit: Dreht euch vor dem Rathaus einfach um.", "Die Stadtresidenz, direkt gegenüber dem Rathaus."], "6": ["Die zweite große Kirche der Altstadt. Ihr Turm ist kleiner als der von St. Martin.", "Die Heiliggeistkirche am nördlichen Ende der Altstadt."], "7": ["Ein altes Stadttor zur Isar hin, über dem Torbogen hängt ein Wappen.", "Das Ländtor, am Ende der Ländgasse, westlich der Altstadt."], "8": ["Eine große Wiese am Rand der Altstadt. Im Advent steht dort der Christkindlmarkt.", "Die Ringelstecherwiese, westlich der Altstadt zur Isar hin."]},
@@ -480,9 +481,9 @@ const CONTENT = {
       task:"Unbekannt behauptet, dieser Brief stamme aus dem Winter 1503. Ihr steht vor dem Gebäude, das er nennt. Kann das stimmen?",
       action:"Brief öffnen" },
     { id:6, name:"Heiliggeistkirche", spot:"Einmal rund um die Kirche", lat:48.538667, lng:12.152562,
-      src:"Ermittlungsleiterin Seidl", clue:"Wer kam am Abend an die Archivtür? Falkenrieds Zutrittsdaten liegen in einem gesperrten Ordner. Er öffnet sich nur an der Kirche, deren Bau unter Heinrich dem Reichen begann. Falkenrieds Notizen zur Fassade nennen sie.",
-      task:"Falkenrieds Ordner Haustechnik öffnet sich nur, wenn ihr einmal um die Heiliggeistkirche herumgeht. Öffnet den Ordner und lauft los, das Handy zählt mit.",
-      action:"Ordner öffnen" },
+      src:"Ermittlungsleiterin Seidl", clue:"Wer kam am Abend an die Archivtür? Falkenrieds Zutrittsdaten liegen in seiner gesperrten App „Haustechnik“. Sie öffnet sich nur an der Kirche, deren Bau unter Heinrich dem Reichen begann. Falkenrieds Notizen zur Fassade nennen sie.",
+      task:"Falkenrieds App „Haustechnik“ öffnet sich nur, wenn ihr einmal um die Heiliggeistkirche herumgeht. Öffnet sie und lauft los, das Handy zählt mit.",
+      action:"Haustechnik öffnen" },
     { id:7, name:"Ländtor", spot:"Wappen über dem Torbogen", lat:48.535305, lng:12.149236,
       src:"Aussage der Zeugin Rosa Brandl", clue:"Später hörte ich am Telefon, der Wagen sollte die Stadt durch das Tor verlassen, über dem die drei Helme hängen.",
       task:"Die Kripo hat auf Falkenrieds Archiv-Server eine verschlüsselte Kuriernachricht vom Tatabend gefunden und in sein Postfach gelegt. Wie weit die Buchstaben verschoben sind, verrät Falkenrieds Aufnahme der Sage vom Ritter am Ländtor.",
@@ -511,7 +512,7 @@ const CONTENT = {
     V_START:{ from:"Ermittlungsleiterin Seidl", photo:"img/seidl_av.jpg", title:"Ich brauche eure Hilfe", text:"Hallo, hier spricht Martina Seidl, Kriminalhauptkommissarin bei der Kripo Landshut. Danke, dass ihr so schnell erreichbar seid. Gestern Abend wurde der Kunstsammler Maximilian von Falkenried tot in seinem Archiv gefunden. Wir gehen von Mord aus. Den ersten Bericht schicke ich euch gleich hinterher. Falkenrieds Handy haben wir sichergestellt und alle Daten heruntergeladen. Ein Abbild davon wird gerade auf eure Handys gespielt. Ihr könnt es bedienen wie sein eigenes Telefon, mit Nachrichten, Mailbox und Notizen. Der Code zum Entsperren lautet: eins, vier, sieben, fünf. Merkt ihn euch gut. Ich brauche eure Hilfe, und zwar dringend. Gebt mir eure Namen, dann trage ich euch als Ermittlungsgruppe ein. Danach kommt niemand mehr dazu. Noch etwas zum Code: Vierzehnhundertfünfundsiebzig, das ist das Jahr der Landshuter Hochzeit. Falkenried war besessen von dieser Hochzeit und von den Wittelsbachern. Jahrelang hat er ihren Stammbaum erforscht. Warum, wissen wir noch nicht. Wir treffen uns am Turm von Sankt Martin." },
     V_ERBE:{ from:"Falkenried", memo:"im Archiv gespeichert, aufgenommen am 16. Oktober 2026", title:"Die Familie", text:"Wenn ihr das hört, steht ihr vor Ludwig dem Reichen. Lasst mich euch seine Familie erzählen, denn um sie geht es in allem, was ich gefunden habe. Ludwigs Vater war Heinrich, der erste der drei Reichen Herzöge von Landshut. In seiner Zeit begann der Bau von Heiliggeist, und er hinterließ seinem Sohn eine volle Schatzkammer. Ludwig machte daraus das prächtigste Fest, das diese Stadt je gesehen hat. 1475 heiratete sein Sohn Georg in Sankt Martin Hedwig, die Tochter des polnischen Königs. Tausende Gäste kamen, Ritter aus halb Europa, und Ludwig hat alles bezahlt. Georg und Hedwig bekamen Kinder, doch ihre Söhne starben früh. Am Ende blieben zwei Töchter. Und genau das wurde zum Problem. Nach den Hausverträgen der Wittelsbacher durfte das Land nur an Männer der Familie fallen. Georg setzte trotzdem seine Tochter Elisabeth als Erbin ein, sie und ihren Mann, Ruprecht von der Pfalz. Am ersten Dezember 1503 starb Georg in Ingolstadt. In München las sein Vetter, Herzog Albrecht, das Testament, und er lachte nicht. Was folgte, war kein Streit mehr. Es war der Landshuter Erbfolgekrieg. Dörfer brannten in ganz Niederbayern. Der König stellte sich auf Albrechts Seite und ließ sich das gut bezahlen. Im Sommer 1504 starb Ruprecht, wenige Wochen später auch Elisabeth. Sie hinterließen vier kleine Söhne in einem Land voller Feinde. Die Zwillinge Georg und Ruprecht starben noch im selben Jahr, so steht es jedenfalls in den Büchern. Ich habe angefangen, daran zu zweifeln. 1505 tagte der Reichstag in Köln, und der König entschied. Landshut ging an Albrecht nach München. Für die beiden anderen, Ottheinrich und Philipp, schuf man ein kleines neues Land an der Donau, mit der Hauptstadt Neuburg. Aber in den Wintertagen nach Georgs Tod, als noch niemand wusste, wer gewinnen würde, hat jemand drei Kisten aus der Stadt gebracht. Was in ihnen war, steht in zwei Listen in meiner Mappe. Ihr Schloss stellt ihr dort ein, wo die Bürger dieser Stadt seit Jahrhunderten ihren Rat halten. Nicht oben auf der Burg, sondern unten in der Altstadt." },
     V_RESIDENZ:{ from:"Ermittlungsleiterin Seidl", photo:"img/seidl_av.jpg", title:"Die Archivtür", text:"Hier Seidl. Gute Arbeit, der Brief ist eine Fälschung. Ich glaube, ich weiß auch, wozu: Wer alte Stücke verkaufen will, braucht eine Herkunft. Ein Brief aus der Herzogsresidenz macht aus drei Kisten einen Schatz, den ein Sammler teuer bezahlt. Jetzt die entscheidende Frage: Wer kam am Abend an die Archivtür? Falkenrieds Haustechnik speichert jeden Zutritt in einem Ordner auf seinem Handy. Er hat ihn im Herbst gesperrt. Wo er sich öffnet, steht in Falkenrieds Notizen zur Fassade." },
-    V_TURM:{ from:"Falkenried", memo:"im Ordner Haustechnik gespeichert, aufgenommen am 9. November 2026", title:"Der Turm", text:"Sie wollten hier einen Turm, höher als Sankt Martin. Das Geld reichte nicht. Manche wollen eben mehr, als ihnen zusteht." },
+    V_TURM:{ from:"Falkenried", memo:"in der App Haustechnik gespeichert, aufgenommen am 9. November 2026", title:"Der Turm", text:"Sie wollten hier einen Turm, höher als Sankt Martin. Das Geld reichte nicht. Manche wollen eben mehr, als ihnen zusteht." },
     V_ZEUGIN:{ from:"Rosa Brandl", title:"Aussage der Zeugin", text:"Kurz vor neun hörte ich Schritte im Flur. Eine Frau im dunklen Mantel ging zum Archiv. Dann klickte die Archivtür. Ich dachte mir nichts dabei. Später hörte ich am Telefon, der Wagen sollte die Stadt durch das Tor verlassen, über dem die drei Helme hängen." },
     V_MAIR:{ from:"Benedikt Mair", title:"Der Notar", text:"Ja, ich habe geschwiegen. Herr von Falkenried hat mir eine Kassette anvertraut und mich zur Verschwiegenheit verpflichtet. Am Tatabend habe ich mit der Verwahrstelle telefoniert, wegen der Übergabe an die Stadt. Die Datei habe ich geöffnet, weil ich prüfen wollte, was Frau Dorn ihm da vorgelegt hatte. Die Kassette und seine letzte Nachricht gebe ich nur Ermittlern." },
     V_FINALE:{ from:"Falkenried", memo:"bei Notar Mair hinterlegt, aufgenommen am 13. Dezember 2026", title:"Letzte Nachricht", text:"Wenn ihr das hört, ist mir etwas zugestoßen. Dann hat jemand versucht, meine Geschichte zu Geld zu machen. Ich wollte nichts verkaufen. Im Kriegsjahr 1504 hieß es, Elisabeths kleiner Sohn Georg sei gestorben, wie sein Zwillingsbruder Ruprecht. Es war gelogen. Derselbe treue Mann, der im Winter davor die drei Kisten aus der Stadt gebracht hatte, holte auch den Jungen heraus. Die Kisten waren sein Erbe. Man hat Elisabeth das Land genommen, den Mann und das Leben. Aber ihren Sohn haben sie nicht bekommen. Ich glaube, dass ich von diesem Georg abstamme. Vielleicht irre ich mich. Aber das, was er mitnahm, gehört zurück nach Landshut. Das Schloss kennt nur einen Namen: den der Frau, der all das gehören sollte. Und gebt es niemandem, der sich nicht zeigt." }
@@ -551,7 +552,7 @@ try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(fresh(),
 let PUZZLE_2, PUZZLE_3, PUZZLE_4, PUZZLE_5, PUZZLE_6, PUZZLE_7, PUZZLE_8;
 const PUZZLE = { 1:() => openFaceLock(), 2:() => PUZZLE_2(), 3:() => PUZZLE_3(), 4:() => PUZZLE_4(), 5:() => PUZZLE_5(), 6:() => PUZZLE_6(), 7:() => PUZZLE_7(), 8:() => PUZZLE_8() };
 const AFTER_CALL = {};
-const APP_VIEW = { notizen:() => { if (diaryPages().some(d => isNew("notizen", d.key))) nbPage = null; openNotebook(); }, tresor:() => (S.ending ? showEnding() : tresor()) };
+const APP_VIEW = { haustechnik:() => (S.stage === 6 && S.phase === "task" ? PUZZLE_6() : akteView(false)), notizen:() => { if (diaryPages().some(d => isNew("notizen", d.key))) nbPage = null; openNotebook(); }, tresor:() => (S.ending ? showEnding() : tresor()) };
 const localSave = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} };
 const save = () => { localSave(); schedulePush(); };
 
@@ -564,6 +565,7 @@ const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">"
 const nowStr = () => new Date().toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"});
 
 const IC = {
+  door:'<path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17"/><path d="M3 21h18"/><circle cx="14.5" cy="12" r="1"/>',
   phone:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>',
   msg:'<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z"/>',
   notes:'<path d="M6 3h10l3 3v15H6z"/><path d="M9 9h7M9 13h7M9 17h4"/>',
@@ -592,6 +594,7 @@ const APPS = {
   notizen:  { label:"Notizen",   icon:"notes",  bg:"#c9a24a", lock:"notizen" },
   karte:    { label:"Karte",     icon:"map",    bg:"#3a8c86", open:()=>openMap() },
   tresor:   { label:"Tresor",    icon:"safe",   bg:"#7c2f2f", lock:"tresor" },
+  haustechnik:{ label:"Haustechnik", icon:"door", bg:"#4a5a72", lock:"haustechnik" },
   ermittlung:{ label:"Ermittlung", icon:"folder", bg:"#2a3140", open:()=>openFolder() },
   fallakte: { label:"Fallakte", icon:"board", bg:"#8b6a3a", open:()=>openFallakte() },
   verdaechtige:{ label:"Verdächtige", icon:"people", bg:"#5b3f64", open:()=>openSuspects() },
@@ -680,14 +683,14 @@ function renderHome(){
   screen.innerHTML = `${statusBar()}
     <div class="case"><span>${esc(CONTENT.caseNo)}</span><span>M. v. Falkenried</span></div>
     ${missionCard()}
-    <div class="grid">${["fallakte","verdaechtige","stammbaum","notizen","tresor"].map(appTile).join("")}</div>
+    <div class="grid">${["fallakte","verdaechtige","stammbaum","notizen","haustechnik","tresor"].map(appTile).join("")}</div>
     <div class="dock" style="grid-template-columns:repeat(3,1fr)">${["telefon","nachrichten","karte"].map(appTile).join("")}</div>`;
 }
 document.addEventListener("click", e => {
   const t = e.target.closest("[data-app]"); if (!t) return;
   const id = t.dataset.app, a = APPS[id];
   if (a.lock && !S.apps.includes(id)) {
-    const route = { notizen:1, tresor:8 }[id];
+    const route = { notizen:1, haustechnik:6, tresor:8 }[id];
     if (route === S.stage && S.phase === "task" && !(id === "tresor" && !S.st.accused)) { closeSheet(); if (!ackGate()) return; return PUZZLE[S.stage](); }
     return openLocked(a);
   }
@@ -1750,12 +1753,12 @@ function walkLock(){
       <circle cx="100" cy="100" r="34" fill="#2a3140"/><text x="100" y="105" fill="#ece6da" font-size="12" text-anchor="middle">Kirche</text>
       ${WALK_DIRS.map(([k,l],i) => { const a = i*90 - 90, r = 72, x = 100 + r*Math.cos(a*Math.PI/180), y = 100 + r*Math.sin(a*Math.PI/180);
         return `<circle cx="${x}" cy="${y}" r="22" fill="${st.walk[k] ? "#e3a548" : "#171c26"}" stroke="#e3a548"/><text x="${x}" y="${y+5}" fill="${st.walk[k] ? "#1b1408" : "#e3a548"}" font-size="14" font-weight="700" text-anchor="middle">${k}</text>`; }).join("")}</svg>`;
-  openWin("Ordner Haustechnik", `<div class="nb" style="font-size:16px"><h3>Falkenrieds Notiz am Ordner</h3>Diese Kirche wurde 1407 begonnen und erst 1461 fertig. Wer sie verstehen will, muss einmal um sie herumgehen.<span class="red">Geht einmal ganz um die Kirche. Dann öffnet sich der Ordner.</span></div>
+  openWin("Haustechnik", `<div class="nb" style="font-size:16px"><h3>Falkenrieds Notiz an der App</h3>Diese Kirche wurde 1407 begonnen und erst 1461 fertig. Wer sie verstehen will, muss einmal um sie herumgehen.<span class="red">Geht einmal ganz um die Kirche. Dann öffnet sich die App.</span></div>
     <div class="target"><div class="t">Rundgang</div><div class="s">Das Handy merkt sich, auf welchen Seiten der Kirche ihr schon wart. Es zählt für das ganze Team.</div><div id="rose">${rose()}</div><div class="s" id="walkTxt">Standort wird gesucht …</div>
     ${DEV.noGeo ? `<button class="btn" id="walkSim" style="margin-top:8px">Rundgang simulieren (Testmodus)</button>` : ""}</div>`);
   const step = k => {
     if (k && !st.walk[k]) { st.walk[k] = true; save(); if ($("#rose")) $("#rose").innerHTML = rose(); }
-    if (n() >= 3) { st.open = true; save(); $("#walkTxt").textContent = "Rundgang geschafft. Der Ordner öffnet sich …"; if (watchId !== null) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; }
+    if (n() >= 3) { st.open = true; if (!S.apps.includes("haustechnik")) S.apps.push("haustechnik"); save(); $("#walkTxt").textContent = "Rundgang geschafft. Die App öffnet sich …"; if (watchId !== null) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; }
       setTimeout(() => { PUZZLE_6(); fire("V_TURM"); }, 1200); return true; }
     return false;
   };
@@ -1843,7 +1846,7 @@ function akteView(interactive){
   const sts = STATEMENTS.map(x => `<div class="hint"><h3 style="display:flex;align-items:center;gap:12px"><img src="img/${x.id}_av.jpg" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none">${esc(x.who)}</h3><p style="margin-top:4px">${esc(x.t)}</p>
     <button class="recmini" data-rec="${x.id}">▶ Vernehmung</button>
     ${interactive ? `<div class="acts2"><button data-mark="${x.id}:ok" class="${locFor().marks[x.id]==='ok'?'on':''}">passt</button><button data-mark="${x.id}:lie" class="${locFor().marks[x.id]==='lie'?'on':''}">passt nicht</button></div>` : ""}</div>`).join("");
-  openWin("Akte 19. Dezember", `<div class="nb" style="font-size:14px;font-family:var(--font-mono)"><h3>Haustechnik</h3>Archivtür: Zutritt nur mit Karte. Jeder Zutritt wird protokolliert.</div>
+  openWin("Haustechnik", `<div class="nb" style="font-size:14px;font-family:var(--font-mono)"><h3>Tatabend, 19. Dezember</h3>Archivtür: Zutritt nur mit Karte. Jeder Zutritt wird protokolliert.</div>
     ${S.voicemails.includes("V_ZEUGIN") ? `<button class="btn" id="zeugin">Aussage der Zeugin anhören</button>` : ""}
     <div class="sec">Zeitstrahl Tatabend</div>${timelineSvg()}
     <div class="sec">Protokolle</div><div class="hint"><table class="prot">${prot}</table></div>
@@ -2059,7 +2062,7 @@ function showEnding(){
 function skipStation(){
   const n = S.stage;
   const give = { 1:()=>{S.apps.push("notizen");addEv("E01");}, 2:()=>{S.apps.push("fotos");addNote("fassade");addEv("E03");}, 3:()=>{S.apps.push("archiv");S.voicemails.push("V_ERBE");},
-    4:()=>addEv("E05","E06","E07"), 5:()=>addEv("E08","E09"), 6:()=>{S.st.s6={open:true,marks:{},liesOk:true,callDone:true,callOk:true,r7:true};addEv("E10","E11","E12","E13"); if (!S.voicemails.includes("V_ZEUGIN")) S.voicemails.push("V_ZEUGIN");},
+    4:()=>addEv("E05","E06","E07"), 5:()=>addEv("E08","E09"), 6:()=>{S.st.s6={open:true,marks:{},liesOk:true,callDone:true,callOk:true,r7:true};S.apps.push("haustechnik");addEv("E10","E11","E12","E13"); if (!S.voicemails.includes("V_ZEUGIN")) S.voicemails.push("V_ZEUGIN");},
     7:()=>{S.st.s7={decoded:true,struck:true};S.apps.push("mail");addEv("E14","E15");} };
   if (give[n]) give[n]();
   if (n < 8) advance(); else { S.st.accused = true; save(); }
@@ -2161,7 +2164,7 @@ async function push(){
   pushing = false;
 }
 /* Übernimmt einen fremden Stand. merging=true: eigene ungesendete Änderungen behalten */
-const PZ_WIN = { "Notizen":1, "Eingeklebte Fotos":2, "Archiv":3, "Mappe":4, "Brief":5, "Ordner Haustechnik":6, "Akte 19. Dezember":6, "Postfach":7, "Anklage":8, "Tresor":8 };
+const PZ_WIN = { "Notizen":1, "Eingeklebte Fotos":2, "Archiv":3, "Mappe":4, "Brief":5, "Haustechnik":6, "Postfach":7, "Anklage":8, "Tresor":8 };
 /* Hat ein anderes Handy einen Zwischenschritt gelöst, springt ein offenes Rätsel hier auf den aktuellen Schritt */
 function refreshPuzzle(){
   const h = $("#win h1"); if (!h || $("#sheet") || $("#call") || !S.unlocked) return;
@@ -2393,7 +2396,7 @@ const FA = [
   { k:"brief", kind:"Dokument", t:() => hasEv("E08") ? "Brief „1503“ – gefälscht" : "Brief „1503“", s:() => hasEv("E08") ? "Beschreibt Dinge, die es 1503 nicht gab" : "Anhang von Unbekannt", has:() => (S.events || []).includes("N02") || hasEv("E08"), open:() => openAttachment() },
   { k:"E09", kind:"Beweis", has:() => hasEv("E09") },
   { k:"V_RESIDENZ", voice:true },
-  { k:"haustechnik", kind:"Dokument", t:"Ordner Haustechnik · 19. Dezember", s:"Protokolle, Aussagen, Zeugin", has:() => !!(S.st.s6 && S.st.s6.open),
+  { k:"haustechnik", kind:"Dokument", t:"Haustechnik · 19. Dezember", s:"Protokolle, Aussagen, Zeugin", has:() => !!(S.st.s6 && S.st.s6.open),
     open:() => (S.stage === 6 && S.phase === "task" && !S.st.s6.r7) ? PUZZLE_6() : akteView(false) },
   { k:"V_TURM", voice:true },
   { k:"E10", kind:"Beweis", has:() => hasEv("E10") },
