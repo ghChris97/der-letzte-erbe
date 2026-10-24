@@ -1094,6 +1094,10 @@ function playEvent(id){
    nacheinander und erst, wenn gerade kein anderes Fenster oder Anruf offen ist. */
 const showQ = []; let autoVoice = null;
 const INFOS = {
+  I_ZEUGIN: `<img src="img/seidl_av.jpg" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px"><div class="kind">Ermittlungsleiterin Seidl</div><h2>Feld war es nicht. Und eine Zeugin meldet sich.</h2>
+    <p>Seidl: „Wir haben Jonas Feld überprüft. Er war an dem Abend wirklich in Regensburg, drei Kollegen bestätigen es. Seine Karte hat also jemand anderes benutzt.“</p>
+    <p>„Und noch etwas: Rosa Brandl, Falkenrieds Haushälterin, hat sich gerade bei uns gemeldet. Ihr ist noch etwas eingefallen. Ich schicke euch ihre Aussage, hört sie euch genau an.“</p>
+    <button class="btn primary" data-close>Aussage anhören</button>`,
   I_TRAUSNITZ: `<div class="kind">Blick nach oben · Burg Trausnitz</div><h2>Die Burg über der Stadt</h2>
     <p>Schaut vom Platz aus den Hang hinauf: Dort oben thront Burg Trausnitz. Ludwig der Kelheimer gründete sie 1204, zusammen mit der Stadt.</p>
     <p>Von 1255 bis 1503 regierten von hier oben die Herzöge von Niederbayern über Landshut. Die drei Reichen Herzöge bauten sie prächtig aus, mit neuen Sälen, Mauern und Türmen.</p>
@@ -1944,7 +1948,7 @@ function r7Question(){
   const fr = $("#feldRec"); if (fr) fr.onclick = () => toggleRec("feld", fr);
   document.querySelectorAll("[data-r7]").forEach(b => b.onclick = () => {
     if (!guard("6.r7")) return;
-    if (b.dataset.r7 === "b") { right("6.r7"); S.st.s6 = S.st.s6 || {}; S.st.s6.r7 = true; addEv("E12","E11"); save(); newsSeen("verdaechtige", "alibi:feld"); closeSheet(); done("Neue Spur: die Zeugin hat noch etwas gehört.", 6); setTimeout(() => fire("V_ZEUGIN"), 900); }
+    if (b.dataset.r7 === "b") { right("6.r7"); S.st.s6 = S.st.s6 || {}; S.st.s6.r7 = true; addEv("E12","E11"); save(); newsSeen("verdaechtige", "alibi:feld"); closeSheet(); done(null, 6); setTimeout(() => { fire("I_ZEUGIN"); fire("V_ZEUGIN"); }, 900); }
     else { $("#r7Msg").textContent = "Er war in Regensburg. Was zeigt die Karte also wirklich?"; wrong("6.r7"); }
   });
 }
