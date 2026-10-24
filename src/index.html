@@ -437,7 +437,7 @@ const CONTENT = {
       "Schaut in den Steckbrief: Wann wurde mit dem Bau der Residenz begonnen?",
       "Die Residenz wurde erst 1536 begonnen. Tippt „lagert sicher in der Stadtresidenz des Herzogs“." ] },
     S6: { title:"Heiliggeist – Rundgang und Tatabend", steps:[
-      "Lasst die App Haustechnik offen und geht einmal ganz um die Kirche. Drei der vier Seiten reichen. Bei ungenauem GPS kurz stehen bleiben.",
+      "Lasst die App Haustechnik offen und geht einmal ganz um die Kirche. Alle vier Seiten zählen, das Handy zeigt sie im Kreis an. Bei ungenauem GPS kurz stehen bleiben.",
       "Vergleicht jede Aussage mit den Protokollen. Wann fuhr der Wagen von Dr. Helena Dorn weg? Von wo bestellte Clara Weiß ihr Taxi?",
       "Nach dem Anruf fragt Seidl nach der Karte R7: Jonas Feld war in Regensburg, also wurde nur seine Karte benutzt." ] },
     S7: { title:"Ländtor – Der Ritter", steps:[
@@ -483,7 +483,7 @@ const CONTENT = {
       action:"Brief öffnen" },
     { id:6, name:"Heiliggeistkirche", spot:"Einmal rund um die Kirche", lat:48.538667, lng:12.152562,
       src:"Ermittlungsleiterin Seidl", clue:"Wer kam am Abend an die Archivtür? Falkenrieds Zutrittsdaten liegen in seiner gesperrten App „Haustechnik“. Sie öffnet sich nur an der Kirche, deren Bau unter Heinrich dem Reichen begann. Falkenrieds Notizen zur Fassade nennen sie.",
-      task:"Falkenrieds App „Haustechnik“ öffnet sich nur, wenn ihr einmal um die Heiliggeistkirche herumgeht. Öffnet sie und lauft los, das Handy zählt mit.",
+      task:"Ihr steht vor der Heiliggeistkirche. Hier lässt sich Falkenrieds gesperrte App „Haustechnik“ öffnen. Schaut nach, was er dazu notiert hat.",
       action:"Haustechnik öffnen" },
     { id:7, name:"Ländtor", spot:"Wappen über dem Torbogen", lat:48.535305, lng:12.149236,
       src:"Aussage der Zeugin Rosa Brandl", clue:"Später hörte ich am Telefon, der Wagen sollte die Stadt durch das Tor verlassen, über dem die drei Helme hängen.",
@@ -1787,14 +1787,20 @@ PUZZLE_6 = function(){
   if (!st.callOk) return akteView(false);
   if (!st.r7) { akteView(false); return r7Question(); }
 };
-/* Station 6: Rundgang um die Heiliggeistkirche. Drei der vier Himmelsrichtungen genügen (GPS in engen Gassen). */
+/* Station 6: Rundgang um die Heiliggeistkirche. Alle vier Seiten müssen besucht werden.
+   Mit WALK_POINTS (vier echte GPS-Punkte an den Ecken, vor Ort gemessen) zählt jeder Punkt im Umkreis von WALK_R Metern.
+   Ohne Punkte: Himmelsrichtung vom Kirchenmittelpunkt aus, nur wenn man deutlich auf einer Seite steht (±30°). */
 const WALK_DIRS = [["N","Norden"],["O","Osten"],["S","Süden"],["W","Westen"]];
+const WALK_POINTS = null; /* z. B. { N:{lat:…,lng:…}, O:{…}, S:{…}, W:{…} } */
+const WALK_R = 18;
 function walkSector(pos, c){
-  const d = dist(pos, c); if (d < 12 || d > 160) return null;
+  if (WALK_POINTS) { const k = Object.keys(WALK_POINTS).find(k => dist(pos, WALK_POINTS[k]) <= WALK_R); return k || null; }
+  const d = dist(pos, c); if (d < 20 || d > 120) return null;
   const y = Math.sin((pos.lng-c.lng)*Math.PI/180) * Math.cos(pos.lat*Math.PI/180);
   const x = Math.cos(c.lat*Math.PI/180)*Math.sin(pos.lat*Math.PI/180) - Math.sin(c.lat*Math.PI/180)*Math.cos(pos.lat*Math.PI/180)*Math.cos((pos.lng-c.lng)*Math.PI/180);
   const brg = (Math.atan2(y, x) * 180/Math.PI + 360) % 360;
-  return ["N","O","S","W"][Math.round(brg / 90) % 4];
+  const i = Math.round(brg / 90) % 4, off = Math.abs(((brg - i * 90) + 540) % 360 - 180);
+  return off <= 30 ? ["N","O","S","W"][i] : null;   /* nahe an den Ecken zählt nicht */
 }
 function walkLock(){
   const st = S.st.s6; st.walk = st.walk || {};
@@ -1810,7 +1816,7 @@ function walkLock(){
   const step = k => {
     const cur = S.st.s6 || st; cur.walk = cur.walk || {}; if (cur !== st) { Object.assign(cur.walk, st.walk); }
     if (k && !cur.walk[k]) { cur.walk[k] = true; st.walk = cur.walk; save(); if ($("#rose")) $("#rose").innerHTML = rose(); }
-    if (n() >= 3) { st.open = true; if (S.st.s6) S.st.s6.open = true; if (!S.apps.includes("haustechnik")) S.apps.push("haustechnik"); save(); $("#walkTxt").textContent = "Rundgang geschafft. Die App öffnet sich …"; if (watchId !== null) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; }
+    if (n() >= 4) { st.open = true; if (S.st.s6) S.st.s6.open = true; if (!S.apps.includes("haustechnik")) S.apps.push("haustechnik"); save(); $("#walkTxt").textContent = "Rundgang geschafft. Die App öffnet sich …"; if (watchId !== null) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; }
       setTimeout(() => { PUZZLE_6(); fire("V_TURM"); }, 1200); return true; }
     return false;
   };
@@ -1821,10 +1827,10 @@ function walkLock(){
     if (watchId !== null) navigator.geolocation.clearWatch(watchId);
     watchId = navigator.geolocation.watchPosition(pos => {
       const p = { lat:pos.coords.latitude, lng:pos.coords.longitude }, t = $("#walkTxt"); if (!t) return;
-      if (pos.coords.accuracy > 40) { t.textContent = "GPS ist gerade ungenau. Kurz stehen bleiben."; return; }
+      if (pos.coords.accuracy > 30) { t.textContent = "GPS ist gerade ungenau. Kurz stehen bleiben."; return; }
       const k = walkSector(p, c), d = Math.round(dist(p, c));
       if (step(k)) return;
-      t.textContent = d > 160 ? `Ihr seid ${d} m von der Kirche entfernt. Geht näher heran.` : `${n()} von 3 Seiten geschafft. Weiter um die Kirche herum.`;
+      t.textContent = d > 160 ? `Ihr seid ${d} m von der Kirche entfernt. Geht näher heran.` : `${n()} von 4 Seiten geschafft. Weiter um die Kirche herum.`;
     }, () => { const t = $("#walkTxt"); if (t) t.textContent = "Standort nicht freigegeben. Bitte im Browser erlauben."; }, { enableHighAccuracy:true, maximumAge:3000 });
   } catch(e) {}
 }
