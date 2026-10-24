@@ -1798,8 +1798,9 @@ function walkLock(){
     <div class="target"><div class="t">Rundgang</div><div class="s">Das Handy merkt sich, auf welchen Seiten der Kirche ihr schon wart. Es zählt für das ganze Team.</div><div id="rose">${rose()}</div><div class="s" id="walkTxt">Standort wird gesucht …</div>
     ${DEV.noGeo ? `<button class="btn" id="walkSim" style="margin-top:8px">Rundgang simulieren (Testmodus)</button>` : ""}</div>`);
   const step = k => {
-    if (k && !st.walk[k]) { st.walk[k] = true; save(); if ($("#rose")) $("#rose").innerHTML = rose(); }
-    if (n() >= 3) { st.open = true; if (!S.apps.includes("haustechnik")) S.apps.push("haustechnik"); save(); $("#walkTxt").textContent = "Rundgang geschafft. Die App öffnet sich …"; if (watchId !== null) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; }
+    const cur = S.st.s6 || st; cur.walk = cur.walk || {}; if (cur !== st) { Object.assign(cur.walk, st.walk); }
+    if (k && !cur.walk[k]) { cur.walk[k] = true; st.walk = cur.walk; save(); if ($("#rose")) $("#rose").innerHTML = rose(); }
+    if (n() >= 3) { st.open = true; if (S.st.s6) S.st.s6.open = true; if (!S.apps.includes("haustechnik")) S.apps.push("haustechnik"); save(); $("#walkTxt").textContent = "Rundgang geschafft. Die App öffnet sich …"; if (watchId !== null) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; }
       setTimeout(() => { PUZZLE_6(); fire("V_TURM"); }, 1200); return true; }
     return false;
   };
@@ -1905,7 +1906,7 @@ function akteView(interactive){
     const m = locFor().marks;
     if (!guard("6.lies")) return;
     if (m.helena === "lie" && m.clara === "lie" && m.tobias !== "lie") {
-      right("6.lies"); st.liesOk = true; addEv("E10"); save();
+      right("6.lies"); S.st.s6 = S.st.s6 || {}; S.st.s6.liesOk = true; addEv("E10"); save();
       $("#lieMsg").textContent = "Richtig: Dr. Helena Dorn und Clara Weiß lügen. Notar Mairs „kurz“ waren 18 Minuten, eine Halbwahrheit.";
       setTimeout(() => fire("CALL_06"), 1800);
     } else { $("#lieMsg").textContent = (m.tobias === "lie") ? "Die Aussage von Tobias von Falkenried passt zur Außenkamera." : "Noch nicht alle Widersprüche gefunden. Prüft Abfahrt und Taxi."; wrong("6.lies"); }
@@ -1927,7 +1928,7 @@ function r7Question(){
   const fr = $("#feldRec"); if (fr) fr.onclick = () => toggleRec("feld", fr);
   document.querySelectorAll("[data-r7]").forEach(b => b.onclick = () => {
     if (!guard("6.r7")) return;
-    if (b.dataset.r7 === "b") { right("6.r7"); st.r7 = true; addEv("E12","E11"); save(); newsSeen("verdaechtige", "alibi:feld"); closeSheet(); done("Neue Spur: die Zeugin hat noch etwas gehört.", 6); setTimeout(() => fire("V_ZEUGIN"), 900); }
+    if (b.dataset.r7 === "b") { right("6.r7"); S.st.s6 = S.st.s6 || {}; S.st.s6.r7 = true; addEv("E12","E11"); save(); newsSeen("verdaechtige", "alibi:feld"); closeSheet(); done("Neue Spur: die Zeugin hat noch etwas gehört.", 6); setTimeout(() => fire("V_ZEUGIN"), 900); }
     else { $("#r7Msg").textContent = "Er war in Regensburg. Was zeigt die Karte also wirklich?"; wrong("6.r7"); }
   });
 }
@@ -1951,7 +1952,7 @@ PUZZLE_7 = function(){
     $("#decGo").onclick = () => {
       if (!$("#dec").value.trim()) return;
       if (!guard("7.dec")) return;
-      if ($("#dec").value.trim().toUpperCase().replace(/\s/g,"") === "ABHOLUNG") { right("7.dec"); st.decoded = true; S.apps.push("mail"); addEv("E14","E15"); save(); PUZZLE_7();
+      if ($("#dec").value.trim().toUpperCase().replace(/\s/g,"") === "ABHOLUNG") { right("7.dec"); S.st.s7 = S.st.s7 || {}; S.st.s7.decoded = true; if (!S.apps.includes("mail")) S.apps.push("mail"); addEv("E14","E15"); save(); PUZZLE_7();
         fire("I_CW04"); }
       else { $("#dMsg").textContent = "Das ergibt noch keinen Sinn. Zählt die Glockenschläge in der Sage."; wrong("7.dec"); }
     };
@@ -2012,8 +2013,8 @@ function accuseEvidence(){
   $("#winBody").onclick = e => { const b = e.target.closest("[data-qa]"); if (!b) return;
     if (!guard("8.ev")) return;
     if (+b.dataset.qa !== Q.ok) { $("#aMsg").textContent = "Seidl: „Das reicht nicht. " + Q.why + "“"; wrong("8.ev"); return; }
-    right("8.ev"); st.accQ = Math.max(st.accQ, ACC_Q.indexOf(Q) + 1); save();
-    if (st.accQ < ACC_Q.length) return accuseEvidence();
+    right("8.ev"); S.st.accQ = Math.max(S.st.accQ || 0, ACC_Q.indexOf(Q) + 1); save();
+    if (S.st.accQ < ACC_Q.length) return accuseEvidence();
     finishAccuse();
   };
 }
