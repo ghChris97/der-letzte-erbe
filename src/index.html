@@ -489,7 +489,7 @@ const CONTENT = {
       src:"Aussage der Zeugin Rosa Brandl", clue:"Später hörte ich am Telefon, der Wagen sollte die Stadt durch das Tor verlassen, über dem die drei Helme hängen.",
       task:"Die Kripo hat auf Falkenrieds Archiv-Server eine verschlüsselte Kuriernachricht vom Tatabend gefunden und in sein Postfach gelegt. Wie weit die Buchstaben verschoben sind, verrät Falkenrieds Aufnahme der Sage vom Ritter am Ländtor.",
       action:"Postfach öffnen" },
-    { id:8, name:"Ringelstecherwiese", spot:"Treffpunkt am Christkindlmarkt", lat:48.532814, lng:12.146553,
+    { id:8, name:"Ringelstecherwiese", spot:"Treffpunkt am Christkindlmarkt", lat:48.532814, lng:12.146553, r:200, /* große Wiese: großzügiger Umkreis */
       src:"Abholauftrag vom Tatabend", clue:"Übergabe: Ringelstecherwiese, sobald die Ware greifbar ist.",
       task:"Ermittlungsleiterin Seidl wartet auf der Wiese, Notar Mair mit Falkenrieds Kassette. Mair gibt sie erst heraus, wenn ihr Seidl sagt, wer es war, und es beweisen könnt.",
       action:"Anklage erheben" }
@@ -889,7 +889,7 @@ function openHints(){
     html = `<div class="hint"><h3>Wo ist das? · ${via ? "Zwischenstopp" : "Station " + st.id}</h3><p style="font-style:italic">„${esc(via ? "Einer fehlt noch an der Herzogswand." : (st.clue || ""))}“</p>
       ${W.slice(0, gOpen).map((t, i) => `<p><b>Ortstipp ${i + 1}:</b> ${esc(t)}</p>`).join("")}
       ${gOpen < W.length ? `<button id="moreG">${gOpen ? "Deutlicheren Ortstipp zeigen" : "Ersten Ortstipp zeigen"}</button>` : `<p style="color:var(--muted)">${S.revealed[st.id] ? "Der Ort ist im Auftrag aufgedeckt, die Karte führt euch hin." : `${via ? "Das Ziel steht im Auftrag." : `Reicht das nicht? Nach ${st.revealMin || 5} Minuten könnt ihr den Ort im Auftrag aufdecken.`}`}</p>`}</div>
-      <p class="empty" style="text-align:left;padding:4px 2px">„Wir sind da“ klappt erst vor Ort, im Umkreis von etwa 50 Metern.</p>`;
+      <p class="empty" style="text-align:left;padding:4px 2px">„Wir sind da“ klappt erst vor Ort, im Umkreis von etwa ${via ? 50 : (st.r || 50)} Metern.</p>`;
     openWin("Tipps", html);
     const mg = $("#moreG"); if (mg) mg.onclick = () => { S.hintsOpen[gk] = gOpen + 1; save(); openHints(); };
     return;
@@ -2345,7 +2345,7 @@ function targetDist(){ const st = curStation(); if (!st || !geo.pos) return null
 function nearTarget(){
   if (DEV.noGeo) return true;
   const st = curStation(), d = targetDist(); if (d === null) return false;
-  const r = st.approx ? NEAR_APPROX_M : NEAR_M;
+  const r = st.r || (st.approx ? NEAR_APPROX_M : NEAR_M);
   return d - Math.min(geo.acc || 0, 30) <= r;
 }
 function arriveLabel(){ if (DEV.noGeo || nearTarget()) return "Wir sind da"; return "Wir sind da 🔒"; }
