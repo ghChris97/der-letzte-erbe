@@ -190,6 +190,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .stand .sq{margin-top:8px;padding-top:8px;border-top:1px dashed #b9ab8a;font-size:14px;color:#7c2f2f}
 .invrow{display:block;width:100%;text-align:left;padding:7px 10px;margin-bottom:4px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:14px;line-height:1.35}
 .invrow b{display:inline-block;min-width:24px;color:var(--amber);font-family:var(--font-mono)}
+.invrow.num{display:flex;gap:6px;align-items:baseline}.invrow.num b{flex:none}
 .invrow.pick.on{background:#e3a54833;border-color:var(--amber)}
 .tll{margin:0 0 10px;padding-left:18px;font-size:14px;line-height:1.5;color:var(--ink)}.tll b{font-family:var(--font-mono);font-size:12px;color:var(--amber);margin-right:6px}
 .glued{background:#fff;padding:6px 6px 16px;margin:10px auto;max-width:86%;box-shadow:0 2px 6px #0004;transform:rotate(-1.5deg)}
@@ -1688,10 +1689,10 @@ const INV03 = [
   ["Schlafgemach", ["Brautkleid, Brokat, aus Polen"]]
 ];
 function inv03Html(){ return INV03.map(([room, items]) => `<div class="sec" style="margin:10px 0 4px">${esc(room)}</div>${items.map(t => `<div class="invrow">${esc(t)}</div>`).join("")}`).join(""); }
-function inv75Html(picked, tap){ return INV75.map(([n, t]) => tap ? `<button class="invrow pick${picked.includes(n) ? " on" : ""}" data-inv="${n}"><b>${n}</b> ${esc(t)}</button>` : `<div class="invrow"><b>${n}</b> ${esc(t)}${INV_MISSING.includes(n) ? ' <span style="color:#c0504d">· fehlt 1503</span>' : ""}</div>`).join(""); }
+function inv75Html(picked, tap){ return INV75.map(([n, t]) => tap ? `<button class="invrow num pick${picked.includes(n) ? " on" : ""}" data-inv="${n}"><b>${n}</b><span>${esc(t)}</span></button>` : `<div class="invrow num"><b>${n}</b><span>${esc(t)}${INV_MISSING.includes(n) ? ' <span style="color:#c0504d">· fehlt 1503</span>' : ""}</span></div>`).join(""); }
 /* Auswahlen beim Rätseln gelten nur für dieses Handy (jeder probiert selbst, gelöst wird gemeinsam) */
 let LOC = (() => { try { return JSON.parse(localStorage.getItem("falkenried-local") || "null") || {}; } catch(e) { return {}; } })();
-function locFor(){ if (LOC.reset !== (S.resetAt || 0)) LOC = { reset:S.resetAt || 0 }; LOC.wh = LOC.wh || [0,0,0]; LOC.picked = LOC.picked || []; LOC.marks = LOC.marks || {}; LOC.tab = LOC.tab || "75"; return LOC; }
+function locFor(){ if (LOC.reset !== (S.resetAt || 0)) LOC = { reset:S.resetAt || 0 }; LOC.wh = LOC.wh || [0,0,1];   /* Farbe startet auf Blau, damit nichts schon richtig steht */ LOC.picked = LOC.picked || []; LOC.marks = LOC.marks || {}; LOC.tab = LOC.tab || "75"; return LOC; }
 const saveLoc = () => { try { localStorage.setItem("falkenried-local", JSON.stringify(LOC)); } catch(e) {} };
 const S4 = () => { S.st.s4 = S.st.s4 || { seal:false, picked:[] }; S.st.s4.wh = S.st.s4.wh || [0,0,0]; S.st.s4.picked = S.st.s4.picked || []; return S.st.s4; };
 PUZZLE_4 = function(){
