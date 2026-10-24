@@ -1094,6 +1094,10 @@ function playEvent(id){
    nacheinander und erst, wenn gerade kein anderes Fenster oder Anruf offen ist. */
 const showQ = []; let autoVoice = null;
 const INFOS = {
+  I_MAIR: `<img src="img/mair_av.jpg" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px"><div class="kind">Notar Benedikt Mair</div><h2>Die Kassette und eine letzte Nachricht</h2>
+    <p>Mair übergibt euch Falkenrieds Kassette. Sie ist mit einem Namensschloss gesichert.</p>
+    <p>„Und das hier hat Herr von Falkenried am 13. Dezember bei mir hinterlegt: eine Sprachnachricht. Ich sollte sie nur den Ermittlern geben, die herausfinden, was ihm zugestoßen ist. Das seid ihr. Hört sie euch an.“</p>
+    <button class="btn primary" data-close>Nachricht anhören</button>`,
   I_ZEUGIN: `<img src="img/seidl_av.jpg" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px"><div class="kind">Ermittlungsleiterin Seidl</div><h2>Feld war es nicht. Und eine Zeugin meldet sich.</h2>
     <p>Seidl: „Wir haben Jonas Feld überprüft. Er war an dem Abend wirklich in Regensburg, drei Kollegen bestätigen es. Seine Karte hat also jemand anderes benutzt.“</p>
     <p>„Und noch etwas: Rosa Brandl, Falkenrieds Haushälterin, hat sich gerade bei uns gemeldet. Ihr ist noch etwas eingefallen. Ich schicke euch ihre Aussage, hört sie euch genau an.“</p>
@@ -2019,7 +2023,7 @@ const ACC_Q = [
 function finishAccuse(){
   if (S.st.accused) return; S.st.accused = true; save(); closeWin(); renderHome();
   fire("V_MAIR");
-  setTimeout(() => { fire("N06"); setTimeout(() => fire("V_FINALE"), 4000); }, 9000);
+  setTimeout(() => { fire("N06"); setTimeout(() => { fire("I_MAIR"); fire("V_FINALE"); }, 4000); }, 9000);
   toast("Seidl nimmt die Anklage an. Notar Mair übergibt die Kassette.");
 }
 function accuseEvidence(){
