@@ -209,6 +209,15 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .admin .btn{margin:0;font-size:13px}
 
 /* Intro: Eilmeldung */
+.push{margin:34px 14px 0;width:calc(100% - 28px);text-align:left;display:flex;gap:12px;align-items:flex-start;padding:14px;border-radius:18px;background:#1b2130ee;border:1px solid var(--line);box-shadow:0 10px 30px #0008;animation:pushIn .5s ease-out}
+.push img{width:42px;height:42px;border-radius:50%;object-fit:cover;flex:none}.push b{display:block;font-size:14px}.push .w{font-size:11px;color:var(--muted);float:right}.push p{margin:4px 0 0;font-size:14px;line-height:1.4;color:var(--ink)}
+@keyframes pushIn{from{transform:translateY(-30px);opacity:0}to{transform:none;opacity:1}}
+.seidlpic{width:100%;aspect-ratio:1/1;object-fit:cover;object-position:50% 20%;border-radius:16px;border:1px solid var(--line);display:block}
+.vtx{font-size:15px;line-height:1.55;color:var(--muted);background:var(--surface);border-radius:12px;padding:12px 14px}.vtx b{color:var(--ink);font-weight:500}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:14px;background:var(--surface);border-radius:12px;padding:12px 14px}.facts dt{color:var(--muted);font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;padding-top:2px}.facts dd{margin:0}
+.member{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface);border-radius:12px;font-weight:600}.member i{color:#6fbf8a;font-style:normal}
+.upbar{height:10px;border-radius:5px;background:var(--surface-2);overflow:hidden}.upbar i{display:block;height:100%;width:0;background:var(--amber);transition:width .35s}
+.uplog{font-family:var(--font-mono);font-size:12px;color:var(--muted);line-height:1.7;min-height:140px}
 .intro{padding:6px 20px max(20px, env(safe-area-inset-bottom, 0px));overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:14px}
 .flash{font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--decline);align-self:flex-start;padding:4px 8px;border-radius:4px}
 .intro h1{font-family:var(--font-display);font-weight:500;font-size:34px;line-height:1.05;margin:0;text-wrap:balance}
@@ -497,6 +506,7 @@ const CONTENT = {
     E15:{ t:"Handyauswertung Clara Weiß", d:"Clara telefonierte von 20:44 bis 20:50 mit dem Käufer CW-04." }
   },
   voice: {
+    V_START:{ from:"Ermittlungsleiterin Seidl", photo:"img/seidl_av.jpg", title:"Ich brauche eure Hilfe", text:"Hallo, hier spricht Martina Seidl, Kriminalhauptkommissarin bei der Kripo Landshut. Danke, dass ihr so schnell erreichbar seid. Gestern Abend wurde der Kunstsammler Maximilian von Falkenried tot in seinem Archiv gefunden. Wir gehen von Mord aus. Den ersten Bericht schicke ich euch gleich hinterher. Falkenrieds Handy haben wir sichergestellt und alle Daten heruntergeladen. Ein Abbild davon wird gerade auf eure Handys gespielt. Ihr könnt es bedienen wie sein eigenes Telefon, mit Nachrichten, Mailbox und Notizen. Der Code zum Entsperren lautet: eins, vier, sieben, fünf. Merkt ihn euch gut. Ich brauche eure Hilfe, und zwar dringend. Gebt mir eure Namen, dann trage ich euch als Ermittlungsgruppe ein. Danach kommt niemand mehr dazu." },
     V_ERBE:{ from:"Falkenried", memo:"im Archiv gespeichert, aufgenommen am 16. Oktober 2026", title:"Die Familie", text:"Wenn ihr das hört, steht ihr vor Ludwig dem Reichen. Lasst mich euch seine Familie erzählen, denn um sie geht es in allem, was ich gefunden habe. Ludwigs Vater war Heinrich, der erste der drei Reichen Herzöge von Landshut. In seiner Zeit begann der Bau von Heiliggeist, und er hinterließ seinem Sohn eine volle Schatzkammer. Ludwig machte daraus das prächtigste Fest, das diese Stadt je gesehen hat. 1475 heiratete sein Sohn Georg in Sankt Martin Hedwig, die Tochter des polnischen Königs. Tausende Gäste kamen, Ritter aus halb Europa, und Ludwig hat alles bezahlt. Georg und Hedwig bekamen Kinder, doch ihre Söhne starben früh. Am Ende blieben zwei Töchter. Und genau das wurde zum Problem. Nach den Hausverträgen der Wittelsbacher durfte das Land nur an Männer der Familie fallen. Georg setzte trotzdem seine Tochter Elisabeth als Erbin ein, sie und ihren Mann, Ruprecht von der Pfalz. Am ersten Dezember 1503 starb Georg in Ingolstadt. In München las sein Vetter, Herzog Albrecht, das Testament, und er lachte nicht. Was folgte, war kein Streit mehr. Es war der Landshuter Erbfolgekrieg. Dörfer brannten in ganz Niederbayern. Der König stellte sich auf Albrechts Seite und ließ sich das gut bezahlen. Im Sommer 1504 starb Ruprecht, wenige Wochen später auch Elisabeth. Sie hinterließen vier kleine Söhne in einem Land voller Feinde. Die Zwillinge Georg und Ruprecht starben noch im selben Jahr, so steht es jedenfalls in den Büchern. Ich habe angefangen, daran zu zweifeln. 1505 tagte der Reichstag in Köln, und der König entschied. Landshut ging an Albrecht nach München. Für die beiden anderen, Ottheinrich und Philipp, schuf man ein kleines neues Land an der Donau, mit der Hauptstadt Neuburg. Aber in den Wintertagen nach Georgs Tod, als noch niemand wusste, wer gewinnen würde, hat jemand drei Kisten aus der Stadt gebracht. Was in ihnen war, steht in zwei Listen in meiner Mappe. Ihr Schloss stellt ihr dort ein, wo die Bürger dieser Stadt seit Jahrhunderten ihren Rat halten. Nicht oben auf der Burg, sondern unten in der Altstadt." },
     V_RESIDENZ:{ from:"Ermittlungsleiterin Seidl", photo:"img/seidl_av.jpg", title:"Die Archivtür", text:"Hier Seidl. Gute Arbeit, der Brief ist eine Fälschung. Ich glaube, ich weiß auch, wozu: Wer alte Stücke verkaufen will, braucht eine Herkunft. Ein Brief aus der Herzogsresidenz macht aus drei Kisten einen Schatz, den ein Sammler teuer bezahlt. Jetzt die entscheidende Frage: Wer kam am Abend an die Archivtür? Falkenrieds Haustechnik speichert jeden Zutritt in einem Ordner auf seinem Handy. Er hat ihn im Herbst gesperrt. Wo er sich öffnet, steht in Falkenrieds Notizen zur Fassade." },
     V_TURM:{ from:"Falkenried", memo:"im Ordner Haustechnik gespeichert, aufgenommen am 9. November 2026", title:"Der Turm", text:"Sie wollten hier einen Turm, höher als Sankt Martin. Das Geld reichte nicht. Manche wollen eben mehr, als ihnen zusteht." },
@@ -523,7 +533,7 @@ const CONTENT = {
 const TEAM = ((new URLSearchParams(location.search).get("team") || "haupt").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 30)) || "haupt";
 const KEY = "falkenried-v2-" + TEAM;
 /* Gemeinsam für alle Handys des Teams */
-const SHARED = ["stage","phase","revealed","apps","evidence","voicemails","notes","st","ending","struck","hintsOpen","events","locks","devices","solvedBy","rev","resetAt","goAt","acks","mustSee","startedAt","heard"];
+const SHARED = ["stage","phase","revealed","apps","evidence","voicemails","notes","st","ending","struck","hintsOpen","events","locks","devices","solvedBy","rev","resetAt","goAt","acks","mustSee","startedAt","heard","teamName","teamLocked"];
 const fresh = () => ({ stage:1, phase:"task", revealed:{}, apps:[], evidence:[], voicemails:[], notes:[], st:{}, ending:null, struck:[], hintsOpen:{},
   events:[], locks:{}, devices:{}, solvedBy:null, rev:0, resetAt:0, goAt:{}, acks:{}, mustSee:[], heard:{},
   /* nur auf diesem Handy */
@@ -624,7 +634,7 @@ function renderLock(){
   <div class="screen lock" style="position:relative;flex:1">
     <div class="date">${esc(d)}</div>
     <div class="clock" id="bigclock">${nowStr()}</div>
-    <div class="tag"><b>Ermittlungsgruppe 1475 · ${esc(CONTENT.caseNo)}</b>Mobiltelefon von Maximilian von Falkenried. Beweismittel, nur zur Ermittlung. Den Entsperrcode findet ihr im Umschlag.</div>
+    <div class="tag"><b>${esc(teamLabel())} · ${esc(CONTENT.caseNo)}</b>Abbild des Mobiltelefons von Maximilian von Falkenried. Den Code zum Entsperren hat euch Seidl in ihrer Sprachnachricht gesagt.<br><button id="vsAgain" style="margin-top:8px;color:var(--amber);font-weight:600">▶ Seidls Nachricht nochmal anhören</button></div>
     <div class="dots" id="dots">${[0,1,2,3].map(i=>`<i class="${i<pin.length?'on':''}"></i>`).join("")}</div>
     <div class="pinhint" id="pinhint"></div>
     <div class="keypad">
@@ -634,6 +644,7 @@ function renderLock(){
   </div>`;
 }
 screen.addEventListener("click", e => {
+  if (e.target.closest("#vsAgain")) return playVoice("V_START");
   const k = e.target.closest("[data-k]"); if (!k || S.unlocked) return;
   const v = k.dataset.k;
   if (v === "del") pin = pin.slice(0,-1); else if (pin.length < 4) pin += v;
@@ -647,7 +658,7 @@ function checkPin(){
     askName(() => showCast(() => showInterrogations(() => setTimeout(() => { fire("CALL_01"); processEvents(); }, 1200))));
   } else {
     const d = $("#dots"); d.classList.remove("shake"); void d.offsetWidth; d.classList.add("shake");
-    $("#pinhint").textContent = "Falscher Code. Schaut noch einmal in den Umschlag.";
+    $("#pinhint").textContent = "Falscher Code. Hört Seidls Nachricht noch einmal an.";
     pin = ""; setTimeout(renderDots, 350);
   }
 }
@@ -1153,7 +1164,7 @@ function acceptCall(id, w){
    Vorproduzierte Stimmen (audio/*.mp3) mit Satz-Zeitmarken.
    Fehlt eine Datei oder schlägt die Wiedergabe fehl, springt die Sprachausgabe des Geräts ein.
    ============================================================ */
-const CUES = {"CALL_01": [[0.1, 2.675], [2.625, 7.402], [7.402, 10.75], [10.75, 16.569], [16.569, 22.347], [22.347, 27.458]], "CALL_06": [[0.1, 2.02], [1.97, 4.748], [4.748, 9.805], [9.805, 13.416], [13.416, 19.456]], "CALL_07": [[0.1, 2.508], [2.458, 6.041], [6.041, 8.094], [8.094, 13.069]], "V_ERBE": [[0.1, 4.353], [4.303, 11.065], [11.065, 17.201], [17.201, 24.161], [24.161, 29.815], [29.815, 37.94], [37.94, 44.247], [44.247, 49.332], [49.332, 52.173], [52.173, 55.227], [55.227, 61.392], [61.392, 69.247], [69.247, 74.261], [74.261, 80.61], [80.61, 84.119], [84.119, 87.272], [87.272, 90.482], [90.482, 95.738], [95.738, 101.96], [101.96, 106.732], [106.732, 113.707], [113.707, 117.457], [117.457, 122.897], [122.897, 126.448], [126.448, 134.957], [134.957, 144.133], [144.133, 148.792], [148.792, 155.255], [155.255, 159.616]], "V_RESIDENZ": [[0.1, 1.911], [1.861, 5.651], [5.651, 12.708], [12.708, 19.856], [19.856, 25.429], [25.429, 31.445], [31.445, 34.505], [34.505, 39.726]], "V_TURM": [[0.1, 4.297], [4.247, 6.59], [6.59, 10.525]], "V_ZEUGIN": [[0.1, 3.365], [3.315, 6.875], [6.875, 9.538], [9.538, 12.038], [12.038, 19.266]], "ZEUGIN_KURZ": [[0.1, 3.365], [3.315, 6.875], [6.875, 9.538], [9.538, 12.038]], "V_MAIR": [[0.1, 2.709], [2.659, 8.723], [8.723, 14.787], [14.787, 21.183], [21.183, 25.598]], "V_FINALE": [[0.1, 4.211], [4.161, 8.707], [8.707, 11.278], [11.278, 19.715], [19.715, 21.803], [21.803, 29.829], [29.829, 32.571], [32.571, 37.4], [37.4, 40.724], [40.724, 44.701], [44.701, 47.102], [47.102, 51.889], [51.889, 57.5], [57.5, 61.292]]};
+const CUES = {"V_START": [[0.1, 7.094], [7.044, 10.807], [10.807, 17.76], [17.76, 20.351], [20.351, 24.192], [24.192, 29.817], [29.817, 34.375], [34.375, 41.809], [41.809, 47.604], [47.604, 50.052], [50.052, 53.763], [53.763, 59.114], [59.114, 62.187]], "CALL_01": [[0.1, 2.675], [2.625, 7.402], [7.402, 10.75], [10.75, 16.569], [16.569, 22.347], [22.347, 27.458]], "CALL_06": [[0.1, 2.02], [1.97, 4.748], [4.748, 9.805], [9.805, 13.416], [13.416, 19.456]], "CALL_07": [[0.1, 2.508], [2.458, 6.041], [6.041, 8.094], [8.094, 13.069]], "V_ERBE": [[0.1, 4.353], [4.303, 11.065], [11.065, 17.201], [17.201, 24.161], [24.161, 29.815], [29.815, 37.94], [37.94, 44.247], [44.247, 49.332], [49.332, 52.173], [52.173, 55.227], [55.227, 61.392], [61.392, 69.247], [69.247, 74.261], [74.261, 80.61], [80.61, 84.119], [84.119, 87.272], [87.272, 90.482], [90.482, 95.738], [95.738, 101.96], [101.96, 106.732], [106.732, 113.707], [113.707, 117.457], [117.457, 122.897], [122.897, 126.448], [126.448, 134.957], [134.957, 144.133], [144.133, 148.792], [148.792, 155.255], [155.255, 159.616]], "V_RESIDENZ": [[0.1, 1.911], [1.861, 5.651], [5.651, 12.708], [12.708, 19.856], [19.856, 25.429], [25.429, 31.445], [31.445, 34.505], [34.505, 39.726]], "V_TURM": [[0.1, 4.297], [4.247, 6.59], [6.59, 10.525]], "V_ZEUGIN": [[0.1, 3.365], [3.315, 6.875], [6.875, 9.538], [9.538, 12.038], [12.038, 19.266]], "ZEUGIN_KURZ": [[0.1, 3.365], [3.315, 6.875], [6.875, 9.538], [9.538, 12.038]], "V_MAIR": [[0.1, 2.709], [2.659, 8.723], [8.723, 14.787], [14.787, 21.183], [21.183, 25.598]], "V_FINALE": [[0.1, 4.211], [4.161, 8.707], [8.707, 11.278], [11.278, 19.715], [19.715, 21.803], [21.803, 29.829], [29.829, 32.571], [32.571, 37.4], [37.4, 40.724], [40.724, 44.701], [44.701, 47.102], [47.102, 51.889], [51.889, 57.5], [57.5, 61.292]]};
 let curAudio = null;
 ["VERHOER_HELENA","VERHOER_MAIR","VERHOER_TOBIAS","VERHOER_CLARA","VERHOER_FELD"].forEach(k => { CUES[k] = []; });
 const RECORDINGS = {"helena": {"id": "VERHOER_HELENA", "text": "Seidl: Frau Dr. Dorn, wann haben Sie das Haus verlassen?\nDorn: Ich bin um halb neun gegangen. Kopfschmerzen. Ich habe mich im Flur verabschiedet, das hat Frau Brandl gesehen.\nSeidl: Und dann?\nDorn: Direkt ins Hotel. Um kurz nach neun lag ich im Bett. Von alldem habe ich erst heute Morgen erfahren.\nSeidl: Sie haben Herrn von Falkenrieds Archiv betreut?\nDorn: Seit drei Jahren. Ich kenne jedes Blatt darin. Gerade deshalb tut das so weh."}, "mair": {"id": "VERHOER_MAIR", "text": "Seidl: Herr Mair, Sie waren während des Abends eine Weile nicht am Tisch.\nMair: Ich habe kurz telefoniert, draußen. Ein beruflicher Anruf.\nSeidl: Mit wem?\nMair: Dazu kann ich nichts sagen. Ich bin an meine Schweigepflicht gebunden.\nSeidl: Wie lange waren Sie draußen?\nMair: Ein paar Minuten. Mehr nicht."}, "tobias": {"id": "VERHOER_TOBIAS", "text": "Seidl: Herr von Falkenried, man hat Sie mit Ihrem Onkel streiten hören.\nTobias: Ja, wir haben gestritten. Laut. Es ging um Geld, um was sonst.\nSeidl: Und danach?\nTobias: Danach war ich rauchen, auf der Terrasse. Bestimmt eine Viertelstunde. Ich wollte nicht mehr rein.\nSeidl: Sie haben ihn gefunden.\nTobias: Kurz vor halb zehn. Die Archivtür stand offen. Ich … ich will darüber nicht reden."}, "clara": {"id": "VERHOER_CLARA", "text": "Seidl: Frau Weiß, wo waren Sie zwischen halb neun und neun?\nWeiß: Am Tisch, bei den anderen Gästen. Den ganzen Abend. Fragen Sie sie.\nSeidl: Sie haben ein Taxi bestellt.\nWeiß: Ja, gegen neun. Ich wollte nach Hause, die Stimmung war … unangenehm.\nSeidl: Kannten Sie Herrn von Falkenrieds Sammlung?\nWeiß: Natürlich. Ich bin Kunsthändlerin. Aber nur aus seinen Erzählungen."}, "feld": {"id": "VERHOER_FELD", "text": "Telefonische Vernehmung\nSeidl: Herr Feld, danke, dass Sie zurückrufen. Wo waren Sie am Abend des 19. Dezember?\nFeld: In Regensburg. Ich restauriere gerade ein Altarbild im Dom. Wir haben bis nach zehn gearbeitet, das können Ihnen drei Kollegen bestätigen.\nSeidl: Ihre Zutrittskarte wurde an diesem Abend an der Archivtür benutzt.\nFeld: Das kann nicht sein. Die Karte ist mir vor einer Woche abhandengekommen. Zuletzt hatte ich sie im Archiv, als ich dort an den Urkunden gearbeitet habe.\nSeidl: Haben Sie den Verlust gemeldet?\nFeld: Ich hab es Herrn von Falkenried gesagt. Er meinte nur, die taucht schon wieder auf."}};
@@ -1219,10 +1230,18 @@ function openAdminGate(){
     <button class="btn primary" id="adminGo">Öffnen</button><p id="adminMsg" style="margin-top:10px"></p>`);
   $("#adminGo").onclick = () => { if ($("#adminPin").value === CONTENT.adminPin) openAdmin(); else $("#adminMsg").textContent = "PIN stimmt nicht."; };
 }
+async function shareLink(){
+  const url = location.origin + location.pathname + (TEAM !== "haupt" ? "?team=" + encodeURIComponent(TEAM) : "");
+  const data = { title:"Akte 1475", text:"Kripo Landshut: Wir brauchen eure Hilfe in einem Mordfall. Öffnet den Link.", url };
+  const msg = t => { const m = $("#resetMsg") || $("#tmMsg"); if (m) m.textContent = t; };
+  try { if (navigator.share) { await navigator.share(data); return; } } catch(e) { if (e && e.name === "AbortError") return; }
+  try { await navigator.clipboard.writeText(url); msg("Link kopiert: " + url); } catch(e) { msg("Link: " + url); }
+}
 function openAdmin(){
   sheet(`<div class="admin"><h2>Spielleitung <button data-close style="font-size:14px;color:var(--amber)">Fertig</button></h2>
     <p>Team „${esc(TEAM)}“ · ${sb && syncOk ? "verbunden" : "offline, nur dieses Handy"}</p>
-    <div class="sec" style="margin-top:4px">Handys im Team</div>${devList()}
+    <div class="sec" style="margin-top:4px">Team ${S.teamName ? "„" + esc(S.teamName) + "“" : ""} · ${S.teamLocked ? "abgeschlossen" : "offen für neue Handys"}</div>${devList()}
+    <button class="btn" id="teamToggle">${S.teamLocked ? "Team wieder öffnen (neue Handys erlauben)" : "Team abschließen"}</button>
     <p>Ereignisse auslösen. Sie erscheinen auf allen Handys des Teams.</p>
     <div class="grid2">
       <button class="btn" data-fire="CALL_01">Anruf 01</button>
@@ -1246,6 +1265,7 @@ function openAdmin(){
     <p id="resetMsg"></p></div>`);
   document.querySelectorAll("[data-fire]").forEach(b => b.onclick = () => { closeSheet(); fire(b.dataset.fire); });
   $("#printDocs").onclick = () => { closeSheet(); openPrint(); };
+  $("#teamToggle").onclick = () => { S.teamLocked = !S.teamLocked; save(); openAdmin(); };
   $("#tpBtn").onclick = () => $("#tpFile").click();
   $("#tpFile").onchange = async () => { const f = $("#tpFile").files[0]; if (!f) return;
     $("#tpBtn").textContent = "Wird gespeichert …";
@@ -1253,12 +1273,7 @@ function openAdmin(){
       $("#tpPrev").innerHTML = `<img src="${url}" alt="Teamfoto" style="width:100%;border-radius:10px;display:block;margin-bottom:8px">`;
       $("#tpBtn").textContent = "Teamfoto ersetzen"; $("#resetMsg").textContent = ok ? "Teamfoto gespeichert, alle Handys im Team zeigen es am Ende." : "Nur auf diesem Handy gespeichert (keine Verbindung).";
     } catch(e) { $("#tpBtn").textContent = "Teamfoto aufnehmen oder hochladen"; $("#resetMsg").textContent = "Foto konnte nicht gelesen werden."; } };
-  $("#shareApp").onclick = async () => {
-    const url = location.origin + location.pathname + (TEAM !== "haupt" ? "?team=" + encodeURIComponent(TEAM) : "");
-    const data = { title:"Akte 1475", text:"Ermittlungsgruppe 1475: Öffnet das sichergestellte Handy von Maximilian von Falkenried.", url };
-    try { if (navigator.share) { await navigator.share(data); return; } } catch(e) { if (e && e.name === "AbortError") return; }
-    try { await navigator.clipboard.writeText(url); $("#resetMsg").textContent = "Link kopiert: " + url; } catch(e) { $("#resetMsg").textContent = "Link: " + url; }
-  };
+  $("#shareApp").onclick = shareLink;
   $("#geoToggle").onclick = () => { DEV.noGeo = !DEV.noGeo; saveDev(); closeSheet(); renderHome(); };
   $("#timerToggle").onclick = () => { DEV.noTimer = !DEV.noTimer; saveDev(); closeSheet(); renderHome(); };
   document.querySelectorAll("[data-rmdev]").forEach(b => b.onclick = () => removeDevice(b.dataset.rmdev));
@@ -1297,23 +1312,123 @@ function tatortSVG(){
 }
 
 /* ============================================================
-   Intro: Eilmeldung vor dem Sperrbildschirm
+   Intro (rein digital): Meldung → Seidl stellt sich vor (Sprachnachricht mit Code) → Bericht → Team eintragen → Abbild wird übertragen
    ============================================================ */
-function renderIntro(){
-  screen.innerHTML = `${statusBar()}
-  <div class="intro">
-    <span class="flash">Eilmeldung</span>
-    <div class="dateline">Landshut · Sonntag, 20. Dezember 2026</div>
-    <h1>Sammler nach Adventsdinner tot aufgefunden</h1>
-    <figure class="scene" style="margin:0"><button id="sceneZoom" style="display:block;width:100%" aria-label="Tatortfoto vergrößern"><img src="img/tatort.jpg" alt="Archivraum mit umgestoßener Lampe, verstreuten Papieren und Spurennummern"></button><figcaption>Archivraum im Haus Falkenried. Aufnahme der Ermittler.</figcaption></figure>
-    <p>Der Landshuter Kunstsammler Maximilian von Falkenried (62) ist am Samstagabend in seinem Haus tot aufgefunden worden. Die Ermittler gehen von einem Gewaltverbrechen aus.</p>
-    <p>Vier Gäste waren an diesem Abend zum Essen eingeladen. Aus dem Archiv des Sammlers sollen Unterlagen fehlen. Die Ermittlungsgruppe 1475 bittet um Mithilfe.</p>
-    <button class="btn installbtn" id="install" style="margin-top:auto" ${isStandalone() ? "hidden" : ""}>App installieren</button>
-    <button class="btn primary" id="toLock">Beweismittel öffnen</button>
-  </div>`;
-  $("#toLock").onclick = () => { S.introSeen = true; save(); renderLock(); };
-  $("#install").onclick = installApp;
-  $("#sceneZoom").onclick = () => sheet(`<div class="kind">Tatortfoto</div><img src="img/tatort.jpg" alt="Tatortfoto Archivraum" style="width:100%;border-radius:12px;display:block"><p style="margin-top:10px">Archivraum im Haus Falkenried, kurz nach dem Auffinden. Fünf Spuren sind nummeriert.</p><button class="btn" data-close>Schließen</button>`);
+const isMember = () => { const d = (S.devices || {})[DEV.id]; return !!(d && d.name && !d.removed && DEV.name); };
+const teamBlocked = () => !!S.teamLocked && !isMember();
+const teamLabel = () => S.teamName ? `Team „${S.teamName}“` : "Ermittlungsgruppe 1475";
+const members = () => Object.entries(S.devices || {}).filter(([id, v]) => v.name && !v.removed);
+let introTimer = null;
+function renderBlocked(){
+  clearInterval(introTimer); stopAudio();
+  screen.innerHTML = `${statusBar()}<div class="intro"><span class="flash">Zugriff gesperrt</span>
+    <h1>Diese Ermittlungsgruppe ist vollständig</h1>
+    <p>${esc(teamLabel())} hat die Ermittlung bereits begonnen. Neue Handys können jetzt nicht mehr dazukommen.</p>
+    <p style="color:var(--muted)">Ihr gehört dazu? Dann muss die Spielleitung das Team kurz wieder öffnen.</p></div>`;
+}
+function renderIntro(step){
+  clearInterval(introTimer);
+  if (teamBlocked()) return renderBlocked();
+  step = step || (isMember() ? "team" : "push");
+  const go = st => { stopAudio(); renderIntro(st); };
+  if (step === "push") {
+    const d = new Date().toLocaleDateString("de-DE",{ weekday:"long", day:"numeric", month:"long" });
+    screen.innerHTML = `${statusBar()}<div class="screen lock" style="position:relative;flex:1">
+      <div class="date">${esc(d)}</div><div class="clock" id="bigclock">${nowStr()}</div>
+      <button class="push" id="pushOpen"><img src="img/seidl_av.jpg" alt=""><span style="flex:1"><span class="w">jetzt</span><b>Kripo Landshut · M. Seidl</b><p>Dringend: Ein Mord in Landshut. Ich brauche eure Hilfe. Bitte sofort öffnen.</p></span></button>
+      <button class="btn installbtn" id="install" style="margin:auto 14px 20px;width:calc(100% - 28px)" ${isStandalone() ? "hidden" : ""}>Erst als App installieren</button></div>`;
+    try { navigator.vibrate && navigator.vibrate([200, 100, 200]); } catch(e) {}
+    $("#pushOpen").onclick = () => go("seidl"); $("#install").onclick = installApp; return;
+  }
+  if (step === "seidl") {
+    const V = CONTENT.voice.V_START;
+    if (!S.voicemails.includes("V_START")) { S.voicemails.push("V_START"); save(); }
+    newsSeen("telefon", "V_START");
+    screen.innerHTML = `${statusBar()}<div class="intro"><span class="flash" style="background:#3b5b8c">Kriminalpolizei Landshut</span>
+      <img class="seidlpic" src="img/seidl.jpg" alt="Martina Seidl">
+      <h1>Martina Seidl</h1><div class="dateline">Kriminalhauptkommissarin · leitet die Ermittlung</div>
+      <p>Eine Sprachnachricht für euch:</p>
+      <button class="btn primary" id="vsPlay">▶ Nachricht von Seidl abspielen</button>
+      <div class="vtx" id="vsTx">${esc(V.text)}</div>
+      <p id="vsHint" style="color:var(--muted);font-size:13px">Hört die Nachricht bis zum Ende an. Darin steht der Code für Falkenrieds Handy.</p>
+      <button class="btn" id="toReport" disabled>Weiter zum Bericht</button></div>`;
+    const btn = $("#vsPlay"), next = $("#toReport");
+    const unlockNext = () => { DEV.vsDone = "r" + (S.resetAt || 0); saveDev(); next.disabled = false; next.classList.add("primary"); btn.classList.remove("primary"); $("#vsHint").textContent = "Merkt euch den Code: 1475."; };
+    if (DEV.noLimit || DEV.vsDone === "r" + (S.resetAt || 0)) unlockNext();
+    const show = n => { $("#vsTx").innerHTML = `<b>${esc(V.text.slice(0, n))}</b>${esc(V.text.slice(n))}`; };
+    btn.onclick = () => {
+      if (curAudio && !curAudio.paused) { stopAudio(); btn.textContent = "▶ Weiter abspielen"; return; }
+      btn.textContent = "■ Pause";
+      const a = playClip("V_START", V.text, { progress:show, end:() => { show(V.text.length); btn.textContent = "▶ Nochmal anhören"; unlockNext(); },
+        fallback:() => { show(V.text.length); btn.textContent = "▶ Nochmal anhören"; unlockNext(); } });
+      if (!a) { show(V.text.length); unlockNext(); }
+    };
+    next.onclick = () => { if (!next.disabled) go("bericht"); }; return;
+  }
+  if (step === "bericht") {
+    screen.innerHTML = `${statusBar()}<div class="intro"><span class="flash">Erster Bericht · vertraulich</span>
+      <div class="dateline">Kripo Landshut · Sonntag, 20. Dezember 2026</div>
+      <h1>Kunstsammler tot in seinem Archiv</h1>
+      <figure class="scene" style="margin:0"><button id="sceneZoom" style="display:block;width:100%" aria-label="Tatortfoto vergrößern"><img src="img/tatort.jpg" alt="Archivraum mit umgestoßener Lampe, verstreuten Papieren und Spurennummern"></button><figcaption>Archivraum im Haus Falkenried. Aufnahme der Spurensicherung.</figcaption></figure>
+      <dl class="facts"><dt>Opfer</dt><dd>Maximilian von Falkenried, 62, Kunstsammler</dd>
+        <dt>Fundort</dt><dd>sein Archiv, im eigenen Haus in Landshut</dd>
+        <dt>Gefunden</dt><dd>Samstag, 19. Dezember, 21:25 Uhr, von seinem Neffen</dd>
+        <dt>Am Abend</dt><dd>Adventsdinner mit vier Gästen. Alle sagen, sie hätten nichts gesehen.</dd>
+        <dt>Auffällig</dt><dd>Im Archiv fehlen Unterlagen. Die Archivtür öffnet nur mit Karte.</dd></dl>
+      <p>Falkenrieds Handy ist das wichtigste Beweismittel. Darauf liegen seine Notizen, Nachrichten und Sprachmemos.</p>
+      <button class="btn primary" id="toTeam">Weiter</button></div>`;
+    $("#sceneZoom").onclick = () => sheet(`<div class="kind">Tatortfoto</div><img src="img/tatort.jpg" alt="Tatortfoto Archivraum" style="width:100%;border-radius:12px;display:block"><p style="margin-top:10px">Archivraum im Haus Falkenried, kurz nach dem Auffinden. Fünf Spuren sind nummeriert.</p><button class="btn" data-close>Schließen</button>`);
+    $("#toTeam").onclick = () => go("team"); return;
+  }
+  if (step === "team") {
+    if (!isMember()) {
+      screen.innerHTML = `${statusBar()}<div class="intro"><span class="flash" style="background:#3b5b8c">Ermittlungsgruppe</span>
+        <div style="display:flex;gap:12px;align-items:center"><img src="img/seidl_av.jpg" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover"><p style="margin:0"><b>Seidl:</b> „Gebt mir eure Namen. Jeder trägt sich auf seinem eigenen Handy ein.“</p></div>
+        ${S.teamName ? `<p>Euer Team: <b>${esc(S.teamName)}</b></p>` : `<label for="tmName" style="font-size:13px;color:var(--muted)">Name eures Teams</label><input class="field" id="tmName" maxlength="28" placeholder="z. B. Die Spürnasen">`}
+        <label for="devName" style="font-size:13px;color:var(--muted)">Dein Vorname</label><input class="field" id="devName" autocomplete="given-name" maxlength="20" value="${esc(DEV.name || "")}">
+        <p id="tmMsg" style="color:#ff8a8a;font-size:13px"></p>
+        <button class="btn primary" id="tmGo">Eintragen</button></div>`;
+      $("#tmGo").onclick = () => {
+        const n = $("#devName").value.trim(), tn = $("#tmName") ? $("#tmName").value.trim() : "";
+        if (!n) { $("#tmMsg").textContent = "Bitte deinen Vornamen eingeben."; return; }
+        if ($("#tmName") && !tn && !S.teamName) { $("#tmMsg").textContent = "Bitte einen Namen für euer Team eingeben."; return; }
+        if (teamBlocked()) return renderBlocked();
+        if (!S.teamName && tn) S.teamName = tn.slice(0, 28);
+        DEV.name = n.slice(0, 20); saveDev(); heartbeat(); renderIntro("team");
+      };
+      return;
+    }
+    if (S.teamLocked) return renderIntro("upload");
+    const list = members();
+    screen.innerHTML = `${statusBar()}<div class="intro"><span class="flash" style="background:#3b5b8c">Ermittlungsgruppe</span>
+      <h1>${esc(S.teamName || "Euer Team")}</h1>
+      <p>Alle aus eurem Team öffnen jetzt den Link auf ihrem eigenen Handy und tragen sich ein. Hier erscheint jeder, der dabei ist.</p>
+      <div style="display:grid;gap:8px">${list.map(([id, v]) => `<div class="member"><i>✓</i>${esc(v.name)}${id === DEV.id ? ' <span style="color:var(--muted);font-weight:400">(du)</span>' : ""}</div>`).join("")}</div>
+      <button class="btn" id="tmShare">Weitere Handys einladen: Link teilen</button>
+      <p style="color:var(--muted);font-size:13px">Wenn alle eingetragen sind, schließt einer das Team ab. Danach kann niemand mehr dazukommen.</p>
+      <button class="btn primary" id="tmLock">Team ist komplett · ${list.length} ${list.length === 1 ? "Person" : "Personen"}</button><p id="tmMsg" style="font-size:13px"></p></div>`;
+    $("#tmShare").onclick = shareLink;
+    let armed = false;
+    $("#tmLock").onclick = () => {
+      if (!armed) { armed = true; $("#tmLock").textContent = "Wirklich abschließen? Nochmal tippen"; $("#tmMsg").textContent = members().map(([i, v]) => v.name).join(", "); return; }
+      S.teamLocked = true; save(); go("upload");
+    };
+    const sig = () => JSON.stringify([members().map(m => m[0]), !!S.teamLocked, S.teamName]); let last = sig();
+    introTimer = setInterval(() => { if (sig() !== last && !armed) renderIntro("team"); else if (S.teamLocked) renderIntro("upload"); }, 1500);
+    return;
+  }
+  if (step === "upload") {
+    screen.innerHTML = `${statusBar()}<div class="intro"><span class="flash" style="background:#3b5b8c">Datenübertragung</span>
+      <h1>Abbild von Falkenrieds Handy wird übertragen</h1><p>${esc(teamLabel())} · ${members().map(m => esc(m[1].name)).join(", ")}</p>
+      <div class="upbar"><i id="upBar"></i></div><div class="uplog" id="upLog"></div></div>`;
+    const steps = ["Verbindung zum Asservat 1475/26 …","Kontakte und Anrufliste …","Nachrichten …","Mailbox und Sprachmemos …","Notizen und Tagebuch …","Fotos …","Sperre übernommen: Code erforderlich","Fertig."];
+    let k = 0;
+    introTimer = setInterval(() => {
+      if (k < steps.length) { $("#upLog").innerHTML += `✓ ${esc(steps[k])}<br>`; k++; $("#upBar").style.width = Math.round(k / steps.length * 100) + "%"; return; }
+      clearInterval(introTimer); S.introSeen = true; save(); renderLock();
+    }, 650);
+    return;
+  }
 }
 
 /* ============================================================
@@ -1327,33 +1442,23 @@ function openPrint(){
     <img class="qr" src="img/qr.png" alt="QR-Code zur App"></div>`;
   d.innerHTML = `
   <div class="tools"><button id="doPrint">Drucken</button><button class="ghost" id="closeDocs">Zurück zum Handy</button>
-    <p id="printNote">Drei Seiten im A4-Format: Briefing für die Spielleitung, Polizeivermerk für den Umschlag, vier Asservatenkarten zum Ausschneiden.</p></div>
+    <p id="printNote">Seite 1 erklärt den Start für die Spielleitung. Polizeivermerk und Asservatenkarten sind optional, das Spiel braucht sie nicht mehr.</p></div>
 
   <section class="page">
     <div class="head"><span>Nur für die Spielleitung</span><span>Der letzte Erbe · Start</span></div>
-    <h2>Briefing an St. Martin</h2>
-    <p>Rolle: <b>Ermittlungsleiterin Seidl</b>, Ermittlungsgruppe 1475. Ruhig, müde, ernst. Ein Asservatenbeutel mit den Karten und der versiegelte Umschlag liegen bereit.</p>
-    <h3>Ablauf, etwa 3 Minuten</h3>
+    <h2>Start ohne Empfang</h2>
+    <p>Der Einstieg läuft komplett im Handy: Seidl meldet sich selbst, stellt sich per Sprachnachricht vor, schickt den Bericht und nennt den Entsperrcode. Ein Empfang vor Ort ist nicht nötig.</p>
+    <h3>Ablauf</h3>
     <ol>
-      <li>Das Team am Vorplatz von St. Martin empfangen, Hände schütteln, kurz durchzählen.</li>
-      <li>Sprechtext (frei sprechen, nicht ablesen):</li>
+      <li>Im Spielleitungsbereich den Spielstand zurücksetzen.</li>
+      <li>„Spieler einladen: Link teilen“ und den Link an alle Mitspieler schicken (oder den QR-Code zeigen).</li>
+      <li>Alle öffnen den Link auf ihrem eigenen Handy. Seidl meldet sich, ihre Sprachnachricht muss einmal bis zum Ende laufen.</li>
+      <li>Das erste Handy gibt den Teamnamen ein, danach trägt sich jeder mit seinem Vornamen ein.</li>
+      <li>Sind alle da, tippt einer auf „Team ist komplett“. Danach kann kein weiteres Handy mehr dazukommen. Falls doch jemand fehlt: im Spielleitungsbereich „Team wieder öffnen“.</li>
+      <li>Nach der Übertragung entsperren alle mit dem Code aus Seidls Nachricht (${esc(CONTENT.pin)}). Danach hören sie die vier Vernehmungen, dann kommt der erste Anruf.</li>
     </ol>
-    <div class="say">„Danke, dass Sie so schnell kommen konnten. Gestern Abend, kurz vor halb zehn, wurde Maximilian von Falkenried tot in seinem Archiv gefunden. Er hatte vier Gäste zum Adventsdinner eingeladen. Alle vier sagen, sie hätten nichts gesehen.<br><br>
-    Aus seinem Archiv fehlen Unterlagen. Wir glauben, es geht um etwas, das seit über fünfhundert Jahren verschwunden ist.<br><br>
-    Falkenried hat Spuren in der Stadt hinterlassen, und sein Handy ist voll davon. Uns fehlen die Leute, um ihnen nachzugehen. Das übernehmen jetzt Sie. Eines noch: Wenn sich jemand bei Ihnen meldet, der behauptet, helfen zu wollen … seien Sie vorsichtig.“</div>
-    <ol start="3">
-      <li>Jedem Spieler eine Asservatenkarte geben. Alle scannen den QR-Code und öffnen die App.</li>
-      <li>Den versiegelten Umschlag übergeben: „Das ist alles, was wir bisher haben.“</li>
-      <li>Wenn alle entsperrt haben, kommt der erste Anruf automatisch. Sonst über den Spielleitungsbereich auslösen.</li>
-    </ol>
-    <h3>Fragen des Teams</h3>
-    <table>
-      <tr><td>Darf gesagt werden</td><td>Fundzeit 21:25 Uhr, Fundort Archiv, Namen der Gäste, dass Unterlagen fehlen.</td></tr>
-      <tr><td>Nicht verraten</td><td>Wer es war, dass Notar Mair etwas verwahrt, wo die Kisten sind, wer „Unbekannt“ ist.</td></tr>
-      <tr><td>Ausweichsatz</td><td>„Dazu kann ich noch nichts sagen. Genau deshalb brauchen wir Sie.“</td></tr>
-    </table>
     <h3>Vor dem Start prüfen</h3>
-    <ul><li>Handys der Spieler geladen, Powerbank dabei</li><li>Spielstand in der App zurückgesetzt</li><li>Umschlag versiegelt: Polizeivermerk, Rechnung, weitere Kuverts</li><li>Kassette für das Finale bereit</li></ul>
+    <ul><li>Handys der Spieler geladen, Powerbank dabei, Ton an (Kopfhörer helfen in der Altstadt)</li><li>Spielstand in der App zurückgesetzt</li><li>Kassette für das Finale bereit, falls ihr sie als echtes Requisit nutzt</li></ul>
   </section>
 
   <section class="page">
@@ -1876,7 +1981,7 @@ async function loadTeamPhoto(){ if (!sb) return teamPhoto();
   try { const r = await sb.from("team_photos").select("data").eq("id", TEAM).maybeSingle(); if (r.data && r.data.data) { try { localStorage.setItem(PHOTO_KEY, r.data.data); } catch(e) {} return r.data.data; } } catch(e) {}
   return teamPhoto(); }
 function newsArticle(names, dateStr){
-  const team = names.length ? names.join(", ") : "die Ermittlungsgruppe 1475";
+  const team = (S.teamName ? teamLabel() + ": " : "") + (names.length ? names.join(", ") : "die Ermittlungsgruppe 1475");
   return `<article class="paper"><div class="mast">Landshuter Abendpost</div>
     <div class="meta"><span>Lokales</span><span>${dateStr}</span></div>
     <h2>Mordfall Falkenried aufgeklärt</h2>
@@ -1898,7 +2003,7 @@ function showEnding(){
       <p style="color:var(--muted);margin:0 0 12px">Ihr habt den Mord an Maximilian von Falkenried aufgeklärt und ein Erbe gerettet, das über 500 Jahre verborgen war.</p>
       <button class="btn primary" id="endPlay" style="max-width:320px;margin:0 auto 8px">▶ Glückwünsche von Seidl</button></div>
     <div class="nb" style="text-align:center;border:2px solid #c9a24a;box-shadow:none"><h3>Urkunde</h3>
-      Die Ermittlungsgruppe 1475<br><b style="font-size:20px">${esc(names.join(" · ") || "Ermittlungsgruppe 1475")}</b><br>hat den Fall Falkenried gelöst.
+      Die Ermittlungsgruppe 1475${S.teamName ? `<br>${esc(teamLabel())}` : ""}<br><b style="font-size:20px">${esc(names.join(" · ") || "Ermittlungsgruppe 1475")}</b><br>hat den Fall Falkenried gelöst.
       <div style="font-family:var(--font-ui);font-size:13px;margin-top:10px;color:#5a5244">${new Date().toLocaleDateString("de-DE",{ day:"numeric", month:"long", year:"numeric" })}${dur ? ` · Ermittlungszeit ${dur}` : ""} · ${tips ? `${tips} ${tips === 1 ? "Tipp" : "Tipps"} benutzt` : "ganz ohne Tipps"}</div>
       <span class="red" style="text-align:center">Martina Seidl, Ermittlungsleiterin</span></div>
     ${newsArticle(names, new Date().toLocaleDateString("de-DE",{ weekday:"long", day:"numeric", month:"long", year:"numeric" }))}
@@ -2025,17 +2130,17 @@ async function push(){
 function adoptRemote(state, ver, merging){
   const before = { stage:S.stage, resetAt:S.resetAt, rev:S.rev };
   if (state.resetAt && state.resetAt !== S.resetAt && state.resetAt > (S.resetAt || 0)) {
-    const keep = { introSeen:S.introSeen };
-    S = Object.assign(fresh(), clone(state), keep); S.unlocked = false;
+    S = Object.assign(fresh(), clone(state)); S.unlocked = false; S.introSeen = false; /* neue Runde: alle starten mit dem Intro */
     version = ver; base = clone(state); localSave();
     closeSheet(); closeWin(); const c = $("#call"); if (c) c.remove(); stopAudio();
-    S.introSeen ? renderLock() : renderIntro(); return;
+    renderIntro(); return;
   }
   const mine = sharedOf(S);
   const next = (merging && base) ? merge(state, mine, base) : clone(state);
   SHARED.forEach(k => { if (next[k] !== undefined) S[k] = next[k]; });
   ["revealed","apps","evidence","voicemails","notes","st","struck","hintsOpen","events","locks","devices","acks","mustSee"].forEach(k => { if (S[k] == null) S[k] = fresh()[k]; });
   version = ver; base = clone(state); localSave();
+  if (teamBlocked()) { closeSheet(); closeWin(); const c = $("#call"); if (c) c.remove(); S.unlocked = false; renderBlocked(); return; }
   if (!S.unlocked) return;
   processEvents();
   if (S.stage !== before.stage) {
@@ -2080,7 +2185,7 @@ function removeDevice(id){
   Object.values(S.locks || {}).forEach(L => { L.ids = (L.ids || []).filter(x => x !== id); });
   save(); openAdmin();
 }
-function heartbeat(){ S.devices = S.devices || {}; S.devices[DEV.id] = { name:DEV.name || "", seen:Date.now() }; save(); }
+function heartbeat(){ S.devices = S.devices || {}; const me = S.devices[DEV.id]; if ((me && me.removed) || teamBlocked()) return; S.devices[DEV.id] = { name:DEV.name || "", seen:Date.now() }; save(); }
 function activeDevices(){ const now = Date.now(); const d = Object.entries(S.devices || {}).filter(([id, v]) => !v.removed && now - (v.seen || 0) < 20 * 60000); if (!d.some(([id]) => id === DEV.id)) d.push([DEV.id, { name:DEV.name }]); return d; }
 const activeNames = () => activeDevices().map(([id, v]) => (v.name || "Handy") + (id === DEV.id ? " (du)" : ""));
 function askName(after){
@@ -2184,7 +2289,7 @@ function showCast(after){
     ${castRow("img/rosa_av.jpg", "Rosa Brandl, 58", "Haushälterin. War den ganzen Abend im Haus, Zeugin.")}
     ${castRow("img/seidl_av.jpg", "Martina Seidl, 52", "Kriminalhauptkommissarin, leitet die Ermittlung. Meldet sich per Sprachnachricht.")}
     ${castRow(null, "Unbekannt", "Ruft mit unterdrückter Nummer an. Wer das ist, wisst ihr nicht.")}
-    ${castRow(null, "Ihr", "Ermittlungsgruppe 1475. Ihr habt Falkenrieds Handy.")}
+    ${castRow(null, "Ihr", teamLabel() + ". Ihr habt das Abbild von Falkenrieds Handy.")}
     <p style="margin-top:12px">Diese Übersicht findet ihr jederzeit in „Verdächtige“.</p>
     <button class="btn primary" id="castOk">Verstanden</button>`);
   newsSeen("verdaechtige", ...visibleSuspects().map(p => p.id));
@@ -2515,6 +2620,6 @@ function tickMission(){
 setInterval(tickMission, 1000);
 
 /* Start */
-if (!S.introSeen) renderIntro(); else S.unlocked ? renderHome() : renderLock();
+if (teamBlocked()) renderBlocked(); else if (!S.introSeen) renderIntro(); else S.unlocked ? renderHome() : renderLock();
 syncInit().then(() => { if (S.unlocked) askName(() => processEvents()); });
 </script>
