@@ -420,9 +420,9 @@ const CONTENT = {
       "Er ist der höchste Backsteinturm der Welt und deutlich höher als 100 Meter.",
       "130 Meter." ] },
     S2: { title:"Landschaftshaus – Die Herzogswand", steps:[
-      "Die Wand ist wie ein Buch: drei Reihen mit je zehn Herzögen, von links oben nach rechts unten, nach Generationen geordnet.",
-      "Gründer: oben, Platz 2. Kaiser: der Einzige, der sitzt, oben Platz 4. Der Bräutigam: mittlere Reihe ganz rechts, mit dem polnischen Adler.",
-      "Der Richter steht in der mittleren Reihe auf Platz 7. Bezahlt hat der Vater des Bräutigams: mittlere Reihe, Platz 9." ] },
+      "Die Wand ist wie ein Buch: drei Reihen mit je zehn Herzögen, von links oben nach rechts unten, nach Generationen geordnet. Lest die Beschreibung unter jedem Foto.",
+      "Obere Reihe: der Erste auf 1, der Gründer auf 2, der Eifersüchtige auf 3, der Kaiser (sitzt) auf 4. Der Gegenspieler beginnt die untere Reihe.",
+      "Mittlere Reihe: Bauherr 6, Richter 7, Bräutigam 10. Bezahlt hat der Vater des Bräutigams auf Platz 9." ] },
     S3: { title:"Denkmal – Das Jahr auf dem Rücken", steps:[
       "Geht um den Sockel herum.",
       "M = 1000, D = 500, C = 100, L = 50, V = 5, I = 1.",
@@ -495,7 +495,7 @@ const CONTENT = {
   ],
   evidence: {
     E01:{ t:"Hochzeitsrechnung 1475", d:"Abschrift in Falkenrieds Tagebuch. Vermerk: Bezahlt hat nicht der Bräutigam." },
-    E03:{ t:"Notizen zur Fassade", d:"Gründer, Kaiser, Richter, Bräutigam: bezahlt hat Ludwig der Reiche. Ludwig X. begann seine Residenz erst 1536. Unter Heinrich dem Reichen begann 1407 der Bau der Heiliggeistkirche." },
+    E03:{ t:"Notizen zur Fassade", d:"Acht Herzöge der Wand und ihre Geschichten. Bezahlt hat Ludwig der Reiche. Ludwig X. begann seine Residenz erst 1536. Unter Heinrich dem Reichen begann 1407 der Bau der Heiliggeistkirche." },
     E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 2, 5 und 7: Rubinbrosche, zehn goldene Taler, Familiensiegel mit dem W der Wittelsbacher. Falkenried notierte daneben: „Hochzeitsgaben, Kiste A, B, C“." },
     E06:{ t:"Verwahrvermerk Notariat Mair", d:"„Notariat Mair – Verwahrung“. Inhalt geschwärzt." },
     E07:{ t:"Preisnotizen „CW“", d:"Bleistift am Rand von H-1475: „CW: 40.000?“" },
@@ -521,7 +521,7 @@ const CONTENT = {
   diary: [
     { date:"Sonntag, 2. November 2026", html:"Neuburg an der Donau, Kirchenbücher. Zwei Tage zwischen Staub und Latein. Im Jahr 1504 ein Eintrag, der nicht zu den anderen passt: ein Kindername, durchgestrichen, daneben eine andere Hand.<br><br>Und heute habe ich gefunden, wonach ich seit Jahren suche.<span class=\"red\">Bester Tag meines Lebens. Mehr schreibe ich nicht, nicht einmal hier.</span>" },
     { date:"Freitag, 28. November 2026", html:"Jemand war an meinem Schreibtisch. Die Mappe lag anders, als ich sie hingelegt hatte, und im Archivprogramm war eine Datei geöffnet, die ich seit Wochen nicht angefasst habe.<br><br>Wer hat einen Schlüssel? Zu viele." },
-    { date:"Mittwoch, 10. Dezember 2026", fk:"fassade", html:"Lange vor dem Haus der Landstände gestanden. Drei Reihen, dreißig Herzöge. Vier Fotos, fest eingeklebt. Was ich darauf gefunden habe, schreibe ich nicht offen hin:<div class=\"glued\"><span class=\"ph\">Foto 1: ein Herzog, ganz oben</span></div><div class=\"glued\"><span class=\"ph\">Foto 2: einer auf einem Thron</span></div><div class=\"glued\"><span class=\"ph\">Foto 3: ein strenger Herzog</span></div><div class=\"glued\"><span class=\"ph\">Foto 4: zwei Wappen zu seinen Füßen</span></div>" },
+    { date:"Mittwoch, 10. Dezember 2026", fk:"fassade", html:"Lange vor dem Haus der Landstände gestanden. Drei Reihen, dreißig Herzöge. Acht Fotos, fest eingeklebt. Was ich darauf gefunden habe, schreibe ich nicht offen hin:<div class=\"glued\"><span class=\"ph\">Acht Detailfotos von der Wand, kreuz und quer eingeklebt</span></div>" },
     { date:"Freitag, 12. Dezember 2026", html:"Tobias war wieder da. Mein Neffe hat wieder nach Geld gefragt.<span class=\"red\">Nein.</span>" },
     { date:"Donnerstag, 18. Dezember 2026", start:true, html:"Für den, der das hier liest.<br><br>In Sankt Martin hat Georg 1475 seine Hedwig geheiratet. Hier meine Abschrift der Hochzeitsrechnung:<table style=\"margin-top:8px\"><tr><td>Ochsen</td><td>323</td></tr><tr><td>Schweine</td><td>285</td></tr><tr><td>Ungarische Schafe</td><td>1.133</td></tr><tr><td>Gänse</td><td>11.500</td></tr><tr><td>Hühner</td><td>40.000</td></tr><tr><td>Eier</td><td>194.345</td></tr></table><span class=\"red\">Bezahlt hat nicht der Bräutigam.</span><br>Wer es war, das steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit." },
     { date:"Samstag, 19. Dezember 2026, morgens", html:"Heute Abend sage ich es allen. Die Gäste kommen um sieben. Nach dem Dessert.<br><br>Es gehört nicht mir. Es gehört dieser Stadt.<span class=\"red\">Und wenn mir etwas zustößt: Notar Mair weiß, was zu tun ist.</span>" }
@@ -1522,7 +1522,7 @@ const MOCK = (label) => `<span class="ph">Platzhalter: ${esc(label)}</span>`;
 function addEv(...ids){ ids.forEach(id => { if (!S.evidence.includes(id)) S.evidence.push(id); }); save(); }
 function addNote(id){ if (!S.notes.includes(id)) S.notes.push(id); save(); }
 const NOTES = {
-  fassade:{ title:"Notizen zur Fassade", html:"<b>Der Gründer</b>, 1204. <b>Der Kaiser</b>, der als Einziger sitzen darf. <b>Der Richter</b>, der eine Frau ertränken ließ, weil sie nicht ins Erbe passte. <b>Der Bräutigam</b>, zu seinen Füßen der Adler der Braut. Bezahlt hat der links neben ihm: sein Vater, Ludwig.<br><br><b>Der Bauherr von gegenüber.</b> Erst 1536 begann er seine Residenz. Vorher stand dort nichts, was ein Herzog bewohnt hätte.<span class=\"red\">Unter Heinrich, dem Ältesten der drei Reichen, begann 1407 der Bau einer zweiten großen Kirche: Heiliggeist.<br><br><b>Ludwig</b> steht noch einmal in dieser Stadt, aus Bronze, dort, wo die Dreifaltigkeit wacht.</span>" }
+  fassade:{ title:"Notizen zur Fassade", html:"Der Erste, der Gründer, der Eifersüchtige, der Kaiser, der Bauherr, der Richter, der Bräutigam, der Gegenspieler. Eine Familie voller Macht, Mord und Erbe. Bezahlt hat die Hochzeit Ludwig, der Vater des Bräutigams.<br><br><b>Der Bauherr von gegenüber.</b> Erst 1536 begann er seine Residenz. Vorher stand dort nichts, was ein Herzog bewohnt hätte.<span class=\"red\">Unter Heinrich, dem Ältesten der drei Reichen, begann 1407 der Bau einer zweiten großen Kirche: Heiliggeist.<br><br><b>Ludwig</b> steht noch einmal in dieser Stadt, aus Bronze, dort, wo die Dreifaltigkeit wacht.</span>" }
 };
 function toast(msg){ banner("Falkenrieds Handy", msg, () => {}); }
 function newVoice(id){
@@ -1559,14 +1559,22 @@ function done(msg, from){ if (from && S.stage !== from) return; advance(from); c
 /* Station 2: Figuren der Herzogswand finden, jede mit ihrer Geschichte. Danach: Wer hat die Hochzeit bezahlt?
    Positionen laut Landshuter Gästeführern (obere Reihe Otto I. … Otto V., mittlere Stephan III. … Georg). Vor Ort noch einmal prüfen. */
 const FACADE_TARGETS = [
-  { id:"gruender", pos:"O2", title:"Der Gründer", img:"img/fassade_gruender.jpg", look:"Oben links, gleich neben dem allerersten Herzog der Familie.",
+  { id:"otto", name:"Otto I. von Wittelsbach", pos:"O1", title:"Der Erste", look:"Ganz oben links. Mit ihm beginnt die Wand.",
+    story:"Otto I. von Wittelsbach. 1180 bekam er Bayern vom Kaiser. Damit begann eine Familie, die über 700 Jahre lang regierte, bis 1918." },
+  { id:"gruender", name:"Ludwig der Kelheimer", pos:"O2", title:"Der Gründer", look:"Oben, gleich neben dem Ersten.",
     story:"Ludwig der Kelheimer. Er gründete 1204 die Stadt Landshut, baute die Burg über der Isar und ließ eine Brücke über den Fluss schlagen. Ohne ihn gäbe es diese Wand nicht." },
-  { id:"kaiser", pos:"O4", title:"Der Kaiser", img:"img/fassade_kaiser.jpg", look:"Der Einzige auf der ganzen Wand, der sitzt. In der Hand den Reichsapfel.",
+  { id:"strenge", name:"Ludwig der Strenge", pos:"O3", title:"Der Eifersüchtige", look:"Oben, direkt rechts neben dem Gründer.",
+    story:"Ludwig der Strenge. 1256 ließ er seine eigene Frau Maria von Brabant hinrichten, weil er sie für untreu hielt. Sie war unschuldig. Seinen Beinamen hat er nicht umsonst." },
+  { id:"kaiser", name:"Ludwig der Bayer", pos:"O4", title:"Der Kaiser", look:"Der Einzige auf der ganzen Wand, der sitzt. In der Hand den Reichsapfel.",
     story:"Ludwig der Bayer. 1328 wurde er in Rom zum Kaiser gekrönt, als einziger Wittelsbacher des Mittelalters. Darum thront er hier, während alle anderen stehen." },
-  { id:"ernst", pos:"M7", title:"Der Richter", img:"img/fassade_ernst.jpg", look:"Mittlere Reihe. Rechts neben ihm steht sein eigener Sohn.",
+  { id:"heinrich", name:"Heinrich der Reiche", pos:"M6", title:"Der Bauherr", look:"Mittlere Reihe. Der erste der drei Reichen, Großvater des Bräutigams.",
+    story:"Heinrich der Reiche. Unter ihm begann 1407 der Bau einer zweiten großen Kirche in der Altstadt, der Heiliggeistkirche. Merkt sie euch." },
+  { id:"ernst", name:"Herzog Ernst", pos:"M7", title:"Der Richter", look:"Mittlere Reihe, gleich rechts neben dem Bauherrn. Rechts neben ihm steht sein eigener Sohn.",
     story:"Herzog Ernst. Sein Sohn Albrecht hatte heimlich Agnes Bernauer geheiratet, die Tochter eines Baders aus Augsburg. Für den Vater war das eine Schande. 1435 ließ er Agnes als Hexe verurteilen und in Straubing in der Donau ertränken. Auch in dieser Familie wurde schon für ein Erbe gemordet." },
-  { id:"braeutigam", pos:"M10", title:"Der Bräutigam", img:"img/fassade_georg.jpg", look:"Zu seinen Füßen zwei Wappen, eines davon mit einem weißen Adler unter einer Krone.",
-    story:"Georg der Reiche. 1475 heiratete er hier in Landshut die polnische Königstochter Hedwig. Der weiße Adler zu seinen Füßen ist ihr Wappen. Die Landshuter Hochzeit wurde eines der größten Feste des Mittelalters." }
+  { id:"braeutigam", name:"Georg der Reiche", pos:"M10", title:"Der Bräutigam", look:"Zu seinen Füßen zwei Wappen, eines davon mit einem weißen Adler unter einer Krone.",
+    story:"Georg der Reiche. 1475 heiratete er hier in Landshut die polnische Königstochter Hedwig. Der weiße Adler zu seinen Füßen ist ihr Wappen. Die Landshuter Hochzeit wurde eines der größten Feste des Mittelalters." },
+  { id:"albrecht", name:"Albrecht der Weise", pos:"U1", title:"Der Gegenspieler", look:"Untere Reihe, ganz links. Mit ihm beginnt eine neue Zeile.",
+    story:"Albrecht der Weise aus München. Nach Georgs Tod führte er Krieg um Landshut, gegen Georgs eigene Tochter. Und er gewann. Warum, erfahrt ihr bald." }
 ];
 function facadeGrid(){
   const rows = [["O","obere Reihe"],["M","mittlere Reihe"],["U","untere Reihe"]];
@@ -1590,7 +1598,7 @@ PUZZLE_2 = function(){
     if (!guard(lk)) return;
     if (cur) {
       if (pos === cur.pos) { right(lk); st.found.push(cur.id); save(); b.classList.add("right");
-        setTimeout(() => { sheet(`<div class="kind">Gefunden · ${esc(cur.title)}</div><h2>${esc(cur.story.split(".")[0])}</h2><p>${esc(cur.story.split(".").slice(1).join(".").trim())}</p><button class="btn primary" data-close id="fNext">${st.found.length < FACADE_TARGETS.length ? "Nächstes Foto" : "Weiter"}</button>`);
+        setTimeout(() => { sheet(`<div class="kind">Gefunden · ${esc(cur.title)}</div><h2>${esc(cur.name)}</h2><p>${esc(cur.story.startsWith(cur.name) ? cur.story.slice(cur.name.length).replace(/^[.\s]+/, "") : cur.story)}</p><button class="btn primary" data-close id="fNext">${st.found.length < FACADE_TARGETS.length ? "Nächstes Foto" : "Weiter"}</button>`);
           $("#fNext").onclick = () => setTimeout(PUZZLE_2, 50); }, 500); }
       else { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); msg.textContent = "Dort ist sie nicht. Schaut noch einmal an der Wand."; wrong(lk); }
       return;
@@ -1598,7 +1606,7 @@ PUZZLE_2 = function(){
     if (pos === "M9") { if (S.apps.includes("fotos")) return; right(lk); b.classList.add("right"); S.apps.push("fotos"); addNote("fassade"); addEv("E03");
       setTimeout(() => { sheet(`<div class="kind">Der Mann, der bezahlt hat</div><h2>Ludwig der Reiche</h2><p>Georgs Vater, Herzog Ludwig IX. Er bezahlte die Landshuter Hochzeit: Wochenlang wurden tausende Gäste bewirtet, die ganze Stadt aß mit. Daher sein Beiname, der Reiche.</p><p>Ihr löst die Fotos aus dem Notizbuch. Auf der Rückseite hat Falkenried etwas notiert.</p><button class="btn primary" data-close id="fEnd">Rückseite lesen</button>`);
         $("#fEnd").onclick = () => { if (S.stage !== 2) return; done(null, 2); setTimeout(() => { nbPage = null; openNotebook(false, "fassade"); }, 100); fireWhenFree("N01", 6000); }; }, 600); }
-    else if (pos === "M6") { msg.textContent = "Der Älteste der drei Reichen ist am leichtesten zu finden, aber er ist nicht der Vater des Bräutigams."; wrong(lk); }
+    else if (pos === "M6") { msg.textContent = "Heinrich kennt ihr schon: Er ist der Großvater. Gesucht ist der Vater des Bräutigams."; wrong(lk); }
     else { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); msg.textContent = "Das ist nicht der Vater. Wo steht der Bräutigam, und wer steht links neben ihm?"; wrong(lk); }
   };
 };
@@ -2049,7 +2057,7 @@ function showEnding(){
     Die Stimme am Telefon war <b>Dr. Helena Dorn</b>. Sie brauchte euch, um an die Kassette zu kommen. Verraten hat sie sich am Telefon: Sie kannte Uhrzeit und Karte, bevor beides bekannt war.
     <span class="red">Das Erbe geht zurück nach Landshut.</span></div>
     <div class="sec">Was war echt?</div>
-    <div class="hint"><p style="margin:0">Echt: die Gründung Landshuts 1204, Kaiser Ludwig der Bayer, das Schicksal der Agnes Bernauer 1435, die Landshuter Hochzeit 1475, die Hochzeitsrechnung, die Fassade des Landschaftshauses, das Denkmal von 1858, Georgs Tod 1503, Elisabeth und der Landshuter Erbfolgekrieg, die Stadtresidenz ab 1536, der Turm von St. Martin, der Baubeginn von Heiliggeist 1407, der Kölner Spruch von 1505, Elisabeths vier Söhne und die drei Helme im Wappen.</p>
+    <div class="hint"><p style="margin:0">Echt: alle Herzöge der Wand und ihre Geschichten (Otto I. 1180, Gründung Landshuts 1204, Maria von Brabant 1256, Kaiser Ludwig der Bayer, Agnes Bernauer 1435), die Landshuter Hochzeit 1475, die Hochzeitsrechnung, die Fassade des Landschaftshauses, das Denkmal von 1858, Georgs Tod 1503, Elisabeth und der Landshuter Erbfolgekrieg, die Stadtresidenz ab 1536, der Turm von St. Martin, der Baubeginn von Heiliggeist 1407, der Kölner Spruch von 1505, Elisabeths vier Söhne und die drei Helme im Wappen.</p>
     <p>Erfunden: Falkenried und alle Figuren, der Mord, die drei Kisten, dass Elisabeths Sohn Georg 1504 überlebt hat, jede Abstammung davon, die Sage vom Ritter am Ländtor.</p></div>`);
   const b = $("#endPlay");
   const play = () => { if (curAudio && !curAudio.paused) { stopAudio(); b.textContent = "▶ Glückwünsche von Seidl"; return; }
