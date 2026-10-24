@@ -280,7 +280,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .ddots button i{width:10px;height:10px;border-radius:50%;background:var(--line);display:block}
 .ddots button i.rd{background:#6fbf8a}.ddots button i.nw{background:var(--decline)}.ddots button i.on{background:var(--amber);box-shadow:0 0 0 3px #e3a54840}
 .dread{text-align:center;font-size:12px;color:var(--muted);margin-top:6px}.seenmark{color:#6fbf8a;font-size:12px;font-weight:600;margin-left:8px;font-family:var(--font-ui)}
-.mission .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mission .acts button{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:10px 8px!important}.mission .acts .wide,.mission .acts .tip{grid-column:1/-1}
+.mission .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mission .acts button{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:10px 8px!important}.mission .acts .wide,.mission .acts .tip:not(.half){grid-column:1/-1}
 .mission .acts button{padding:8px 12px;border-radius:10px;background:var(--surface-2);font-size:13px;font-weight:600}
 .mission .acts button.tip{background:transparent;color:var(--amber);border:1px solid #e3a54855;padding:7px 8px!important;font-weight:600}
 .mission .acts button.go{background:var(--amber);color:#1b1408}
@@ -928,9 +928,9 @@ function missionCard(){
       ${newsBar()}<div class="clue">„${esc(st.clue)}“</div>${st.src ? `<div class="place" style="margin-top:-4px">– ${esc(st.src)}</div>` : ""}
       ${shown ? `<div class="place">Ziel: <b>${esc(st.name)}</b> · ${esc(st.spot)}</div>` : ""}
       <div class="acts">
+        <button class="tip half" data-mact="hint">💡 Tipp</button>
         ${shown ? `<button data-mact="map">🗺 Karte</button>` : `<button data-mact="reveal" id="revealBtn">${revealLabel()}</button>`}
-        <button class="go" data-mact="arrive" id="arriveBtn">${arriveLabel()}</button>
-        <button class="tip" data-mact="hint">💡 Tipp: Wo ist das?</button>
+        <button class="go wide" data-mact="arrive" id="arriveBtn">${arriveLabel()}</button>
       </div><div class="place" id="geoTxt">${esc(geoText())}</div></section>`;
   }
   return `<section class="mission" aria-label="Aktueller Auftrag">
