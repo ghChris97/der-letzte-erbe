@@ -1002,6 +1002,8 @@ function openNotebook(first, jumpReq){
         <button id="dNext" ${nbPage === pages.length - 1 ? "disabled" : ""} aria-label="Nächste Seite">später ›</button></div>
       <div class="dread">${(() => { const left = pages.filter(x => isNew("notizen", x.key)).length; return left ? `<b style="color:#ff8a8a">${left} ${left === 1 ? "Seite" : "Seiten"} noch ungelesen</b> · rote Punkte` : "✓ Alle Seiten gelesen"; })()}</div>
     </div>`);
+  document.querySelectorAll("#dpage .glued img").forEach(im => { im.style.cursor = "zoom-in"; im.onclick = () => sheet(`<div class="kind">Eingeklebtes Foto</div><img src="${im.getAttribute("src")}" alt="" style="width:100%;border-radius:10px;display:block"><p style="margin-top:8px;font-size:13px">Tipp: Bild mit zwei Fingern vergrößern.</p><button class="btn" data-close>Schließen</button>`); });
+  const gl = document.querySelector("#dpage .glued img"); if (gl) gl.parentElement.style.maxWidth = "100%";
   if (jumpReq === "fassade" && $("#rueck")) setTimeout(() => { const r = $("#rueck"); if (r) r.scrollIntoView({ block:"start", behavior:"smooth" }); }, 400);
   const go = dir => { const n = nbPage + dir; if (n < 0 || n >= pages.length) return; nbPage = n; openNotebook(false); const pg = $("#dpage"); if (pg) pg.classList.add(dir > 0 ? "inR" : "inL"); };
   $("#dPrev").onclick = () => go(-1); $("#dNext").onclick = () => go(1);
