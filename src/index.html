@@ -279,9 +279,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .ddots button i{width:10px;height:10px;border-radius:50%;background:var(--line);display:block}
 .ddots button i.rd{background:#6fbf8a}.ddots button i.nw{background:var(--decline)}.ddots button i.on{background:var(--amber);box-shadow:0 0 0 3px #e3a54840}
 .dread{text-align:center;font-size:12px;color:var(--muted);margin-top:6px}.seenmark{color:#6fbf8a;font-size:12px;font-weight:600;margin-left:8px;font-family:var(--font-ui)}
-.mission .acts{display:flex;flex-wrap:wrap;gap:8px}
+.mission .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mission .acts button{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:10px 8px!important}.mission .acts .wide,.mission .acts .tip{grid-column:1/-1}
 .mission .acts button{padding:8px 12px;border-radius:10px;background:var(--surface-2);font-size:13px;font-weight:600}
-.mission .acts button.tip{margin-left:auto;background:#e3a5481f;color:var(--amber)}
+.mission .acts button.tip{background:transparent;color:var(--amber);border:1px solid #e3a54855;padding:7px 8px!important;font-weight:600}
 .mission .acts button.go{background:var(--amber);color:#1b1408}
 .mission .acts button.go.off{background:var(--surface-2);color:var(--muted)}
 .mission .acts button:disabled{opacity:.6}
@@ -455,6 +455,8 @@ const CONTENT = {
     mail:    { kind:"Verschlüsselt", text:"Ein Postfach mit einer einzigen ungelesenen Nachricht. Ihr Inhalt ist verschlüsselt." },
     tresor:  { kind:"Name", text:"Eine Verbindung zu einer Kassette. Das Schloss verlangt einen Namen." }
   },
+  /* Ortstipps für unterwegs, vom vagen zum deutlichen Hinweis */
+  where: {"1": ["Der höchste Kirchturm der Stadt. Ihr seht ihn fast von überall in der Altstadt.", "Die große Backsteinkirche St. Martin am südlichen Ende der Altstadt."], "2": ["Eine Hausfassade in der Altstadt, über und über mit Figuren bemalt.", "Die Straße heißt Altstadt, Hausnummer 28. Nur ein paar Schritte von St. Martin."], "3": ["Ein Herzog aus Bronze auf einem hohen Sockel, auf einem Platz.", "Der Dreifaltigkeitsplatz, gleich südwestlich von St. Martin, Richtung Burg."], "4": ["Hier hält die Stadt seit Jahrhunderten ihren Rat. Über dem Eingang hängen Uhr und Stadtwappen.", "Das Rathaus, mitten in der Straße Altstadt."], "5": ["Ihr müsst nicht weit: Dreht euch vor dem Rathaus einfach um.", "Die Stadtresidenz, direkt gegenüber dem Rathaus."], "6": ["Die zweite große Kirche der Altstadt. Ihr Turm ist kleiner als der von St. Martin.", "Die Heiliggeistkirche am nördlichen Ende der Altstadt."], "7": ["Ein altes Stadttor zur Isar hin, über dem Torbogen hängt ein Wappen.", "Das Ländtor, am Ende der Ländgasse, westlich der Altstadt."], "8": ["Eine große Wiese am Rand der Altstadt. Im Advent steht dort der Christkindlmarkt.", "Die Ringelstecherwiese, westlich der Altstadt zur Isar hin."]},
   /* Stationen. phase "go" = unterwegs (Hinweis), "task" = vor Ort (Aufgabe). */
   stations: [
     { id:1, name:"St. Martin", spot:"Vor dem Turm von St. Martin", lat:48.534237, lng:12.151014,
@@ -518,7 +520,7 @@ const CONTENT = {
   diary: [
     { date:"Sonntag, 2. November 2026", html:"Neuburg an der Donau, Kirchenbücher. Zwei Tage zwischen Staub und Latein. Im Jahr 1504 ein Eintrag, der nicht zu den anderen passt: ein Kindername, durchgestrichen, daneben eine andere Hand.<br><br>Und heute habe ich gefunden, wonach ich seit Jahren suche.<span class=\"red\">Bester Tag meines Lebens. Mehr schreibe ich nicht, nicht einmal hier.</span>" },
     { date:"Freitag, 28. November 2026", html:"Jemand war an meinem Schreibtisch. Die Mappe lag anders, als ich sie hingelegt hatte, und im Archivprogramm war eine Datei geöffnet, die ich seit Wochen nicht angefasst habe.<br><br>Wer hat einen Schlüssel? Zu viele." },
-    { date:"Mittwoch, 10. Dezember 2026", req:"fassade", html:"Lange vor dem Haus der Landstände gestanden. Drei Reihen, dreißig Herzöge. Meine Fotos:<div class=\"glued\"><span class=\"ph\">Foto 1: weißer Adler unter einer Krone</span></div><div class=\"glued\"><span class=\"ph\">Foto 2: Hand mit Reichsapfel</span></div><div class=\"glued\"><span class=\"ph\">Foto 3: Detail einer Figur in der unteren Reihe</span></div>" },
+    { date:"Mittwoch, 10. Dezember 2026", fk:"fassade", html:"Lange vor dem Haus der Landstände gestanden. Drei Reihen, dreißig Herzöge. Meine Fotos, fest eingeklebt. Was ich darauf gefunden habe, schreibe ich nicht offen hin:<div class=\"glued\"><span class=\"ph\">Foto 1: weißer Adler unter einer Krone</span></div><div class=\"glued\"><span class=\"ph\">Foto 2: Hand mit Reichsapfel</span></div><div class=\"glued\"><span class=\"ph\">Foto 3: Detail einer Figur in der unteren Reihe</span></div>" },
     { date:"Freitag, 12. Dezember 2026", html:"Tobias war wieder da. Mein Neffe hat wieder nach Geld gefragt.<span class=\"red\">Nein.</span>" },
     { date:"Donnerstag, 18. Dezember 2026", start:true, html:"Für den, der das hier liest.<br><br>In Sankt Martin hat Georg 1475 seine Hedwig geheiratet. Hier meine Abschrift der Hochzeitsrechnung:<table style=\"margin-top:8px\"><tr><td>Ochsen</td><td>323</td></tr><tr><td>Schweine</td><td>285</td></tr><tr><td>Ungarische Schafe</td><td>1.133</td></tr><tr><td>Gänse</td><td>11.500</td></tr><tr><td>Hühner</td><td>40.000</td></tr><tr><td>Eier</td><td>194.345</td></tr></table><span class=\"red\">Bezahlt hat nicht der Bräutigam.</span><br>Wer es war, das steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit." },
     { date:"Samstag, 19. Dezember 2026, morgens", html:"Heute Abend sage ich es allen. Die Gäste kommen um sieben. Nach dem Dessert.<br><br>Es gehört nicht mir. Es gehört dieser Stadt.<span class=\"red\">Und wenn mir etwas zustößt: Notar Mair weiß, was zu tun ist.</span>" }
@@ -549,7 +551,7 @@ try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(fresh(),
 let PUZZLE_2, PUZZLE_3, PUZZLE_4, PUZZLE_5, PUZZLE_6, PUZZLE_7, PUZZLE_8;
 const PUZZLE = { 1:() => openFaceLock(), 2:() => PUZZLE_2(), 3:() => PUZZLE_3(), 4:() => PUZZLE_4(), 5:() => PUZZLE_5(), 6:() => PUZZLE_6(), 7:() => PUZZLE_7(), 8:() => PUZZLE_8() };
 const AFTER_CALL = {};
-const APP_VIEW = { notizen:() => { if (diaryPages().some(d => isNew("notizen", d.date))) nbPage = null; openNotebook(); }, tresor:() => (S.ending ? showEnding() : tresor()) };
+const APP_VIEW = { notizen:() => { if (diaryPages().some(d => isNew("notizen", d.key))) nbPage = null; openNotebook(); }, tresor:() => (S.ending ? showEnding() : tresor()) };
 const localSave = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} };
 const save = () => { localSave(); schedulePush(); };
 
@@ -875,7 +877,16 @@ function openHints(){
   const key = "S"+S.stage, H = CONTENT.hints[key], open = S.hintsOpen[key] || 0;
   const st = curStation();
   let html;
-  if (S.phase === "go") html = `<div class="hint"><h3>Unterwegs zu Station ${st.id}</h3><p>Erst selbst überlegen: Wohin führt die Spur? Nach ${st.revealMin || 5} Minuten könnt ihr euch im Auftrag oben auf dem Homescreen den Ort zeigen lassen, die Karte führt euch dann hin.</p><p>„Wir sind da“ funktioniert erst, wenn ihr wirklich vor Ort seid, im Umkreis von etwa 50 Metern.</p></div>`;
+  if (S.phase === "go") {
+    const gk = "G" + st.id, W = CONTENT.where[st.id] || [], gOpen = S.hintsOpen[gk] || 0;
+    html = `<div class="hint"><h3>Wo ist das? · Station ${st.id}</h3><p style="font-style:italic">„${esc(st.clue || "")}“</p>
+      ${W.slice(0, gOpen).map((t, i) => `<p><b>Ortstipp ${i + 1}:</b> ${esc(t)}</p>`).join("")}
+      ${gOpen < W.length ? `<button id="moreG">${gOpen ? "Deutlicheren Ortstipp zeigen" : "Ersten Ortstipp zeigen"}</button>` : `<p style="color:var(--muted)">${S.revealed[st.id] ? "Der Ort ist im Auftrag aufgedeckt, die Karte führt euch hin." : `Reicht das nicht? Nach ${st.revealMin || 5} Minuten könnt ihr den Ort im Auftrag aufdecken.`}</p>`}</div>
+      <p class="empty" style="text-align:left;padding:4px 2px">„Wir sind da“ klappt erst vor Ort, im Umkreis von etwa 50 Metern.</p>`;
+    openWin("Tipps", html);
+    const mg = $("#moreG"); if (mg) mg.onclick = () => { S.hintsOpen[gk] = gOpen + 1; save(); openHints(); };
+    return;
+  }
   else if (!H) html = `<div class="empty">Für diese Station gibt es noch keine Hinweise.</div>`;
   else html = `<div class="hint"><h3>${esc(H.title)}</h3>
     ${H.steps.slice(0,open).map((t,i)=>`<p><b>Hinweis ${i+1}:</b> ${esc(t)}</p>`).join("")}
@@ -899,15 +910,15 @@ function missionCard(){
       ${newsBar()}<div class="clue">„${esc(st.clue)}“</div>${st.src ? `<div class="place" style="margin-top:-4px">– ${esc(st.src)}</div>` : ""}
       ${shown ? `<div class="place">Ziel: <b>${esc(st.name)}</b> · ${esc(st.spot)}</div>` : ""}
       <div class="acts">
-        ${shown ? `<button data-mact="map">Auf der Karte zeigen</button>` : `<button data-mact="reveal" id="revealBtn">${revealLabel()}</button>`}
+        ${shown ? `<button data-mact="map">🗺 Karte</button>` : `<button data-mact="reveal" id="revealBtn">${revealLabel()}</button>`}
         <button class="go" data-mact="arrive" id="arriveBtn">${arriveLabel()}</button>
-        <button class="tip" data-mact="hint">💡 Tipp</button>
+        <button class="tip" data-mact="hint">💡 Tipp: Wo ist das?</button>
       </div><div class="place" id="geoTxt">${esc(geoText())}</div></section>`;
   }
   return `<section class="mission" aria-label="Aktueller Auftrag">
     <div class="k"><span>Auftrag · ${esc(st.name)}</span><span>Station ${st.id} von 8</span></div>
     ${newsBar()}<div class="tx">${esc(S.ending ? "Fall abgeschlossen. Danke, Ermittler." : (st.id === 8 && S.st.accused ? "Mair hat euch die Kassette übergeben. Hört Falkenrieds letzte Nachricht in der Mailbox. Dann öffnet den Tresor." : st.task))}</div>
-    ${S.ending ? `<div class="acts"><button class="go" data-mact="ending">Auflösung ansehen</button></div>` : `<div class="acts"><button class="go" data-mact="action">${esc(st.id === 8 && S.st.accused ? "Tresor öffnen" : st.action)}</button><button class="tip" data-mact="hint">💡 Tipp</button></div>`}
+    ${S.ending ? `<div class="acts"><button class="go wide" data-mact="ending">Auflösung ansehen</button></div>` : `<div class="acts"><button class="go wide" data-mact="action">${esc(st.id === 8 && S.st.accused ? "Tresor öffnen" : st.action)}</button><button class="tip" data-mact="hint">💡 Tipp zum Rätsel</button></div>`}
   </section>`;
 }
 document.addEventListener("click", e => {
@@ -955,13 +966,15 @@ function openFaceLock(){
   };
 }
 let nbPage = null;
-function diaryPages(){ return CONTENT.diary.filter(d => !d.req || S.notes.includes(d.req)).map(d => d.req === "fassade" ? Object.assign({}, d, { html: d.html + "<br><br>" + NOTES.fassade.html }) : d); }
+/* Die Fotoseite ist von Anfang an da. Nach Station 2 lösen die Spieler die Fotos ab: Auf der Rückseite stehen Falkenrieds Notizen. */
+function diaryPages(){ return CONTENT.diary.filter(d => !d.req || S.notes.includes(d.req)).map(d => (d.fk === "fassade" && S.notes.includes("fassade"))
+  ? Object.assign({}, d, { key:d.date + " · Rückseite", html: d.html + "<br><br><b id=\"rueck\">Auf der Rückseite der Fotos:</b><br>" + NOTES.fassade.html }) : Object.assign({}, d, { key:d.date })); }
 function openNotebook(first, jumpReq){
   const pages = diaryPages();
-  if (jumpReq) nbPage = pages.findIndex(d => d.req === jumpReq);
-  else if (nbPage === null && pages.some(d => isNew("notizen", d.date))) nbPage = pages.findIndex(d => isNew("notizen", d.date));
+  if (jumpReq) nbPage = pages.findIndex(d => d.req === jumpReq || d.fk === jumpReq);
+  else if (nbPage === null && pages.some(d => isNew("notizen", d.key))) nbPage = pages.findIndex(d => isNew("notizen", d.key));
   if (nbPage === null || nbPage < 0 || nbPage >= pages.length) nbPage = Math.max(0, pages.findIndex(d => d.start));
-  const d = pages[nbPage]; const unseenNb = pages.map(x => isNew("notizen", x.date)); newsSeen("notizen", d.date);
+  const d = pages[nbPage]; const unseenNb = pages.map(x => isNew("notizen", x.key)); newsSeen("notizen", d.key);
   openWin("Notizen", `${first ? `<div class="target"><div class="t">Entsperrt</div><div class="s">Falkenrieds Tagebuch ist offen. Blättert durch, darin steht, wohin es weitergeht.</div></div>` : ""}
     <div class="diary" id="diary">
       <div class="dpage" id="dpage"><div class="ddate">${esc(d.date)}${unseenNb[nbPage] ? '<b class="neuR">NEU</b>' : '<span class="seenmark">✓ gelesen</span>'}</div><div class="dtext">${d.html}</div>
@@ -969,8 +982,9 @@ function openNotebook(first, jumpReq){
       <div class="dnav"><button id="dPrev" ${nbPage === 0 ? "disabled" : ""} aria-label="Vorherige Seite">‹ früher</button>
         <span class="ddots">${pages.map((p, i) => `<button data-pg="${i}" aria-label="Seite ${i + 1}${unseenNb[i] && i !== nbPage ? ", neu" : ", gelesen"}"><i class="${i === nbPage ? "on" : unseenNb[i] ? "nw" : "rd"}"></i></button>`).join("")}</span>
         <button id="dNext" ${nbPage === pages.length - 1 ? "disabled" : ""} aria-label="Nächste Seite">später ›</button></div>
-      <div class="dread">${(() => { const left = pages.filter(x => isNew("notizen", x.date)).length; return left ? `<b style="color:#ff8a8a">${left} ${left === 1 ? "Seite" : "Seiten"} noch ungelesen</b> · rote Punkte` : "✓ Alle Seiten gelesen"; })()}</div>
+      <div class="dread">${(() => { const left = pages.filter(x => isNew("notizen", x.key)).length; return left ? `<b style="color:#ff8a8a">${left} ${left === 1 ? "Seite" : "Seiten"} noch ungelesen</b> · rote Punkte` : "✓ Alle Seiten gelesen"; })()}</div>
     </div>`);
+  if (jumpReq === "fassade" && $("#rueck")) setTimeout(() => { const r = $("#rueck"); if (r) r.scrollIntoView({ block:"start", behavior:"smooth" }); }, 400);
   const go = dir => { const n = nbPage + dir; if (n < 0 || n >= pages.length) return; nbPage = n; openNotebook(false); const pg = $("#dpage"); if (pg) pg.classList.add(dir > 0 ? "inR" : "inL"); };
   $("#dPrev").onclick = () => go(-1); $("#dNext").onclick = () => go(1);
   document.querySelectorAll("[data-pg]").forEach(b => b.onclick = () => { const n = +b.dataset.pg; if (n !== nbPage) go(n - nbPage); });
@@ -1569,7 +1583,7 @@ PUZZLE_2 = function(){
       return;
     }
     if (pos === "M9") { if (S.apps.includes("fotos")) return; right(lk); b.classList.add("right"); S.apps.push("fotos"); addNote("fassade"); addEv("E03");
-      setTimeout(() => { done("Ludwig IX., der Vater des Bräutigams. Neue Spur im Auftrag.", 2); fireWhenFree("N01", 5000); }, 700); }
+      setTimeout(() => { done("Ludwig IX., der Vater des Bräutigams. Ihr löst die Fotos ab: Auf der Rückseite stehen Falkenrieds Notizen.", 2); nbPage = null; openNotebook(false, "fassade"); fireWhenFree("N01", 6000); }, 700); }
     else if (pos === "M6") { msg.textContent = "Der Älteste der drei Reichen ist am leichtesten zu finden – und der falsche. Gesucht ist der Vater des Bräutigams."; wrong(lk); }
     else { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); msg.textContent = "Das ist nicht der Vater. Wo stand er laut Foto 1?"; wrong(lk); }
   };
@@ -2251,7 +2265,7 @@ function right(key){ S.locks = S.locks || {}; const L = S.locks[key]; if (L) { L
 const REVEAL_MS_DEFAULT = 5 * 60 * 1000, NEAR_M = 50, NEAR_APPROX_M = 100; /* ungefähre Koordinaten: großzügiger, bis vor Ort geprüft */
 let geo = { pos:null, acc:null, err:null, watching:false };
 function revealLeft(){ const st = curStation(); if (!st || S.revealed[st.id] || DEV.noTimer) return 0; const t0 = (S.goAt || {})[st.id]; if (!t0) return 0; const ms = st.revealMin ? st.revealMin * 60000 : REVEAL_MS_DEFAULT; return Math.max(0, ms - (Date.now() - t0)); }
-function revealLabel(){ const l = revealLeft(); if (l <= 0) return "Wo ist das?"; const s = Math.ceil(l / 1000); return `Ort anzeigen in ${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; }
+function revealLabel(){ const l = revealLeft(); if (l <= 0) return "📍 Ort zeigen"; const s = Math.ceil(l / 1000); return `📍 Ort in ${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; }
 function targetDist(){ const st = curStation(); if (!st || !geo.pos) return null; return dist(geo.pos, st); }
 function nearTarget(){
   if (DEV.noGeo) return true;
@@ -2407,7 +2421,7 @@ function newsItems(app){
       if (alibiOf(p.id)) out.push({ k:"alibi:" + p.id, t:"Alibi für " + p.name + (S.struck.includes(p.id) ? "" : ", jetzt streichen"), open:() => showSuspect(p) }); });
     return out; }
   if (app === "telefon") return S.voicemails.map(v => ({ k:v, t:(CONTENT.voice[v].memo ? "Aufnahme: " : "Sprachnachricht: ") + CONTENT.voice[v].title, open:() => playVoice(v) }));
-  if (app === "notizen") return S.apps.includes("notizen") ? diaryPages().map((d, i) => ({ k:d.date, t:"Tagebuch, Seite vom " + d.date, open:() => { nbPage = i; openNotebook(false); } })) : [];
+  if (app === "notizen") return S.apps.includes("notizen") ? diaryPages().map((d, i) => ({ k:d.key, t:"Tagebuch, Seite vom " + d.date + (d.key !== d.date ? " (Rückseite der Fotos)" : ""), open:() => { nbPage = i; openNotebook(false); } })) : [];
   if (app === "nachrichten") return S.threads.unbekannt.map((m, i) => ({ k:m.id || "m" + i, t:"Nachricht von Unbekannt", open:() => { closeSheet(); openChat(); } }))
     .concat(S.stage >= 7 ? [{ k:"postfach", t:"Postfach: Kuriernachricht vom Tatabend", open:openPostfach }] : []);
   return [];
