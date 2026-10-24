@@ -538,7 +538,7 @@ const CONTENT = {
 const TEAM = ((new URLSearchParams(location.search).get("team") || "haupt").toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 30)) || "haupt";
 const KEY = "falkenried-v2-" + TEAM;
 /* Gemeinsam für alle Handys des Teams */
-const SHARED = ["stage","phase","revealed","apps","evidence","voicemails","notes","st","ending","struck","hintsOpen","events","locks","devices","solvedBy","rev","resetAt","goAt","acks","mustSee","startedAt","heard","teamName","teamLocked"];
+const SHARED = ["stage","phase","revealed","apps","evidence","voicemails","notes","st","ending","struck","hintsOpen","events","locks","devices","solvedBy","rev","resetAt","goAt","acks","mustSee","startedAt","heard","teamName","teamLocked","boxCode"];
 const fresh = () => ({ stage:1, phase:"go", revealed:{ 1:true }, apps:[], evidence:[], voicemails:[], notes:[], st:{}, ending:null, struck:[], hintsOpen:{},
   events:[], locks:{}, devices:{}, solvedBy:null, rev:0, resetAt:0, goAt:{}, acks:{}, mustSee:[], heard:{},
   /* nur auf diesem Handy */
@@ -554,7 +554,7 @@ try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(fresh(),
 let PUZZLE_2, PUZZLE_3, PUZZLE_4, PUZZLE_5, PUZZLE_6, PUZZLE_7, PUZZLE_8;
 const PUZZLE = { 1:() => openFaceLock(), 2:() => PUZZLE_2(), 3:() => PUZZLE_3(), 4:() => PUZZLE_4(), 5:() => PUZZLE_5(), 6:() => PUZZLE_6(), 7:() => PUZZLE_7(), 8:() => PUZZLE_8() };
 const AFTER_CALL = {};
-const APP_VIEW = { haustechnik:() => (S.stage === 6 && S.phase === "task" ? PUZZLE_6() : akteView(false)), notizen:() => { if (diaryPages().some(d => isNew("notizen", d.key))) nbPage = null; openNotebook(); }, tresor:() => (S.ending ? showEnding() : tresor()) };
+const APP_VIEW = { haustechnik:() => (S.stage === 6 && S.phase === "task" ? PUZZLE_6() : akteView(false)), notizen:() => { if (diaryPages().some(d => isNew("notizen", d.key))) nbPage = null; openNotebook(); }, tresor:() => (S.ending ? showEnding() : S.st.named && S.boxCode ? boxOpen() : tresor()) };
 const localSave = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} };
 const save = () => { localSave(); schedulePush(); };
 
@@ -935,7 +935,7 @@ function missionCard(){
   }
   return `<section class="mission" aria-label="Aktueller Auftrag">
     <div class="k"><span>Auftrag · ${esc(st.name)}</span><span>Station ${st.id} von 8</span></div>
-    ${newsBar()}<div class="tx">${esc(S.ending ? "Fall abgeschlossen. Danke, Ermittler." : (st.id === 8 && S.st.accused ? "Mair hat euch die Kassette übergeben. Hört Falkenrieds letzte Nachricht in der Mailbox. Dann öffnet den Tresor." : st.task))}</div>
+    ${newsBar()}<div class="tx">${esc(S.ending ? "Fall abgeschlossen. Danke, Ermittler." : (st.id === 8 && S.st.accused ? ""+(S.st.named && S.boxCode ? "Stellt den Code am Zahlenschloss ein und öffnet die Kassette." : "Mair hat euch die Kassette übergeben. Hört Falkenrieds letzte Nachricht in der Mailbox. Dann öffnet den Tresor.") : st.task))}</div>
     ${S.ending ? `<div class="acts"><button class="go wide" data-mact="ending">Auflösung ansehen</button></div>` : `<div class="acts"><button class="go wide" data-mact="action">${esc(st.id === 8 && S.st.accused ? "Tresor öffnen" : st.action)}</button><button class="tip" data-mact="hint">💡 Tipp zum Rätsel</button></div>`}
   </section>`;
 }
@@ -1306,6 +1306,9 @@ function openAdmin(){
     <div id="tpPrev">${teamPhoto() ? `<img src="${teamPhoto()}" alt="Teamfoto" style="width:100%;border-radius:10px;display:block;margin-bottom:8px">` : `<p>Noch kein Foto. Am besten ein Gruppenselfie vom ganzen Team.</p>`}</div>
     <input type="file" id="tpFile" accept="image/*" hidden>
     <button class="btn" id="tpBtn">${teamPhoto() ? "Teamfoto ersetzen" : "Teamfoto aufnehmen oder hochladen"}</button>
+    <div class="sec" style="margin-top:12px">Echte Kiste: Zahlenschloss</div>
+    <p>Nach „Elisabeth“ im Tresor zeigt die App diesen Code. Leer lassen, wenn ihr keine echte Kiste dabeihabt.</p>
+    <div style="display:flex;gap:8px"><input class="field" id="boxCode" inputmode="numeric" autocomplete="off" maxlength="8" placeholder="z. B. 1503" value="${esc(S.boxCode || "")}" style="flex:1;margin:0"><button class="btn" id="boxSave" style="width:auto;margin:0;padding:0 18px">Speichern</button></div>
     <button class="btn primary" id="shareApp">Spieler einladen: Link teilen</button>
     <button class="btn" id="printDocs">Druckvorlagen öffnen</button>
     <button class="btn" id="relock">Handy sperren</button>
@@ -1322,6 +1325,9 @@ function openAdmin(){
       $("#tpBtn").textContent = "Teamfoto ersetzen"; $("#resetMsg").textContent = ok ? "Teamfoto gespeichert, alle Handys im Team zeigen es am Ende." : "Nur auf diesem Handy gespeichert (keine Verbindung).";
     } catch(e) { $("#tpBtn").textContent = "Teamfoto aufnehmen oder hochladen"; $("#resetMsg").textContent = "Foto konnte nicht gelesen werden."; } };
   $("#shareApp").onclick = shareLink;
+  $("#boxSave").onclick = () => { const v = $("#boxCode").value.replace(/\D/g, ""); $("#boxCode").value = v;
+    S.boxCode = v; S.rev = Date.now(); save();
+    $("#resetMsg").textContent = v ? `Code ${v} gespeichert. Alle Handys im Team zeigen ihn nach dem Tresor.` : "Kein Code: Die App geht nach dem Tresor direkt zur Auflösung."; };
   $("#geoToggle").onclick = () => { DEV.noGeo = !DEV.noGeo; saveDev(); closeSheet(); renderHome(); };
   $("#timerToggle").onclick = () => { DEV.noTimer = !DEV.noTimer; saveDev(); closeSheet(); renderHome(); };
   document.querySelectorAll("[data-rmdev]").forEach(b => b.onclick = () => removeDevice(b.dataset.rmdev));
@@ -1332,7 +1338,7 @@ function openAdmin(){
   let armed = false;
   $("#reset").onclick = () => {
     if (!armed) { armed = true; $("#reset").textContent = "Wirklich zurücksetzen? Nochmal tippen"; return; }
-    const t = Date.now(); S = fresh(); S.rev = t; S.resetAt = t; save(); closeSheet(); closeWin(); renderIntro();
+    const t = Date.now(), keepCode = S.boxCode || ""; S = fresh(); S.boxCode = keepCode; S.rev = t; S.resetAt = t; save(); closeSheet(); closeWin(); renderIntro();
   };
 }
 
@@ -2000,7 +2006,7 @@ function checkStrikes(){
 
 /* ---------- Station 8: Anklage, Tresor ---------- */
 PUZZLE_8 = function(){
-  if (S.st.accused) return tresor();
+  if (S.st.accused) return S.st.named && S.boxCode ? boxOpen() : tresor();
   if (S.st.accWho) return accuseEvidence();
   const people = CONTENT.suspects.filter(p => p.id !== "feld");
   sheet(`<div class="kind">Anklage bei Ermittlungsleiterin Seidl · Schritt 1</div><h2>Wer hat Falkenried getötet?</h2>${people.map(p => `<button class="btn" data-acc="${p.id}">${esc(p.name)}</button>`).join("")}<p id="accMsg"></p>`);
@@ -2050,10 +2056,20 @@ function tresor(){
     const v = $("#nm").value.trim().toLowerCase();
     if (!v) return;
     if (!guard("8.name")) return;
-    if (v.startsWith("elisabeth")) { right("8.name"); S.apps.push("tresor"); S.ending = "gelöst"; save(); showEnding(); }
+    if (v.startsWith("elisabeth")) { right("8.name"); if (!S.apps.includes("tresor")) S.apps.push("tresor");
+      if (S.boxCode) { S.st.named = true; save(); boxOpen(); } else { S.ending = "gelöst"; save(); showEnding(); } }
     else if (v.startsWith("hedwig")) { $("#nmMsg").textContent = "Sie war die Braut. Aber wem hatte Georg sein Erbe vermacht?"; wrong("8.name"); }
     else { $("#nmMsg").textContent = "Das Schloss bleibt zu. Hört noch einmal, wem Georg sein Land vermacht hat."; wrong("8.name"); }
   };
+}
+function boxOpen(){
+  openWin("Tresor", `<div class="target"><div class="t">Falkenrieds Kassette</div><div class="s">Das Schloss nimmt den Namen an. Unter der Klappe liegt ein Zettel in Falkenrieds Handschrift.</div></div>
+    <div class="nb" style="text-align:center"><h3>Elisabeth</h3>Die Kombination für das Schloss der Kassette:
+      <div style="font-family:var(--font-mono);font-size:44px;font-weight:800;letter-spacing:.25em;margin:14px 0 6px">${esc(S.boxCode || "")}</div>
+      <span class="red" style="text-align:center">M. v. F.</span></div>
+    <p style="margin:12px 0">Stellt den Code am Zahlenschloss der echten Kassette ein und öffnet sie. Was liegt darin?</p>
+    <button class="btn primary" id="boxDone">Die Kassette ist offen</button>`);
+  $("#boxDone").onclick = () => { S.ending = "gelöst"; save(); showEnding(); };
 }
 const MEDAL = `<svg viewBox="0 0 120 150" style="width:120px;display:block;margin:0 auto 6px">
   <path d="M38 0h18l10 52H48z" fill="#2f5fa8"/><path d="M64 0h18L72 52H54z" fill="#e8e3d6"/><path d="M47 0h9l10 52h-9z" fill="#c0504d"/>
