@@ -1609,7 +1609,7 @@ PUZZLE_2 = function(){
   const head = cur
     ? `<div class="target"><div class="t">Foto ${n + 1} von ${FACADE_TARGETS.length} · ${esc(cur.title)}</div><div class="s">Sucht diese Figur an der Wand und tippt ihren Platz unten an. ${esc(cur.look)}</div>
        <div class="faces" style="margin-top:10px"><button tabindex="-1" style="pointer-events:none">${MOCK("Foto: " + cur.title + " (Detailfoto folgt)")}</button></div></div>`
-    : `<div class="target"><div class="t">Und wer hat die Hochzeit bezahlt?</div><div class="s">Nicht der Bräutigam. Falkenrieds Randnotiz: „Die Herzöge stehen nach Generationen in einer Reihe, der Vater immer links vom Sohn.“ Tippt den an, der das Fest bezahlt hat.</div></div>`;
+    : `<div class="target"><div class="t">Und wer hat die Hochzeit bezahlt?</div><div class="s">Nicht der Bräutigam. Falkenrieds Randnotiz: „Die Herzöge stehen der Zeit nach in einer Reihe. Den Bräutigam kennt ihr schon, sein Vater steht direkt links neben ihm.“ Tippt den an, der das Fest bezahlt hat.</div></div>`;
   openWin("Eingeklebte Fotos", (done3 ? `<div style="margin-bottom:8px">${done3}</div>` : "") + head + facadeGrid() + `<p id="fMsg" class="empty" style="padding:10px 0"></p>`);
   $("#winBody").onclick = e => {
     const b = e.target.closest("[data-pos]"); if (!b) return;
