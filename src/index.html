@@ -438,7 +438,7 @@ const CONTENT = {
       "Die Residenz wurde erst 1536 begonnen. Tippt „lagert sicher in der Stadtresidenz des Herzogs“." ] },
     S6: { title:"Heiliggeist – Rundgang und Tatabend", steps:[
       "Lasst die App Haustechnik offen und geht einmal ganz um die Kirche. Alle vier Seiten zählen, das Handy zeigt sie im Kreis an. Bei ungenauem GPS kurz stehen bleiben.",
-      "Vergleicht jede Aussage mit den Protokollen. Wann fuhr der Wagen von Dr. Helena Dorn weg? Von wo bestellte Clara Weiß ihr Taxi?",
+      "Vergleicht jede Aussage mit den Protokollen. Wann fuhr der Wagen von Dr. Helena Dorn weg? Wo war das Handy von Clara Weiß, als sie ihr Taxi bestellte?",
       "Nach dem Anruf fragt Seidl nach der Karte R7: Jonas Feld war in Regensburg, also wurde nur seine Karte benutzt." ] },
     S7: { title:"Ländtor – Der Ritter", steps:[
       "Spielt in der Mail die Sage vom Ritter ab und zählt die Glockenschläge am Ende.",
@@ -502,7 +502,7 @@ const CONTENT = {
     E07:{ t:"Preisnotizen „CW“", d:"Bleistift am Rand von H-1475: „CW: 40.000?“" },
     E08:{ t:"Brief „1503“ – gefälscht", d:"Nennt eine Residenz, deren Bau erst 1536 begann. Zweck laut Seidl: eine falsche Herkunft, damit die Stücke für einen Käufer echt und wertvoll aussehen." },
     E09:{ t:"Dateiprotokoll", d:"LETTER-1503-B erstellt unter HDORN (Dr. Helena Dorn) am 18.12., 23:14 Uhr. Geöffnet unter BMAIR (Notar Mair) am 19.12., 10:02 Uhr." },
-    E10:{ t:"Widersprüche der Aussagen", d:"Dr. Helena Dorn sagt, sie sei um halb neun gegangen. Ihr Wagen fuhr um 21:02. Clara Weiß sagt, sie habe den ganzen Abend bei den anderen am Tisch gesessen. Ihr Taxi bestellte sie aus dem Flur." },
+    E10:{ t:"Widersprüche der Aussagen", d:"Dr. Helena Dorn sagt, sie sei um halb neun gegangen. Ihr Wagen fuhr um 21:02. Clara Weiß sagt, sie habe den ganzen Abend bei den anderen am Tisch gesessen. Laut WLAN-Protokoll war ihr Handy aber von 20:44 bis 20:52 im Flur. Von dort bestellte sie ihr Taxi." },
     E11:{ t:"Zeugin: Frau an der Archivtür", d:"Rosa Brandl hörte kurz vor neun Schritte im Flur und sah eine Frau im dunklen Mantel zum Archiv gehen. Dann klickte die Archivtür." },
     E12:{ t:"Karte R7", d:"Öffnete um 20:48 die Archivtür. Gehört Restaurator Jonas Feld, der nachweislich in Regensburg war. Beweist nur, welche Karte benutzt wurde." },
     E13:{ t:"Täterwissen im Anruf", d:"Der Anrufer nannte Uhrzeit und Karte, bevor das Protokoll freigegeben war." },
@@ -1785,10 +1785,10 @@ const STATEMENTS = [
   { id:"clara", who:"Clara Weiß", t:"„Ich saß den ganzen Abend bei den anderen am Tisch. Fragen Sie sie.“", lie:true }
 ];
 const PROTOCOL = [
-  ["19:30","geschwärzt"],["20:15","Maximilian von Falkenried kündigt die Übergabe an die Stadt an"],["20:30","Dr. Helena Dorn verabschiedet sich im Flur"],
+  ["19:00","Die vier Gäste treffen ein, darunter Clara Weiß"],["19:30","geschwärzt"],["20:15","Maximilian von Falkenried kündigt die Übergabe an die Stadt an"],["20:30","Dr. Helena Dorn verabschiedet sich im Flur"],
   ["20:34–20:52","Benedikt Mair telefoniert draußen"],["20:40","Lauter Streit: Tobias und Maximilian von Falkenried"],["20:44–20:58","Tobias von Falkenried auf der Terrasse (Außenkamera)"],
   ["??:??","Archivtür geöffnet – Details geschwärzt"],
-  ["20:51","Taxi bestellt von Clara Weiß’ Handy, Standort Flur"],["21:02","Wagen von Dr. Helena Dorn verlässt das Grundstück"],["21:18","Dr. Helena Dorn checkt im Hotel ein"],["21:25","Tobias von Falkenried findet seinen Onkel im Archiv"]
+  ["20:44–20:52","Handy von Clara Weiß im WLAN, Zugangspunkt Flur (nicht Speisezimmer)"],["20:51","Von diesem Handy wird ein Taxi bestellt"],["21:02","Wagen von Dr. Helena Dorn verlässt das Grundstück"],["21:18","Dr. Helena Dorn checkt im Hotel ein"],["21:25","Tobias von Falkenried findet seinen Onkel im Archiv"]
 ];
 PUZZLE_6 = function(){
   const st = S.st.s6 || (S.st.s6 = { open:false, marks:{}, liesOk:false, callDone:false, callOk:false, r7:false });
@@ -1865,7 +1865,7 @@ function tlLanes(){
       fact:[{a:"20:40",k:"",l:"lauter Streit"},{a:"20:44",b:"20:58",k:"Kamera",l:"Terrasse, Außenkamera"},{a:"21:25",k:"findet ihn",l:"findet seinen Onkel"}] },
     { id:"clara", n:"Weiß", c:"#b07cc6", say:"„Ich saß den ganzen Abend bei den anderen am Tisch. Fragen Sie sie.“",
       claim:[{a:"20:00",b:"21:30",k:"„den ganzen Abend am Tisch“",l:"den ganzen Abend am Tisch bei den Gästen"}],
-      fact:[].concat(S.evidence.includes("E15") ? [{a:"20:44",b:"20:50",k:"",l:"Telefonat mit Käufer CW-04"}] : [], [{a:"20:51",k:"Taxi aus dem Flur",l:"bestellt ein Taxi, Standort Flur", bad:solved}]) }
+      fact:[{a:"20:44",b:"20:52",k:S.evidence.includes("E15") ? "Flur: Anruf CW-04" : "Handy im Flur",l:S.evidence.includes("E15") ? "im Flur, telefoniert mit Käufer CW-04, bestellt um 20:51 ein Taxi" : "Handy im WLAN-Zugangspunkt Flur, bestellt um 20:51 ein Taxi", bad:solved}] }
   ];
   if (S.voicemails.includes("V_ZEUGIN")) L.push({ id:"rosa", n:"Brandl", c:"#c9a24a", say:"„Kurz vor neun hörte ich Schritte im Flur. Eine Frau im dunklen Mantel ging zum Archiv. Dann klickte die Archivtür.“",
       claim:[], fact:[{a:"20:48",k:"Frau an der Tür",l:"Schritte, Frau im dunklen Mantel, Archivtür klickt"}] });
@@ -1939,7 +1939,7 @@ function akteView(interactive){
       right("6.lies"); S.st.s6 = S.st.s6 || {}; S.st.s6.liesOk = true; addEv("E10"); save();
       $("#lieMsg").textContent = "Richtig: Dr. Helena Dorn und Clara Weiß lügen. Notar Mairs „kurz“ waren 18 Minuten, eine Halbwahrheit.";
       setTimeout(() => fire("CALL_06"), 1800);
-    } else { $("#lieMsg").textContent = (m.tobias === "lie") ? "Die Aussage von Tobias von Falkenried passt zur Außenkamera." : "Noch nicht alle Widersprüche gefunden. Prüft Abfahrt und Taxi."; wrong("6.lies"); }
+    } else { $("#lieMsg").textContent = (m.tobias === "lie") ? "Die Aussage von Tobias von Falkenried passt zur Außenkamera." : "Noch nicht alle Widersprüche gefunden. Prüft Abfahrt und WLAN."; wrong("6.lies"); }
   };
 }
 AFTER_CALL.CALL_01 = () => { if (S.stage === 1 && !S.apps.includes("notizen")) setTimeout(() => { renderHome(); toast("Neuer Auftrag: Falkenrieds Notizbuch öffnen. Siehe oben auf dem Homescreen."); }, 500); };
