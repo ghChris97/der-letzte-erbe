@@ -1558,6 +1558,8 @@ function renderIntro(step){
     draw(); return;
   }
   if (step === "team") {
+    /* Schon eingetragen, aber ein anderes Handy hat den Eintrag beim Abgleich überschrieben: still wieder eintragen */
+    if (!isMember() && DEV.name && !(((S.devices || {})[DEV.id] || {}).removed) && !teamBlocked()) heartbeat();
     if (!isMember()) {
       screen.innerHTML = `${statusBar()}<div class="intro"><span class="flash" style="background:#3b5b8c">Ermittlungsgruppe</span>
         <div style="display:flex;gap:12px;align-items:center"><img src="img/seidl_av.jpg" alt="" style="width:52px;height:52px;border-radius:50%;object-fit:cover"><p style="margin:0"><b>Seidl:</b> „Gebt mir eure Namen. Jeder trägt sich auf seinem eigenen Handy ein.“</p></div>
