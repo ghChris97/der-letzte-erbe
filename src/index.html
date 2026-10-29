@@ -1440,7 +1440,7 @@ function cutscene(frames, onDone){
     + `<div class="shade"></div><div class="bars">${frames.map(() => "<i></i>").join("")}</div><button class="skip" id="cutSkip">Überspringen ›</button><div class="cap" id="cutCap"></div><div class="tap">Tippen für weiter</div>`;
   layer.appendChild(w);
   let k = -1, typing = null, timer = null, ended = false;
-  const finish = () => { if (ended) return; ended = true; clearInterval(typing); clearTimeout(timer); w.style.transition = "opacity .8s"; w.style.opacity = "0"; setTimeout(() => { w.remove(); if (onDone) onDone(); }, 800); };
+  const finish = () => { if (ended) return; ended = true; clearInterval(typing); clearTimeout(timer); stopAudio(); w.style.transition = "opacity .8s"; w.style.opacity = "0"; setTimeout(() => { w.remove(); if (onDone) onDone(); }, 800); };
   const show = i => {
     if (i >= frames.length) return finish();
     k = i; clearInterval(typing); clearTimeout(timer);
@@ -1449,18 +1449,28 @@ function cutscene(frames, onDone){
     const f = frames[i], cap = $("#cutCap"), txt = f.txt || ""; let n = 0;
     cap.innerHTML = f.head ? `<b>${esc(f.head)}</b>` : "";
     const span = document.createElement("span"); cap.appendChild(span);
-    typing = setInterval(() => { n++; span.textContent = txt.slice(0, n); if (n >= txt.length) clearInterval(typing); }, 38);
-    timer = setTimeout(() => show(i + 1), Math.max(5200, txt.length * 38 + 3200));
+    typing = setInterval(() => { n++; span.textContent = txt.slice(0, n); if (n >= txt.length) clearInterval(typing); }, f.vo ? 52 : 38);
+    stopAudio();
+    const fallback = () => { clearTimeout(timer); timer = setTimeout(() => { if (k === i) show(i + 1); }, Math.max(5200, txt.length * 45 + 2600)); };
+    if (f.vo && f.vo.length) {
+      fallback(); /* falls der Ton gar nicht startet */
+      const playPart = j => { if (ended || k !== i) return; if (j >= f.vo.length) { clearTimeout(timer); timer = setTimeout(() => { if (k === i) show(i + 1); }, 1600); return; }
+        const a = new Audio("audio/" + f.vo[j] + ".mp3"); curAudio = a;
+        a.addEventListener("ended", () => setTimeout(() => playPart(j + 1), 250));
+        a.addEventListener("playing", () => { clearTimeout(timer); timer = setTimeout(() => { if (k === i) show(i + 1); }, 30000); }, { once:true });
+        a.play().catch(() => fallback()); };
+      playPart(0);
+    } else fallback();
   };
   w.addEventListener("click", e => { if (e.target.closest("#cutSkip")) return finish(); const cap = $("#cutCap span");
     if (typing && cap && frames[k] && cap.textContent.length < (frames[k].txt || "").length) { clearInterval(typing); cap.textContent = frames[k].txt; return; } show(k + 1); });
   show(0);
 }
 const VORSPANN = [
-  { img:"img/v_haus.jpg", head:"Landshut", txt:"Samstag, 19. Dezember. 19 Uhr.", kb:"pan-l" },
-  { img:"img/v_tisch.jpg", head:"Haus Falkenried", txt:"Der Kunstsammler Maximilian von Falkenried hat vier Gäste zum Adventsessen eingeladen. Er will ihnen etwas verkünden.", kb:"pan-r" },
-  { img:"img/v_tuer.jpg", head:"20:48 Uhr", txt:"Jemand öffnet die Tür zu seinem Archiv.", kb:"pan-l" },
-  { img:"img/tatort.jpg", head:"21:25 Uhr", txt:"Sein Neffe findet ihn. Maximilian von Falkenried ist tot.", kb:"kb-in" }
+  { img:"img/v_haus.jpg", head:"Landshut", txt:"Samstag, 19. Dezember. 19 Uhr.", vo:["CUT_V1"], kb:"pan-l" },
+  { img:"img/v_tisch.jpg", head:"Haus Falkenried", txt:"Der Kunstsammler Maximilian von Falkenried hat vier Gäste zum Adventsessen eingeladen. Er will ihnen etwas verkünden.", vo:["CUT_V2"], kb:"pan-r" },
+  { img:"img/v_tuer.jpg", head:"20:48 Uhr", txt:"Jemand öffnet die Tür zu seinem Archiv.", vo:["CUT_V3"], kb:"pan-l" },
+  { img:"img/tatort.jpg", head:"21:25 Uhr", txt:"Sein Neffe findet ihn. Maximilian von Falkenried ist tot.", vo:["CUT_V4"], kb:"kb-in" }
 ];
 /* Tatortbegehung: fünf Spuren auf dem Tatortfoto */
 const SPUREN = [
@@ -2215,10 +2225,10 @@ function tresor(){
 function festnahme(then){
   const t = nowStr();
   cutscene([
-    { img:"img/f_wiese.jpg", head:"Ringelstecherwiese, " + t + " Uhr", txt:"Eine Frau im dunklen Mantel betritt die Wiese. Sie glaubt, die Kassette wartet auf sie.", kb:"pan-r" },
-    { img:"img/f_uebergabe.jpg", head:"Notar Mair", txt:"Sie geht auf ihn zu und streckt die Hand aus. „Geben Sie sie mir.“", kb:"pan-r" },
-    { img:"img/f_zugriff.jpg", head:"Kommissarin Seidl", txt:"„Zugriff. Dr. Helena Dorn, Sie sind festgenommen wegen Mordes an Maximilian von Falkenried.“", kb:"pan-l" },
-    { img:"img/f_beweis.jpg", head:"Eine Stunde später", txt:"In Dr. Dorns Wagen: ein Paar Lederhandschuhe mit Spuren vom Fuß der Messinglampe. Und die Liste von 1475, die am Tatort fehlte.", kb:"pan-r" }
+    { img:"img/f_wiese.jpg", head:"Ringelstecherwiese, " + t + " Uhr", txt:"Eine Frau im dunklen Mantel betritt die Wiese. Sie glaubt, die Kassette wartet auf sie.", vo:["CUT_F1"], kb:"pan-r" },
+    { img:"img/f_uebergabe.jpg", head:"Notar Mair", txt:"Sie geht auf ihn zu und streckt die Hand aus. „Geben Sie sie mir.“", vo:["CUT_F2a","CUT_F2b"], kb:"pan-r" },
+    { img:"img/f_zugriff.jpg", head:"Kommissarin Seidl", txt:"„Zugriff. Dr. Helena Dorn, Sie sind festgenommen wegen Mordes an Maximilian von Falkenried.“", vo:["CUT_F3"], kb:"pan-l" },
+    { img:"img/f_beweis.jpg", head:"Eine Stunde später", txt:"In Dr. Dorns Wagen: ein Paar Lederhandschuhe mit Spuren vom Fuß der Messinglampe. Und die Liste von 1475, die am Tatort fehlte.", vo:["CUT_F4"], kb:"pan-r" }
   ], then);
 }
 function boxOpen(){
