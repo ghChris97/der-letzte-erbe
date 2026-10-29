@@ -1445,11 +1445,12 @@ function cutscene(frames, onDone){
   let k = -1, typing = null, timer = null, ended = false;
   const finish = () => { if (ended) return; ended = true; clearInterval(typing); clearTimeout(timer); stopAudio(); w.style.transition = "opacity .8s"; w.style.opacity = "0"; setTimeout(() => { w.remove(); if (onDone) onDone(); }, 800); };
   const show = i => {
+    if (ended || !w.isConnected) { clearInterval(typing); clearTimeout(timer); return; }   /* Szene wurde inzwischen ersetzt */
     if (i >= frames.length) return finish();
     k = i; clearInterval(typing); clearTimeout(timer);
     w.querySelectorAll(".ci").forEach((el, j) => { el.classList.toggle("on", j === i); if (j === i) { el.style.animation = "none"; void el.offsetWidth; el.style.animation = ""; } });
     w.querySelectorAll(".bars i").forEach((el, j) => el.classList.toggle("on", j <= i));
-    const f = frames[i], cap = $("#cutCap"), txt = f.txt || ""; let n = 0;
+    const f = frames[i], cap = w.querySelector(".cap"), txt = f.txt || ""; let n = 0;
     cap.innerHTML = f.head ? `<b>${esc(f.head)}</b>` : "";
     const span = document.createElement("span"); cap.appendChild(span);
     typing = setInterval(() => { n++; span.textContent = txt.slice(0, n); if (n >= txt.length) clearInterval(typing); }, f.vo ? 52 : 38);
