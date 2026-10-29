@@ -421,9 +421,9 @@ const CONTENT = {
       "Er ist der höchste Backsteinturm der Welt und deutlich höher als 100 Meter.",
       "130 Meter." ] },
     S2: { title:"Landschaftshaus – Die Herzogswand", steps:[
-      "Die Wand ist wie ein Buch: drei Reihen mit je zehn Herzögen, von links oben nach rechts unten, nach Generationen geordnet. Lest die Beschreibung unter jedem Foto.",
-      "Obere Reihe: der Erste auf 1, der Gründer auf 2, der Eifersüchtige auf 3, der Kaiser (sitzt) auf 4.",
-      "Mittlere Reihe: Bauherr 6, Richter 7, Liebender 8, Bräutigam 10. Bezahlt hat der Vater des Bräutigams auf Platz 9." ] },
+      "Die Wand ist wie ein Buch: drei Reihen mit je zehn Herzögen, von links oben nach rechts unten, nach Generationen geordnet. Falkenrieds Fotos kommen nicht in dieser Reihenfolge, sondern nach Kapiteln. Lest die Beschreibung unter jedem Foto genau.",
+      "Obere Reihe: der Erste auf 1, der Gründer auf 2, der Eifersüchtige auf 3, der Kaiser (sitzt) auf 4. Mittlere Reihe: Bauherr 6, Richter 7, Liebender 8, Bräutigam 10.",
+      "Bezahlt hat der Vater des Bräutigams. Er steht in der mittleren Reihe auf Platz 9, zwischen dem Liebenden und dem Bräutigam." ] },
     S3: { title:"Denkmal – Das Jahr auf dem Rücken", steps:[
       "Geht um den Sockel herum.",
       "M = 1000, D = 500, C = 100, L = 50, V = 5, I = 1.",
@@ -1595,23 +1595,23 @@ function done(msg, from){ if (from && S.stage !== from) return; advance(from); c
 /* ---------- Station 2: Fassade ---------- */
 /* Station 2: Figuren der Herzogswand finden, jede mit ihrer Geschichte. Danach: Wer hat die Hochzeit bezahlt?
    Positionen laut Landshuter Gästeführern (obere Reihe Otto I. … Otto V., mittlere Stephan III. … Georg). Vor Ort noch einmal prüfen. */
-const FACADE_TARGETS = [
-  { id:"otto", name:"Otto I. von Wittelsbach", pos:"O1", title:"Der Erste", img:"img/fassade_otto.jpg", look:"Rüstung, goldener Umhang, eine Feder am Helm. Über ihm steht OTTO COMES WITTELS.",
-    story:"Otto I. von Wittelsbach. 1180 bekam er Bayern vom Kaiser. Damit begann eine Familie, die über 700 Jahre lang regierte, bis 1918. Die Inschrift nennt ihn sogar „Gründer dieser Stadt“. Ganz stimmt das nicht: Gegründet hat Landshut sein Sohn, gleich rechts neben ihm." },
-  { id:"gruender", name:"Ludwig der Kelheimer", pos:"O2", title:"Der Gründer", img:"img/fassade_gruender.jpg", look:"Hermelinkragen über der Rüstung, roter Mantel. Er ist der Sohn des Ersten.",
-    story:"Ludwig der Kelheimer. Er gründete 1204 die Stadt Landshut, baute die Burg über der Isar und ließ eine Brücke über den Fluss schlagen. Ohne ihn gäbe es diese Wand nicht." },
-  { id:"strenge", name:"Ludwig der Strenge", pos:"O3", title:"Der Eifersüchtige", img:"img/fassade_strenge.jpg", look:"Vor der Brust hält er stehend einen goldenen Reichsapfel. Er ist der Sohn des Gründers.",
-    story:"Ludwig der Strenge. 1256 ließ er seine eigene Frau Maria von Brabant hinrichten, weil er sie für untreu hielt. Sie war unschuldig. Seinen Beinamen hat er nicht umsonst." },
-  { id:"kaiser", name:"Ludwig der Bayer", pos:"O4", title:"Der Kaiser", img:"img/fassade_kaiser.jpg", look:"Der Einzige auf der ganzen Wand, der sitzt. In der Hand den Reichsapfel.",
-    story:"Ludwig der Bayer. 1328 wurde er in Rom zum Kaiser gekrönt, als einziger Wittelsbacher des Mittelalters. Darum thront er hier, während alle anderen stehen." },
-  { id:"heinrich", name:"Heinrich der Reiche", pos:"M6", title:"Der Bauherr", img:"img/fassade_heinrich.jpg", look:"Goldener Umhang, ein Schwert quer vor dem Bauch. Der erste der drei Reichen.",
-    story:"Heinrich der Reiche. Unter ihm begann 1407 der Bau einer zweiten großen Kirche in der Altstadt, der Heiliggeistkirche. Merkt sie euch." },
-  { id:"ernst", name:"Herzog Ernst", pos:"M7", title:"Der Richter", img:"img/fassade_ernst.jpg", look:"Grünes Gewand mit Puffärmeln. In seinem Wappen windet sich eine Schlange.",
+const FACADE_TARGETS = [   /* thematisch sortiert, nicht nach Platz: Hochzeit → Stadt → Liebe und Mord → Macht und Geld */
+  { id:"braeutigam", ch:"Die Hochzeit", name:"Georg der Reiche", pos:"M10", title:"Der Bräutigam", img:"img/fassade_georg.jpg", look:"Zu seinen Füßen zwei Wappen, eines davon mit einem weißen Adler unter einer Krone.",
+    story:"Georg der Reiche, der Bräutigam von 1475. Hier in Landshut heiratete er die polnische Königstochter Hedwig. Der weiße Adler zu seinen Füßen ist ihr Wappen. Die Landshuter Hochzeit wurde eines der größten Feste des Mittelalters. Aber wer hat sie bezahlt? Das erfahrt ihr am Ende." },
+  { id:"gruender", ch:"Die Stadt", name:"Ludwig der Kelheimer", pos:"O2", title:"Der Gründer", img:"img/fassade_gruender.jpg", look:"Hermelinkragen über der Rüstung, ein roter Mantel.",
+    story:"Ludwig der Kelheimer. Er gründete 1204 die Stadt Landshut, baute die Burg über der Isar und ließ eine Brücke über den Fluss schlagen. Ohne ihn gäbe es weder diese Stadt noch diese Wand." },
+  { id:"otto", ch:"Die Stadt", name:"Otto I. von Wittelsbach", pos:"O1", title:"Der Erste", img:"img/fassade_otto.jpg", look:"Rüstung, goldener Umhang, eine Feder am Helm. Über ihm steht OTTO COMES WITTELS.",
+    story:"Otto I. von Wittelsbach, der Vater des Gründers. 1180 bekam er Bayern vom Kaiser. Damit begann eine Familie, die über 700 Jahre lang regierte, bis 1918. Die Inschrift nennt ihn sogar „Gründer dieser Stadt“. Ganz stimmt das nicht: Gegründet hat Landshut sein Sohn, den ihr gerade gefunden habt." },
+  { id:"strenge", ch:"Liebe und Mord", name:"Ludwig der Strenge", pos:"O3", title:"Der Eifersüchtige", img:"img/fassade_strenge.jpg", look:"Vor der Brust hält er stehend einen goldenen Reichsapfel. Er ist der Sohn des Gründers.",
+    story:"Ludwig der Strenge, der Sohn des Gründers. 1256 ließ er seine eigene Frau Maria von Brabant hinrichten, weil er sie für untreu hielt. Sie war unschuldig. Seinen Beinamen hat er nicht umsonst. Und er war nicht der Letzte in dieser Familie, der aus Eifersucht und Stolz tötete." },
+  { id:"ernst", ch:"Liebe und Mord", name:"Herzog Ernst", pos:"M7", title:"Der Richter", img:"img/fassade_ernst.jpg", look:"Grünes Gewand mit Puffärmeln. In seinem Wappen windet sich eine Schlange.",
     story:"Herzog Ernst. Sein Sohn Albrecht hatte heimlich Agnes Bernauer geheiratet, die Tochter eines Baders aus Augsburg. Für den Vater war das eine Schande. 1435 ließ er Agnes als Hexe verurteilen und in Straubing in der Donau ertränken. Auch in dieser Familie wurde schon für ein Erbe gemordet." },
-  { id:"albrecht3", name:"Albrecht III.", pos:"M8", title:"Der Liebende", img:"img/fassade_albrecht3.jpg", look:"Er streckt eine Hand aus, als wolle er etwas erklären. Sein Vater steht direkt links neben ihm.",
-    story:"Albrecht III. Der Sohn des Richters. Er hatte Agnes Bernauer heimlich geheiratet. Als sein Vater sie ertränken ließ, griff Albrecht gegen ihn zu den Waffen. Später versöhnten sich die beiden, und Albrecht heiratete eine Frau von Stand." },
-  { id:"braeutigam", name:"Georg der Reiche", pos:"M10", title:"Der Bräutigam", img:"img/fassade_georg.jpg", look:"Zu seinen Füßen zwei Wappen, eines davon mit einem weißen Adler unter einer Krone.",
-    story:"Georg der Reiche. 1475 heiratete er hier in Landshut die polnische Königstochter Hedwig. Der weiße Adler zu seinen Füßen ist ihr Wappen. Die Landshuter Hochzeit wurde eines der größten Feste des Mittelalters." }
+  { id:"albrecht3", ch:"Liebe und Mord", name:"Albrecht III.", pos:"M8", title:"Der Liebende", img:"img/fassade_albrecht3.jpg", look:"Er streckt eine Hand aus, als wolle er etwas erklären. Er ist der Sohn des Richters.",
+    story:"Albrecht III., der Sohn des Richters. Er hatte Agnes Bernauer heimlich geheiratet. Als sein Vater sie ertränken ließ, griff Albrecht gegen ihn zu den Waffen. Später versöhnten sich die beiden, und Albrecht heiratete eine Frau von Stand." },
+  { id:"kaiser", ch:"Macht und Geld", name:"Ludwig der Bayer", pos:"O4", title:"Der Kaiser", img:"img/fassade_kaiser.jpg", look:"Der Einzige auf der ganzen Wand, der sitzt. In der Hand den Reichsapfel.",
+    story:"Ludwig der Bayer. 1328 wurde er in Rom zum Kaiser gekrönt, als einziger Wittelsbacher des Mittelalters. Darum thront er hier, während alle anderen stehen. Mehr Macht hatte keiner aus dieser Familie." },
+  { id:"heinrich", ch:"Macht und Geld", name:"Heinrich der Reiche", pos:"M6", title:"Der Bauherr", img:"img/fassade_heinrich.jpg", look:"Goldener Umhang, ein Schwert quer vor dem Bauch. Der erste der drei Reichen.",
+    story:"Heinrich der Reiche, der Großvater des Bräutigams und der erste der drei Reichen Herzöge. Unter ihm begann 1407 der Bau einer zweiten großen Kirche in der Altstadt, der Heiliggeistkirche. Merkt sie euch. Und er hinterließ seinem Sohn eine volle Schatzkammer. Damit wisst ihr fast, wer die Hochzeit bezahlt hat." }
 ];
 /* Zwischenstopp nach dem Denkmal: der Letzte, der an der Wand noch fehlt */
 const ALBRECHT = { id:"albrecht", name:"Albrecht der Weise", pos:"U1", title:"Der Gegenspieler", img:"img/fassade_albrecht.jpg", look:"Langer roter Mantel mit Pelzkragen, eine Urkunde in der Hand.",
@@ -1626,7 +1626,7 @@ PUZZLE_2 = function(){
   const cur = FACADE_TARGETS[st.found.length], n = st.found.length;
   const done3 = FACADE_TARGETS.slice(0, n).map(t => `<span style="display:inline-block;margin:0 6px 4px 0;padding:3px 8px;border-radius:8px;background:#6fbf8a22;color:#6fbf8a;font-size:12px;font-weight:600">✓ ${esc(t.title)}</span>`).join("");
   const head = cur
-    ? `<div class="target"><div class="t">Foto ${n + 1} von ${FACADE_TARGETS.length} · ${esc(cur.title)}</div><div class="s">Sucht diese Figur an der Wand und tippt ihren Platz unten an. ${esc(cur.look)}</div>
+    ? `<div class="target"><div class="t">Foto ${n + 1} von ${FACADE_TARGETS.length} · ${esc(cur.title)}</div>${cur.ch ? `<div class="s" style="color:var(--amber);font-weight:600;margin-top:2px">Kapitel: ${esc(cur.ch)}</div>` : ""}<div class="s">Sucht diese Figur an der Wand und tippt ihren Platz unten an. ${esc(cur.look)}</div>
        ${cur.img ? `<img src="${cur.img}" alt="Foto: ${esc(cur.title)}" style="display:block;width:100%;max-height:52vh;object-fit:contain;border-radius:12px;margin-top:10px;background:#0a0c10">` : `<div class="faces" style="margin-top:10px"><button tabindex="-1" style="pointer-events:none">${MOCK("Foto: " + cur.title + " (Detailfoto folgt)")}</button></div>`}</div>`
     : `<div class="target"><div class="t">Und wer hat die Hochzeit bezahlt?</div><div class="s">Nicht der Bräutigam. Falkenrieds Randnotiz: „Die Herzöge stehen der Zeit nach in einer Reihe. Den Bräutigam kennt ihr schon, sein Vater steht direkt links neben ihm.“ Tippt den an, der das Fest bezahlt hat.</div></div>`;
   openWin("Eingeklebte Fotos", (done3 ? `<div style="margin-bottom:8px">${done3}</div>` : "") + head + facadeGrid() + `<p id="fMsg" class="empty" style="padding:10px 0"></p>`);
