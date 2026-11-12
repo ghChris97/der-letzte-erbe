@@ -1045,9 +1045,9 @@ function diaryPages(){ const zahler = S.apps.includes("fotos") ? "Ludwig" : "L�
 function openNotebook(first, jumpReq){
   const pages = diaryPages();
   if (jumpReq) nbPage = pages.findIndex(d => d.req === jumpReq || d.fk === jumpReq);
-  else if (first) nbPage = pages.findIndex(d => d.start);
+  else if (first) nbPage = 0;   /* beim ersten Öffnen vorne anfangen */
   else if (nbPage === null && pages.some(d => isNew("notizen", d.key))) nbPage = pages.findIndex(d => isNew("notizen", d.key));
-  if (nbPage === null || nbPage < 0 || nbPage >= pages.length) nbPage = Math.max(0, pages.findIndex(d => d.start));
+  if (nbPage === null || nbPage < 0 || nbPage >= pages.length) nbPage = 0;
   const d = pages[nbPage]; const unseenNb = pages.map(x => isNew("notizen", x.key)); newsSeen("notizen", d.key);
   openWin("Notizen", `${first ? `<div class="target"><div class="t">Entsperrt</div><div class="s">Falkenrieds Tagebuch ist offen. Blättert durch, darin steht, wohin es weitergeht.</div></div>` : ""}
     <div class="diary" id="diary">
