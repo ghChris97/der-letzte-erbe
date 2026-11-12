@@ -31,6 +31,6 @@ Supabase-Projekt `der-letzte-erbe` (Tabelle `games`, Funktion `save_game`). Alle
 
 Fünfmal auf die Uhrzeit oben links tippen, PIN `1432`: Ereignisse auslösen, Stationen springen, Druckvorlagen, Spielstand zurücksetzen.
 
-## Offene Platzhalter
+## Vor Ort gemessen
 
-Echte Büste (St. Martin), Fassadendetails (Landschaftshaus), Siegel mit Helmen und Rauten (Rathaus), Fassadendetail für den Brief (Residenz), Tympanon-Motive (Heiliggeist), genaue Koordinaten Landschaftshaus und Ländtor.
+Heiliggeistkirche: vier Eckpunkte in `CHURCH` (Rundgang, Ring aus zwölf Wegstücken, elf davon nötig). Mit „Standortprüfung: aus“ im Spielleiter-Menü lässt sich der Rundgang auf diesem Handy von Hand freigeben.

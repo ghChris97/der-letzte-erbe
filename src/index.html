@@ -342,6 +342,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .paper p{font-size:14.5px;line-height:1.45;margin:0 0 8px;text-align:justify;hyphens:auto}
 .paper .photoPh{border:1px dashed #8a8270;padding:26px 10px;text-align:center;font-size:13px;color:#6a6355}
 .nb h3{margin:0 0 8px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#7a6d55}
+.paid{display:inline-block;margin-top:10px;border:2px solid #9c1f1f;color:#9c1f1f;font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.14em;padding:2px 10px;border-radius:4px;transform:rotate(-4deg)}
 .nb .red{color:#9c1f1f;font-style:italic;font-size:16px;display:block;margin-top:10px;transform:rotate(-1.5deg)}
 .nb table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:14px}
 .nb td{border-top:1px solid #d4c7a8;padding:5px 0;font-variant-numeric:tabular-nums}
@@ -349,6 +350,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 /* Karte */
 .mapwrap{position:relative;flex:1;min-height:260px;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
 #map{position:absolute;inset:0}
+.churchlbl{background:none;border:0;box-shadow:none;color:#3a2a08;font-weight:700;font-size:12px}.churchlbl:before{display:none}
 .mapfallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;color:var(--muted);font-size:13px;line-height:1.5}
 .target{background:var(--surface);border-radius:16px;padding:12px 14px;margin-bottom:10px}
 .target .t{font-weight:700;font-size:16px}
@@ -457,9 +459,9 @@ const CONTENT = {
       "Er ist der höchste Backsteinturm der Welt und deutlich höher als 100 Meter.",
       "130 Meter." ] },
     S2: { title:"Landschaftshaus – Die Herzogswand", steps:[
-      "Die Wand ist wie ein Buch: drei Reihen mit je zehn Herzögen, von links oben nach rechts unten, nach Generationen geordnet. Falkenrieds Fotos kommen nicht in dieser Reihenfolge, sondern nach Kapiteln. Lest die Beschreibung unter jedem Foto genau.",
-      "Obere Reihe: der Erste auf 1, der Gründer auf 2, der Eifersüchtige auf 3, der Kaiser (sitzt) auf 4. Mittlere Reihe: Bauherr 6, Richter 7, Liebender 8, Bräutigam 10.",
-      "Bezahlt hat der Vater des Bräutigams. Er steht in der mittleren Reihe auf Platz 9, zwischen dem Liebenden und dem Bräutigam." ] },
+      "Die Wand ist wie ein Buch: drei Reihen mit je zehn Herzögen, der Zeit nach geordnet. Lest die Beschreibung unter jedem Foto genau.",
+      "Obere Reihe: der Gründer auf Platz 2, der Kaiser (sitzt) auf Platz 4. Mittlere Reihe: der Großvater auf 6, der Bräutigam auf 10.",
+      "Die Rechnung beglich der Vater des Bräutigams. Er steht in der mittleren Reihe auf Platz 9, direkt links neben seinem Sohn." ] },
     S3: { title:"Denkmal – Das Jahr auf dem Rücken", steps:[
       "Geht um den Sockel herum.",
       "M = 1000, D = 500, C = 100, L = 50, V = 5, I = 1.",
@@ -473,8 +475,8 @@ const CONTENT = {
       "Schaut in den Steckbrief: Wann wurde mit dem Bau der Residenz begonnen?",
       "Die Residenz wurde erst 1536 begonnen. Tippt „lagert sicher in der Stadtresidenz des Herzogs“." ] },
     S6: { title:"Heiliggeist – Rundgang und Tatabend", steps:[
-      "Lasst die App Haustechnik offen und geht einmal ganz um die Kirche. Alle vier Seiten zählen, das Handy zeigt sie im Kreis an. Bei ungenauem GPS kurz stehen bleiben.",
-      "Schaut euch die Kameraaufnahmen in der Haustechnik an. Wann fuhr der Wagen von Dr. Helena Dorn wirklich weg? Und wessen Platz am Tisch ist durch die Glastür leer?",
+      "Lasst die Karte offen und geht einmal ganz um die Kirche, bis alle Wegstücke verschwunden sind. Bei ungenauem GPS kurz stehen bleiben.",
+      "Schaut alle vier Kameraaufnahmen an. Wann fuhr der Wagen von Dr. Helena Dorn wirklich weg? Und wessen Platz am Tisch ist durch die Glastür leer?",
       "Nach dem Anruf fragt Seidl nach der Karte R7: Jonas Feld war in Regensburg, also wurde nur seine Karte benutzt." ] },
     S7: { title:"Ländtor – Der Ritter", steps:[
       "Spielt in der Mail die Sage vom Ritter ab und zählt die Glockenschläge am Ende.",
@@ -501,9 +503,9 @@ const CONTENT = {
       src:"Kommissarin Seidl", clue:"Wir treffen uns am Turm von Sankt Martin.",
       task:"Falkenrieds Notizbuch hat ein Zahlenschloss. Daran klebt ein Zettel von ihm.",
       action:"Notizen öffnen" },
-    { id:2, name:"Landschaftshaus", spot:"Altstadt 28, die bemalte Fassade", lat:48.533888, lng:12.150226, revealMin:3, why:"Wer die Hochzeit bezahlt hat, führt zum Passwort für Falkenrieds Archiv.", seek:"die Herzogswand am Landschaftshaus, Altstadt 28.",
-      src:"Falkenrieds Tagebuch, Eintrag vom 18. Dezember", clue:"Bezahlt hat nicht der Bräutigam. Wer es war, das steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit.",
-      task:"Dreißig Herzöge, eine Familie. Falkenried hat acht von ihnen fotografiert. Findet jeden an der Wand.",
+    { id:2, name:"Landschaftshaus", spot:"Altstadt 28, die bemalte Fassade", lat:48.533888, lng:12.150226, revealMin:3, why:"Wer die Hochzeitsrechnung beglichen hat, führt zum Passwort für Falkenrieds Archiv.", seek:"die Herzogswand am Landschaftshaus, Altstadt 28.",
+      src:"Falkenrieds Tagebuch, Eintrag vom 18. Dezember", clue:"Beglichen durch Herzog L…, den Vater des Bräutigams. Wer es war, steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit.",
+      task:"Dreißig Herzöge, eine Familie. Falkenried hat vier von ihnen fotografiert. Findet jeden an der Wand, dann klärt sich die Rechnung.",
       action:"Eingeklebte Fotos ansehen" },
     { id:3, name:"Denkmal Ludwigs des Reichen", spot:"Dreifaltigkeitsplatz", lat:48.532417, lng:12.149794, why:"Im Archiv liegt als Kopie, was der Täter vom Tatort mitgenommen hat.", seek:"das Denkmal Ludwigs des Reichen und die Jahreszahl auf seinem Sockel.",
       src:"Falkenrieds Notizen zur Fassade", clue:"Ludwig, der Vater des Bräutigams, steht noch einmal in dieser Stadt, aus Bronze, dort, wo die Dreifaltigkeit wacht.",
@@ -531,7 +533,7 @@ const CONTENT = {
       action:"Anklage erheben" }
   ],
   evidence: {
-    E01:{ t:"Hochzeitsrechnung 1475", d:"Abschrift in Falkenrieds Tagebuch. Vermerk: Bezahlt hat nicht der Bräutigam." },
+    E01:{ t:"Hochzeitsrechnung 1475", d:"Abschrift in Falkenrieds Tagebuch. Der Name dessen, der sie beglichen hat, ist verwischt." },
     E03:{ t:"Notizen zur Fassade", d:"Bezahlt hat Ludwig der Reiche. Die Residenz wurde erst 1536 begonnen. Unter Heinrich dem Reichen begann 1407 der Bau der Heiliggeistkirche." },
     E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 2, 5 und 7: Rubinbrosche, zehn goldene Taler, Familiensiegel mit dem W der Wittelsbacher. Falkenried notierte daneben: „Hochzeitsgaben, alle drei in einer Kiste“." },
     E06:{ t:"Verwahrvermerk Notariat Mair", d:"„Notariat Mair – Verwahrung“. Inhalt geschwärzt." },
@@ -568,7 +570,7 @@ const CONTENT = {
     { date:"Freitag, 28. November 2026", html:"Jemand war an meinem Schreibtisch. Die Mappe lag anders, als ich sie hingelegt hatte, und im Archivprogramm war eine Datei geöffnet, die ich seit Wochen nicht angefasst habe.<br><br>Wer hat einen Schlüssel? Zu viele." },
     { date:"Mittwoch, 10. Dezember 2026", fk:"fassade", html:"Lange vor dem Haus der Landstände gestanden. Drei Reihen, dreißig Herzöge. Ein Foto der ganzen Wand, fest eingeklebt. Was ich darauf gefunden habe, schreibe ich nicht offen hin:<div class=\"glued\"><img src=\"img/fassade_wand.jpg\" alt=\"Foto der bemalten Fassade des Landschaftshauses\" style=\"width:100%;display:block;border-radius:4px\"></div>" },
     { date:"Freitag, 12. Dezember 2026", html:"Tobias war wieder da. Mein Neffe hat wieder nach Geld gefragt.<span class=\"red\">Nein.</span>" },
-    { date:"Donnerstag, 18. Dezember 2026", start:true, html:"Für den, der das hier liest.<br><br>In Sankt Martin hat Georg 1475 seine Hedwig geheiratet. Hier meine Abschrift der Hochzeitsrechnung:<table style=\"margin-top:8px\"><tr><td>Ochsen</td><td>323</td></tr><tr><td>Schweine</td><td>285</td></tr><tr><td>Ungarische Schafe</td><td>1.133</td></tr><tr><td>Gänse</td><td>11.500</td></tr><tr><td>Hühner</td><td>40.000</td></tr><tr><td>Eier</td><td>194.345</td></tr></table><span class=\"red\">Bezahlt hat nicht der Bräutigam.</span><br>Wer es war, das steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit." },
+    { date:"Donnerstag, 18. Dezember 2026", start:true, html:"Für den, der das hier liest.<br><br>In Sankt Martin hat Georg 1475 seine Hedwig geheiratet. Hier meine Abschrift der Hochzeitsrechnung:<table style=\"margin-top:8px\"><tr><td>Ochsen</td><td>323</td></tr><tr><td>Schweine</td><td>285</td></tr><tr><td>Ungarische Schafe</td><td>1.133</td></tr><tr><td>Gänse</td><td>11.500</td></tr><tr><td>Hühner</td><td>40.000</td></tr><tr><td>Eier</td><td>194.345</td></tr></table><span class=\"red\">Beglichen durch Herzog %%ZAHLER%%, den Vater des Bräutigams.</span><br>Die Tinte ist verwischt. Wer es war, steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit." },
     { date:"Samstag, 19. Dezember 2026, morgens", html:"Heute Abend sage ich es allen. Die Gäste kommen um sieben. Nach dem Dessert.<br><br>Es gehört nicht mir. Es gehört dieser Stadt.<span class=\"red\">Und wenn mir etwas zustößt: Notar Mair weiß, was zu tun ist.</span>" }
   ]
 };
@@ -1029,7 +1031,8 @@ function openFaceLock(){
 }
 let nbPage = null;
 /* Die Fotoseite ist von Anfang an da. Nach Station 2 lösen die Spieler die Fotos ab: Auf der Rückseite stehen Falkenrieds Notizen. */
-function diaryPages(){ return CONTENT.diary.filter(d => !d.req || S.notes.includes(d.req)).map(d => (d.fk === "fassade" && S.notes.includes("fassade"))
+function diaryPages(){ const zahler = S.apps.includes("fotos") ? "Ludwig" : "L▒▒▒▒▒";
+  return CONTENT.diary.filter(d => !d.req || S.notes.includes(d.req)).map(d => Object.assign({}, d, { html:d.html.replace("%%ZAHLER%%", zahler) })).map(d => (d.fk === "fassade" && S.notes.includes("fassade"))
   ? Object.assign({}, d, { key:d.date + " · Rückseite", html: d.html + "<br><br><b id=\"rueck\">Auf der Rückseite der Fotos:</b><br>" + NOTES.fassade.html }) : Object.assign({}, d, { key:d.date })); }
 function openNotebook(first, jumpReq){
   const pages = diaryPages();
@@ -1146,7 +1149,7 @@ const INFOS = {
     <button class="btn primary" data-close>Nachricht anhören</button>`,
   I_ZEUGIN: seidlCard("Kommissarin Seidl", "Feld war es nicht. Und eine Zeugin meldet sich.", ["Jonas Feld war es nicht. Er war in Regensburg, drei Kollegen bestätigen es. Seine Karte hat also jemand anderes benutzt.", "Und gerade hat sich Rosa Brandl gemeldet, Falkenrieds Haushälterin. Ihr ist noch etwas eingefallen. Ich schicke euch ihre Aussage. Hört genau zu."], null, "Aussage anhören"),
   I_ANRUF: seidlCard("Kommissarin Seidl", "Wer war das?", ["Ein Anruf ohne Nummer? Dann weiß schon jemand, dass ihr ermittelt, und er kennt Falkenrieds Spur.", "Folgt ihr ruhig. Aber traut dieser Stimme nicht. Wer so viel weiß, hat vielleicht selbst mit der Sache zu tun."]),
-  B_1: seidlCard("Kommissarin Seidl", "Das Tagebuch ist offen", ["Gut gemacht. Blättert kurz durch: Im November hat Falkenried etwas gefunden, und kurz danach war jemand an seinem Schreibtisch.", "Zu dem Anruf: Traut dieser Stimme nicht. Wer so viel weiß, steckt vielleicht selbst mit drin."], "Das Tagebuch stellt die erste Frage: Wer hat die Hochzeit von 1475 bezahlt?"),
+  B_1: seidlCard("Kommissarin Seidl", "Das Tagebuch ist offen", ["Gut gemacht. Blättert kurz durch: Im November hat Falkenried etwas gefunden, und kurz danach war jemand an seinem Schreibtisch.", "Zu dem Anruf: Traut dieser Stimme nicht. Wer so viel weiß, steckt vielleicht selbst mit drin."], "Auf der Hochzeitsrechnung ist ein Name verwischt. Wer hat sie beglichen?"),
   B_2: seidlCard("Lagebesprechung · Kommissarin Seidl", "Ludwig der Reiche hat bezahlt", ["Ludwig der Reiche, der Vater des Bräutigams, hat die Hochzeit bezahlt. Auf der Rückseite der Fotos verweist Falkenried auf sein Denkmal: Ludwig steht noch einmal in der Stadt, aus Bronze.", "Das Jahr, in dem er es bekam, ist das Passwort für Falkenrieds Archiv. Und im Archiv liegen Kopien der Unterlagen, die der Täter vom Tatort mitgenommen hat. Erinnert ihr euch an Spur 3?"], "Das Denkmal Ludwigs des Reichen am Dreifaltigkeitsplatz."),
   B_3: seidlCard("Lagebesprechung · Kommissarin Seidl", "Falkenried will, dass ihr seine Geschichte kennt", ["Das Archiv ist offen. Die Liste, die am Tatort fehlt, liegt hier als Kopie in einer Mappe. Aber die Mappe ist noch einmal verschlossen.", "Falkenried erzählt euch erst seine Geschichte. Er schickt euch noch einmal zurück an die Herzogswand: Einer fehlt dort noch."], "Zurück zur Herzogswand. Sucht den Letzten, ganz unten."),
   B_4: seidlCard("Lagebesprechung · Kommissarin Seidl", "Jetzt kennen wir das Motiv", ["Falkenried hat die Kiste von 1503 gefunden und darin drei Hochzeitsgaben: eine Rubinbrosche, zehn goldene Taler und das Familiensiegel der Wittelsbacher. Genau diese Liste hat der Täter vom Tatort mitgenommen.", "Die Stücke selbst hat Falkenried in Sicherheit gebracht, offenbar bei seinem Notar, Benedikt Mair. Und jemand mit dem Kürzel CW hat schon einen Preis notiert: 40.000 Euro. Die nächste Frage lautet also: Wer wollte diese Stücke haben?"], "Wartet auf die nächste Spur. Ich habe das Gefühl, unser anonymer Freund meldet sich gleich."),
@@ -1714,23 +1717,15 @@ function done(msg, from){ if (from && S.stage !== from) return; advance(from); c
 /* ---------- Station 2: Fassade ---------- */
 /* Station 2: Figuren der Herzogswand finden, jede mit ihrer Geschichte. Danach: Wer hat die Hochzeit bezahlt?
    Positionen laut Landshuter Gästeführern (obere Reihe Otto I. … Otto V., mittlere Stephan III. … Georg). Vor Ort noch einmal prüfen. */
-const FACADE_TARGETS = [   /* thematisch sortiert, nicht nach Platz: Hochzeit → Stadt → Liebe und Mord → Macht und Geld */
-  { id:"braeutigam", ch:"Die Hochzeit", name:"Georg der Reiche", pos:"M10", title:"Der Bräutigam", img:"img/fassade_georg.jpg", look:"Zu seinen Füßen zwei Wappen, eines davon mit einem weißen Adler unter einer Krone.",
-    story:"Georg der Reiche. Der Bräutigam von 1475: Hier heiratete er die polnische Königstochter Hedwig, der weiße Adler ist ihr Wappen. Aber wer hat das Fest bezahlt?" },
+const FACADE_TARGETS = [   /* nur wer für den Fall zählt: Stadt → Macht → Geld → Hochzeit */
   { id:"gruender", ch:"Die Stadt", name:"Ludwig der Kelheimer", pos:"O2", title:"Der Gründer", img:"img/fassade_gruender.jpg", look:"Hermelinkragen über der Rüstung, ein roter Mantel.",
     story:"Ludwig der Kelheimer. Er gründete 1204 die Stadt Landshut und die Burg über der Isar." },
-  { id:"otto", ch:"Die Stadt", name:"Otto I. von Wittelsbach", pos:"O1", title:"Der Erste", img:"img/fassade_otto.jpg", look:"Rüstung, goldener Umhang, eine Feder am Helm. Über ihm steht OTTO COMES WITTELS.",
-    story:"Otto I. von Wittelsbach. Der Vater des Gründers. 1180 bekam er Bayern vom Kaiser, seine Familie regierte bis 1918." },
-  { id:"strenge", ch:"Liebe und Mord", name:"Ludwig der Strenge", pos:"O3", title:"Der Eifersüchtige", img:"img/fassade_strenge.jpg", look:"Vor der Brust hält er stehend einen goldenen Reichsapfel. Er ist der Sohn des Gründers.",
-    story:"Ludwig der Strenge. 1256 ließ er seine Frau hinrichten, weil er sie für untreu hielt. Sie war unschuldig." },
-  { id:"ernst", ch:"Liebe und Mord", name:"Herzog Ernst", pos:"M7", title:"Der Richter", img:"img/fassade_ernst.jpg", look:"Grünes Gewand mit Puffärmeln. In seinem Wappen windet sich eine Schlange.",
-    story:"Herzog Ernst. Sein Sohn hatte heimlich die Baderstochter Agnes Bernauer geheiratet. 1435 ließ Ernst sie in der Donau ertränken." },
-  { id:"albrecht3", ch:"Liebe und Mord", name:"Albrecht III.", pos:"M8", title:"Der Liebende", img:"img/fassade_albrecht3.jpg", look:"Er streckt eine Hand aus, als wolle er etwas erklären. Er ist der Sohn des Richters.",
-    story:"Albrecht III. Der Mann der Agnes Bernauer. Nach ihrem Tod griff er gegen den eigenen Vater zu den Waffen." },
-  { id:"kaiser", ch:"Macht und Geld", name:"Ludwig der Bayer", pos:"O4", title:"Der Kaiser", img:"img/fassade_kaiser.jpg", look:"Der Einzige auf der ganzen Wand, der sitzt. In der Hand den Reichsapfel.",
+  { id:"kaiser", ch:"Die Macht", name:"Ludwig der Bayer", pos:"O4", title:"Der Kaiser", img:"img/fassade_kaiser.jpg", look:"Der Einzige auf der ganzen Wand, der sitzt. In der Hand den Reichsapfel.",
     story:"Ludwig der Bayer. 1328 in Rom zum Kaiser gekrönt. Darum sitzt er, während alle anderen stehen." },
-  { id:"heinrich", ch:"Macht und Geld", name:"Heinrich der Reiche", pos:"M6", title:"Der Bauherr", img:"img/fassade_heinrich.jpg", look:"Goldener Umhang, ein Schwert quer vor dem Bauch. Der erste der drei Reichen.",
-    story:"Heinrich der Reiche. Der Großvater des Bräutigams. Unter ihm begann 1407 der Bau der Heiliggeistkirche, und seinem Sohn hinterließ er eine volle Schatzkammer." }
+  { id:"heinrich", ch:"Das Geld", name:"Heinrich der Reiche", pos:"M6", title:"Der Großvater", img:"img/fassade_heinrich.jpg", look:"Goldener Umhang, ein Schwert quer vor dem Bauch.",
+    story:"Heinrich der Reiche. Der Großvater des Bräutigams. Er füllte die Schatzkammer, und unter ihm begann 1407 der Bau der Heiliggeistkirche." },
+  { id:"braeutigam", ch:"Die Hochzeit", name:"Georg der Reiche", pos:"M10", title:"Der Bräutigam", img:"img/fassade_georg.jpg", look:"Zu seinen Füßen zwei Wappen, eines davon mit einem weißen Adler unter einer Krone.",
+    story:"Georg der Reiche. Der Bräutigam von 1475: Hier heiratete er die polnische Königstochter Hedwig, der weiße Adler ist ihr Wappen. Die Rechnung hat ein anderer beglichen." }
 ];
 /* Zwischenstopp nach dem Denkmal: der Letzte, der an der Wand noch fehlt */
 const ALBRECHT = { id:"albrecht", name:"Albrecht der Weise", pos:"U1", title:"Der Gegenspieler", img:"img/fassade_albrecht.jpg", look:"Langer roter Mantel mit Pelzkragen, eine Urkunde in der Hand.",
@@ -1747,7 +1742,8 @@ PUZZLE_2 = function(){
   const head = cur
     ? `<div class="target"><div class="t">Foto ${n + 1} von ${FACADE_TARGETS.length} · ${esc(cur.title)}</div>${cur.ch ? `<div class="s" style="color:var(--amber);font-weight:600;margin-top:2px">Kapitel: ${esc(cur.ch)}</div>` : ""}<div class="s">Sucht diese Figur an der Wand und tippt ihren Platz unten an. ${esc(cur.look)}</div>
        ${cur.img ? `<img src="${cur.img}" alt="Foto: ${esc(cur.title)}" style="display:block;width:100%;max-height:52vh;object-fit:contain;border-radius:12px;margin-top:10px;background:#0a0c10">` : `<div class="faces" style="margin-top:10px"><button tabindex="-1" style="pointer-events:none">${MOCK("Foto: " + cur.title + " (Detailfoto folgt)")}</button></div>`}</div>`
-    : `<div class="target"><div class="t">Und wer hat die Hochzeit bezahlt?</div><div class="s">Nicht der Bräutigam. Falkenrieds Randnotiz: „Die Herzöge stehen der Zeit nach in einer Reihe. Den Bräutigam kennt ihr schon, sein Vater steht direkt links neben ihm.“ Tippt den an, der das Fest bezahlt hat.</div></div>`;
+    : `<div class="nb" style="font-size:16px"><h3>Hochzeitsrechnung 1475 · letzte Zeile</h3>Beglichen durch Herzog <b>L▒▒▒▒▒</b>, den Vater des Bräutigams.</div>
+       <div class="target"><div class="t">Wer hat die Rechnung beglichen?</div><div class="s">Die Herzöge stehen der Zeit nach in einer Reihe: Der Vater steht direkt links neben seinem Sohn. Tippt seinen Platz an.</div></div>`;
   openWin("Eingeklebte Fotos", (done3 ? `<div style="margin-bottom:8px">${done3}</div>` : "") + head + facadeGrid() + `<p id="fMsg" class="empty" style="padding:10px 0"></p>`);
   $("#winBody").onclick = e => {
     const b = e.target.closest("[data-pos]"); if (!b) return;
@@ -1763,9 +1759,9 @@ PUZZLE_2 = function(){
       return;
     }
     if (pos === "M9") { if (S.apps.includes("fotos")) return; right(lk); b.classList.add("right"); S.apps.push("fotos"); addNote("fassade"); addEv("E03");
-      setTimeout(() => { sheet(`<img src="img/fassade_ludwig.jpg" alt="" style="width:96px;border-radius:10px;float:right;margin:0 0 8px 10px"><div class="kind">Der Mann, der bezahlt hat</div><h2>Ludwig der Reiche</h2><p>Georgs Vater. Er bezahlte das ganze Fest, daher sein Beiname.</p><p>Auf der Rückseite der Fotos hat Falkenried etwas notiert.</p><button class="btn primary" data-close id="fEnd">Rückseite lesen</button>`);
+      setTimeout(() => { sheet(`<img src="img/fassade_ludwig.jpg" alt="" style="width:96px;border-radius:10px;float:right;margin:0 0 8px 10px"><div class="kind">Rechnung beglichen</div><h2>Ludwig der Reiche</h2><div class="nb" style="font-size:16px;clear:both">Beglichen durch Herzog <b>Ludwig</b>, den Vater des Bräutigams.<br><span class="paid">BEGLICHEN</span></div><p>Er bezahlte das ganze Fest, daher sein Beiname. Auf der Rückseite der Fotos steht, wo ihr ihn noch einmal findet.</p><button class="btn primary" data-close id="fEnd">Rückseite lesen</button>`);
         $("#fEnd").onclick = () => { if (S.stage !== 2) return; done(null, 2); setTimeout(() => { nbPage = null; openNotebook(false, "fassade"); fire("N01"); }, 100); }; }, 600); }
-    else if (pos === "M6") { msg.textContent = "Heinrich kennt ihr schon: Er ist der Großvater. Gesucht ist der Vater des Bräutigams."; wrong(lk); }
+    else if (pos === "M6") { msg.textContent = "Das ist der Großvater. Gesucht ist der Vater des Bräutigams."; wrong(lk); }
     else { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); msg.textContent = "Das ist nicht der Vater. Wo steht der Bräutigam, und wer steht links neben ihm?"; wrong(lk); }
   };
 };
@@ -1905,18 +1901,43 @@ const STATEMENTS = [
   { id:"clara", who:"Clara Weiß", t:"„Ich saß den ganzen Abend bei den anderen am Tisch. Fragen Sie sie.“", lie:true }
 ];
 const PROTOCOL = [
-  ["19:00","Die vier Gäste treffen ein, darunter Clara Weiß"],["19:30","geschwärzt"],["20:15","Maximilian von Falkenried kündigt die Übergabe an die Stadt an"],["20:30","Dr. Helena Dorn verabschiedet sich im Flur"],["20:30–20:35","Kamera Einfahrt: Wagen von Dr. Dorn steht, niemand steigt ein"],
-  ["20:34–20:52","Benedikt Mair telefoniert draußen"],["20:40","Lauter Streit: Tobias und Maximilian von Falkenried"],["20:44–20:58","Tobias von Falkenried auf der Terrasse (Außenkamera)"],
-  ["??:??","Archivtür geöffnet – Details geschwärzt"],
-  ["20:44–20:52","Terrassenkamera, Blick durch die Glastür: Platz von Clara Weiß am Tisch leer"],["20:44–20:52","Handy von Clara Weiß im WLAN, Zugangspunkt Flur"],["20:51","Von diesem Handy wird ein Taxi bestellt"],["21:02","Kamera Einfahrt: Wagen von Dr. Helena Dorn verlässt das Grundstück"],["21:06","Kamera Einfahrt: Clara Weiß steigt ins Taxi"],["21:18","Dr. Helena Dorn checkt im Hotel ein"],["21:25","Tobias von Falkenried findet seinen Onkel im Archiv"]
+  ["20:30","Dr. Helena Dorn verabschiedet sich im Flur"],["20:34–20:52","Benedikt Mair telefoniert draußen"],["20:44–20:58","Tobias von Falkenried auf der Terrasse (Kamera)"],
+  ["20:44–20:52","Platz von Clara Weiß am Tisch leer, ihr Handy im Flur"],["??:??","Archivtür geöffnet – Details geschwärzt"],
+  ["21:02","Wagen von Dr. Helena Dorn verlässt das Grundstück"],["21:25","Tobias von Falkenried findet seinen Onkel im Archiv"]
 ];
+/* Eine Aussage nach der anderen: stimmt sie oder ist sie gelogen? lie:null = halb wahr, beides zählt. */
+const JUDGE = [
+  { id:"tobias", lie:false, v:"stimmt", ok:"Die Terrassenkamera zeigt ihn von 20:44 bis 20:58 draußen.", no:"Schaut noch einmal auf die Terrassenkamera." },
+  { id:"mair", lie:null, v:"halb wahr", ok:"Er war draußen am Telefon. Aber sein „kurz“ dauerte 18 Minuten, von 20:34 bis 20:52." },
+  { id:"clara", lie:true, v:"gelogen", ok:"Von 20:44 bis 20:52 ist ihr Platz am Tisch leer. Ihr Handy war im Flur.", no:"Schaut noch einmal durch die Glastür der Terrassenkamera." },
+  { id:"helena", lie:true, v:"gelogen", ok:"Ihr Wagen stand um 20:35 noch in der Einfahrt und fuhr erst um 21:02.", no:"Wann fuhr ihr Wagen wirklich los? Schaut auf die Kamera an der Einfahrt." }
+];
+function liesStep(){
+  const st = S.st.s6, k = st.judged || 0, J = JUDGE[k], x = STATEMENTS.find(q => q.id === J.id);
+  const prot = PROTOCOL.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("");
+  openWin("Haustechnik", `<div class="sec" style="margin-top:0">1 · Kameras vom Tatabend</div>${camList()}
+    <div class="sec">2 · Aussage ${k + 1} von ${JUDGE.length}: stimmt das?</div>
+    <div class="hint"><h3 style="display:flex;align-items:center;gap:12px"><img src="img/${x.id}_av.jpg" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none">${esc(x.who)}</h3><p style="margin-top:4px">${esc(x.t)}</p>
+      <div class="acts2"><button data-judge="ok">Stimmt</button><button data-judge="lie">Gelogen</button></div><p id="lieMsg" class="empty" style="padding:8px 0 0;text-align:left"></p></div>
+    <details class="hint" style="margin-top:10px"><summary style="font-weight:600;cursor:pointer">Protokoll der Haustechnik</summary><table class="prot" style="margin-top:8px">${prot}</table></details>`);
+  $("#winBody").onclick = e => { const c = e.target.closest("[data-cam]"); if (c) return playCam(c.dataset.cam);
+    const b = e.target.closest("[data-judge]"); if (!b) return;
+    const cur = S.st.s6; if ((cur.judged || 0) !== k) return liesStep();   /* ein anderes Handy war schneller */
+    if (!DEV.noLimit && camsSeen().length < CAMS.length) { $("#lieMsg").textContent = "Schaut euch zuerst alle vier Kameraaufnahmen an."; return; }
+    if (!guard("6.lies")) return;
+    if (J.lie !== null && (b.dataset.judge === "lie") !== J.lie) { $("#lieMsg").textContent = J.no; wrong("6.lies"); return; }
+    right("6.lies"); cur.judged = k + 1; const last = cur.judged >= JUDGE.length; if (last) { cur.liesOk = true; addEv("E10"); } save();
+    sheet(`<img src="img/${x.id}_av.jpg" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px"><div class="kind">Aussage geprüft · ${esc(J.v)}</div><h2>${esc(x.who)}</h2><p>${esc(J.ok)}</p><button class="btn primary" data-close id="jNext">${last ? "Weiter" : "Nächste Aussage"}</button>`);
+    $("#jNext").onclick = () => setTimeout(() => { PUZZLE_6(); if (last) setTimeout(() => fire("CALL_06"), 1500); }, 50);
+  };
+}
 PUZZLE_6 = function(){
   const st = S.st.s6 || (S.st.s6 = { open:false, marks:{}, liesOk:false, callDone:false, callOk:false, r7:false });
   if (!st.open) {
     return walkLock();
     return;
   }
-  if (!st.liesOk) return akteView(true);
+  if (!st.liesOk) return liesStep();
   if (!st.callDone) return akteView(false);
   if (!st.callOk) return akteView(false);
   if (!st.r7) { akteView(false); return r7Question(); }
@@ -1924,48 +1945,77 @@ PUZZLE_6 = function(){
 /* Station 6: Rundgang um die Heiliggeistkirche. Alle vier Seiten müssen besucht werden.
    Mit WALK_POINTS (vier echte GPS-Punkte an den Ecken, vor Ort gemessen) zählt jeder Punkt im Umkreis von WALK_R Metern.
    Ohne Punkte: Himmelsrichtung vom Kirchenmittelpunkt aus, nur wenn man deutlich auf einer Seite steht (±30°). */
-const WALK_DIRS = [["N","Norden"],["O","Osten"],["S","Süden"],["W","Westen"]];
-const WALK_POINTS = null; /* z. B. { N:{lat:…,lng:…}, O:{…}, S:{…}, W:{…} } */
-const WALK_R = 18;
-function walkSector(pos, c){
-  if (WALK_POINTS) { const k = Object.keys(WALK_POINTS).find(k => dist(pos, WALK_POINTS[k]) <= WALK_R); return k || null; }
-  const d = dist(pos, c); if (d < 20 || d > 120) return null;
-  const y = Math.sin((pos.lng-c.lng)*Math.PI/180) * Math.cos(pos.lat*Math.PI/180);
-  const x = Math.cos(c.lat*Math.PI/180)*Math.sin(pos.lat*Math.PI/180) - Math.sin(c.lat*Math.PI/180)*Math.cos(pos.lat*Math.PI/180)*Math.cos((pos.lng-c.lng)*Math.PI/180);
-  const brg = (Math.atan2(y, x) * 180/Math.PI + 360) % 360;
-  const i = Math.round(brg / 90) % 4, off = Math.abs(((brg - i * 90) + 540) % 360 - 180);
-  return off <= 30 ? ["N","O","S","W"][i] : null;   /* nahe an den Ecken zählt nicht */
+const CHURCH = [[48.53867,12.15230],[48.53879,12.15282],[48.53868,12.15290],[48.53852,12.15240]];   /* Ecken NW, NO, SO, SW, vor Ort gemessen */
+const RING_N = 12, RING_OFF = 9, RING_R = 15, RING_NEED = 11;   /* Stücke · Abstand zur Mauer (m) · Fangradius (m) · nötig (ein Aussetzer erlaubt) */
+/* Ring: Kirchengrundriss um RING_OFF Meter nach außen versetzt, darauf RING_N Punkte in gleichem Abstand */
+const RING = (() => {
+  const la0 = CHURCH.reduce((a, p) => a + p[0], 0) / 4, lo0 = CHURCH.reduce((a, p) => a + p[1], 0) / 4;
+  const kx = 111320 * Math.cos(la0 * Math.PI / 180), ky = 110574;
+  const xy = CHURCH.map(p => [(p[1] - lo0) * kx, (p[0] - la0) * ky]);
+  const norm = (a, b) => { let n = [b[1] - a[1], a[0] - b[0]]; const l = Math.hypot(n[0], n[1]); n = [n[0] / l, n[1] / l];
+    const m = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]; return (n[0] * m[0] + n[1] * m[1]) < 0 ? [-n[0], -n[1]] : n; };   /* zeigt vom Mittelpunkt weg */
+  const off = xy.map((v, i) => { const n1 = norm(xy[(i + 3) % 4], v), n2 = norm(v, xy[(i + 1) % 4]), k = RING_OFF / (1 + n1[0] * n2[0] + n1[1] * n2[1]);
+    return [v[0] + (n1[0] + n2[0]) * k, v[1] + (n1[1] + n2[1]) * k]; });
+  const ll = p => ({ lat: la0 + p[1] / ky, lng: lo0 + p[0] / kx });
+  const len = off.map((p, i) => Math.hypot(off[(i + 1) % 4][0] - p[0], off[(i + 1) % 4][1] - p[1])), total = len.reduce((a, b) => a + b, 0);
+  const at = d => { d = ((d % total) + total) % total; let i = 0; while (d > len[i]) { d -= len[i]; i++; } const a = off[i], b = off[(i + 1) % 4], f = d / len[i]; return ll([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]); };
+  const step = total / RING_N, start = len[0] / 2;   /* Start mitten auf der Nordseite, so liegt kein Punkt genau auf einer Ecke */
+  return { c: { lat: la0, lng: lo0 }, pts: Array.from({ length: RING_N }, (_, i) => at(start + i * step)),
+    segs: Array.from({ length: RING_N }, (_, i) => [0, 1, 2, 3, 4].map(j => at(start + (i - 0.5 + j / 4) * step))), poly: off.map(ll) };
+})();
+let ringLayers = null;
+function ringDraw(walk){
+  if (!mapObj || !ringLayers) return;
+  ringLayers.forEach((l, i) => l.setStyle(walk[i] ? { color:"#34c759", weight:3, opacity:.55, dashArray:null } : { color:"#e3a548", weight:9, opacity:.95, dashArray:"2 13" }));
 }
 function walkLock(){
   const st = S.st.s6; st.walk = st.walk || {};
-  const c = CONTENT.stations.find(x => x.id === 6);
+  Object.keys(st.walk).forEach(k => { if (isNaN(+k)) delete st.walk[k]; });   /* alte Himmelsrichtungen aus früheren Tests */
   const n = () => Object.keys(st.walk).length;
-  const rose = () => `<svg viewBox="0 0 200 200" style="width:200px;display:block;margin:6px auto">
-      <circle cx="100" cy="100" r="34" fill="#2a3140"/><text x="100" y="105" fill="#ece6da" font-size="12" text-anchor="middle">Kirche</text>
-      ${WALK_DIRS.map(([k,l],i) => { const a = i*90 - 90, r = 72, x = 100 + r*Math.cos(a*Math.PI/180), y = 100 + r*Math.sin(a*Math.PI/180);
-        return `<circle cx="${x}" cy="${y}" r="22" fill="${st.walk[k] ? "#e3a548" : "#171c26"}" stroke="#e3a548"/><text x="${x}" y="${y+5}" fill="${st.walk[k] ? "#1b1408" : "#e3a548"}" font-size="14" font-weight="700" text-anchor="middle">${k}</text>`; }).join("")}</svg>`;
-  openWin("Haustechnik", `<div class="nb" style="font-size:16px"><h3>Falkenrieds Notiz an der App</h3>Diese Kirche wurde 1407 begonnen und erst 1461 fertig. Wer sie verstehen will, muss einmal um sie herumgehen.<span class="red">Geht einmal ganz um die Kirche. Dann öffnet sich die App.</span></div>
-    <div class="target"><div class="t">Rundgang</div><div class="s">Das Handy merkt sich, auf welchen Seiten der Kirche ihr schon wart. Es zählt für das ganze Team.</div><div id="rose">${rose()}</div><div class="s" id="walkTxt">Standort wird gesucht …</div>
-    ${DEV.noGeo ? `<button class="btn" id="walkSim" style="margin-top:8px">Rundgang simulieren (Testmodus)</button>` : ""}</div>`);
-  const step = k => {
-    const cur = S.st.s6 || st; cur.walk = cur.walk || {}; if (cur !== st) { Object.assign(cur.walk, st.walk); }
-    if (k && !cur.walk[k]) { cur.walk[k] = true; st.walk = cur.walk; save(); if ($("#rose")) $("#rose").innerHTML = rose(); }
-    if (n() >= 4) { st.open = true; if (S.st.s6) S.st.s6.open = true; if (!S.apps.includes("haustechnik")) S.apps.push("haustechnik"); save(); $("#walkTxt").textContent = "Rundgang geschafft. Die App öffnet sich …"; if (watchId !== null) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; }
-      setTimeout(() => { PUZZLE_6(); fire("V_TURM"); }, 1200); return true; }
+  const txt = () => n() === 0 ? "Lauft los: Jedes Wegstück verschwindet, sobald ihr dort wart." : `${n()} von ${RING_N} Wegstücken geschafft. Weiter um die Kirche.`;
+  if ($("#ringmap") && mapObj && ringLayers) { ringDraw(st.walk); const t = $("#walkTxt"); if (t && n() < RING_NEED) t.textContent = txt(); }   /* schon offen: nur auffrischen */
+  else {
+    if (mapObj) { try { mapObj.remove(); } catch(e) {} mapObj = null; meMarker = null; }
+    openWin("Haustechnik", `<div class="nb" style="font-size:16px"><h3>Falkenrieds Notiz an der App</h3>Wer diese Kirche verstehen will, muss einmal um sie herumgehen.<span class="red">Geht einmal ganz um die Kirche. Dann öffnet sich die App.</span></div>
+      <div class="target" style="margin-bottom:10px"><div class="t">Rundgang · <span id="walkN">${n()}</span> von ${RING_N}</div><div class="s" id="walkTxt">Standort wird gesucht …</div>
+      ${DEV.noGeo ? `<button class="btn" id="walkSim" style="margin-top:8px">Rundgang simulieren (Testmodus)</button>` : ""}</div>
+      <div class="mapwrap" id="ringmap" style="flex:none;height:56vh"><div id="map"></div></div>`);
+    ringLayers = null;
+    if (window.L) { try {
+      mapObj = L.map($("#map"), { zoomControl:false, attributionControl:true, zoomSnap:0.25 });
+      const fit = () => mapObj && mapObj.fitBounds(RING.poly.map(p => [p.lat, p.lng]), { padding:[26,26] });
+      fit();
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom:21, maxNativeZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(mapObj);
+      L.polygon(CHURCH, { color:"#8a6a2b", weight:2, fillColor:"#e3a548", fillOpacity:.35, interactive:false }).addTo(mapObj).bindTooltip("Heiliggeist", { permanent:true, direction:"center", className:"churchlbl" });
+      ringLayers = RING.segs.map(sg => L.polyline(sg.map(p => [p.lat, p.lng]), { lineCap:"round", interactive:false }).addTo(mapObj));
+      ringDraw(st.walk);
+      setTimeout(() => { if (mapObj) { mapObj.invalidateSize(); fit(); } }, 250);
+    } catch(e) {} }
+    else $("#ringmap").outerHTML = `<div class="mapfallback">Die Karte lädt gerade nicht. Der Rundgang zählt trotzdem: Geht einmal ganz um die Kirche.</div>`;
+  }
+  const mark = ks => {
+    const cur = S.st.s6 || st; cur.walk = cur.walk || {}; if (cur !== st) Object.assign(cur.walk, st.walk);
+    let ch = false; ks.forEach(k => { if (!cur.walk[k]) { cur.walk[k] = true; ch = true; } });
+    if (ch) { st.walk = cur.walk; save(); ringDraw(cur.walk); if ($("#walkN")) $("#walkN").textContent = n(); }
+    if (n() >= RING_NEED && !cur.open) { st.open = true; cur.open = true; if (!S.apps.includes("haustechnik")) S.apps.push("haustechnik"); save();
+      if ($("#walkTxt")) $("#walkTxt").textContent = "Runde geschafft. Die App öffnet sich …"; if (watchId !== null) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; }
+      setTimeout(() => { PUZZLE_6(); fire("V_TURM"); }, 1400); return true; }
     return false;
   };
-  if (step(null)) return;
-  const sim = $("#walkSim"); if (sim) sim.onclick = () => { const k = WALK_DIRS.map(d => d[0]).find(k => !st.walk[k]); step(k); };
+  if (mark([])) return;
+  const sim = $("#walkSim"); if (sim) sim.onclick = () => { const k = Array.from({ length:RING_N }, (_, i) => i).find(i => !st.walk[i]); if (k !== undefined) mark([k]); };
   if (!navigator.geolocation || DEV.noGeo) { $("#walkTxt").textContent = DEV.noGeo ? "Standortprüfung aus (Testmodus)." : "Ohne Standort klappt der Rundgang nicht."; return; }
   try {
     if (watchId !== null) navigator.geolocation.clearWatch(watchId);
     watchId = navigator.geolocation.watchPosition(pos => {
       const p = { lat:pos.coords.latitude, lng:pos.coords.longitude }, t = $("#walkTxt"); if (!t) return;
-      if (pos.coords.accuracy > 30) { t.textContent = "GPS ist gerade ungenau. Kurz stehen bleiben."; return; }
-      const k = walkSector(p, c), d = Math.round(dist(p, c));
-      if (step(k)) return;
-      t.textContent = d > 160 ? `Ihr seid ${d} m von der Kirche entfernt. Geht näher heran.` : `${n()} von 4 Seiten geschafft. Weiter um die Kirche herum.`;
-    }, () => { const t = $("#walkTxt"); if (t) t.textContent = "Standort nicht freigegeben. Bitte im Browser erlauben."; }, { enableHighAccuracy:true, maximumAge:3000 });
+      if (mapObj) { const ll = [p.lat, p.lng];
+        if (!meMarker) meMarker = L.marker(ll, { icon:L.divIcon({ className:"", html:'<div class="me"></div>', iconSize:[16,16], iconAnchor:[8,8] }), interactive:false }).addTo(mapObj); else meMarker.setLatLng(ll); }
+      if (pos.coords.accuracy > 35) { t.textContent = "GPS ist gerade ungenau. Kurz stehen bleiben."; return; }
+      const d = Math.round(dist(p, RING.c));
+      if (mark(RING.pts.map((q, i) => dist(p, q) <= RING_R ? i : -1).filter(i => i >= 0))) return;
+      t.textContent = d > 120 ? `Ihr seid ${d} m von der Kirche entfernt. Geht näher heran.` : txt();
+    }, () => { const t = $("#walkTxt"); if (t) t.textContent = "Standort nicht freigegeben. Bitte im Browser erlauben."; }, { enableHighAccuracy:true, maximumAge:2000 });
   } catch(e) {}
 }
 /* Zeitstrahl Tatabend: pro Person Aussage (gestrichelt) und Protokoll (voll). Tippen zeigt Details. */
@@ -2299,7 +2349,7 @@ function showEnding(){
     Die Stimme am Telefon war <b>Dr. Helena Dorn</b>. Sie hatte die Stücke längst an einen Käufer versprochen, als Falkenried am Tatabend verkündete, sie gingen an die Stadt. Um 20:30 tat sie so, als würde sie gehen. Um 20:48 öffnete sie mit der gestohlenen Karte R7 das Archiv. Die Kassette fand sie nicht. Deshalb brauchte sie euch.
     <span class="red">Das Erbe geht zurück nach Landshut.</span></div>
     <div class="sec">Was war echt?</div>
-    <div class="hint"><p style="margin:0">Echt: Burg Trausnitz und ihr Brand 1961, alle Herzöge der Wand und ihre Geschichten (Otto I. 1180, Gründung Landshuts 1204, Maria von Brabant 1256, Kaiser Ludwig der Bayer, Agnes Bernauer 1435), die Landshuter Hochzeit 1475, die Hochzeitsrechnung, die Fassade des Landschaftshauses, das Denkmal von 1858, Georgs Tod 1503, Elisabeth und der Landshuter Erbfolgekrieg, die Stadtresidenz ab 1536, der Turm von St. Martin, der Baubeginn von Heiliggeist 1407, der Kölner Spruch von 1505, Elisabeths vier Söhne und die drei Helme im Wappen.</p>
+    <div class="hint"><p style="margin:0">Echt: Burg Trausnitz und ihr Brand 1961, die Herzöge der Wand (Gründung Landshuts 1204, Kaiser Ludwig der Bayer 1328), die Landshuter Hochzeit 1475, die Hochzeitsrechnung, die Fassade des Landschaftshauses, das Denkmal von 1858, Georgs Tod 1503, Elisabeth und der Landshuter Erbfolgekrieg, die Stadtresidenz ab 1536, der Turm von St. Martin, der Baubeginn von Heiliggeist 1407, der Kölner Spruch von 1505, Elisabeths vier Söhne und die drei Helme im Wappen.</p>
     <p>Erfunden: Falkenried und alle Figuren, der Mord, die Kiste, dass Elisabeths Sohn Georg 1504 überlebt hat, jede Abstammung davon, die Sage vom Ritter am Ländtor.</p></div>`);
   const b = $("#endPlay");
   const play = () => { if (curAudio && !curAudio.paused) { stopAudio(); b.textContent = "▶ Glückwünsche von Seidl"; return; }
@@ -2632,7 +2682,7 @@ function standQs(){
 }
 function standQuestion(){
   if (S.ending) return "Fall gelöst.";
-  return ({ 1:"Was steht in Falkenrieds Notizbuch?", 2:"Wer hat die Hochzeit von 1475 bezahlt?", 3:"Mit welchem Jahr ist Falkenrieds Archiv gesichert?",
+  return ({ 1:"Was steht in Falkenrieds Notizbuch?", 2:"Wer hat die Hochzeitsrechnung von 1475 beglichen?", 3:"Mit welchem Jahr ist Falkenrieds Archiv gesichert?",
     4:"Was genau ist aus dem Erbe verschwunden?", 5:"Ist der Brief aus dem Winter 1503 echt?", 6:"Wer kam um 20:48 an die Archivtür?",
     7:"Wer hatte um 20:48 ein sicheres Alibi, und wer nicht?", 8: S.st.accused ? "Welcher Name öffnet die Kassette?" : "Wer war es, und womit beweist ihr es?" })[S.stage] || "";
 }
@@ -2655,7 +2705,7 @@ const FA = [
     open:() => { sheet(`<div class="kind">Tatort</div><h2>Die fünf Spuren</h2>${spurenBild()}<p style="font-size:13px;color:var(--muted)">Tippt eine Nummer an.</p><button class="btn" data-close>Schließen</button>`);
       document.querySelectorAll("[data-spur]").forEach(b => b.onclick = () => spurSheet(SPUREN.find(x => x.id === b.dataset.spur))); } },
   { k:"tagebuch", kind:"Dokument", t:"Falkenrieds Tagebuch", s:() => diaryPages().length + " Seiten, mit der Hochzeitsrechnung von 1475", has:() => S.apps.includes("notizen"), open:() => openNotebook() },
-  { k:"fassade", kind:"Notiz", t:"Notizen zur Fassade", s:"Adler, Kaiser, Residenz, Heiliggeist", has:() => hasEv("E03"),
+  { k:"fassade", kind:"Notiz", t:"Notizen zur Fassade", s:"Residenz, Heiliggeist, Ludwig in Bronze", has:() => hasEv("E03"),
     open:() => { nbPage = null; openNotebook(false, "fassade"); } },
   { k:"V_ERBE", voice:true },
   { k:"V_ALBRECHT", voice:true },
