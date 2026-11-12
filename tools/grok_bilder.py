@@ -129,7 +129,7 @@ MOTIVE = {
     "k_taxi": {
         "aspect_ratio": "16:9",
         "prompt": (
-            'Grainy black-and-white security camera footage at night, high-angle wide-angle view over the small driveway of an old townhouse: a taxi with its roof sign lit waits at the gate, a woman with a short dark bob haircut and a patterned silk scarf around her neck walks out of the front door, pulling on a long dark coat while walking towards the taxi. Low resolution, noise, fisheye distortion, CCTV look. Face not recognisable, no timestamp, no readable text, no licence plate, no logos.'
+            'Grainy black-and-white security camera footage at night, high-angle wide-angle view over the small driveway of an old townhouse: a taxi with its roof sign lit waits at the gate, a woman with a short dark bob haircut and a patterned silk scarf around her neck walks out of the front door, pulling on a long dark coat while walking towards the taxi. The driveway behind the taxi is empty: no other car parked, only fresh tyre tracks in the snow where a car stood before. Low resolution, noise, fisheye distortion, CCTV look. Face not recognisable, no timestamp, no readable text, no licence plate, no logos.'
         ),
     },
     "f_wiese": {
