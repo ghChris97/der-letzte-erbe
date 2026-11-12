@@ -1927,14 +1927,14 @@ const STATEMENTS = [
   { id:"clara", who:"Clara Weiß", t:"„Ich saß den ganzen Abend bei den anderen am Tisch. Fragen Sie sie.“", lie:true }
 ];
 const PROTOCOL = [
-  ["20:30","Dr. Helena Dorn verabschiedet sich im Flur"],["20:34–20:52","Benedikt Mair telefoniert draußen"],["20:44–20:58","Tobias von Falkenried auf der Terrasse (Kamera)"],
+  ["20:30","Dr. Helena Dorn verabschiedet sich im Flur"],["20:34–20:52","Handy von Benedikt Mair: Anruf, 18 Minuten, außerhalb des Haus-WLANs"],["20:44–20:58","Tobias von Falkenried auf der Terrasse (Kamera)"],
   ["20:44–20:52","Platz von Clara Weiß am Tisch leer, ihr Handy im Flur"],["??:??","Archivtür geöffnet – Details geschwärzt"],
   ["21:02","Wagen von Dr. Helena Dorn verlässt das Grundstück"],["21:25","Tobias von Falkenried findet seinen Onkel im Archiv"]
 ];
 /* Eine Aussage nach der anderen: stimmt sie oder ist sie gelogen? lie:null = halb wahr, beides zählt. */
 const JUDGE = [
   { id:"tobias", lie:false, v:"stimmt", ok:"Die Terrassenkamera zeigt ihn von 20:44 bis 20:58 draußen.", no:"Schaut noch einmal auf die Terrassenkamera." },
-  { id:"mair", lie:null, v:"halb wahr", ok:"Er war draußen am Telefon. Aber sein „kurz“ dauerte 18 Minuten, von 20:34 bis 20:52." },
+  { id:"mair", lie:null, v:"halb wahr", ok:"Telefoniert hat er wirklich, draußen, das zeigt sein Handy. Aber sein „kurz“ dauerte 18 Minuten, von 20:34 bis 20:52." },
   { id:"clara", lie:true, v:"gelogen", ok:"Von 20:44 bis 20:52 ist ihr Platz am Tisch leer. Ihr Handy war im Flur.", no:"Schaut noch einmal durch die Glastür der Terrassenkamera." },
   { id:"helena", lie:true, v:"gelogen", ok:"Ihr Wagen stand um 20:35 noch in der Einfahrt und fuhr erst um 21:02.", no:"Wann fuhr ihr Wagen wirklich los? Schaut auf die Kamera an der Einfahrt." }
 ];
@@ -1942,10 +1942,10 @@ function liesStep(){
   const st = S.st.s6, k = st.judged || 0, J = JUDGE[k], x = STATEMENTS.find(q => q.id === J.id);
   const prot = PROTOCOL.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join("");
   openWin("Haustechnik", `<div class="sec" style="margin-top:0">1 · Kameras vom Tatabend</div>${camList()}
-    <div class="sec">2 · Aussage ${k + 1} von ${JUDGE.length}: stimmt das?</div>
+    <div class="sec">2 · Aussage ${k + 1} von ${JUDGE.length}: stimmt das?</div><p class="empty" style="text-align:left;padding:0 0 8px">Vergleicht mit den Kameras und dem Protokoll darunter.</p>
     <div class="hint"><h3 style="display:flex;align-items:center;gap:12px"><img src="img/${x.id}_av.jpg" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none">${esc(x.who)}</h3><p style="margin-top:4px">${esc(x.t)}</p>
       <div class="acts2"><button data-judge="ok">Stimmt</button><button data-judge="lie">Gelogen</button></div><p id="lieMsg" class="empty" style="padding:8px 0 0;text-align:left"></p></div>
-    <details class="hint" style="margin-top:10px"><summary style="font-weight:600;cursor:pointer">Protokoll der Haustechnik</summary><table class="prot" style="margin-top:8px">${prot}</table></details>`);
+    <details class="hint" open style="margin-top:10px"><summary style="font-weight:600;cursor:pointer">Protokoll der Haustechnik</summary><table class="prot" style="margin-top:8px">${prot}</table></details>`);
   $("#winBody").onclick = e => { const c = e.target.closest("[data-cam]"); if (c) return playCam(c.dataset.cam);
     const b = e.target.closest("[data-judge]"); if (!b) return;
     const cur = S.st.s6; if ((cur.judged || 0) !== k) return liesStep();   /* ein anderes Handy war schneller */
