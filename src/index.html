@@ -444,7 +444,7 @@ const CONTENT = {
   },
   messages: {
     N01: { thread: "unbekannt", text: "Ihr habt den Vater gefunden. Schön. Fragt euch lieber, wo Notar Mair am Tatabend war. Achtzehn Minuten sind eine lange Zeit für ein Telefonat." },
-    N02: { thread: "unbekannt", text: "Ihr sucht Brosche, Taler und Siegel? Ich habe einen Brief aus dem Winter 1503. Er sagt, wo die drei Stücke damals lagen. Dreht euch um.", attachment: "Brief_1503.pdf" },
+    N02: { thread: "unbekannt", text: "Ihr sucht die Kiste mit den fehlenden Erbstücken? Ich habe einen Brief aus dem Winter 1503. Er sagt, wo sie damals lag. Dreht euch um.", attachment: "Brief_1503.pdf" },
     N03: { thread: "unbekannt", text: "Ein falscher Brief? Dann hat jemand im Archiv gepfuscht. Notar Mair hatte die Datei offen. Nur so als Hinweis." },
     N06: { thread: "unbekannt", text: "Ihr habt sie. Öffnet sie nicht. Ich hole sie gleich ab." }
   },
@@ -478,7 +478,7 @@ const CONTENT = {
     S5: { title:"Stadtresidenz – Der Brief", steps:[
       "Lest den Brief Zeile für Zeile. Welche Angabe passt nicht in das Jahr 1503?",
       "Schaut in den Steckbrief: Wann wurde mit dem Bau der Residenz begonnen?",
-      "Die Residenz wurde erst 1536 begonnen. Tippt „lagern sicher in der Stadtresidenz des Herzogs“." ] },
+      "Die Residenz wurde erst 1536 begonnen. Tippt „lagert sicher in der Stadtresidenz des Herzogs“." ] },
     S6: { title:"Heiliggeist – Rundgang und Tatabend", steps:[
       "Lasst die Karte offen und geht einmal ganz um die Kirche, bis alle Wegstücke verschwunden sind. Bei ungenauem GPS kurz stehen bleiben.",
       "Schaut alle Kameraaufnahmen an. Wann fuhr der Wagen von Dr. Helena Dorn wirklich weg? Und wessen Platz am Tisch ist durch die Glastür leer?",
@@ -521,7 +521,7 @@ const CONTENT = {
       task:"Die Mappe hat ein Wappenschloss mit drei Rädern. Die Einstellung hängt über der Rathausuhr.",
       action:"Mappe öffnen" },
     { id:5, name:"Stadtresidenz", spot:"Altstadt, gegenüber dem Rathaus", lat:48.536103, lng:12.151237, why:"Unbekannt schickt einen Brief von 1503. Prüft, ob er echt sein kann.", seek:"das Gebäude direkt gegenüber vom Rathaus. Prüft, ob der Brief echt sein kann.",
-      src:"Nachricht von Unbekannt", clue:"Ich habe euch einen Brief aus jenem Winter angehängt. Er sagt, wo die drei Stücke damals lagen. Dreht euch um.",
+      src:"Nachricht von Unbekannt", clue:"Ich habe euch einen Brief aus jenem Winter angehängt. Er sagt, wo die Kiste mit den fehlenden Erbstücken lag. Dreht euch um.",
       task:"Ihr steht vor dem Gebäude, das der Brief nennt. Kann er wirklich von 1503 sein?",
       action:"Brief öffnen" },
     { id:6, name:"Heiliggeistkirche", spot:"Einmal rund um die Kirche", lat:48.538667, lng:12.152562, why:"Die Haustechnik zeigt, wer am Tatabend an die Archivtür kam.", seek:"die Heiliggeistkirche. Geht einmal ganz um sie herum.",
@@ -1903,8 +1903,8 @@ PUZZLE_4 = function(){
 /* ---------- Station 5: Brief ---------- */
 const LETTER = [
   { t:"Anno 1503, im Advent.", k:"date" },
-  { t:"Brosche, Taler und Siegel des Erbes", k:"x" },
-  { t:"lagern sicher in der Stadtresidenz des Herzogs,", k:"ok" },
+  { t:"Die versiegelte Kiste mit den Erbstücken", k:"x" },
+  { t:"lagert sicher in der Stadtresidenz des Herzogs,", k:"ok" },
   { t:"bewacht von zwei Männern seines Vertrauens.", k:"x" },
   { t:"Gott schütze das Erbe des Hauses.", k:"x" }
 ]; /* Fehler im Brief: die Stadtresidenz wurde erst 1536 begonnen (steht in Falkenrieds Fassadennotiz) */
