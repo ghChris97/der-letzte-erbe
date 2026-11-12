@@ -108,6 +108,18 @@ MOTIVE = {
             'Grainy black-and-white security camera footage at night, high-angle wide-angle view over the small driveway of an old townhouse: a dark mid-size car parked, light snow on its roof, the front door of the house in the background with a lit lantern, nobody around. Low resolution, noise, slight fisheye distortion, CCTV look. No timestamp, no readable text, no licence plate, no logos.'
         ),
     },
+    "k_mair": {
+        "aspect_ratio": "16:9",
+        "prompt": (
+            'Grainy black-and-white security camera footage at night, high-angle wide-angle view over the small driveway of an old townhouse: a dark mid-size car parked in the foreground, light snow on its roof. At the open wrought-iron gate to the street stands a heavy-set older man in a long dark overcoat and scarf, holding a phone to his ear, half turned away, breath visible in the cold air. Snowy cobblestones, a lit lantern on the house wall. Low resolution, noise, slight fisheye distortion, CCTV look. Face not recognisable, no timestamp, no readable text, no licence plate, no logos.'
+        ),
+    },
+    "k_flur": {
+        "aspect_ratio": "16:9",
+        "prompt": (
+            'Grainy black-and-white security camera footage at night, high-angle wide-angle view over the small driveway of an old townhouse: the front door with a Christmas wreath and next to it a tall lit hallway window. Through the window a woman with a short dark bob haircut and a patterned silk scarf stands in the hallway, holding a phone to her ear, turned slightly away from the window. A dark car parked at the edge of the frame, snow on the cobblestones. Low resolution, noise, slight fisheye distortion, CCTV look. Face not recognisable, no timestamp, no readable text, no licence plate, no logos.'
+        ),
+    },
     "k_mantel": {
         "aspect_ratio": "16:9",
         "prompt": (
