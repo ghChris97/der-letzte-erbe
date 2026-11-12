@@ -343,6 +343,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .paper .photoPh{border:1px dashed #8a8270;padding:26px 10px;text-align:center;font-size:13px;color:#6a6355}
 .nb h3{margin:0 0 8px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#7a6d55}
 .trx summary{cursor:pointer;color:var(--muted);font-size:13px;font-weight:600;padding:4px 0}.trx[open] summary{margin-bottom:6px}
+.couple{display:flex;align-items:center;justify-content:center;gap:8px;margin:12px 0}.couple figure{margin:0;text-align:center;flex:1}.couple img{width:84px;height:84px;object-fit:cover;border-radius:50%;filter:grayscale(1) sepia(.55) contrast(1.15);border:2px solid #b89a63}.couple figcaption{font-size:13px;line-height:1.3;margin-top:4px}.couple figcaption b{display:block;font-size:17px}.couple .amp{font-size:26px;color:#9c1f1f}
 .paid{display:inline-block;margin-top:10px;border:2px solid #9c1f1f;color:#9c1f1f;font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.14em;padding:2px 10px;border-radius:4px;transform:rotate(-4deg)}
 .nb .red{color:#9c1f1f;font-style:italic;font-size:16px;display:block;margin-top:10px;transform:rotate(-1.5deg)}
 .nb table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:14px}
@@ -567,11 +568,12 @@ const CONTENT = {
   },
   /* Falkenrieds Tagebuch. req: erscheint erst, wenn diese Notiz freigeschaltet ist. start: hier schlägt das Buch beim ersten Öffnen auf. */
   diary: [
-    { date:"Sonntag, 2. November 2026", html:"Neuburg an der Donau, Kirchenbücher. Zwei Tage zwischen Staub und Latein. Im Jahr 1504 ein Eintrag, der nicht zu den anderen passt: ein Kindername, durchgestrichen, daneben eine andere Hand.<br><br>Und heute habe ich gefunden, wonach ich seit Jahren suche.<span class=\"red\">Bester Tag meines Lebens. Mehr schreibe ich nicht, nicht einmal hier.</span>" },
-    { date:"Freitag, 28. November 2026", html:"Jemand war an meinem Schreibtisch. Die Mappe lag anders, als ich sie hingelegt hatte, und im Archivprogramm war eine Datei geöffnet, die ich seit Wochen nicht angefasst habe.<br><br>Wer hat einen Schlüssel? Zu viele." },
-    { date:"Mittwoch, 10. Dezember 2026", fk:"fassade", html:"Lange vor dem Haus der Landstände gestanden. Drei Reihen, dreißig Herzöge. Ein Foto der ganzen Wand, fest eingeklebt. Was ich darauf gefunden habe, schreibe ich nicht offen hin:<div class=\"glued\"><img src=\"img/fassade_wand.jpg\" alt=\"Foto der bemalten Fassade des Landschaftshauses\" style=\"width:100%;display:block;border-radius:4px\"></div>" },
-    { date:"Freitag, 12. Dezember 2026", html:"Tobias war wieder da. Mein Neffe hat wieder nach Geld gefragt.<span class=\"red\">Nein.</span>" },
-    { date:"Donnerstag, 18. Dezember 2026", start:true, html:"Für den, der das hier liest.<br><br>In Sankt Martin hat Georg 1475 seine Hedwig geheiratet. Hier meine Abschrift der Hochzeitsrechnung:<table style=\"margin-top:8px\"><tr><td>Ochsen</td><td>323</td></tr><tr><td>Schweine</td><td>285</td></tr><tr><td>Ungarische Schafe</td><td>1.133</td></tr><tr><td>Gänse</td><td>11.500</td></tr><tr><td>Hühner</td><td>40.000</td></tr><tr><td>Eier</td><td>194.345</td></tr></table><span class=\"red\">Beglichen durch Herzog %%ZAHLER%%, den Vater des Bräutigams.</span><br>Die Tinte ist verwischt. Wer es war, steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit." },
+    { date:"Montag, 2. November 2026", html:"Neuburg an der Donau, Kirchenbücher. Zwei Tage zwischen Staub und Latein. Im Jahr 1504 ein Eintrag, der nicht zu den anderen passt: ein Kindername, durchgestrichen, daneben eine andere Hand.<br><br>Und heute habe ich gefunden, wonach ich seit Jahren suche.<span class=\"red\">Bester Tag meines Lebens. Mehr schreibe ich nicht, nicht einmal hier.</span>" },
+    { date:"Samstag, 28. November 2026", html:"Jemand war an meinem Schreibtisch. Die Mappe lag anders, als ich sie hingelegt hatte, und im Archivprogramm war eine Datei geöffnet, die ich seit Wochen nicht angefasst habe.<br><br>Wer hat einen Schlüssel? Zu viele." },
+    { date:"Donnerstag, 10. Dezember 2026", fk:"fassade", html:"Lange vor dem Haus der Landstände gestanden. Drei Reihen, dreißig Herzöge. Ein Foto der ganzen Wand, fest eingeklebt. Was ich darauf gefunden habe, schreibe ich nicht offen hin:<div class=\"glued\"><img src=\"img/fassade_wand.jpg\" alt=\"Foto der bemalten Fassade des Landschaftshauses\" style=\"width:100%;display:block;border-radius:4px\"></div>" },
+    { date:"Samstag, 12. Dezember 2026", html:"Tobias war wieder da. Mein Neffe hat wieder nach Geld gefragt.<span class=\"red\">Nein.</span>" },
+    { date:"Donnerstag, 17. Dezember 2026", start:true, html:"Für den, der das hier liest: Alles beginnt mit einer Hochzeit.<div class=\"couple\"><figure><img src=\"img/hist_georg.jpg\" alt=\"\"><figcaption><b>Georg</b>der Bräutigam, 20<br>Sohn des Herzogs von Landshut</figcaption></figure><span class=\"amp\">∞</span><figure><img src=\"img/hist_hedwig.jpg\" alt=\"\"><figcaption><b>Hedwig</b>die Braut, 18<br>Tochter des Königs von Polen</figcaption></figure></div>Am 14. November 1475 heirateten sie in St. Martin. Die Landshuter Hochzeit, eines der größten Feste des Mittelalters.<span class=\"red\">Blättert um: die Rechnung.</span>" },
+    { date:"Freitag, 18. Dezember 2026", html:"Meine Abschrift der Hochzeitsrechnung von 1475:<table style=\"margin-top:8px\"><tr><td>Ochsen</td><td>323</td></tr><tr><td>Schweine</td><td>285</td></tr><tr><td>Ungarische Schafe</td><td>1.133</td></tr><tr><td>Gänse</td><td>11.500</td></tr><tr><td>Hühner</td><td>40.000</td></tr><tr><td>Eier</td><td>194.345</td></tr></table><span class=\"red\">Beglichen durch Herzog %%ZAHLER%%, den Vater des Bräutigams.</span><br>Die Tinte ist verwischt. Wer es war, steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit." },
     { date:"Samstag, 19. Dezember 2026, morgens", html:"Heute Abend sage ich es allen. Die Gäste kommen um sieben. Nach dem Dessert.<br><br>Es gehört nicht mir. Es gehört dieser Stadt.<span class=\"red\">Und wenn mir etwas zustößt: Notar Mair weiß, was zu tun ist.</span>" }
   ]
 };
@@ -1037,6 +1039,7 @@ function diaryPages(){ const zahler = S.apps.includes("fotos") ? "Ludwig" : "L�
 function openNotebook(first, jumpReq){
   const pages = diaryPages();
   if (jumpReq) nbPage = pages.findIndex(d => d.req === jumpReq || d.fk === jumpReq);
+  else if (first) nbPage = pages.findIndex(d => d.start);
   else if (nbPage === null && pages.some(d => isNew("notizen", d.key))) nbPage = pages.findIndex(d => isNew("notizen", d.key));
   if (nbPage === null || nbPage < 0 || nbPage >= pages.length) nbPage = Math.max(0, pages.findIndex(d => d.start));
   const d = pages[nbPage]; const unseenNb = pages.map(x => isNew("notizen", x.key)); newsSeen("notizen", d.key);
@@ -1267,6 +1270,9 @@ function acceptCall(id, w){
    ============================================================ */
 const CUES = {"CALL_01": [[0.1, 2.675], [2.625, 4.788], [4.788, 10.458], [10.458, 12.833], [12.833, 15.275], [15.275, 20.222]], "CALL_06": [[0.1, 2.02], [1.97, 4.748], [4.748, 9.805], [9.805, 14.055], [14.055, 20.095]], "CALL_07": [[0.1, 2.508], [2.458, 6.041], [6.041, 8.094], [8.094, 12.625]], "V_ERBE": [[0.1, 3.686], [3.636, 7.883], [7.883, 12.571], [12.571, 20.142], [20.142, 22.897], [22.897, 25.696], [25.696, 29.857], [29.857, 36.42], [36.42, 38.977], [38.977, 41.576]], "V_RESIDENZ": [[0.1, 1.977], [1.927, 5.533], [5.533, 11.588], [11.588, 17.252], [17.252, 20.143], [20.143, 25.234], [25.234, 28.971], [28.971, 35.104]], "V_TURM": [[0.1, 4.297], [4.247, 6.59], [6.59, 10.525]], "V_ZEUGIN": [[0.1, 3.555], [3.505, 6.385], [6.385, 11.793], [11.793, 18.315], [18.315, 24.089], [24.089, 28.165], [28.165, 30.828]], "ZEUGIN_KURZ": [[0.1, 4.655], [4.605, 10.244], [10.244, 14.32], [14.32, 16.983]], "V_MAIR": [[0.1, 5.169], [5.119, 9.122], [9.122, 14.72], [14.72, 20.226], [20.226, 24.96], [24.96, 30.811], [30.811, 32.619]], "V_FINALE": [[0.1, 3.686], [3.636, 7.741], [7.741, 10.582], [10.582, 16.377], [16.377, 18.465], [18.465, 25.738], [25.738, 28.323], [28.323, 32.301], [32.301, 34.701], [34.701, 39.289], [39.289, 44.9]], "V_START": [[0.1, 4.984], [4.934, 8.906], [8.906, 13.919], [13.919, 19.101], [19.101, 27.486], [27.486, 29.817], [29.817, 34.492], [34.492, 39.322], [39.322, 42.656], [42.656, 48.789]], "V_ALBRECHT": [[0.1, 3.871], [3.821, 8.849], [8.849, 16.164], [16.164, 19.389], [19.389, 24.886], [24.886, 28.636], [28.636, 34.133], [34.133, 38.65], [38.65, 41.321], [41.321, 48.38]]};
 let curAudio = null;
+/* Alle Aufnahmen etwas schneller abspielen, Tonhöhe bleibt gleich. Zeitmarken laufen mit, weil sie an currentTime hängen. */
+const VO_RATE = 1.1;
+function vo(src){ const a = new Audio(src); a.defaultPlaybackRate = VO_RATE; a.playbackRate = VO_RATE; a.preservesPitch = true; return a; }
 ["VERHOER_HELENA","VERHOER_MAIR","VERHOER_TOBIAS","VERHOER_CLARA","VERHOER_FELD"].forEach(k => { CUES[k] = []; });
 const RECORDINGS = {"helena": {"id": "VERHOER_HELENA", "text": "Seidl: Frau Dr. Dorn, Sie haben Herrn von Falkenrieds Archiv betreut. Wann haben Sie gestern das Haus verlassen?\nDorn: Um halb neun. Ich hatte Kopfschmerzen. Ich habe mich im Flur von Frau Brandl verabschiedet, den Mantel angezogen und bin ins Hotel gefahren.\nSeidl: Direkt ins Hotel?\nDorn: Direkt. Um kurz nach neun lag ich im Bett. Von alldem habe ich erst heute Morgen erfahren.\nSeidl: Sie kannten sein Archiv gut.\nDorn: Seit drei Jahren. Ich kenne jedes Blatt darin. Gerade deshalb tut das so weh."}, "mair": {"id": "VERHOER_MAIR", "text": "Seidl: Herr Mair, Sie sind Herrn von Falkenrieds Notar. Sie waren während des Abends eine Weile nicht am Tisch.\nMair: Ich habe kurz telefoniert, draußen. Ein beruflicher Anruf.\nSeidl: Mit wem?\nMair: Dazu kann ich nichts sagen. Ich bin an meine Schweigepflicht gebunden.\nSeidl: Wie lange waren Sie draußen?\nMair: Ein paar Minuten. Mehr nicht."}, "tobias": {"id": "VERHOER_TOBIAS", "text": "Seidl: Herr von Falkenried, Sie sind sein Neffe. Man hat Sie mit Ihrem Onkel streiten hören.\nTobias: Ja, wir haben gestritten. Laut. Es ging um Geld, um was sonst.\nSeidl: Und danach?\nTobias: Danach war ich rauchen, auf der Terrasse. Bestimmt eine Viertelstunde. Ich wollte nicht mehr rein.\nSeidl: Sie haben ihn gefunden.\nTobias: Kurz vor halb zehn. Die Archivtür stand offen. Ich … ich will darüber nicht reden."}, "clara": {"id": "VERHOER_CLARA", "text": "Seidl: Frau Weiß, Sie sind Kunsthändlerin. Wo waren Sie gestern zwischen halb neun und neun?\nWeiß: Am Tisch, bei den anderen Gästen. Den ganzen Abend. Fragen Sie sie.\nSeidl: Sie haben ein Taxi bestellt.\nWeiß: Ja, gegen neun. Ich wollte nach Hause, die Stimmung war … unangenehm.\nSeidl: Kannten Sie Herrn von Falkenrieds Sammlung?\nWeiß: Natürlich. Ich bin Kunsthändlerin. Aber nur aus seinen Erzählungen."}, "feld": {"id": "VERHOER_FELD", "text": "Telefonische Vernehmung\nSeidl: Herr Feld, danke, dass Sie zurückrufen. Wo waren Sie am Abend des 19. Dezember?\nFeld: In Regensburg. Ich restauriere gerade ein Altarbild im Dom. Wir haben bis nach zehn gearbeitet, das können Ihnen drei Kollegen bestätigen.\nSeidl: Ihre Zutrittskarte wurde an diesem Abend an der Archivtür benutzt.\nFeld: Das kann nicht sein. Die Karte ist mir vor einer Woche abhandengekommen. Zuletzt hatte ich sie im Archiv, als ich dort an den Urkunden gearbeitet habe.\nSeidl: Haben Sie den Verlust gemeldet?\nFeld: Ich hab es Herrn von Falkenried gesagt. Er meinte nur, die taucht schon wieder auf."}};
 function stopAudio(){ if (curAudio) { try { curAudio.pause(); } catch(e) {} curAudio = null; } try { speechSynthesis.cancel(); } catch(e) {} }
@@ -1288,8 +1294,7 @@ function charsAt(id, text, t, dur){
 }
 function playClip(id, text, cb){
   stopAudio();
-  if (!CUES[id]) return null;
-  const a = new Audio("audio/" + id + ".mp3"); curAudio = a;
+  const a = vo("audio/" + id + ".mp3"); curAudio = a;
   let failed = false;
   const fail = () => { if (failed) return; failed = true; if (curAudio === a) curAudio = null; if (cb && cb.fallback) cb.fallback(); };
   a.addEventListener("timeupdate", () => { if (cb && cb.progress) cb.progress(charsAt(id, text, a.currentTime, a.duration)); });
@@ -1311,9 +1316,9 @@ function toggleRec(who, btn){
 function speak(text, voice, cb){
   try {
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text); u.lang = "de-DE";
-    if (voice === "unbekannt") { u.pitch = 0.45; u.rate = 0.9; }
-    if (voice === "falkenried") { u.pitch = 0.85; u.rate = 0.95; }
+    const u = new SpeechSynthesisUtterance(text); u.lang = "de-DE"; u.rate = VO_RATE;
+    if (voice === "unbekannt") { u.pitch = 0.45; u.rate = 0.99; }
+    if (voice === "falkenried") { u.pitch = 0.85; u.rate = 1.05; }
     const de = speechSynthesis.getVoices().find(v => v.lang && v.lang.startsWith("de")); if (de) u.voice = de;
     if (cb) { u.onstart = cb.onstart; u.onboundary = cb.onboundary; u.onend = cb.onend; u.onerror = cb.onend; }
     speechSynthesis.speak(u);
@@ -1460,7 +1465,7 @@ function cutscene(frames, onDone){
     if (f.vo && f.vo.length) {
       fallback(); /* falls der Ton gar nicht startet */
       const playPart = j => { if (ended || k !== i) return; if (j >= f.vo.length) { clearTimeout(timer); timer = setTimeout(() => { if (k === i) show(i + 1); }, 1600); return; }
-        const a = new Audio("audio/" + f.vo[j] + ".mp3"); curAudio = a;
+        const a = vo("audio/" + f.vo[j] + ".mp3"); curAudio = a;
         a.addEventListener("ended", () => setTimeout(() => playPart(j + 1), 250));
         a.addEventListener("playing", () => { clearTimeout(timer); timer = setTimeout(() => { if (k === i) show(i + 1); }, 30000); }, { once:true });
         a.play().catch(() => fallback()); };
@@ -2189,7 +2194,7 @@ PUZZLE_7 = function(){
       <button class="btn primary" id="decGo">Prüfen</button><p id="dMsg" class="empty" style="padding:8px 0"></p>`);
     $("#sagePlay").onclick = () => { const b = $("#sagePlay");
       if (curAudio && !curAudio.paused) { stopAudio(); b.textContent = "▶ Die Sage vom Ritter am Ländtor"; return; }
-      b.textContent = "■ Stopp"; stopAudio(); const a = new Audio("audio/SAGE_LAENDTOR.mp3"); curAudio = a;
+      b.textContent = "■ Stopp"; stopAudio(); const a = vo("audio/SAGE_LAENDTOR.mp3"); curAudio = a;
       a.addEventListener("ended", () => { b.textContent = "▶ Nochmal anhören"; }); a.play().catch(() => { b.textContent = "▶ Die Sage vom Ritter am Ländtor"; }); };
     $(".abc").onclick = e => { const b = e.target.closest("[data-ch]"); if (!b) return; const f = $("#dec");
       f.value = b.dataset.ch === "del" ? f.value.slice(0, -1) : f.value + b.dataset.ch; $("#dMsg").textContent = ""; };
@@ -2357,7 +2362,7 @@ function showEnding(){
     <p>Erfunden: Falkenried und alle Figuren, der Mord, die Kiste, dass Elisabeths Sohn Georg 1504 überlebt hat, jede Abstammung davon, die Sage vom Ritter am Ländtor.</p></div>`);
   const b = $("#endPlay");
   const play = () => { if (curAudio && !curAudio.paused) { stopAudio(); b.textContent = "▶ Glückwünsche von Seidl"; return; }
-    stopAudio(); const a = new Audio("audio/SEIDL_ENDE.mp3"); curAudio = a; b.textContent = "■ Stopp";
+    stopAudio(); const a = vo("audio/SEIDL_ENDE.mp3"); curAudio = a; b.textContent = "■ Stopp";
     a.addEventListener("ended", () => { b.textContent = "▶ Nochmal anhören"; }); a.play().catch(() => { b.textContent = "▶ Glückwünsche von Seidl"; }); };
   b.onclick = play;
   const fillPhoto = d => { const slot = $("#tpSlot"); if (slot && d) slot.innerHTML = `<img src="${d}" alt="Foto der Ermittlungsgruppe">`; };
@@ -2616,7 +2621,7 @@ function castRow(img, name, line, sub, rec){
     : `<span style="width:46px;height:46px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--surface-2);font-family:var(--font-display);font-size:22px">${esc(name[0])}</span>`;
   const ok = rec && (S.heard || {})[rec];
   return `<div style="display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)">${av}<div style="flex:1;min-width:0"><b style="font-size:15px">${esc(name)}</b><div style="font-size:13px;color:var(--muted);line-height:1.4">${esc(line)}${sub ? `<br><i>${esc(sub)}</i>` : ""}</div>
-    ${rec ? `<div data-recst="${rec}" style="font-size:12px;margin-top:3px">${ok ? '<span style="color:#6fbf8a">✓ Vernehmung angehört</span>' : '<span style="color:#ff8a8a">Vernehmung noch nicht angehört</span>'}</div>` : ""}</div>
+    ${rec ? `<div data-recst="${rec}" style="font-size:12px;margin-top:3px">${ok ? '<span style="color:#6fbf8a">✓ Vernehmung angehört</span>' : ''}</div>` : ""}</div>
     ${rec ? `<button class="btn${ok ? "" : " primary"}" data-rec="${rec}" style="width:auto;margin:0;padding:8px 12px;flex:none">▶</button>` : ""}</div>`;
 }
 /* Zu Beginn: die vier Vernehmungen einmal komplett anhören (zählt fürs ganze Team) */
@@ -2654,7 +2659,7 @@ function showCast(after){
   const need = () => !!after && !heardAll() && !DEV.noLimit;   /* beim Start: erst alle vier Vernehmungen */
   const upd = () => { const b = $("#castOk"); if (!b) return; const n = REC_MUST.filter(id => (S.heard || {})[id]).length;
     b.disabled = need(); b.textContent = need() ? `Erst alle Vernehmungen anhören (${n} von 4)` : "Verstanden";
-    REC_MUST.forEach(id => { const e = document.querySelector(`#sheet [data-recst="${id}"]`); if (e && (S.heard || {})[id]) e.innerHTML = '<span style="color:#6fbf8a">✓ Vernehmung angehört</span>'; }); };
+    document.querySelectorAll("#sheet [data-recst]").forEach(e => { const id = e.dataset.recst; if ((S.heard || {})[id]) { e.innerHTML = '<span style="color:#6fbf8a">✓ Vernehmung angehört</span>'; const pb = document.querySelector(`#sheet [data-rec="${id}"]`); if (pb) pb.classList.remove("primary"); } }); };
   upd();
   document.querySelectorAll("#sheet [data-rec]").forEach(b => b.onclick = () => toggleRec(b.dataset.rec, b));
   window.onHeard = () => { if ($("#castOk")) upd(); };
@@ -2780,7 +2785,7 @@ function appOpen(app){ const a = APPS[app]; return !(a.lock && !S.apps.includes(
 function allUnseen(){
   const out = [];
   NEWS_APPS.filter(appOpen).forEach(app => newsItems(app).forEach(x => { if (unseenItem(app, x)) out.push(Object.assign({ app }, x)); }));
-  if (treeSeen().length && treeNew().length) out.push({ app:"stammbaum", k:"tree", t:"Stammbaum: " + treeNew().map(id => TREE[id].n).join(", "), open:() => { closeSheet(); openTree(); } });
+  if (treeSeen().length && treeNew().length) out.push({ app:"stammbaum", k:"tree", t:"Stammbaum: " + treeNew().map(id => treeP(id).n).join(", "), open:() => { closeSheet(); openTree(); } });
   return out;
 }
 /* Vor dem nächsten Rätsel müssen nur Sprachnachrichten, Nachrichten und die Vernehmungen gesehen sein.
@@ -2859,7 +2864,7 @@ const HOUSE = { la:"#c9a24a", mu:"#5b86b8", pf:"#9a6fd0", pl:"#c0504d", rx:"#8d9
 const TREE = {
   heinrich: { pic:"img/hist_heinrich.jpg", x:56,  y:36,  n:"Heinrich XVI.", s:"der Reiche|1386–1450", h:"la", when:"fassade",
     d:"Herzog von Bayern-Landshut, der erste der drei „Reichen Herzöge“. In seiner Zeit begann 1407 der Bau der Heiliggeistkirche." },
-  ludwig:   { pic:"img/hist_ludwig.jpg", x:56,  y:128, n:"Ludwig IX.", s:"der Reiche|1417–1479", h:"la", when:"fassade",
+  ludwig:   { pic:"img/hist_ludwig.jpg", x:56,  y:128, n:"Ludwig IX.", s:"der Reiche|1417–1479", h:"la", when:"hochzeit",
     d:"Georgs Vater. Er bezahlte 1475 die Landshuter Hochzeit seines Sohnes. Am Landschaftshaus steht er links neben Georg." },
   max:      { pic:"img/hist_max.jpg", x:304, y:128, n:"Maximilian I.", s:"König|1459–1519", h:"rx", when:"erbe",
     d:"Römisch-deutscher König. Er stellte sich im Erbfolgekrieg auf Albrechts Seite und ließ sich das mit Land und Burgen bezahlen." },
@@ -2887,6 +2892,9 @@ const TREE = {
   tobias:   { w:128, x:290, y:640, n:"Tobias v.|Falkenried", s:"Neffe, 31", h:"fk", when:"start", photo:"img/tobias_av.jpg", fiction:true,
     d:"Falkenrieds Neffe, galt als möglicher Erbe." }
 };
+/* Vor der Herzogswand kennt man Georgs Vater nur als verwischtes „L.“ auf der Rechnung */
+const treeP = id => (id === "ludwig" && !TREE_HAS.fassade()) ? Object.assign({}, TREE.ludwig, { pic:null, n:"L. ?", s:"Vater des Bräutigams|bezahlte die Hochzeit",
+  d:"Georgs Vater. Er hat die Hochzeit 1475 bezahlt, sein Name ist auf der Rechnung verwischt. Wer er war, zeigt die Herzogswand am Landschaftshaus." }) : TREE[id];
 const TREE_EDGES = [
   { a:"heinrich", b:"ludwig", t:"child" },
   { a:"ludwig", b:"georg", t:"child" },
@@ -2932,7 +2940,7 @@ function treeEdgeSvg(e){
   return "";
 }
 function treeNodeSvg(id){
-  const p = TREE[id], c = HOUSE[p.h], W = p.w || TW, x = p.x-W/2, y = p.y-TH/2, isNew = treeFresh.includes(id);
+  const p = treeP(id), c = HOUSE[p.h], W = p.w || TW, x = p.x-W/2, y = p.y-TH/2, isNew = treeFresh.includes(id);
   const ph0 = p.photo || p.pic || p.emoji, small = W < 100, ph = small ? null : ph0;
   const corner = small && ph0 ? (p.emoji ? `<circle cx="${x+10}" cy="${y+2}" r="11" fill="#2a3140" stroke="${c}"/><text x="${x+10}" y="${y+6.5}" font-size="12" text-anchor="middle">${p.emoji}</text>`
     : `<clipPath id="cc_${id}"><circle cx="${x+10}" cy="${y+2}" r="10"/></clipPath><circle cx="${x+10}" cy="${y+2}" r="11.5" fill="${c}"/><image href="${ph0}" x="${x}" y="${y-8}" width="20" height="20" preserveAspectRatio="xMidYMid slice" clip-path="url(#cc_${id})"/>`) : "";
@@ -2962,10 +2970,10 @@ function openTree(){
     <div style="margin:4px 0 8px">${legend}</div>${svgTree}`);
   $("#winBody").onclick = e => {
     const n = e.target.closest("[data-tp]");
-    if (n) { const p = TREE[n.dataset.tp];
+    if (n) { const p = treeP(n.dataset.tp);
       const fin = n.dataset.tp === "kind" && TREE_HAS.finale();
       let d = fin ? p.dF : p.d; if (n.dataset.tp === "tobias" && TREE_HAS.finale()) d += " Wenn Falkenried recht hatte, stammt auch er von Elisabeth ab.";
-      return sheet(`${p.pic ? `<img src="${p.pic}" alt="" style="width:76px;height:76px;border-radius:50%;object-fit:cover;float:right;margin-left:10px;border:2px solid ${HOUSE[p.h]}">` : ""}<div class="kind" style="color:${HOUSE[p.h]}">${p.fiction ? "Falkenrieds Familie" : fin ? "Historisch, mit Falkenrieds Vermutung" : "Historische Person"}</div><h2>${esc(p.n)}</h2><p style="font-family:var(--font-mono);font-size:12px">${esc(p.s)}</p><p>${esc(d)}</p>${p.pic ? `<p style="font-size:11px">Bild: historisches Porträt, gemeinfrei (Wikimedia Commons)</p>` : ""}<button class="btn" data-close>Schließen</button>`); }
+      return sheet(`${p.pic ? `<img src="${p.pic}" alt="" style="width:76px;height:76px;border-radius:50%;object-fit:cover;float:right;margin-left:10px;border:2px solid ${HOUSE[p.h]}">` : ""}<div class="kind" style="color:${HOUSE[p.h]}">${p.fiction ? "Falkenrieds Familie" : fin ? "Historisch, mit Falkenrieds Vermutung" : "Historische Person"}</div><h2>${esc(p.n.replace("|", " "))}</h2><p style="font-family:var(--font-mono);font-size:12px">${esc(p.s.replace("|", " · "))}</p><p>${esc(d)}</p>${p.pic ? `<p style="font-size:11px">Bild: historisches Porträt, gemeinfrei (Wikimedia Commons)</p>` : ""}<button class="btn" data-close>Schließen</button>`); }
     if (e.target.closest("[data-war]")) return sheet(`<div class="kind" style="color:#ff8a8a">Landshuter Erbfolgekrieg 1504/05</div><h2>Tochter gegen Vetter</h2>
       <p>Georg setzte seine Tochter Elisabeth und ihren Mann Ruprecht als Erben ein. Nach den Hausverträgen der Wittelsbacher durfte Land aber nur an Männer der Familie fallen, also an Albrecht in München.</p>
       <p>Albrecht zog mit König Maximilian in den Krieg. Dörfer in ganz Niederbayern brannten. Ruprecht und Elisabeth starben 1504 kurz nacheinander. 1505 fiel Landshut an München.</p><button class="btn" data-close>Schließen</button>`);
@@ -2978,7 +2986,7 @@ function treeCheck(){
   const key = fresh.join(",");
   if (treeCheck.last === key) return; treeCheck.last = key;
   if (!treeSeen().length) { treeMark(Object.keys(TREE).filter(id => TREE[id].when === "start")); return treeCheck(); } // Startpersonen ohne Meldung
-  banner("Stammbaum", "Neu eingetragen: " + fresh.map(id => TREE[id].n).join(", "), () => { closeSheet(); openTree(); });
+  banner("Stammbaum", "Neu eingetragen: " + fresh.map(id => treeP(id).n).join(", "), () => { closeSheet(); openTree(); });
   if (!$("#win")) renderHome();
 }
 setInterval(treeCheck, 2000);
