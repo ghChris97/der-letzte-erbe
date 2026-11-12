@@ -308,7 +308,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .mission{margin:14px 14px 0;padding:14px;border-radius:18px;background:#0d111ae6;border:1px solid var(--line);backdrop-filter:blur(10px);display:flex;flex-direction:column;gap:8px}
 .mission .k{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);display:flex;justify-content:space-between;gap:8px}
 .mission .tx{font-size:14.5px;line-height:1.45}
-.mission .clue{font-family:var(--font-display);font-size:19px;line-height:1.3;font-style:italic}
+.mission .clue{font-family:var(--font-display);font-size:18px;line-height:1.3;font-style:italic}
 .ndot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--decline);margin-left:6px;vertical-align:middle;box-shadow:0 0 0 2px #0008;flex:none}
 .newsrow{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:10px 12px;border-radius:12px;background:#e0555522;border:1px solid #e0555566;font-size:14px;font-weight:600;color:var(--text,#ece6da)}
 .newsrow .ndot{margin:0}.newsrow small{display:block;font-weight:400;color:var(--muted);font-size:12px;margin-top:2px}.newsrow .go2{margin-left:auto;color:#ff8a8a;font-size:13px;white-space:nowrap}
@@ -342,6 +342,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .paper p{font-size:14.5px;line-height:1.45;margin:0 0 8px;text-align:justify;hyphens:auto}
 .paper .photoPh{border:1px dashed #8a8270;padding:26px 10px;text-align:center;font-size:13px;color:#6a6355}
 .nb h3{margin:0 0 8px;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#7a6d55}
+.trx summary{cursor:pointer;color:var(--muted);font-size:13px;font-weight:600;padding:4px 0}.trx[open] summary{margin-bottom:6px}
 .paid{display:inline-block;margin-top:10px;border:2px solid #9c1f1f;color:#9c1f1f;font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.14em;padding:2px 10px;border-radius:4px;transform:rotate(-4deg)}
 .nb .red{color:#9c1f1f;font-style:italic;font-size:16px;display:block;margin-top:10px;transform:rotate(-1.5deg)}
 .nb table{width:100%;border-collapse:collapse;font-family:var(--font-ui);font-size:14px}
@@ -504,7 +505,7 @@ const CONTENT = {
       task:"Falkenrieds Notizbuch hat ein Zahlenschloss. Daran klebt ein Zettel von ihm.",
       action:"Notizen öffnen" },
     { id:2, name:"Landschaftshaus", spot:"Altstadt 28, die bemalte Fassade", lat:48.533888, lng:12.150226, revealMin:3, why:"Wer die Hochzeitsrechnung beglichen hat, führt zum Passwort für Falkenrieds Archiv.", seek:"die Herzogswand am Landschaftshaus, Altstadt 28.",
-      src:"Falkenrieds Tagebuch, Eintrag vom 18. Dezember", clue:"Beglichen durch Herzog L…, den Vater des Bräutigams. Wer es war, steht an einer Wand in der Altstadt, Hausnummer 28. Die ganze Familie, drei Mann hoch und zehn Mann breit.",
+      src:"Falkenrieds Tagebuch, Eintrag vom 18. Dezember", clue:"Beglichen durch Herzog L…, den Vater des Bräutigams. Wer es war, steht an einer Wand in der Altstadt, Hausnummer 28: drei Mann hoch, zehn Mann breit.",
       task:"Dreißig Herzöge, eine Familie. Falkenried hat vier von ihnen fotografiert. Findet jeden an der Wand, dann klärt sich die Rechnung.",
       action:"Eingeklebte Fotos ansehen" },
     { id:3, name:"Denkmal Ludwigs des Reichen", spot:"Dreifaltigkeitsplatz", lat:48.532417, lng:12.149794, why:"Im Archiv liegt als Kopie, was der Täter vom Tatort mitgenommen hat.", seek:"das Denkmal Ludwigs des Reichen und die Jahreszahl auf seinem Sockel.",
@@ -512,7 +513,7 @@ const CONTENT = {
       task:"Das Passwort ist das Jahr, in dem dieses Denkmal aufgestellt wurde. Falkenrieds Notiz: „Es steht auf seinem Rücken. In der Schrift der Römer.“",
       action:"Archiv öffnen" },
     { id:4, name:"Rathaus", spot:"Altstadt 315", lat:48.536228, lng:12.152024, why:"In Falkenrieds Mappe liegt die Liste, die am Tatort fehlt.", seek:"das Wappen über der Rathausuhr. Es ist der Code für das Schloss der Mappe.",
-      src:"Falkenrieds Sprachmemo, aufgenommen am 16. Oktober", clue:"Was in der Kiste war, steht in zwei Listen in meiner Mappe. Die Mappe hat ein Schloss mit drei Rädern. Was ihr einstellen müsst, hängt dort, wo die Bürger dieser Stadt seit Jahrhunderten ihren Rat halten.",
+      src:"Falkenrieds Sprachmemo, aufgenommen am 16. Oktober", clue:"Die Mappe hat ein Schloss mit drei Rädern. Was ihr einstellen müsst, hängt dort, wo die Bürger dieser Stadt seit Jahrhunderten ihren Rat halten.",
       task:"Die Mappe hat ein Wappenschloss mit drei Rädern. Die Einstellung hängt über der Rathausuhr.",
       action:"Mappe öffnen" },
     { id:5, name:"Stadtresidenz", spot:"Altstadt, gegenüber dem Rathaus", lat:48.536103, lng:12.151237, why:"Unbekannt schickt einen Brief von 1503. Prüft, ob er echt sein kann.", seek:"das Gebäude direkt gegenüber vom Rathaus. Prüft, ob der Brief echt sein kann.",
@@ -520,7 +521,7 @@ const CONTENT = {
       task:"Ihr steht vor dem Gebäude, das der Brief nennt. Kann er wirklich von 1503 sein?",
       action:"Brief öffnen" },
     { id:6, name:"Heiliggeistkirche", spot:"Einmal rund um die Kirche", lat:48.538667, lng:12.152562, why:"Die Haustechnik zeigt, wer am Tatabend an die Archivtür kam.", seek:"die Heiliggeistkirche. Geht einmal ganz um sie herum.",
-      src:"Kommissarin Seidl", clue:"Wer kam an die Archivtür? Die Daten liegen in Falkenrieds gesperrter App „Haustechnik“. Sie öffnet sich nur an der Kirche, deren Bau unter Heinrich dem Reichen begann.",
+      src:"Kommissarin Seidl", clue:"Die Zutrittsdaten liegen in Falkenrieds gesperrter App „Haustechnik“. Sie öffnet sich nur an der Kirche, deren Bau unter Heinrich dem Reichen begann.",
       task:"Hier öffnet sich Falkenrieds App „Haustechnik“. Lest seine Notiz dazu.",
       action:"Haustechnik öffnen" },
     { id:7, name:"Ländtor", spot:"Wappen über dem Torbogen", lat:48.535305, lng:12.149236, why:"Am Tor lässt sich die verschlüsselte Kuriernachricht vom Tatabend lesen.", seek:"das Ländtor mit dem Wappen über dem Torbogen.",
@@ -951,8 +952,7 @@ function openHints(){
    Auftrag und Fortschritt
    ============================================================ */
 const curStation = () => CONTENT.stations.find(x => x.id === S.stage);
-function newsBar(){ if (!S.unlocked) return ""; const un = allUnseen().filter(x => x.app !== "notizen"); /* Tagebuchseiten zählt das Notizbuch selbst */ if (!un.length) return "";
-  return `<button class="newsrow" data-mact="news"><span class="ndot"></span><span>${un.length === 1 ? "Neuer Hinweis" : un.length + " neue Hinweise"}<small>${esc(un[0].t)}${un.length > 1 ? " und mehr" : ""}</small></span><span class="go2">ansehen ›</span></button>`; }
+function newsBar(){ return ""; }   /* Neues zeigt nur noch der rote Punkt am App-Symbol */
 const viaPending = () => S.stage === 4 && S.phase === "go" && !(S.st && S.st.via4);
 function nearPoint(pt){ if (DEV.noGeo) return true; if (!geo.pos) return false; return dist(geo.pos, pt) - Math.min(geo.acc || 0, 30) <= NEAR_M; }
 function missionCard(){
@@ -1699,7 +1699,7 @@ function playVoice(id, auto){
   sheet(`${V.photo ? `<img src="${V.photo}" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px">` : ""}<div class="kind">${V.memo ? "Aufnahme von vor seinem Tod" : "Sprachnachricht"} · ${esc(V.from)}</div><h2>${esc(V.title)}</h2>${V.memo ? `<p style="font-size:12px;margin:-2px 0 10px">${esc(V.memo)}</p>` : ""}
     ${V.pre ? `<div class="hint" style="margin-bottom:10px"><p style="margin:0">${V.pre}</p></div>` : ""}
     <div class="grid2" style="margin-bottom:10px"><button class="btn primary" id="vPlay" style="margin:0">Abspielen</button><button class="btn" data-close style="margin:0">Schließen</button></div>
-    <div class="transcript">${esc(V.text)}</div>
+    <details class="trx"><summary>Text mitlesen</summary><div class="transcript">${esc(V.text)}</div></details>
     ${V.post ? `<div class="hint" style="margin-top:10px"><p style="margin:0">${V.post}</p></div>` : ""}`);
   $("#vPlay").onclick = () => {
     if (curAudio && !curAudio.paused) { stopAudio(); $("#vPlay").textContent = "Abspielen"; return; }
@@ -2155,16 +2155,20 @@ AFTER_CALL.CALL_01 = () => { if (S.stage === 1 && !S.apps.includes("notizen")) s
 
 AFTER_CALL.CALL_06 = () => { if (S.stage !== 6 || !S.st.s6 || S.st.s6.callOk) return; const st = S.st.s6; st.callDone = true; st.callOk = true; addEv("E13"); save();
   setTimeout(() => r7Question(), 600); };
-function r7Question(){
+function r7Question(step){
   const st = S.st.s6; newsSeen("verdaechtige", "feld");
-  sheet(`<img src="img/seidl_av.jpg" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px"><div class="kind">Kommissarin Seidl</div><h2>Das konnte der Anrufer nicht wissen</h2>
-    <p>„20:48 und die Karte R7 waren in der Akte noch geschwärzt. Das weiß nur, wer an der Archivtür war.“</p>
-    <div class="sec">Die geschwärzte Zeile ist jetzt frei · Karte R7</div>
-    <div style="display:flex;gap:12px;align-items:center;margin:6px 0 10px"><img src="img/feld_av.jpg" alt="" style="width:60px;height:60px;border-radius:50%;object-fit:cover;flex:none"><div><b>Jonas Feld, 39</b><div style="font-size:13px;color:var(--muted)">Restaurator, arbeitete für Falkenried im Archiv</div></div></div>
-    <p>„Die Karte gehört Jonas Feld. Er war an dem Abend in Regensburg, drei Kollegen bestätigen es. Die Karte vermisst er seit einer Woche, zuletzt hatte er sie im Archiv.“</p>
-    <button class="btn" id="feldRec" style="margin-bottom:14px">▶ Telefonat mit Jonas Feld anhören</button>
-    <h2>Was beweist der Eintrag „Karte R7, 20:48“?</h2>
-    <button class="btn" data-r7="a">Jonas Feld hat die Tür geöffnet.</button><button class="btn" data-r7="b">Es wurde nur seine Karte benutzt, von wem ist offen.</button><p id="r7Msg"></p>`);
+  const av = `<img src="img/seidl_av.jpg" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px">`;
+  if (!step) {
+    sheet(`${av}<div class="kind">Kommissarin Seidl</div><h2>Das konnte der Anrufer nicht wissen</h2>
+      <p>„20:48 und die Karte R7 waren in der Akte noch geschwärzt. Das weiß nur, wer an der Archivtür war.“</p>
+      <div style="display:flex;gap:12px;align-items:center;margin:6px 0 10px"><img src="img/feld_av.jpg" alt="" style="width:60px;height:60px;border-radius:50%;object-fit:cover;flex:none"><div><b>Jonas Feld, 39</b><div style="font-size:13px;color:var(--muted)">Restaurator, Besitzer der Karte R7</div></div></div>
+      <p>„Er war an dem Abend in Regensburg, drei Kollegen bestätigen es. Die Karte vermisst er seit einer Woche, zuletzt hatte er sie im Archiv.“</p>
+      <button class="btn" id="feldRec">▶ Telefonat mit Jonas Feld anhören</button><button class="btn primary" id="r7Go">Weiter</button>`);
+    $("#r7Go").onclick = () => { stopAudio(); const sh = $("#sheet"); if (sh) sh._user = true; closeSheet(); r7Question(2); };
+  } else {
+    sheet(`${av}<div class="kind">Kommissarin Seidl fragt</div><h2>Was beweist der Eintrag „Karte R7, 20:48“?</h2>
+      <button class="btn" data-r7="a">Jonas Feld hat die Tür geöffnet.</button><button class="btn" data-r7="b">Es wurde nur seine Karte benutzt, von wem ist offen.</button><p id="r7Msg"></p>`);
+  }
   const fr = $("#feldRec"); if (fr) fr.onclick = () => toggleRec("feld", fr);
   document.querySelectorAll("[data-r7]").forEach(b => b.onclick = () => {
     if (!guard("6.r7")) return;
@@ -2798,7 +2802,7 @@ function newsCheck(){
   if (un.length !== newsLastN) { newsLastN = un.length; if (!$("#win") && !$("#call")) renderHome(); }
   if ($("#call") || showQ.length || document.querySelector("#sheet[data-ack]")) return; /* direkt angezeigte Hinweise haben Vorrang */
   const ann = a._ann || [];
-  const fresh = un.filter(x => x.app !== "stammbaum" && !ann.includes(x.app + ":" + x.k));
+  const fresh = un.filter(x => x.app !== "stammbaum" && x.app !== "notizen" && !ann.includes(x.app + ":" + x.k));
   const ready = fresh.filter(x => newsPend[x.app + ":" + x.k]); fresh.forEach(x => newsPend[x.app + ":" + x.k] = 1);
   if (!ready.length) return;
   a._ann = ann.concat(ready.map(x => x.app + ":" + x.k)); newsSave(a);
