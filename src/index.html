@@ -564,8 +564,8 @@ const CONTENT = {
     V_TURM:{ from:"Falkenried", memo:"in der App Haustechnik gespeichert, aufgenommen am 9. November 2026", title:"Der Turm", text:"Sie wollten hier einen Turm, höher als Sankt Martin. Das Geld reichte nicht. Manche wollen eben mehr, als ihnen zusteht." },
     V_ZEUGIN:{ from:"Rosa Brandl", title:"Aussage der Zeugin", photo:"img/rosa_av.jpg",
       post:"<b>Kommissarin Seidl:</b> „Eine Frau im Mantel, mitten im Haus. Denkt an den Wollfaden am Stuhl. Und welcher Wagen sollte durch das Tor mit den drei Helmen?“", text:"Hier ist Rosa Brandl, die Haushälterin. Mir ist noch etwas eingefallen. Kurz vor neun stand Frau Weiß im Flur und telefonierte, ganz leise. Ich habe nur verstanden: Der Wagen soll die Stadt durch das Tor verlassen, über dem die drei Helme hängen. Und hinter ihr ging eine Frau zum Archiv, im langen dunklen Mantel, die Kapuze auf. Die Gäste hatten ihre Mäntel doch längst an der Garderobe. Dann klickte die Archivtür." },
-    V_MAIR:{ from:"Benedikt Mair", title:"Der Notar übergibt die Kassette", photo:"img/mair_av.jpg",
-      post:"Mair übergibt euch die Kassette. Sie hat ein Namensschloss.", text:"Hier spricht Benedikt Mair, der Notar von Herrn von Falkenried. Ja, ich habe geschwiegen, und das tut mir leid. Er hat mir im Herbst eine Kassette anvertraut und mich zur Verschwiegenheit verpflichtet. Am Tatabend habe ich draußen mit der Stadt telefoniert, wegen der Übergabe. Den Brief habe ich nur geöffnet, weil er mir seltsam vorkam. Die Kassette gebe ich denen, die herausgefunden haben, was ihm zugestoßen ist. Das seid ihr. Ach ja, und noch etwas: Herr von Falkenried hat mir eine Sprachnachricht hinterlassen. Für euch. Hört sie euch an." },
+    V_MAIR:{ from:"Benedikt Mair", title:"Die Kassette", photo:"img/mair_av.jpg",
+      post:"Mair übergibt euch Falkenrieds Kassette. Sie hat ein Namensschloss.", text:"Hier spricht Benedikt Mair, der Notar von Herrn von Falkenried. Ich habe geschwiegen, das tut mir leid. Er hat mir im Herbst diese Kassette anvertraut. Er war überzeugt, dass Elisabeths kleiner Sohn Georg den Krieg 1504 überlebt hat, heimlich in Sicherheit gebracht. Und dass er selbst von diesem Georg abstammt. Verkaufen wollte er nie etwas. Es sollte alles zurück nach Landshut. Die Kassette gehört jetzt euch. Das Schloss kennt nur einen Namen: den der Frau, der all das gehören sollte." },
     V_FINALE:{ from:"Falkenried", memo:"bei Notar Mair hinterlegt, aufgenommen am 13. Dezember 2026", title:"Letzte Nachricht", text:"Hier spricht Maximilian von Falkenried. Wenn ihr das hört, ist mir etwas zugestoßen. Ich wollte nie etwas verkaufen. \n\n1504 hieß es, Elisabeths kleiner Sohn Georg sei gestorben. Es war gelogen. Derselbe treue Mann, der die Kiste aus der Stadt gebracht hatte, brachte auch den Jungen in Sicherheit. Die Kiste war sein Erbe. \n\nIch glaube, dass ich von diesem Georg abstamme. Vielleicht irre ich mich. Aber was in der Kiste war, gehört zurück nach Landshut. Das Schloss kennt nur einen Namen: den der Frau, der all das gehören sollte." }
   },
   /* Falkenrieds Tagebuch. req: erscheint erst, wenn diese Notiz freigeschaltet ist. start: hier schlägt das Buch beim ersten Öffnen auf. */
@@ -985,7 +985,7 @@ function missionCard(){
   }
   return `<section class="mission" aria-label="Aktueller Auftrag">
     <div class="k"><span>Auftrag · ${esc(st.name)}</span><span>Station ${st.id} von 8</span></div>
-    ${newsBar()}<div class="tx">${esc(S.ending ? "Fall abgeschlossen. Danke, Ermittler." : (st.id === 8 && S.st.accused ? ""+(S.st.named && S.boxCode ? "Stellt den Code am Zahlenschloss ein und öffnet die Kassette." : "Mair hat euch die Kassette übergeben. Hört Falkenrieds letzte Nachricht, dann öffnet den Tresor.") : st.task))}</div>
+    ${newsBar()}<div class="tx">${esc(S.ending ? "Fall abgeschlossen. Danke, Ermittler." : (st.id === 8 && S.st.accused ? ""+(S.st.named && S.boxCode ? "Stellt den Code am Zahlenschloss ein und öffnet die Kassette." : "Mair hat euch die Kassette übergeben. Öffnet sie im Tresor.") : st.task))}</div>
     ${S.ending ? `<div class="acts"><button class="go wide" data-mact="ending">Auflösung ansehen</button></div>` : `<div class="acts"><button class="go wide" data-mact="action">${esc(st.id === 8 && S.st.accused ? "Tresor öffnen" : st.action)}</button><button class="tip" data-mact="hint">💡 Tipp zum Rätsel</button></div>`}
   </section>`;
 }
@@ -1289,7 +1289,7 @@ function acceptCall(id, w){
    Vorproduzierte Stimmen (audio/*.mp3) mit Satz-Zeitmarken.
    Fehlt eine Datei oder schlägt die Wiedergabe fehl, springt die Sprachausgabe des Geräts ein.
    ============================================================ */
-const CUES = {"CALL_01": [[0.1, 2.675], [2.625, 4.788], [4.788, 10.458], [10.458, 12.833], [12.833, 15.275], [15.275, 20.222]], "CALL_06": [[0.1, 2.02], [1.97, 4.748], [4.748, 9.805], [9.805, 14.055], [14.055, 20.095]], "CALL_07": [[0.1, 2.508], [2.458, 8.0], [8.0, 11.581], [11.581, 14.402]], "V_ERBE": [[0.1, 3.686], [3.636, 7.883], [7.883, 12.571], [12.571, 20.142], [20.142, 22.897], [22.897, 25.696], [25.696, 29.857], [29.857, 36.42], [36.42, 38.977], [38.977, 41.576]], "V_RESIDENZ": [[0.1, 1.977], [1.927, 5.533], [5.533, 11.588], [11.588, 17.252], [17.252, 20.143], [20.143, 25.234], [25.234, 28.971], [28.971, 34.882]], "V_TURM": [[0.1, 4.297], [4.247, 6.59], [6.59, 10.525]], "V_ZEUGIN": [[0.1, 3.555], [3.505, 6.385], [6.385, 11.793], [11.793, 18.315], [18.315, 24.089], [24.089, 28.165], [28.165, 30.828]], "ZEUGIN_KURZ": [[0.1, 4.655], [4.605, 10.244], [10.244, 14.32], [14.32, 16.983]], "V_MAIR": [[0.1, 5.169], [5.119, 9.122], [9.122, 14.72], [14.72, 20.226], [20.226, 24.96], [24.96, 30.811], [30.811, 32.619], [32.619, 38.763], [38.763, 40.359], [40.359, 42.367]], "V_FINALE": [[0.1, 3.686], [3.636, 7.741], [7.741, 10.582], [10.582, 16.377], [16.377, 18.465], [18.465, 25.738], [25.738, 28.323], [28.323, 32.301], [32.301, 34.701], [34.701, 39.289], [39.289, 44.9]], "V_START": [[0.1, 4.984], [4.934, 8.906], [8.906, 13.919], [13.919, 19.101], [19.101, 27.486], [27.486, 29.817], [29.817, 34.492], [34.492, 39.322], [39.322, 42.656], [42.656, 48.789]], "V_ALBRECHT": [[0.1, 3.871], [3.821, 8.849], [8.849, 16.164], [16.164, 19.389], [19.389, 24.886], [24.886, 28.636], [28.636, 34.133], [34.133, 38.65], [38.65, 41.321], [41.321, 48.38]]};
+const CUES = {"CALL_01": [[0.1, 2.675], [2.625, 4.788], [4.788, 10.458], [10.458, 12.833], [12.833, 15.275], [15.275, 20.222]], "CALL_06": [[0.1, 2.02], [1.97, 4.748], [4.748, 9.805], [9.805, 14.055], [14.055, 20.095]], "CALL_07": [[0.1, 2.508], [2.458, 8.0], [8.0, 11.581], [11.581, 14.402]], "V_ERBE": [[0.1, 3.686], [3.636, 7.883], [7.883, 12.571], [12.571, 20.142], [20.142, 22.897], [22.897, 25.696], [25.696, 29.857], [29.857, 36.42], [36.42, 38.977], [38.977, 41.576]], "V_RESIDENZ": [[0.1, 1.977], [1.927, 5.533], [5.533, 11.588], [11.588, 17.252], [17.252, 20.143], [20.143, 25.234], [25.234, 28.971], [28.971, 34.882]], "V_TURM": [[0.1, 4.297], [4.247, 6.59], [6.59, 10.525]], "V_ZEUGIN": [[0.1, 3.555], [3.505, 6.385], [6.385, 11.793], [11.793, 18.315], [18.315, 24.089], [24.089, 28.165], [28.165, 30.828]], "ZEUGIN_KURZ": [[0.1, 4.655], [4.605, 10.244], [10.244, 14.32], [14.32, 16.983]], "V_MAIR": [[0.1, 5.169], [5.119, 8.55], [8.55, 12.101], [12.101, 20.492], [20.492, 24.095], [24.095, 26.848], [26.848, 29.906], [29.906, 32.659], [32.659, 38.151]], "V_FINALE": [[0.1, 3.686], [3.636, 7.741], [7.741, 10.582], [10.582, 16.377], [16.377, 18.465], [18.465, 25.738], [25.738, 28.323], [28.323, 32.301], [32.301, 34.701], [34.701, 39.289], [39.289, 44.9]], "V_START": [[0.1, 4.984], [4.934, 8.906], [8.906, 13.919], [13.919, 19.101], [19.101, 27.486], [27.486, 29.817], [29.817, 34.492], [34.492, 39.322], [39.322, 42.656], [42.656, 48.789]], "V_ALBRECHT": [[0.1, 3.871], [3.821, 8.849], [8.849, 16.164], [16.164, 19.389], [19.389, 24.886], [24.886, 28.636], [28.636, 34.133], [34.133, 38.65], [38.65, 41.321], [41.321, 48.38]]};
 let curAudio = null;
 /* Alle Aufnahmen etwas schneller abspielen, Tonhöhe bleibt gleich. Zeitmarken laufen mit, weil sie an currentTime hängen. */
 const VO_RATE = 1.1;
@@ -2271,7 +2271,7 @@ const ACC_Q = [
 ];
 function finishAccuse(){
   if (S.st.accused) return; S.st.accused = true; save(); closeWin(); renderHome();
-  autoVoice = "V_MAIR"; fire("V_MAIR"); fire("V_FINALE");
+  autoVoice = "V_MAIR"; fire("V_MAIR");
   toast("Seidl nimmt die Anklage an. Notar Mair übergibt die Kassette.");
 }
 function accuseEvidence(){
@@ -2305,12 +2305,17 @@ function tresor(){
   };
 }
 function festnahme(then){
+  /* Erst die Falle: Mair übergibt die Kassette als Köder, das Team versteckt sich */
+  sheet(seidlCard("Kommissarin Seidl", "Sie kommt", ["Dr. Dorn ist schon auf dem Weg hierher. Sie glaubt, ihr bringt ihr die Kassette.", "Gebt sie Notar Mair zurück und versteckt euch hinter den Buden. Er übergibt sie ihr, und wir greifen zu. Auf frischer Tat."], null, "Verstecken"));
+  const b = document.querySelector("#sheet [data-close]"); if (b) b.onclick = e => { e.stopPropagation(); const sh = $("#sheet"); if (sh) sh._user = true; closeSheet(); setTimeout(() => festnahmeSzene(then), 300); };
+}
+function festnahmeSzene(then){
   const t = nowStr();
   cutscene([
-    { img:"img/f_wiese.jpg", head:"Ringelstecherwiese, " + t + " Uhr", txt:"Eine Frau im dunklen Mantel betritt die Wiese. Sie glaubt, die Kassette wartet auf sie.", vo:["CUT_F1"], kb:"pan-r" },
+    { img:"img/f_wiese.jpg", head:"Ringelstecherwiese, " + t + " Uhr", txt:"Eine Frau im dunklen Mantel betritt die Wiese. Sie sucht euch. Dann sieht sie Notar Mair mit der Kassette.", vo:["CUT_F1"], kb:"pan-r" },
     { img:"img/f_uebergabe.jpg", head:"Notar Mair", txt:"Sie geht auf ihn zu und streckt die Hand aus. „Geben Sie sie mir.“", vo:["CUT_F2a","CUT_F2b"], kb:"pan-r" },
     { img:"img/f_zugriff.jpg", head:"Kommissarin Seidl", txt:"„Zugriff. Dr. Helena Dorn, Sie sind festgenommen wegen Mordes an Maximilian von Falkenried.“", vo:["CUT_F3"], kb:"pan-l" },
-    { img:"img/f_beweis.jpg", head:"Eine Stunde später", txt:"In Dr. Dorns Wagen: ein Paar Lederhandschuhe mit Spuren vom Fuß der Messinglampe. Und die Liste von 1475, die am Tatort fehlte.", vo:["CUT_F4"], kb:"pan-r" }
+    { img:"img/f_beweis.jpg", head:"Eine Stunde später", txt:"In Dr. Dorns Wagen: ein Paar Lederhandschuhe mit Spuren vom Tatort. Und die Liste von 1475, die am Tatort fehlte.", vo:["CUT_F4"], kb:"pan-r" }
   ], then);
 }
 function boxOpen(){
@@ -2755,7 +2760,6 @@ const FA = [
   { k:"E14", kind:"Beweis", has:() => hasEv("E14"), open:() => PUZZLE_7() },
   { k:"E15", kind:"Beweis", has:() => hasEv("E15") },
   { k:"V_MAIR", voice:true },
-  { k:"V_FINALE", voice:true }
 ];
 const faVal = (x, f) => typeof x[f] === "function" ? x[f]() : x[f];
 function faItems(){
@@ -2878,7 +2882,7 @@ const TREE_HAS = {
   hochzeit: () => S.stage > 1 || S.apps.includes("notizen"),
   fassade: () => S.notes.includes("fassade") || S.stage > 2,
   erbe: () => S.voicemails.includes("V_ALBRECHT"),
-  finale: () => S.voicemails.includes("V_FINALE") || !!S.ending
+  finale: () => S.voicemails.includes("V_MAIR") || !!S.ending
 };
 const HOUSE = { la:"#c9a24a", mu:"#5b86b8", pf:"#9a6fd0", pl:"#c0504d", rx:"#8d93a1", fk:"#6f8f7a" };
 const TREE = {
@@ -2902,7 +2906,7 @@ const TREE = {
     d:"Georgs Zwillingsbruder. Er starb 1504 als kleines Kind, im Jahr des Krieges." },
   kind:     { emoji:"🍼", w:84, x:135, y:470, n:"Georg", s:"Zwilling|1500–1504", h:"pf", when:"erbe",
     d:"Ruprechts Zwillingsbruder, benannt nach seinem Großvater. So steht es in den Büchern: 1504 als kleines Kind gestorben.",
-    sF:"Zwilling|1500–„1504“", dF:"Ruprechts Zwillingsbruder, benannt nach seinem Großvater. Offiziell 1504 gestorben. Laut Falkenrieds letzter Nachricht war das gelogen: Derselbe treue Mann, der die Kiste aus der Stadt gebracht hatte, holte auch ihn heraus. Falkenried glaubte, von ihm abzustammen." },
+    sF:"Zwilling|1500–„1504“", dF:"Ruprechts Zwillingsbruder, benannt nach seinem Großvater. Offiziell 1504 gestorben. Falkenried war überzeugt, das war gelogen: Derselbe treue Mann, der die Kiste aus der Stadt gebracht hatte, holte auch ihn heraus. Falkenried glaubte, von ihm abzustammen." },
   ott:      { pic:"img/hist_ott.jpg", w:84, x:225, y:470, n:"Ottheinrich", s:"1502–1559", h:"pf", when:"erbe",
     d:"Bekam 1505 mit seinem Bruder die Junge Pfalz mit der Hauptstadt Neuburg an der Donau. Wurde 1556 Kurfürst von der Pfalz und baute in Heidelberg den Ottheinrichsbau. Er starb kinderlos." },
   phil:     { pic:"img/hist_philipp.jpg", w:84, x:315, y:470, n:"Philipp", s:"der Streitbare|1503–1548", h:"pf", when:"erbe",
