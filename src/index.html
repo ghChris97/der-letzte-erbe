@@ -366,6 +366,8 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .pinlbl{background:var(--amber);color:#1b1408;border-radius:999px;font-weight:700;font-size:12px;display:grid;place-items:center;border:2px solid #1b1408}
 .pinlbl.done{background:var(--surface-2);color:var(--muted);border-color:var(--line)}
 .me{width:16px;height:16px;border-radius:50%;background:#3d7be0;border:3px solid #fff;box-shadow:0 0 0 6px #3d7be044}
+.mepin{position:relative;width:60px;height:60px}.mepin .dot{position:absolute;left:21px;top:21px;width:18px;height:18px;border-radius:50%;background:#1a73e8;border:3px solid #fff;box-shadow:0 1px 4px #0006;box-sizing:border-box}.mepin .cone{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from -35deg,#1a73e899 0deg,#1a73e800 70deg,#1a73e800 360deg);-webkit-mask:radial-gradient(circle,#000 0 29px,transparent 30px);mask:radial-gradient(circle,#000 0 29px,transparent 30px);opacity:0;transition:transform .15s linear}.mepin.hd .cone{opacity:1}
+.compassbtn{position:absolute;right:10px;bottom:10px;z-index:500;background:#fff;color:#1c1c1e;border-radius:20px;padding:7px 12px;font-size:13px;font-weight:600;box-shadow:0 2px 8px #0004}
 .body.flexcol{display:flex;flex-direction:column}
 .fgrid{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
 .fgrid button{aspect-ratio:3/4;border-radius:6px;background:var(--surface-2);font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;border:2px solid transparent}
@@ -510,7 +512,7 @@ const CONTENT = {
       task:"Dreißig Herzöge, eine Familie. Falkenried hat vier von ihnen fotografiert. Findet jeden an der Wand, dann klärt sich die Rechnung.",
       action:"Eingeklebte Fotos ansehen" },
     { id:3, name:"Denkmal Ludwigs des Reichen", spot:"Dreifaltigkeitsplatz", lat:48.532417, lng:12.149794, why:"Im Archiv liegt als Kopie, was der Täter vom Tatort mitgenommen hat.", seek:"das Denkmal Ludwigs des Reichen und die Jahreszahl auf seinem Sockel.",
-      src:"Falkenrieds Notizen zur Fassade", clue:"Ludwig, der Vater des Bräutigams, steht noch einmal in dieser Stadt, aus Bronze, dort, wo die Dreifaltigkeit wacht.",
+      src:"Falkenrieds Randnotiz zu Ludwig", clue:"Ludwig, der Vater des Bräutigams, steht noch einmal in dieser Stadt, aus Bronze, dort, wo die Dreifaltigkeit wacht.",
       task:"Das Passwort ist das Jahr, in dem dieses Denkmal aufgestellt wurde. Falkenrieds Notiz: „Es steht auf seinem Rücken. In der Schrift der Römer.“",
       action:"Archiv öffnen" },
     { id:4, name:"Rathaus", spot:"Altstadt 315", lat:48.536228, lng:12.152024, why:"In Falkenrieds Mappe liegt die Liste, die am Tatort fehlt.", seek:"das Wappen über der Rathausuhr. Es ist der Code für das Schloss der Mappe.",
@@ -536,7 +538,7 @@ const CONTENT = {
   ],
   evidence: {
     E01:{ t:"Hochzeitsrechnung 1475", d:"Abschrift in Falkenrieds Tagebuch. Der Name dessen, der sie beglichen hat, ist verwischt." },
-    E03:{ t:"Notizen zur Fassade", d:"Bezahlt hat Ludwig der Reiche. Die Residenz wurde erst 1536 begonnen. Unter Heinrich dem Reichen begann 1407 der Bau der Heiliggeistkirche." },
+    E03:{ t:"Beglichen: Ludwig der Reiche", d:"Georgs Vater beglich die Hochzeitsrechnung von 1475. Randnotiz: Er steht noch einmal in dieser Stadt, aus Bronze, dort, wo die Dreifaltigkeit wacht." },
     E05:{ t:"Inventarvergleich", d:"In der Liste von 1503 fehlen die Nummern 2, 5 und 7: Rubinbrosche, zehn goldene Taler, Familiensiegel mit dem W der Wittelsbacher. Falkenried notierte daneben: „Hochzeitsgaben, alle drei in einer Kiste“." },
     E06:{ t:"Verwahrvermerk Notariat Mair", d:"„Notariat Mair – Verwahrung“. Inhalt geschwärzt." },
     E07:{ t:"Preisnotizen „CW“", d:"Bleistift am Rand von H-1475: „CW: 40.000?“" },
@@ -558,7 +560,7 @@ const CONTENT = {
     V_START:{ from:"Kommissarin Seidl", photo:"img/seidl_av.jpg", title:"Ich brauche eure Hilfe", text:"Hallo, hier ist Martina Seidl von der Kripo Landshut. Ihr habt gesehen, was gestern Abend passiert ist. Fünf Menschen waren im Haus, und mindestens einer lügt. \n\nFalkenried hatte Angst, dass jemand in seinen Papieren liest. Darum hat er sein Notizbuch, sein Archiv und seine Haustechnik gesperrt und die Schlüssel draußen in der Stadt versteckt. Folgt seiner Spur. \n\nEin Abbild seines Handys spiele ich jetzt auf eure Handys. Der Code lautet: eins, vier, sieben, fünf. Das Jahr der Landshuter Hochzeit. Schaut euch kurz den Tatort an, dann treffen wir uns am Turm von Sankt Martin." },
     V_ERBE:{ from:"Falkenried", memo:"im Archiv gespeichert, aufgenommen am 16. Oktober 2026", title:"Die Familie", text:"Hier spricht Maximilian von Falkenried. Wenn ihr das hört, steht ihr vor Ludwig dem Reichen. Um seine Familie geht es in allem, was ich gefunden habe. \n\n1475 heiratete sein Sohn Georg in Sankt Martin die polnische Königstochter Hedwig. Ludwig bezahlte alles. Doch Georgs Söhne starben früh. Es blieben nur Töchter, und das wurde zum Problem. \n\nWer dieses Problem hatte, steht ebenfalls an der Herzogswand, ganz unten links. Geht zurück und sucht ihn. Dann erzähle ich weiter." },
     V_ALBRECHT:{ from:"Falkenried", memo:"im Archiv gespeichert, aufgenommen am 16. Oktober 2026", title:"Der Erbfolgekrieg", text:"Das Land durfte nur an Männer der Familie fallen. Georg setzte trotzdem seine Tochter Elisabeth als Erbin ein. Als er im Dezember 1503 starb, zog Albrecht gegen sie in den Krieg, und er gewann. Elisabeth starb noch im Kriegsjahr. Von ihren kleinen Söhnen, heißt es, starben zwei im selben Jahr. Ich habe angefangen, daran zu zweifeln. \n\nIn den Wintertagen nach Georgs Tod brachte jemand eine Kiste aus der Stadt. Was darin war, steht in zwei Listen in meiner Mappe. Ihr Schloss hat drei Räder. Was ihr einstellen müsst, hängt dort, wo die Bürger dieser Stadt seit Jahrhunderten ihren Rat halten." },
-    V_RESIDENZ:{ from:"Kommissarin Seidl", photo:"img/seidl_av.jpg", title:"Die Archivtür", text:"Seidl hier. Gute Arbeit, der Brief ist gefälscht. Wer alte Stücke teuer verkaufen will, braucht einen Nachweis, woher sie stammen. Erstellt hat die Datei Doktor Helena Dorn, geöffnet hat sie auch Notar Mair. Einen Mord beweist das noch nicht. \n\nWir müssen wissen, wer am Tatabend an die Archivtür kam. Das steht in Falkenrieds App Haustechnik. Wo sie sich öffnet, hat er auf der Rückseite seiner Fassadenfotos notiert." },
+    V_RESIDENZ:{ from:"Kommissarin Seidl", photo:"img/seidl_av.jpg", title:"Die Archivtür", text:"Seidl hier. Gute Arbeit, der Brief ist gefälscht. Wer alte Stücke teuer verkaufen will, braucht einen Nachweis, woher sie stammen. Erstellt hat die Datei Doktor Helena Dorn, geöffnet hat sie auch Notar Mair. Einen Mord beweist das noch nicht. \n\nWir müssen wissen, wer am Tatabend an die Archivtür kam. Das steht in Falkenrieds App Haustechnik. Sie öffnet sich nur an der Kirche, deren Bau unter Heinrich dem Reichen begann." },
     V_TURM:{ from:"Falkenried", memo:"in der App Haustechnik gespeichert, aufgenommen am 9. November 2026", title:"Der Turm", text:"Sie wollten hier einen Turm, höher als Sankt Martin. Das Geld reichte nicht. Manche wollen eben mehr, als ihnen zusteht." },
     V_ZEUGIN:{ from:"Rosa Brandl", title:"Aussage der Zeugin", photo:"img/rosa_av.jpg",
       post:"<b>Kommissarin Seidl:</b> „Eine Frau im Mantel, mitten im Haus. Denkt an den Wollfaden am Stuhl. Und welcher Wagen sollte durch das Tor mit den drei Helmen?“", text:"Hier ist Rosa Brandl, die Haushälterin. Mir ist noch etwas eingefallen. Kurz vor neun stand Frau Weiß im Flur und telefonierte, ganz leise. Ich habe nur verstanden: Der Wagen soll die Stadt durch das Tor verlassen, über dem die drei Helme hängen. Und hinter ihr ging eine Frau zum Archiv, im langen dunklen Mantel, die Kapuze auf. Die Gäste hatten ihre Mäntel doch längst an der Garderobe. Dann klickte die Archivtür." },
@@ -761,7 +763,7 @@ function openWin(title, html, opts={}){
   $("#homeInd").onclick = () => { closeWin(); renderHome(); };
   if (opts.back) $("#winBack").onclick = opts.onBack;
 }
-function closeWin(){ const w = $("#win"); if (w) w.remove(); if (mapObj) { try { mapObj.remove(); } catch(e) {} mapObj = null; meMarker = null; } if (watchId !== null && navigator.geolocation) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; } }
+function closeWin(){ const w = $("#win"); if (w) w.remove(); if (mapObj) { try { mapObj.remove(); } catch(e) {} mapObj = null; meMarker = null; meAcc = null; } if (watchId !== null && navigator.geolocation) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; } }
 function sheet(html){
   closeSheet();
   const w = document.createElement("div"); w.className = "sheet-wrap"; w.id = "sheet";
@@ -1034,8 +1036,7 @@ function openFaceLock(){
 let nbPage = null;
 /* Die Fotoseite ist von Anfang an da. Nach Station 2 lösen die Spieler die Fotos ab: Auf der Rückseite stehen Falkenrieds Notizen. */
 function diaryPages(){ const zahler = S.apps.includes("fotos") ? "Ludwig" : "L▒▒▒▒▒";
-  return CONTENT.diary.filter(d => !d.req || S.notes.includes(d.req)).map(d => Object.assign({}, d, { html:d.html.replace("%%ZAHLER%%", zahler) })).map(d => (d.fk === "fassade" && S.notes.includes("fassade"))
-  ? Object.assign({}, d, { key:d.date + " · Rückseite", html: d.html + "<br><br><b id=\"rueck\">Auf der Rückseite der Fotos:</b><br>" + NOTES.fassade.html }) : Object.assign({}, d, { key:d.date })); }
+  return CONTENT.diary.filter(d => !d.req || S.notes.includes(d.req)).map(d => Object.assign({}, d, { html:d.html.replace("%%ZAHLER%%", zahler) })).map(d => Object.assign({}, d, { key:d.date })); }
 function openNotebook(first, jumpReq){
   const pages = diaryPages();
   if (jumpReq) nbPage = pages.findIndex(d => d.req === jumpReq || d.fk === jumpReq);
@@ -1054,7 +1055,6 @@ function openNotebook(first, jumpReq){
     </div>`);
   document.querySelectorAll("#dpage .glued img").forEach(im => { im.style.cursor = "zoom-in"; im.onclick = () => sheet(`<div class="kind">Eingeklebtes Foto</div><img src="${im.getAttribute("src")}" alt="" style="width:100%;border-radius:10px;display:block"><p style="margin-top:8px;font-size:13px">Tipp: Bild mit zwei Fingern vergrößern.</p><button class="btn" data-close>Schließen</button>`); });
   const gl = document.querySelector("#dpage .glued img"); if (gl) gl.parentElement.style.maxWidth = "100%";
-  if (jumpReq === "fassade" && $("#rueck")) setTimeout(() => { const r = $("#rueck"); if (r) r.scrollIntoView({ block:"start", behavior:"smooth" }); }, 400);
   const go = dir => { const n = nbPage + dir; if (n < 0 || n >= pages.length) return; nbPage = n; openNotebook(false); const pg = $("#dpage"); if (pg) pg.classList.add(dir > 0 ? "inR" : "inL"); };
   $("#dPrev").onclick = () => go(-1); $("#dNext").onclick = () => go(1);
   document.querySelectorAll("[data-pg]").forEach(b => b.onclick = () => { const n = +b.dataset.pg; if (n !== nbPage) go(n - nbPage); });
@@ -1067,7 +1067,29 @@ function openNotebook(first, jumpReq){
 /* ============================================================
    Karte mit Navigation
    ============================================================ */
-let mapObj = null, meMarker = null, watchId = null, lastPos = null;
+let mapObj = null, meMarker = null, watchId = null, lastPos = null, meAcc = null;
+/* Blickrichtung: Kompass des Handys, sonst Laufrichtung aus dem GPS */
+let heading = null, headOn = false;
+function setHeading(h){ if (h == null || isNaN(h)) return; heading = (h + 360) % 360; const cb = $("#compassBtn"); if (cb) cb.remove(); const el = document.querySelector(".mepin"); if (el) { el.classList.add("hd"); el.querySelector(".cone").style.transform = `rotate(${heading}deg)`; } }
+function onOrient(e){ let h = null;
+  if (typeof e.webkitCompassHeading === "number") h = e.webkitCompassHeading;
+  else if (e.absolute && typeof e.alpha === "number") h = 360 - e.alpha;
+  if (h === null) return; try { h += (screen.orientation && screen.orientation.angle) || 0; } catch(x) {} setHeading(h); }
+function startCompass(){ if (headOn) return true;
+  const go = () => { headOn = true; window.addEventListener("deviceorientationabsolute", onOrient, true); window.addEventListener("deviceorientation", onOrient, true); };
+  try { if (window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === "function") return false; } catch(x) {}
+  go(); return true; }
+function askCompass(){ try { DeviceOrientationEvent.requestPermission().then(r => { if (r === "granted") { headOn = true; window.addEventListener("deviceorientationabsolute", onOrient, true); window.addEventListener("deviceorientation", onOrient, true); const b = $("#compassBtn"); if (b) b.remove(); } }).catch(() => {}); } catch(x) {} }
+/* Standortpunkt auf einer Karte setzen oder bewegen, mit Genauigkeitskreis */
+function placeMe(pos){
+  if (!mapObj) return; const ll = [pos.coords.latitude, pos.coords.longitude], acc = pos.coords.accuracy || 0;
+  if (!meMarker) { meMarker = L.marker(ll, { icon:L.divIcon({ className:"", html:'<div class="mepin"><div class="cone"></div><div class="dot"></div></div>', iconSize:[60,60], iconAnchor:[30,30] }), interactive:false, zIndexOffset:1000 }).addTo(mapObj);
+    meAcc = L.circle(ll, { radius:acc, color:"#1a73e8", weight:1, opacity:.4, fillColor:"#1a73e8", fillOpacity:.12, interactive:false }).addTo(mapObj);
+    if (heading !== null) setTimeout(() => setHeading(heading), 0);
+    if (!startCompass() && !$("#compassBtn")) { const b = document.createElement("button"); b.id = "compassBtn"; b.className = "compassbtn"; b.textContent = "🧭 Blickrichtung zeigen"; b.onclick = askCompass; const w = document.querySelector(".mapwrap"); if (w) w.appendChild(b); } }
+  else { meMarker.setLatLng(ll); if (meAcc) { meAcc.setLatLng(ll); meAcc.setRadius(acc); } }
+  if (!headOn && typeof pos.coords.heading === "number" && pos.coords.speed > 0.6) setHeading(pos.coords.heading);
+}
 function dist(a, b){
   const R = 6371000, t = x => x*Math.PI/180;
   const dLa = t(b.lat-a.lat), dLo = t(b.lng-a.lng);
@@ -1108,9 +1130,8 @@ function openMap(){
         if (t) t.textContent = d < 40 ? "Ihr seid da." : `Noch etwa ${d < 1000 ? d+" m" : (d/1000).toFixed(1).replace(".",",")+" km"} · zu Fuß ca. ${Math.max(1, Math.round(d/75))} Min.`;
         if (mapObj) {
           const ll = [lastPos.lat, lastPos.lng];
-          if (!meMarker) { meMarker = L.marker(ll, { icon:L.divIcon({ className:"", html:'<div class="me"></div>', iconSize:[16,16], iconAnchor:[8,8] }) }).addTo(mapObj);
-            if (d < 3000) mapObj.fitBounds([ll, [st.lat, st.lng]], { padding:[50,50], maxZoom:17 }); }
-          else meMarker.setLatLng(ll);
+          const first = !meMarker; placeMe(pos);
+          if (first && d < 3000) mapObj.fitBounds([ll, [st.lat, st.lng]], { padding:[50,50], maxZoom:17 });
         }
       }, () => { const t = $("#distTxt"); if (t) t.textContent = "Standort nicht verfügbar. Die Navigation-Knöpfe funktionieren trotzdem."; }, { enableHighAccuracy:true, maximumAge:5000 });
     } catch(e) {}
@@ -1268,7 +1289,7 @@ function acceptCall(id, w){
    Vorproduzierte Stimmen (audio/*.mp3) mit Satz-Zeitmarken.
    Fehlt eine Datei oder schlägt die Wiedergabe fehl, springt die Sprachausgabe des Geräts ein.
    ============================================================ */
-const CUES = {"CALL_01": [[0.1, 2.675], [2.625, 4.788], [4.788, 10.458], [10.458, 12.833], [12.833, 15.275], [15.275, 20.222]], "CALL_06": [[0.1, 2.02], [1.97, 4.748], [4.748, 9.805], [9.805, 14.055], [14.055, 20.095]], "CALL_07": [[0.1, 2.508], [2.458, 6.041], [6.041, 8.094], [8.094, 12.625]], "V_ERBE": [[0.1, 3.686], [3.636, 7.883], [7.883, 12.571], [12.571, 20.142], [20.142, 22.897], [22.897, 25.696], [25.696, 29.857], [29.857, 36.42], [36.42, 38.977], [38.977, 41.576]], "V_RESIDENZ": [[0.1, 1.977], [1.927, 5.533], [5.533, 11.588], [11.588, 17.252], [17.252, 20.143], [20.143, 25.234], [25.234, 28.971], [28.971, 35.104]], "V_TURM": [[0.1, 4.297], [4.247, 6.59], [6.59, 10.525]], "V_ZEUGIN": [[0.1, 3.555], [3.505, 6.385], [6.385, 11.793], [11.793, 18.315], [18.315, 24.089], [24.089, 28.165], [28.165, 30.828]], "ZEUGIN_KURZ": [[0.1, 4.655], [4.605, 10.244], [10.244, 14.32], [14.32, 16.983]], "V_MAIR": [[0.1, 5.169], [5.119, 9.122], [9.122, 14.72], [14.72, 20.226], [20.226, 24.96], [24.96, 30.811], [30.811, 32.619]], "V_FINALE": [[0.1, 3.686], [3.636, 7.741], [7.741, 10.582], [10.582, 16.377], [16.377, 18.465], [18.465, 25.738], [25.738, 28.323], [28.323, 32.301], [32.301, 34.701], [34.701, 39.289], [39.289, 44.9]], "V_START": [[0.1, 4.984], [4.934, 8.906], [8.906, 13.919], [13.919, 19.101], [19.101, 27.486], [27.486, 29.817], [29.817, 34.492], [34.492, 39.322], [39.322, 42.656], [42.656, 48.789]], "V_ALBRECHT": [[0.1, 3.871], [3.821, 8.849], [8.849, 16.164], [16.164, 19.389], [19.389, 24.886], [24.886, 28.636], [28.636, 34.133], [34.133, 38.65], [38.65, 41.321], [41.321, 48.38]]};
+const CUES = {"CALL_01": [[0.1, 2.675], [2.625, 4.788], [4.788, 10.458], [10.458, 12.833], [12.833, 15.275], [15.275, 20.222]], "CALL_06": [[0.1, 2.02], [1.97, 4.748], [4.748, 9.805], [9.805, 14.055], [14.055, 20.095]], "CALL_07": [[0.1, 2.508], [2.458, 6.041], [6.041, 8.094], [8.094, 12.625]], "V_ERBE": [[0.1, 3.686], [3.636, 7.883], [7.883, 12.571], [12.571, 20.142], [20.142, 22.897], [22.897, 25.696], [25.696, 29.857], [29.857, 36.42], [36.42, 38.977], [38.977, 41.576]], "V_RESIDENZ": [[0.1, 1.977], [1.927, 5.533], [5.533, 11.588], [11.588, 17.252], [17.252, 20.143], [20.143, 25.234], [25.234, 28.971], [28.971, 34.882]], "V_TURM": [[0.1, 4.297], [4.247, 6.59], [6.59, 10.525]], "V_ZEUGIN": [[0.1, 3.555], [3.505, 6.385], [6.385, 11.793], [11.793, 18.315], [18.315, 24.089], [24.089, 28.165], [28.165, 30.828]], "ZEUGIN_KURZ": [[0.1, 4.655], [4.605, 10.244], [10.244, 14.32], [14.32, 16.983]], "V_MAIR": [[0.1, 5.169], [5.119, 9.122], [9.122, 14.72], [14.72, 20.226], [20.226, 24.96], [24.96, 30.811], [30.811, 32.619]], "V_FINALE": [[0.1, 3.686], [3.636, 7.741], [7.741, 10.582], [10.582, 16.377], [16.377, 18.465], [18.465, 25.738], [25.738, 28.323], [28.323, 32.301], [32.301, 34.701], [34.701, 39.289], [39.289, 44.9]], "V_START": [[0.1, 4.984], [4.934, 8.906], [8.906, 13.919], [13.919, 19.101], [19.101, 27.486], [27.486, 29.817], [29.817, 34.492], [34.492, 39.322], [39.322, 42.656], [42.656, 48.789]], "V_ALBRECHT": [[0.1, 3.871], [3.821, 8.849], [8.849, 16.164], [16.164, 19.389], [19.389, 24.886], [24.886, 28.636], [28.636, 34.133], [34.133, 38.65], [38.65, 41.321], [41.321, 48.38]]};
 let curAudio = null;
 /* Alle Aufnahmen etwas schneller abspielen, Tonhöhe bleibt gleich. Zeitmarken laufen mit, weil sie an currentTime hängen. */
 const VO_RATE = 1.1;
@@ -1684,7 +1705,7 @@ const MOCK = (label) => `<span class="ph">Platzhalter: ${esc(label)}</span>`;
 function addEv(...ids){ ids.forEach(id => { if (!S.evidence.includes(id)) S.evidence.push(id); }); save(); }
 function addNote(id){ if (!S.notes.includes(id)) S.notes.push(id); save(); }
 const NOTES = {
-  fassade:{ title:"Notizen zur Fassade", html:"Eine Familie voller Macht, Mord und Erbe. Bezahlt hat die Hochzeit Ludwig, der Vater des Bräutigams. Einer fehlt noch, unten links. Zu ihm komme ich später.<br><br><b>Die Residenz</b> gegenüber vom Rathaus wurde erst 1536 begonnen.<span class=\"red\">Unter Heinrich begann 1407 der Bau der zweiten großen Kirche: Heiliggeist.<br><br><b>Ludwig</b> steht noch einmal in dieser Stadt, aus Bronze, dort, wo die Dreifaltigkeit wacht.</span>" }
+  fassade:{ title:"Ludwig der Reiche", html:"" }
 };
 function toast(msg){ banner("Falkenrieds Handy", msg, () => {}); }
 function newVoice(id){
@@ -1764,8 +1785,8 @@ PUZZLE_2 = function(){
       return;
     }
     if (pos === "M9") { if (S.apps.includes("fotos")) return; right(lk); b.classList.add("right"); S.apps.push("fotos"); addNote("fassade"); addEv("E03");
-      setTimeout(() => { sheet(`<img src="img/fassade_ludwig.jpg" alt="" style="width:96px;border-radius:10px;float:right;margin:0 0 8px 10px"><div class="kind">Rechnung beglichen</div><h2>Ludwig der Reiche</h2><div class="nb" style="font-size:16px;clear:both">Beglichen durch Herzog <b>Ludwig</b>, den Vater des Bräutigams.<br><span class="paid">BEGLICHEN</span></div><p>Er bezahlte das ganze Fest, daher sein Beiname. Auf der Rückseite der Fotos steht, wo ihr ihn noch einmal findet.</p><button class="btn primary" data-close id="fEnd">Rückseite lesen</button>`);
-        $("#fEnd").onclick = () => { if (S.stage !== 2) return; done(null, 2); setTimeout(() => { nbPage = null; openNotebook(false, "fassade"); fire("N01"); }, 100); }; }, 600); }
+      setTimeout(() => { sheet(`<img src="img/fassade_ludwig.jpg" alt="" style="width:96px;border-radius:10px;float:right;margin:0 0 8px 10px"><div class="kind">Rechnung beglichen</div><h2>Ludwig der Reiche</h2><div class="nb" style="font-size:16px;clear:both">Beglichen durch Herzog <b>Ludwig</b>, den Vater des Bräutigams.<br><span class="paid">BEGLICHEN</span></div><p>Er bezahlte das ganze Fest, daher sein Beiname.</p><div class="nb" style="font-size:16px"><h3>Falkenrieds Randnotiz</h3><span class="red" style="margin-top:0">Ludwig steht noch einmal in dieser Stadt, aus Bronze, dort, wo die Dreifaltigkeit wacht.</span></div><button class="btn primary" data-close id="fEnd">Weiter</button>`);
+        $("#fEnd").onclick = () => { if (S.stage !== 2) return; done(null, 2); setTimeout(() => fire("N01"), 600); }; }, 600); }
     else if (pos === "M6") { msg.textContent = "Das ist der Großvater. Gesucht ist der Vater des Bräutigams."; wrong(lk); }
     else { b.classList.remove("wrong"); void b.offsetWidth; b.classList.add("wrong"); msg.textContent = "Das ist nicht der Vater. Wo steht der Bräutigam, und wer steht links neben ihm?"; wrong(lk); }
   };
@@ -1951,27 +1972,24 @@ PUZZLE_6 = function(){
    Mit WALK_POINTS (vier echte GPS-Punkte an den Ecken, vor Ort gemessen) zählt jeder Punkt im Umkreis von WALK_R Metern.
    Ohne Punkte: Himmelsrichtung vom Kirchenmittelpunkt aus, nur wenn man deutlich auf einer Seite steht (±30°). */
 const CHURCH = [[48.53867,12.15230],[48.53879,12.15282],[48.53868,12.15290],[48.53852,12.15240]];   /* Ecken NW, NO, SO, SW, vor Ort gemessen */
-const RING_N = 12, RING_OFF = 9, RING_R = 15, RING_NEED = 11;   /* Stücke · Abstand zur Mauer (m) · Fangradius (m) · nötig (ein Aussetzer erlaubt) */
-/* Ring: Kirchengrundriss um RING_OFF Meter nach außen versetzt, darauf RING_N Punkte in gleichem Abstand */
+const RING_N = 12, RING_R = 15, RING_NEED = 11;   /* Stücke · Fangradius (m) · nötig (ein Aussetzer erlaubt) */
+/* Laufweg um die Kirche, vor Ort eingezeichnet (geht über den Platz, nicht durch die Häuser) */
+const WALK_PATH = [[48.53865,12.152943],[48.538626,12.152924],[48.538605,12.152903],[48.538585,12.152883],[48.538571,12.152851],[48.538563,12.152812],[48.538557,12.152777],[48.538552,12.152749],[48.538546,12.152725],[48.538539,12.152703],[48.538533,12.152682],[48.538528,12.152661],[48.538522,12.152641],[48.538516,12.152619],[48.538509,12.152597],[48.5385,12.152573],[48.538489,12.152545],[48.538477,12.152512],[48.538468,12.152476],[48.538459,12.152433],[48.538459,12.152391],[48.538467,12.152352],[48.538481,12.152317],[48.538502,12.152293],[48.538527,12.152276],[48.538551,12.152262],[48.538574,12.152249],[48.538598,12.152232],[48.538621,12.152214],[48.538647,12.1522],[48.538673,12.152201],[48.538698,12.152224],[48.538719,12.152252],[48.538736,12.152281],[48.53875,12.152315],[48.53876,12.152348],[48.538769,12.152376],[48.538777,12.152402],[48.538786,12.152424],[48.538794,12.152446],[48.538803,12.152467],[48.538812,12.152488],[48.538819,12.152511],[48.538825,12.152535],[48.538831,12.152561],[48.538838,12.152588],[48.538844,12.152617],[48.53885,12.152649],[48.538853,12.152683],[48.538851,12.152717],[48.53885,12.152756],[48.538847,12.152797],[48.53884,12.152839],[48.538828,12.15288],[48.538808,12.15291],[48.538783,12.152928],[48.538757,12.152943],[48.53873,12.152952],[48.538703,12.152958],[48.538676,12.152956]];
 const RING = (() => {
-  const la0 = CHURCH.reduce((a, p) => a + p[0], 0) / 4, lo0 = CHURCH.reduce((a, p) => a + p[1], 0) / 4;
+  const la0 = WALK_PATH.reduce((a, p) => a + p[0], 0) / WALK_PATH.length, lo0 = WALK_PATH.reduce((a, p) => a + p[1], 0) / WALK_PATH.length;
   const kx = 111320 * Math.cos(la0 * Math.PI / 180), ky = 110574;
-  const xy = CHURCH.map(p => [(p[1] - lo0) * kx, (p[0] - la0) * ky]);
-  const norm = (a, b) => { let n = [b[1] - a[1], a[0] - b[0]]; const l = Math.hypot(n[0], n[1]); n = [n[0] / l, n[1] / l];
-    const m = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]; return (n[0] * m[0] + n[1] * m[1]) < 0 ? [-n[0], -n[1]] : n; };   /* zeigt vom Mittelpunkt weg */
-  const off = xy.map((v, i) => { const n1 = norm(xy[(i + 3) % 4], v), n2 = norm(v, xy[(i + 1) % 4]), k = RING_OFF / (1 + n1[0] * n2[0] + n1[1] * n2[1]);
-    return [v[0] + (n1[0] + n2[0]) * k, v[1] + (n1[1] + n2[1]) * k]; });
+  const xy = WALK_PATH.map(p => [(p[1] - lo0) * kx, (p[0] - la0) * ky]), N = xy.length;
   const ll = p => ({ lat: la0 + p[1] / ky, lng: lo0 + p[0] / kx });
-  const len = off.map((p, i) => Math.hypot(off[(i + 1) % 4][0] - p[0], off[(i + 1) % 4][1] - p[1])), total = len.reduce((a, b) => a + b, 0);
-  const at = d => { d = ((d % total) + total) % total; let i = 0; while (d > len[i]) { d -= len[i]; i++; } const a = off[i], b = off[(i + 1) % 4], f = d / len[i]; return ll([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]); };
-  const step = total / RING_N, start = len[0] / 2;   /* Start mitten auf der Nordseite, so liegt kein Punkt genau auf einer Ecke */
-  return { c: { lat: la0, lng: lo0 }, pts: Array.from({ length: RING_N }, (_, i) => at(start + i * step)),
-    segs: Array.from({ length: RING_N }, (_, i) => [0, 1, 2, 3, 4].map(j => at(start + (i - 0.5 + j / 4) * step))), poly: off.map(ll) };
+  const len = xy.map((p, i) => Math.hypot(xy[(i + 1) % N][0] - p[0], xy[(i + 1) % N][1] - p[1])), total = len.reduce((a, b) => a + b, 0);
+  const at = d => { d = ((d % total) + total) % total; let i = 0; while (d > len[i]) { d -= len[i]; i++; } const a = xy[i], b = xy[(i + 1) % N], f = d / len[i]; return ll([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]); };
+  const step = total / RING_N;
+  return { c: { lat: la0, lng: lo0 }, total, pts: Array.from({ length: RING_N }, (_, i) => at((i + 0.5) * step)),
+    segs: Array.from({ length: RING_N }, (_, i) => Array.from({ length: 7 }, (_, j) => at((i + j / 6) * step))), poly: WALK_PATH.map(p => ({ lat:p[0], lng:p[1] })) };
 })();
 let ringLayers = null;
 function ringDraw(walk){
   if (!mapObj || !ringLayers) return;
-  ringLayers.forEach((l, i) => l.setStyle(walk[i] ? { color:"#34c759", weight:3, opacity:.55, dashArray:null } : { color:"#e3a548", weight:9, opacity:.95, dashArray:"2 13" }));
+  ringLayers.forEach((l, i) => l.setStyle(walk[i] ? { color:"#34c759", weight:5, opacity:.8, dashArray:null } : { color:"#e3a548", weight:9, opacity:.95, dashArray:"2 13" }));
 }
 function walkLock(){
   const st = S.st.s6; st.walk = st.walk || {};
@@ -1980,7 +1998,7 @@ function walkLock(){
   const txt = () => n() === 0 ? "Lauft los: Jedes Wegstück verschwindet, sobald ihr dort wart." : `${n()} von ${RING_N} Wegstücken geschafft. Weiter um die Kirche.`;
   if ($("#ringmap") && mapObj && ringLayers) { ringDraw(st.walk); const t = $("#walkTxt"); if (t && n() < RING_NEED) t.textContent = txt(); }   /* schon offen: nur auffrischen */
   else {
-    if (mapObj) { try { mapObj.remove(); } catch(e) {} mapObj = null; meMarker = null; }
+    if (mapObj) { try { mapObj.remove(); } catch(e) {} mapObj = null; meMarker = null; meAcc = null; }
     openWin("Haustechnik", `<div class="nb" style="font-size:16px"><h3>Falkenrieds Notiz an der App</h3>Wer diese Kirche verstehen will, muss einmal um sie herumgehen.<span class="red">Geht einmal ganz um die Kirche. Dann öffnet sich die App.</span></div>
       <div class="target" style="margin-bottom:10px"><div class="t">Rundgang · <span id="walkN">${n()}</span> von ${RING_N}</div><div class="s" id="walkTxt">Standort wird gesucht …</div>
       ${DEV.noGeo ? `<button class="btn" id="walkSim" style="margin-top:8px">Rundgang simulieren (Testmodus)</button>` : ""}</div>
@@ -2009,13 +2027,12 @@ function walkLock(){
   };
   if (mark([])) return;
   const sim = $("#walkSim"); if (sim) sim.onclick = () => { const k = Array.from({ length:RING_N }, (_, i) => i).find(i => !st.walk[i]); if (k !== undefined) mark([k]); };
-  if (!navigator.geolocation || DEV.noGeo) { $("#walkTxt").textContent = DEV.noGeo ? "Standortprüfung aus (Testmodus)." : "Ohne Standort klappt der Rundgang nicht."; return; }
+  if (!navigator.geolocation) { $("#walkTxt").textContent = DEV.noGeo ? "Standortprüfung aus (Testmodus)." : "Ohne Standort klappt der Rundgang nicht."; return; }   /* im Testmodus zählt das GPS auch, dazu der Knopf */
   try {
     if (watchId !== null) navigator.geolocation.clearWatch(watchId);
     watchId = navigator.geolocation.watchPosition(pos => {
       const p = { lat:pos.coords.latitude, lng:pos.coords.longitude }, t = $("#walkTxt"); if (!t) return;
-      if (mapObj) { const ll = [p.lat, p.lng];
-        if (!meMarker) meMarker = L.marker(ll, { icon:L.divIcon({ className:"", html:'<div class="me"></div>', iconSize:[16,16], iconAnchor:[8,8] }), interactive:false }).addTo(mapObj); else meMarker.setLatLng(ll); }
+      placeMe(pos);
       if (pos.coords.accuracy > 35) { t.textContent = "GPS ist gerade ungenau. Kurz stehen bleiben."; return; }
       const d = Math.round(dist(p, RING.c));
       if (mark(RING.pts.map((q, i) => dist(p, q) <= RING_R ? i : -1).filter(i => i >= 0))) return;
@@ -2714,8 +2731,7 @@ const FA = [
     open:() => { sheet(`<div class="kind">Tatort</div><h2>Die fünf Spuren</h2>${spurenBild()}<p style="font-size:13px;color:var(--muted)">Tippt eine Nummer an.</p><button class="btn" data-close>Schließen</button>`);
       document.querySelectorAll("[data-spur]").forEach(b => b.onclick = () => spurSheet(SPUREN.find(x => x.id === b.dataset.spur))); } },
   { k:"tagebuch", kind:"Dokument", t:"Falkenrieds Tagebuch", s:() => diaryPages().length + " Seiten, mit der Hochzeitsrechnung von 1475", has:() => S.apps.includes("notizen"), open:() => openNotebook() },
-  { k:"fassade", kind:"Notiz", t:"Notizen zur Fassade", s:"Residenz, Heiliggeist, Ludwig in Bronze", has:() => hasEv("E03"),
-    open:() => { nbPage = null; openNotebook(false, "fassade"); } },
+  { k:"E03", kind:"Notiz", has:() => hasEv("E03") },
   { k:"V_ERBE", voice:true },
   { k:"V_ALBRECHT", voice:true },
   { k:"mappe", kind:"Beweis", t:"Mappe aus dem Archiv", s:"Inventare, Fundbericht, Vermerk, Preisnotiz", has:() => hasEv("E05"),
@@ -2764,7 +2780,7 @@ function newsItems(app){
       if (alibiOf(p.id)) out.push({ k:"alibi:" + p.id, t:"Alibi für " + p.name + (S.struck.includes(p.id) || !(S.st.s7 && S.st.s7.decoded) ? "" : ", jetzt streichen"), open:() => showSuspect(p) }); });
     return out; }
   if (app === "telefon") return S.voicemails.map(v => ({ k:v, t:(CONTENT.voice[v].memo ? "Aufnahme: " : "Sprachnachricht: ") + CONTENT.voice[v].title, open:() => playVoice(v) }));
-  if (app === "notizen") return S.apps.includes("notizen") ? diaryPages().map((d, i) => ({ k:d.key, t:"Tagebuch, Seite vom " + d.date + (d.key !== d.date ? " (Rückseite der Fotos)" : ""), open:() => { nbPage = i; openNotebook(false); } })) : [];
+  if (app === "notizen") return S.apps.includes("notizen") ? diaryPages().map((d, i) => ({ k:d.key, t:"Tagebuch, Seite vom " + d.date, open:() => { nbPage = i; openNotebook(false); } })) : [];
   if (app === "nachrichten") return S.threads.unbekannt.map((m, i) => ({ k:m.id || "m" + i, t:"Nachricht von Unbekannt", open:() => { closeSheet(); openChat(); } }))
     .concat(postfachOpen() ? [{ k:"postfach", t:"Postfach: Kuriernachricht vom Tatabend", open:openPostfach }] : []);
   return [];
