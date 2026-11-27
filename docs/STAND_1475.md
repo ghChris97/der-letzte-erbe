@@ -195,3 +195,4 @@ Nur noch: Heinrich XVI. → Ludwig IX. (vor der Herzogswand als „L. ?“) → 
 - Jedes Schloss öffnet erst auf Tippen („Schloss öffnen“), dann Animation, dann „Weiter …“ mit dem Ziel. Auch nach dem Rundgang („Runde geschafft!“).
 - Spielleitung „Station zurück“ setzt jetzt alles ab dieser Station zurück (Rätsel, Schlösser, Rundgang, Freischaltungen, Beweise, Memos, Nachrichten).
 - Falkenrieds Memo „Der Turm“ (V_TURM) nach dem Rundgang entfernt.
+- Tatzeit 20:48 ist von Anfang an bekannt (Opfer-Steckbrief, Spur 5, Protokoll mit 20:45 Falkenried ins Archiv / 20:48 Tür auf, Karte geschwärzt). Täterwissen im Anruf ist nur noch die Karte R7. Terrassenkamera zeigt Falkenried um 20:45 aufstehen. Clara: Telefonat 20:44–20:50, danach Taxi, 20:52 zurück am Tisch.

@@ -523,7 +523,7 @@ const CONTENT = {
     { id:"tobias", photo:"img/tobias.jpg", name:"Tobias von Falkenried", age:31, role:"Neffe", note:"Hat Schulden. Galt als möglicher Erbe.", says:"„Ja, wir haben gestritten. Laut.“" },
     { id:"clara", photo:"img/clara.jpg", name:"Clara Weiß", age:43, role:"Kunsthändlerin", note:"Hatte Interesse an Stücken aus der Sammlung.", says:"„Ich saß den ganzen Abend bei den anderen am Tisch.“" },
   ],
-  victim: { photo:"img/falkenried.jpg", name:"Maximilian von Falkenried", age:62, role:"Kunstsammler, Gastgeber des Adventsdinners", note:"Am 19. Dezember um 21:25 Uhr tot in seinem Archiv aufgefunden." },
+  victim: { photo:"img/falkenried.jpg", name:"Maximilian von Falkenried", age:62, role:"Kunstsammler, Gastgeber des Adventsdinners", note:"Ging um 20:45 vom Tisch ins Archiv, um etwas für seine Verkündung zu holen. Um 20:48 öffnete jemand die Archivtür. Um 21:25 Uhr fand ihn sein Neffe tot. Die Tatzeit ist also bekannt: 20:48." },
   lead: { photo:"img/seidl.jpg", name:"Martina Seidl", age:52, role:"Kriminalhauptkommissarin, Ermittlungsleiterin", note:"Leitet die Ermittlung im Fall Falkenried. Sie meldet sich per Sprachnachricht und hat euch Falkenrieds Handy übergeben." },
   witness: { photo:"img/rosa.jpg", name:"Rosa Brandl", age:58, role:"Haushälterin bei Falkenried", note:"War den ganzen Abend im Haus und hat die Mäntel der Gäste an der Garderobe aufgehängt. Ihre Aussage liegt noch nicht vor." },
   hints: {
@@ -557,7 +557,7 @@ const CONTENT = {
       "Die Nachricht lautet ABHOLUNG." ] },
     S8: { title:"Finale – Die Anklage", steps:[
       "Wer war um 20:48 nachweislich nicht woanders?",
-      "Seidls Fragen: Der Wagen fuhr erst 21:02. Die Datei wurde unter HDORN erstellt. Der Abholauftrag nennt „HD“ als Anbieterin. Die Stimme am Telefon kannte 20:48 und die Karte R7.",
+      "Seidls Fragen: Der Wagen fuhr erst 21:02. Die Datei wurde unter HDORN erstellt. Der Abholauftrag nennt „HD“ als Anbieterin. Die Stimme am Telefon kannte die Karte R7.",
       "Der Name für das Schloss: Wem hatte Georg sein Erbe vermacht? Nicht der Braut." ] }
   },
   locks: {
@@ -616,14 +616,14 @@ const CONTENT = {
     E10:{ t:"Widersprüche der Aussagen", d:"Dr. Helena Dorn sagt, sie sei um halb neun gegangen. Die Kamera zeigt: Ihr Wagen stand noch da, er fuhr erst um 21:02. Clara Weiß sagt, sie habe den ganzen Abend am Tisch gesessen. Die Terrassenkamera zeigt durch die Glastür: Ihr Platz war von 20:44 bis 20:52 leer, ihr Handy war im Flur." },
     E11:{ t:"Zeugin: Frau im Mantel an der Archivtür", d:"Rosa Brandl sah kurz vor neun Clara Weiß im Flur telefonieren. Hinter ihr ging eine Frau im langen dunklen Mantel mit Kapuze zum Archiv, dann klickte die Archivtür. Die Gäste hatten ihre Mäntel an der Garderobe. Einen Mantel trug nur, wer sich schon verabschiedet hatte." },
     E12:{ t:"Karte R7", d:"Öffnete um 20:48 die Archivtür. Eine Ersatzkarte aus der Digitalisierung des Archivs 2025, seitdem als verloren gemeldet. Beweist nur, welche Karte benutzt wurde, nicht von wem." },
-    E13:{ t:"Täterwissen im Anruf", d:"Der Anrufer nannte Uhrzeit und Karte, bevor das Protokoll freigegeben war." },
+    E13:{ t:"Täterwissen im Anruf", d:"Der Anrufer nannte die Karte R7, bevor sie im Protokoll freigegeben war. Das weiß nur, wer um 20:48 an der Archivtür stand." },
     E14:{ t:"Abholauftrag 19:30", d:"Drei Stücke aus der Falkenried-Sammlung. Anbieter HD, Käufer CW-04. Übergabe Ringelstecherwiese. Versendet vor der Tat." },
     E15:{ t:"Handyauswertung Clara Weiß", d:"Clara telefonierte von 20:44 bis 20:50 mit dem Käufer CW-04." },
     T1:{ t:"Spur 1: Die Tatwaffe", d:"Eine schwere Leselampe aus Messing, abgewischt. Keine Fingerabdrücke: Der Täter trug wohl Handschuhe." },
     T2:{ t:"Spur 2: Ein dunkler Wollfaden", d:"Am umgestoßenen Stuhl hängt ein dunkler Wollfaden, wie von einem Mantel. Aber wer trägt im Haus einen Mantel?" },
     T3:{ t:"Spur 3: Eine Seite fehlt", d:"Aus Falkenrieds Abschriften fehlt Seite 5: die Liste von 1475. Der Täter hat sie mitgenommen." },
     T4:{ t:"Spur 4: Das Kalenderblatt", d:"Letzter Eintrag in Falkenrieds Tischkalender: „St. Martin – die Rechnung.“" },
-    T5:{ t:"Spur 5: Der Kartenleser", d:"Die Archivtür öffnet nur mit Karte, jeder Zutritt wird gespeichert. Die Daten liegen in Falkenrieds gesperrter App Haustechnik." }
+    T5:{ t:"Spur 5: Der Kartenleser", d:"Die Archivtür öffnet nur mit Karte, jeder Zutritt wird gespeichert. Falkenried war ab 20:45 im Archiv. Um 20:48 ging die Tür noch einmal auf: Das ist die Tatzeit. Mit welcher Karte, steht in Falkenrieds gesperrter App Haustechnik." }
   },
   voice: {
     V_START:{ from:"Kommissarin Seidl", photo:"img/seidl_av.jpg", title:"Ich brauche eure Hilfe", text:"Hallo, hier ist Martina Seidl von der Kripo Landshut. Ihr habt gesehen, was gestern Abend passiert ist. Fünf Menschen waren im Haus, und mindestens einer lügt. \n\nFalkenried hatte Angst, dass jemand in seinen Papieren liest. Darum hat er sein Notizbuch, sein Archiv und seine Haustechnik gesperrt und die Schlüssel draußen in der Stadt versteckt. Folgt seiner Spur. \n\nEin Abbild seines Handys spiele ich jetzt auf eure Handys. Der Code lautet: eins, vier, sieben, fünf. Das Jahr der Landshuter Hochzeit. Schaut euch kurz den Tatort an, dann treffen wir uns am Turm von Sankt Martin." },
@@ -2048,14 +2048,14 @@ const STATEMENTS = [
 ];
 const PROTOCOL = [
   ["20:30","Dr. Helena Dorn verabschiedet sich im Flur"],["20:34–20:52","Handy von Benedikt Mair: Anruf, 18 Minuten, außerhalb des Haus-WLANs"],["20:44–20:58","Tobias von Falkenried auf der Terrasse (Kamera)"],
-  ["20:44–20:52","Platz von Clara Weiß am Tisch leer, ihr Handy im Flur"],["??:??","Archivtür geöffnet – Details geschwärzt"],
+  ["20:44–20:52","Platz von Clara Weiß am Tisch leer, ihr Handy im Flur"],["20:45","Archivtür: Falkenried geht mit seiner eigenen Karte ins Archiv"],["20:48","Archivtür geöffnet – Karte geschwärzt"],
   ["21:02","Wagen von Dr. Helena Dorn verlässt das Grundstück"],["21:25","Tobias von Falkenried findet seinen Onkel im Archiv"]
 ];
 /* Eine Aussage nach der anderen: stimmt sie oder ist sie gelogen? lie:null = halb wahr, beides zählt. */
 const JUDGE = [
   { id:"tobias", lie:false, v:"stimmt", ok:"Die Terrassenkamera zeigt ihn von 20:44 bis 20:58 draußen.", no:"Schaut noch einmal auf die Terrassenkamera." },
   { id:"mair", lie:null, v:"halb wahr", ok:"Telefoniert hat er wirklich, am Hoftor, das zeigt die Kamera. Aber sein „kurz“ dauerte 18 Minuten, von 20:34 bis 20:52." },
-  { id:"clara", lie:true, v:"gelogen", ok:"Von 20:44 bis 20:52 ist ihr Platz am Tisch leer. Die Kamera zeigt sie durchs Flurfenster am Telefon.", no:"Schaut noch einmal durch die Glastür der Terrassenkamera." },
+  { id:"clara", lie:true, v:"gelogen", ok:"Von 20:44 bis 20:52 ist ihr Platz am Tisch leer. Die Kamera zeigt sie durchs Flurfenster am Telefon, von 20:44 bis 20:50. Danach bestellt sie ein Taxi und ist um 20:52 zurück.", no:"Schaut noch einmal durch die Glastür der Terrassenkamera." },
   { id:"helena", lie:true, v:"gelogen", ok:"Ihr Wagen stand um 20:35 noch in der Einfahrt und fuhr erst um 21:02.", no:"Wann fuhr ihr Wagen wirklich los? Schaut auf die Kamera an der Einfahrt." }
 ];
 function liesStep(){
@@ -2167,7 +2167,7 @@ const tm = s => { const [h,m] = s.split(":").map(Number); return h*60+m; };
 function tlLanes(){
   const st = S.st.s6 || {}, solved = !!st.liesOk;
   const L = [
-    { id:"falkenried", n:"Falkenried", c:"#8d93a1", claim:[], fact:[{a:"20:15",k:"Ankündigung",l:"kündigt die Übergabe an die Stadt an"},{a:"21:25",k:"gefunden",l:"tot im Archiv gefunden"}] },
+    { id:"falkenried", n:"Falkenried", c:"#8d93a1", claim:[], fact:[{a:"20:15",k:"Ankündigung",l:"kündigt die Übergabe an die Stadt an"},{a:"20:45",k:"ins Archiv",l:"geht vom Tisch ins Archiv, um etwas zu holen"},{a:"21:25",k:"gefunden",l:"tot im Archiv gefunden"}] },
     { id:"helena", n:"Dorn", c:"#e07a5f", say:"„Ich bin um halb neun gegangen. Kopfschmerzen. Um kurz nach neun lag ich im Hotel.“",
       claim:[{a:"20:00",b:"20:30",k:"im Haus",l:"im Haus, bis halb neun"},{a:"21:05",k:"Hotel",l:"im Hotel"}],
       fact:[{a:"20:00",b:"21:02",k:"noch im Haus bis 21:02",l:"Kamera Einfahrt: Wagen steht um 20:30 noch da und fährt erst um 21:02 weg", bad:solved},{a:"21:18",k:"Hotel",l:"Check-in im Hotel"}] },
@@ -2190,7 +2190,7 @@ function timelineSvg(){
   const tw = t => t.length * 4.7;
   let g = ``;
   ["20:00","20:15","20:30","20:45","21:00","21:15","21:30"].forEach(t => { g += `<line x1="${x(t)}" y1="${top-4}" x2="${x(t)}" y2="${H-4}" stroke="#2c3443"/><text x="${x(t)}" y="12" fill="#8d93a1" font-size="9" text-anchor="middle">${t}</text>`; });
-  if (st.callDone) g += `<line x1="${x("20:48")}" y1="${top-6}" x2="${x("20:48")}" y2="${H-4}" stroke="#e05555" stroke-width="2"/><text x="${x("20:48")-3}" y="${top-12}" fill="#ff8a8a" font-size="9" text-anchor="end">Archivtür 20:48</text>`;
+  g += `<line x1="${x("20:48")}" y1="${top-6}" x2="${x("20:48")}" y2="${H-4}" stroke="#e05555" stroke-width="2"/><text x="${x("20:48")-3}" y="${top-12}" fill="#ff8a8a" font-size="9" text-anchor="end">Archivtür 20:48</text>`;
   lanes.forEach((ln, i) => {
     const y0 = top + i*lane;
     g += `<g data-tl="${ln.id}" style="cursor:pointer"><rect x="0" y="${y0}" width="${W}" height="${lane-2}" fill="transparent"/>
@@ -2228,7 +2228,7 @@ function timelineDetail(id){
 /* Überwachungskameras in der Haustechnik */
 const CAMS = [
   { id:"terrasse", img:"img/k_terrasse.jpg", cam:"CAM 1 · TERRASSE", from:"20:44:05", to:"20:58:40", t:"Terrasse 20:44–20:58",
-    txt:"Tobias von Falkenried raucht auf der Terrasse und schaut auf sein Handy. Drinnen sitzt nur noch sein Onkel am Tisch. Um 20:58 geht Tobias wieder hinein.",
+    txt:"Tobias von Falkenried raucht auf der Terrasse und schaut auf sein Handy. Drinnen sitzt nur noch sein Onkel am Tisch. Um 20:45 steht er auf und geht Richtung Archiv. Um 20:58 geht Tobias wieder hinein.",
     zoom:{ x:28, y:60, z:1.8, mark:[12, 50, 19, 38] }, after:"Vergrößert, durch die Glastür: Am Esstisch ist ein Platz leer. Über der Lehne hängt ein gemustertes Seidentuch, das von Clara Weiß. Von 20:44 bis 20:52 sitzt sie nicht am Tisch." },
   { id:"auto", img:"img/k_auto.jpg", cam:"CAM 2 · EINFAHRT", from:"20:30:00", to:"20:33:30", t:"Einfahrt 20:30–20:33",
     txt:"Der Wagen von Dr. Helena Dorn steht in der Einfahrt. Niemand kommt, niemand steigt ein." },
@@ -2268,7 +2268,7 @@ function playCam(id){
 }
 function akteView(interactive){
   const st = S.st.s6;
-  const prot = PROTOCOL.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(st.callDone && r[0]==="??:??" ? "Karte R7 (Ersatzkarte, als verloren gemeldet) – Archivtür geöffnet um 20:48" : r[1])}</td></tr>`).join("");
+  const prot = PROTOCOL.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(st.callDone && r[0]==="20:48" ? "Archivtür geöffnet mit Karte R7 (Ersatzkarte, als verloren gemeldet)" : r[1])}</td></tr>`).join("");
   const sts = STATEMENTS.map(x => `<div class="hint"><h3 style="display:flex;align-items:center;gap:12px"><img src="img/${x.id}_av.jpg" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none">${esc(x.who)}</h3><p style="margin-top:4px">${esc(x.t)}</p>
     <button class="recmini" data-rec="${x.id}">▶ Vernehmung</button>
     ${interactive ? `<div class="acts2"><button data-mark="${x.id}:ok" class="${locFor().marks[x.id]==='ok'?'on':''}">passt</button><button data-mark="${x.id}:lie" class="${locFor().marks[x.id]==='lie'?'on':''}">passt nicht</button></div>` : ""}</div>`).join("");
@@ -2304,7 +2304,7 @@ AFTER_CALL.CALL_06 = () => { if (S.stage !== 6 || !S.st.s6 || S.st.s6.callOk) re
 function r7Question(){
   const av = `<img src="img/seidl_av.jpg" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px">`;
   sheet(`${av}<div class="kind">Kommissarin Seidl</div><h2>Das konnte der Anrufer nicht wissen</h2>
-    <p>„20:48 und die Karte R7 waren in der Akte noch geschwärzt. Das weiß nur, wer an der Archivtür war.“</p>
+    <p>„Die Uhrzeit kennen alle. Aber welche Karte um 20:48 benutzt wurde, war in der Akte noch geschwärzt. Das weiß nur, wer an der Archivtür war.“</p>
     <p>„R7 ist eine Ersatzkarte aus der Digitalisierung des Archivs im letzten Jahr. Sie gilt seitdem als verloren.“</p>
     <div class="sec" style="margin-top:10px">Seidl fragt</div><h2 style="margin-top:4px">Was beweist der Eintrag „Karte R7, 20:48“?</h2>
     <button class="btn" data-r7="a">Wir wissen jetzt, wer die Tür geöffnet hat.</button><button class="btn" data-r7="b">Nur, welche Karte benutzt wurde. Wer sie hatte, ist offen.</button><p id="r7Msg"></p>`);
@@ -2379,7 +2379,7 @@ const ACC_Q = [
   { q:"Warum hat sie es getan?", ok:2, why:"Lest noch einmal die entschlüsselte Mail von 19:30.",
       a:["Sie wollte Falkenried beerben.","Sie wollte Tobias decken.","Sie wollte die drei Stücke an Käufer CW-04 verkaufen. Der Abholauftrag nennt „HD“ als Anbieterin."] },
   { q:"Wer war die Stimme am Telefon, und woran erkennt man das?", ok:1, why:"Denkt an den Anruf an der Heiliggeistkirche. Was wusste die Stimme schon?",
-    a:["Clara Weiß, sie wollte von sich ablenken.","Dr. Dorn. Sie nannte 20:48 und die Karte R7, bevor beides bekannt war.","Notar Mair, er wusste von der Kassette."] }
+    a:["Clara Weiß, sie wollte von sich ablenken.","Dr. Dorn. Sie nannte die Karte R7, bevor die bekannt war.","Notar Mair, er wusste von der Kassette."] }
 ];
 function finishAccuse(){
   if (S.st.accused) return; S.st.accused = true; save(); closeWin(); renderHome();
@@ -2852,9 +2852,9 @@ function standQs(){
   if (e("E08")) q2.push("Der Brief „1503“ ist gefälscht, erstellt von Dr. Helena Dorn. Er sollte die Stücke für einen Käufer echt aussehen lassen.");
   if (e("E14")) q2.push("Abholauftrag von 19:30: Anbieterin HD verkauft die Stücke an Käufer CW-04. Clara Weiß vermittelt.");
   if (st.s7 && st.s7.struck) q2.push("HD ist Dr. Helena Dorn.");
-  if (e("T5")) q3.push("Der Kartenleser hat jeden Zutritt gespeichert. Am Tatort: ein dunkler Wollfaden wie von einem Mantel.");
+  if (e("T5")) q3.push("Tatzeit: Um 20:48 öffnete jemand die Archivtür, als Falkenried drin war. Der Kartenleser hat jeden Zutritt gespeichert. Am Tatort: ein dunkler Wollfaden wie von einem Mantel.");
   if (e("E10")) q3.push("Dr. Dorn war bis 21:02 im Haus, nicht bis halb neun. Clara Weiß war 20:44 bis 20:52 nicht am Tisch.");
-  if (e("E13")) q3.push("Die Stimme am Telefon kannte 20:48 und die Karte R7, bevor beides bekannt war.");
+  if (e("E13")) q3.push("Die Stimme am Telefon kannte die Karte R7, bevor sie bekannt war.");
   if (e("E12")) q3.push("Um 20:48 öffnete die Ersatzkarte R7 die Tür. Sie galt seit 2025 als verloren.");
   if (e("E11")) q3.push("Rosa Brandl sah Clara Weiß im Flur telefonieren und dahinter eine Frau im Mantel zum Archiv gehen.");
   if (st.s7 && st.s7.struck) q3.push("Alle anderen haben ein Alibi. Es bleibt nur Dr. Helena Dorn.");
