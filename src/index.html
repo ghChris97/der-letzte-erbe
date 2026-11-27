@@ -1518,7 +1518,7 @@ function openAdmin(){
   document.querySelectorAll("[data-rmdev]").forEach(b => b.onclick = () => removeDevice(b.dataset.rmdev));
   $("#limitToggle").onclick = () => { DEV.noLimit = !DEV.noLimit; saveDev(); closeSheet(); renderHome(); };
   $("#stNext").onclick = () => { skipStation(); S.rev = Date.now(); save(); closeSheet(); closeWin(); renderHome(); };
-  $("#stPrev").onclick = () => { S.stage = Math.max(1, S.stage - 1); S.phase = "task"; if (S.stage === 1) S.apps = S.apps.filter(a => a !== "notizen"); S.rev = Date.now(); save(); closeSheet(); closeWin(); renderHome(); };
+  $("#stPrev").onclick = () => { const n = Math.max(1, S.stage - 1); undoFrom(n); S.stage = n; S.phase = "task"; S.rev = Date.now(); save(); closeSheet(); closeWin(); renderHome(); };
   $("#relock").onclick = () => { S.unlocked = false; save(); closeSheet(); closeWin(); renderLock(); };
   let armed = false;
   $("#reset").onclick = () => {
@@ -2515,6 +2515,39 @@ function skipStation(){
     7:()=>{S.st.s7={decoded:true,struck:true};S.apps.push("mail");addEv("E14","E15");} };
   if (give[n]) give[n]();
   if (n < 8) advance(); else { S.st.accused = true; save(); }
+}
+/* Spielleitung „Station zurück“: alles, was ab Station n gelöst oder freigeschaltet wurde, wieder wegnehmen.
+   So muss das Team die Station wirklich noch einmal lösen. */
+const UNDO = {
+  1:{ apps:["notizen"], ev:["E01"], st:["s1"], events:["B_1"] },
+  2:{ apps:["fotos"], ev:["E03"], notes:["fassade"], st:["s2"] },
+  3:{ apps:["archiv"], vm:["V_ERBE"], events:["I_ARCHIV","V_ERBE"] },
+  4:{ ev:["E05","E06","E07"], vm:["V_ALBRECHT"], st:["via4","s4"], events:["V_ALBRECHT","N02"] },
+  5:{ ev:["E08","E09"], vm:["V_RESIDENZ"], st:["s5"], events:["V_RESIDENZ"] },
+  6:{ apps:["haustechnik"], ev:["E10","E11","E12","E13"], vm:["V_TURM","V_ZEUGIN"], st:["s6"], events:["V_TURM","CALL_06","V_ZEUGIN"] },
+  7:{ apps:["mail"], ev:["E14","E15"], st:["s7"], events:["B_7","I_CW04"], struck:true },
+  8:{ vm:["V_MAIR"], st:["accused","named","accQ","accWho"], events:["V_MAIR"], ending:true }
+};
+function undoFrom(n){
+  const ev = [];
+  for (let k = n; k <= 8; k++) { const u = UNDO[k]; if (!u) continue;
+    if (u.apps) S.apps = S.apps.filter(a => !u.apps.includes(a));
+    if (u.ev) S.evidence = S.evidence.filter(e => !u.ev.includes(e));
+    if (u.notes) S.notes = S.notes.filter(x => !u.notes.includes(x));
+    if (u.vm) S.voicemails = S.voicemails.filter(v => !u.vm.includes(v));
+    (u.st || []).forEach(x => { delete S.st[x]; });
+    if (u.events) ev.push(...u.events);
+    if (u.struck) S.struck = [];
+    if (u.ending) { S.ending = null; }
+    if (S.locks) Object.keys(S.locks).forEach(key => { if (parseInt(key, 10) === k) delete S.locks[key]; });
+  }
+  S.events = (S.events || []).filter(e => !ev.includes(e)); S.mustSee = (S.mustSee || []).filter(e => !ev.includes(e));
+  S.seen = (S.seen || []).filter(e => !ev.includes(e)); S.fired = (S.fired || []).filter(e => !ev.includes(e));
+  if (S.threads && S.threads.unbekannt) S.threads.unbekannt = S.threads.unbekannt.filter(m => !ev.includes(m.id));
+  S.calls = (S.calls || []).filter(c => !ev.includes(c.id));
+  if (S.goAt) Object.keys(S.goAt).forEach(k => { if (+k > n) delete S.goAt[k]; });
+  showQ.length = 0; localSave();
+  LOC = { reset:S.resetAt || 0 }; saveLoc();   /* Räder, Markierungen usw. auf diesem Handy */
 }
 /* ============================================================
    Zurück-Taste des Handys: navigiert in der App statt sie zu schließen.
