@@ -191,5 +191,5 @@ Nur noch: Heinrich XVI. → Ludwig IX. (vor der Herzogswand als „L. ?“) → 
 - Nach dem Archiv-Passwort (Station 3): Schloss springt auf, Belohnung „Glückwunsch, ihr habt Falkenrieds Archiv geöffnet“ mit Inhalt (Memo, Mappe) und Erklärung, warum es zurück zur Herzogswand geht; danach Falkenrieds Memo.
 - Eigene Optik je Bereich (Archivkarton, Pappmappe mit Gummiband und Schloss, Haustechnik, Postfach, Tresor, Notizen), gesperrte Inhalte vorher sichtbar, Aufspring-Animation bei jedem geknackten Schloss, Fallakte mit Dateityp (Audio mit Tonspur, Textdokument, Foto, Mappe).
 - Unbenutzte Texte entfernt: V_FINALE, N06, I_MAIR, I_ZEUGIN, I_ANRUF, I_FALLE, I_TRAUSNITZ, B_2 bis B_6.
-- Rundgang Heiliggeist: Fangradius 15 → 10 m, GPS-Messungen nur bis 20 m Ungenauigkeit (vorher 35 m). Eingezeichnetes Kirchen-Viereck entfernt.
+- Rundgang Heiliggeist: 36 Wegstücke à ca. 4 m (vorher 12), Fangradius 8 m, GPS nur bis 20 m Ungenauigkeit; alle Stücke nötig, Lücken bis 2 Stücke werden aufgefüllt; Schloss erst 1,8 s nach der ganz grünen Runde. Eingezeichnetes Kirchen-Viereck entfernt.
 - Jedes Schloss öffnet erst auf Tippen („Schloss öffnen“), dann Animation, dann „Weiter …“ mit dem Ziel. Auch nach dem Rundgang („Runde geschafft!“).

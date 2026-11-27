@@ -2090,7 +2090,7 @@ PUZZLE_6 = function(){
 /* Station 6: Rundgang um die Heiliggeistkirche. Alle vier Seiten müssen besucht werden.
    Mit WALK_POINTS (vier echte GPS-Punkte an den Ecken, vor Ort gemessen) zählt jeder Punkt im Umkreis von WALK_R Metern.
    Ohne Punkte: Himmelsrichtung vom Kirchenmittelpunkt aus, nur wenn man deutlich auf einer Seite steht (±30°). */
-const RING_N = 12, RING_R = 10, RING_NEED = 11, RING_ACC = 20;   /* Stücke · Fangradius (m) · nötig (ein Aussetzer erlaubt) · max. GPS-Ungenauigkeit (m) */
+const RING_N = 36, RING_R = 8, RING_NEED = 36, RING_ACC = 20;   /* Stücke (je ca. 4 m) · Fangradius (m) · nötig: alle · max. GPS-Ungenauigkeit (m). Einzelne GPS-Lücken zwischen zwei grünen Stücken werden aufgefüllt. */
 /* Laufweg um die Kirche, vor Ort eingezeichnet (geht über den Platz, nicht durch die Häuser) */
 const WALK_PATH = [[48.53865,12.152943],[48.538626,12.152924],[48.538605,12.152903],[48.538585,12.152883],[48.538571,12.152851],[48.538563,12.152812],[48.538557,12.152777],[48.538552,12.152749],[48.538546,12.152725],[48.538539,12.152703],[48.538533,12.152682],[48.538528,12.152661],[48.538522,12.152641],[48.538516,12.152619],[48.538509,12.152597],[48.5385,12.152573],[48.538489,12.152545],[48.538477,12.152512],[48.538468,12.152476],[48.538459,12.152433],[48.538459,12.152391],[48.538467,12.152352],[48.538481,12.152317],[48.538502,12.152293],[48.538527,12.152276],[48.538551,12.152262],[48.538574,12.152249],[48.538598,12.152232],[48.538621,12.152214],[48.538647,12.1522],[48.538673,12.152201],[48.538698,12.152224],[48.538719,12.152252],[48.538736,12.152281],[48.53875,12.152315],[48.53876,12.152348],[48.538769,12.152376],[48.538777,12.152402],[48.538786,12.152424],[48.538794,12.152446],[48.538803,12.152467],[48.538812,12.152488],[48.538819,12.152511],[48.538825,12.152535],[48.538831,12.152561],[48.538838,12.152588],[48.538844,12.152617],[48.53885,12.152649],[48.538853,12.152683],[48.538851,12.152717],[48.53885,12.152756],[48.538847,12.152797],[48.53884,12.152839],[48.538828,12.15288],[48.538808,12.15291],[48.538783,12.152928],[48.538757,12.152943],[48.53873,12.152952],[48.538703,12.152958],[48.538676,12.152956]];
 const RING = (() => {
@@ -2136,10 +2136,13 @@ function walkLock(){
   const mark = ks => {
     const cur = S.st.s6 || st; cur.walk = cur.walk || {}; if (cur !== st) Object.assign(cur.walk, st.walk);
     let ch = false; ks.forEach(k => { if (!cur.walk[k]) { cur.walk[k] = true; ch = true; } });
+    /* GPS springt: eine Lücke von bis zu 2 Stücken zwischen zwei abgelaufenen Stücken gilt als gelaufen */
+    for (let i = 0; i < RING_N; i++) if (cur.walk[i]) for (let g = 2; g <= 3; g++) { const j = (i + g) % RING_N;
+      if (cur.walk[j]) { for (let m = 1; m < g; m++) { const k = (i + m) % RING_N; if (!cur.walk[k]) { cur.walk[k] = true; ch = true; } } break; } }
     if (ch) { st.walk = cur.walk; save(); ringDraw(cur.walk); if ($("#walkN")) $("#walkN").textContent = n(); }
     if (n() >= RING_NEED && !cur.open) { st.open = true; cur.open = true; if (!S.apps.includes("haustechnik")) S.apps.push("haustechnik"); save();
       if ($("#walkTxt")) $("#walkTxt").textContent = "Runde geschafft!"; if (watchId !== null) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; }
-      setTimeout(() => unlockFx("Einmal um die Kirche", "Haustechnik entsperrt", () => { PUZZLE_6(); fire("V_TURM"); }, { head:"Runde geschafft!", next:"Zur Haustechnik" }), 600); return true; }
+      setTimeout(() => unlockFx("Einmal um die Kirche", "Haustechnik entsperrt", () => { PUZZLE_6(); fire("V_TURM"); }, { head:"Runde geschafft!", next:"Zur Haustechnik" }), 1800); return true; }   /* erst die ganz grüne Runde zeigen */
     return false;
   };
   if (mark([])) return;
