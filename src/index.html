@@ -82,6 +82,67 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .dock .app > span:last-child{display:none}
 .case{margin:18px 18px 0;font-family:var(--font-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between}
 
+/* ---------- Eigene Optik je Bereich ---------- */
+.win.th-mappe{background:radial-gradient(120% 60% at 50% 0%,#2a2216 0%,#120f0a 70%)}
+.win.th-mappe .bar h1{font-family:var(--font-display);color:#e6c98a;letter-spacing:.01em}
+.win.th-archiv{background:radial-gradient(120% 60% at 50% 0%,#1c2a24 0%,#0b110e 70%)}
+.win.th-archiv .bar h1{font-family:var(--font-display);color:#cfe0c8}
+.win.th-tech{background:#071015;background-image:linear-gradient(#0f2a3322 1px,transparent 1px),linear-gradient(90deg,#0f2a3322 1px,transparent 1px);background-size:22px 22px}
+.win.th-tech .bar h1{font-family:var(--font-mono);font-size:22px;color:#6fe3d0;text-transform:uppercase;letter-spacing:.08em}
+.win.th-mail .bar h1{font-family:var(--font-mono);font-size:22px;color:#9fb6ff;letter-spacing:.04em}
+.win.th-mail{background:radial-gradient(120% 60% at 50% 0%,#151b33 0%,#0a0d18 70%)}
+.win.th-tresor{background:radial-gradient(120% 60% at 50% 0%,#2e1414 0%,#110808 70%)}
+.win.th-tresor .bar h1{font-family:var(--font-display);color:#f0b9a8}
+.win.th-notiz{background:radial-gradient(120% 60% at 50% 0%,#2b2414 0%,#0f0d08 70%)}
+.win.th-notiz .bar h1{font-family:var(--font-display);color:#efe2c0}
+
+/* Mappe: Pappordner mit Reiter, Gummiband und Schloss */
+.fm{position:relative;margin:18px 2px 14px;color:#3b2d17}
+.fm-tab{position:absolute;top:-16px;left:14px;background:#d4b06c;border-radius:10px 10px 0 0;padding:4px 14px 6px;font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5a4320;box-shadow:inset 0 2px 0 #e7c886}
+.fm-body{position:relative;background:linear-gradient(170deg,#e2c07c,#cfa75e);border-radius:4px 14px 14px 14px;padding:16px 16px 14px;box-shadow:0 10px 24px #0008,inset 0 -3px 0 #b48d48;overflow:hidden}
+.fm-title{font-family:var(--font-display);font-size:22px;font-weight:700;line-height:1.15;margin:0 0 2px}
+.fm-sub{font-size:12.5px;color:#5c4724;margin-bottom:10px}
+.fm-it{display:flex;align-items:center;gap:10px;background:#fbf4e2;border-radius:3px;padding:8px 10px;margin-top:6px;font-size:14px;box-shadow:0 1px 0 #0002;transform:rotate(var(--r,0deg))}
+.fm-it .ic{font-size:18px}.fm-it .tx{flex:1;min-width:0}.fm-it .tx small{display:block;color:#7a6440;font-size:11.5px}
+.fm-it .st{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#9c1f1f;white-space:nowrap}
+.fm-it .st.ok{color:#2f7a4c}
+.fm.locked .fm-it .tx{filter:blur(.2px);opacity:.75}
+.fm-band{position:absolute;top:0;bottom:0;right:34px;width:14px;background:linear-gradient(90deg,#7a1f1a,#a5352b 50%,#7a1f1a);box-shadow:0 0 0 1px #0003}
+.fm-lock{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:54px;height:62px;display:grid;place-items:center;background:#2a2c31;border-radius:10px;box-shadow:0 4px 10px #0007,inset 0 1px 0 #ffffff22;color:#e3a548}
+.fm-lock svg{width:30px;height:30px;stroke:currentColor;fill:none;stroke-width:2}
+.fm.locked .fm-body{padding-right:78px}
+.fm.open .fm-body{background:linear-gradient(170deg,#ead094,#d8b46d)}
+/* Archiv: Archivkarton mit Etikett */
+.dos{position:relative;margin:6px 2px 14px;background:linear-gradient(170deg,#3a4a3f,#26332b);border-radius:10px;padding:16px;box-shadow:0 10px 24px #0008,inset 0 1px 0 #ffffff14;color:#e8efe4}
+.dos-lbl{background:#efe9d8;color:#2a2620;border-radius:3px;padding:8px 12px;display:inline-block;transform:rotate(-1deg);box-shadow:0 1px 0 #0003}
+.dos-lbl b{display:block;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#6b5f48}
+.dos-lbl span{font-family:var(--font-display);font-size:20px;font-weight:700}
+.dos-stamp{position:absolute;right:12px;top:12px;border:2px solid #d9534f;color:#ff7b74;border-radius:6px;padding:3px 8px;font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;transform:rotate(8deg);text-transform:uppercase}
+.dos-stamp.ok{border-color:#4caf7a;color:#7fe0a8}
+.dos-it{display:flex;align-items:center;gap:10px;background:#ffffff10;border:1px solid #ffffff1a;border-radius:10px;padding:9px 11px;margin-top:8px;font-size:14px}
+.dos-it .ic{font-size:18px}.dos-it .tx{flex:1;min-width:0}.dos-it .tx small{display:block;color:#a9b8ad;font-size:12px;margin-top:1px}
+.dos-it .st{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#ff9a93;white-space:nowrap}
+.dos-it .st.ok{color:#7fe0a8}
+.dos.locked .dos-it .tx{opacity:.7}
+.dos.fresh .dos-it{animation:inR .4s ease-out both}.dos.fresh .dos-it:nth-child(3){animation-delay:.12s}.dos.fresh .dos-it:nth-child(4){animation-delay:.24s}
+
+/* Das Schloss springt auf */
+.ufx{position:absolute;inset:0;z-index:200;display:grid;place-items:center;background:#05070bcc;backdrop-filter:blur(3px);animation:ufxIn .2s ease-out}
+.ufx.out{animation:ufxOut .35s ease-in forwards}
+@keyframes ufxIn{from{opacity:0}to{opacity:1}}
+@keyframes ufxOut{to{opacity:0}}
+.ufx .box{text-align:center;padding:0 24px}
+.ufx .glow{position:relative;width:150px;height:150px;margin:0 auto;display:grid;place-items:center}
+.ufx .glow::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#e3a54866 0%,#e3a54800 65%);transform:scale(.4);opacity:0;animation:ufxBurst .9s .55s ease-out forwards}
+@keyframes ufxBurst{to{transform:scale(1.25);opacity:1}}
+.ufx svg{width:96px;height:110px;overflow:visible;filter:drop-shadow(0 6px 14px #000a)}
+.ufx .shk{transform-origin:66px 46px;animation:ufxOpen .55s .5s cubic-bezier(.3,1.6,.5,1) forwards}
+@keyframes ufxOpen{to{transform:translateY(-16px) rotate(-28deg)}}
+.ufx .lk{animation:ufxJig .35s ease-in-out}
+@keyframes ufxJig{30%{transform:rotate(-6deg)}70%{transform:rotate(5deg)}}
+.ufx .t1{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-top:14px;opacity:0;animation:ufxIn .3s .9s forwards}
+.ufx .t2{font-family:var(--font-display);font-size:30px;font-weight:700;margin-top:4px;opacity:0;animation:ufxIn .3s 1s forwards}
+
 /* App-Fenster */
 .win{position:absolute;inset:0;z-index:20;background:var(--night);display:flex;flex-direction:column;animation:rise .22s ease-out}
 @keyframes rise{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
@@ -209,6 +270,19 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 .farow{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;padding:12px 14px;margin-bottom:8px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
 .farow .fk{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .farow .ft{font-weight:600;font-size:15px}.farow .fs{font-size:13px;color:var(--muted);line-height:1.4}
+/* Fallakte: Dateityp auf einen Blick */
+.farow.typed{display:grid;grid-template-columns:46px 1fr;column-gap:12px;align-items:center}
+.farow.typed .fti{grid-row:span 4;width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:22px}
+.fti.mappe{background:#d4b06c;color:#3b2d17}.fti.audio{background:#1f3b2f;color:#7fe0a8}.fti.text{background:#efe7d6;color:#2a2620}.fti.foto{background:#23314a;color:#9fc0ff}.fti.beweis{background:#3a2a1a;color:#e3a548}.fti.brief{background:#2c2236;color:#cdb4f0}
+.fti svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2}
+.farow.typed.t-text{background:linear-gradient(90deg,#efe7d60d,transparent 60%),var(--surface)}
+.farow .wave{display:flex;gap:2px;align-items:center;height:16px;margin-top:4px}
+.farow .wave i{display:block;width:3px;border-radius:2px;background:#7fe0a8;opacity:.75}
+.farow .wave em{font-style:normal;font-family:var(--font-mono);font-size:10.5px;color:#7fe0a8;margin-left:8px;letter-spacing:.06em}
+.akte-cover{position:relative;margin:2px 0 14px;background:linear-gradient(170deg,#d9bf86,#c2a163);color:#3a2c14;border-radius:4px 14px 14px 14px;padding:14px 16px;box-shadow:0 8px 20px #0007}
+.akte-cover b{display:block;font-family:var(--font-mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#6a5222}
+.akte-cover span{font-family:var(--font-display);font-size:24px;font-weight:700}
+.akte-cover .stp{position:absolute;right:14px;top:14px;border:2px solid #9c1f1f;color:#9c1f1f;border-radius:5px;padding:2px 8px;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;transform:rotate(7deg)}
 .neuR{display:inline-block;color:#fff;background:var(--decline);border-radius:6px;padding:1px 6px;font-size:10px;font-weight:700;letter-spacing:.06em;margin-left:8px;vertical-align:middle;font-family:var(--font-ui)}
 .isnew{box-shadow:inset 3px 0 0 var(--decline);background:#e055551a!important}
 .bub.isnew{box-shadow:0 0 0 2px var(--decline)}
@@ -445,15 +519,13 @@ const CONTENT = {
   messages: {
     N01: { thread: "unbekannt", text: "Ihr habt den Vater gefunden. Schön. Fragt euch lieber, wo Notar Mair am Tatabend war. Achtzehn Minuten sind eine lange Zeit für ein Telefonat." },
     N02: { thread: "unbekannt", text: "Ihr sucht die Kiste mit den fehlenden Erbstücken? Ich habe einen Brief aus dem Winter 1503. Er sagt, wo sie damals lag. Dreht euch um.", attachment: "Brief_1503.pdf" },
-    N03: { thread: "unbekannt", text: "Ein falscher Brief? Dann hat jemand im Archiv gepfuscht. Notar Mair hatte die Datei offen. Nur so als Hinweis." },
-    N06: { thread: "unbekannt", text: "Ihr habt sie. Öffnet sie nicht. Ich hole sie gleich ab." }
+    N03: { thread: "unbekannt", text: "Ein falscher Brief? Dann hat jemand im Archiv gepfuscht. Notar Mair hatte die Datei offen. Nur so als Hinweis." }
   },
   suspects: [
     { id:"helena", photo:"img/helena.jpg", name:"Dr. Helena Dorn", age:47, role:"Historikerin, betreute Falkenrieds Archiv", note:"Leitete 2025 die Digitalisierung des Archivs, einschließlich neuer Zutrittstechnik.", says:"„Ich bin um halb neun gegangen, Kopfschmerzen. Mantel an und ins Hotel.“" },
     { id:"mair", photo:"img/mair.jpg", name:"Benedikt Mair", age:55, role:"Notar", note:"Kennt Falkenrieds Testament.", says:"„Ich habe kurz telefoniert, draußen. Mehr nicht.“" },
     { id:"tobias", photo:"img/tobias.jpg", name:"Tobias von Falkenried", age:31, role:"Neffe", note:"Hat Schulden. Galt als möglicher Erbe.", says:"„Ja, wir haben gestritten. Laut.“" },
     { id:"clara", photo:"img/clara.jpg", name:"Clara Weiß", age:43, role:"Kunsthändlerin", note:"Hatte Interesse an Stücken aus der Sammlung.", says:"„Ich saß den ganzen Abend bei den anderen am Tisch.“" },
-    { id:"feld", photo:"img/feld.jpg", name:"Jonas Feld", age:39, role:"Externer Restaurator, Besitzer der Karte R7", note:"War am Abend nicht als Gast im Haus. Mit seiner Zutrittskarte R7 wurde um 20:48 die Archivtür geöffnet.", says:"„Die Karte ist mir vor einer Woche abhandengekommen.“" }
   ],
   victim: { photo:"img/falkenried.jpg", name:"Maximilian von Falkenried", age:62, role:"Kunstsammler, Gastgeber des Adventsdinners", note:"Am 19. Dezember um 21:25 Uhr tot in seinem Archiv aufgefunden." },
   lead: { photo:"img/seidl.jpg", name:"Martina Seidl", age:52, role:"Kriminalhauptkommissarin, Ermittlungsleiterin", note:"Leitet die Ermittlung im Fall Falkenried. Sie meldet sich per Sprachnachricht und hat euch Falkenrieds Handy übergeben." },
@@ -482,7 +554,7 @@ const CONTENT = {
     S6: { title:"Heiliggeist – Rundgang und Tatabend", steps:[
       "Lasst die Karte offen und geht einmal ganz um die Kirche, bis alle Wegstücke verschwunden sind. Bei ungenauem GPS kurz stehen bleiben.",
       "Schaut alle Kameraaufnahmen an. Wann fuhr der Wagen von Dr. Helena Dorn wirklich weg? Und wessen Platz am Tisch ist durch die Glastür leer?",
-      "Nach dem Anruf fragt Seidl nach der Karte R7: Jonas Feld war in Regensburg, also wurde nur seine Karte benutzt." ] },
+      "Nach dem Anruf fragt Seidl nach der Karte R7: Sie galt als verloren, also zeigt sie nur, welche Karte benutzt wurde, nicht von wem." ] },
     S7: { title:"Ländtor – Der Ritter", steps:[
       "Spielt in der Mail die Sage vom Ritter ab und zählt die Glockenschläge am Ende.",
       "Sieben Schläge: Jeden Buchstaben sieben Stellen im Alphabet zurück. H wird A, I wird B.",
@@ -547,7 +619,7 @@ const CONTENT = {
     E09:{ t:"Dateiprotokoll", d:"LETTER-1503-B erstellt unter HDORN (Dr. Helena Dorn) am 18.12., 23:14 Uhr. Geöffnet unter BMAIR (Notar Mair) am 19.12., 10:02 Uhr." },
     E10:{ t:"Widersprüche der Aussagen", d:"Dr. Helena Dorn sagt, sie sei um halb neun gegangen. Die Kamera zeigt: Ihr Wagen stand noch da, er fuhr erst um 21:02. Clara Weiß sagt, sie habe den ganzen Abend am Tisch gesessen. Die Terrassenkamera zeigt durch die Glastür: Ihr Platz war von 20:44 bis 20:52 leer, ihr Handy war im Flur." },
     E11:{ t:"Zeugin: Frau im Mantel an der Archivtür", d:"Rosa Brandl sah kurz vor neun Clara Weiß im Flur telefonieren. Hinter ihr ging eine Frau im langen dunklen Mantel mit Kapuze zum Archiv, dann klickte die Archivtür. Die Gäste hatten ihre Mäntel an der Garderobe. Einen Mantel trug nur, wer sich schon verabschiedet hatte." },
-    E12:{ t:"Karte R7", d:"Öffnete um 20:48 die Archivtür. Gehört Restaurator Jonas Feld, der nachweislich in Regensburg war. Beweist nur, welche Karte benutzt wurde." },
+    E12:{ t:"Karte R7", d:"Öffnete um 20:48 die Archivtür. Eine Ersatzkarte aus der Digitalisierung des Archivs 2025, seitdem als verloren gemeldet. Beweist nur, welche Karte benutzt wurde, nicht von wem." },
     E13:{ t:"Täterwissen im Anruf", d:"Der Anrufer nannte Uhrzeit und Karte, bevor das Protokoll freigegeben war." },
     E14:{ t:"Abholauftrag 19:30", d:"Drei Stücke aus der Falkenried-Sammlung. Anbieter HD, Käufer CW-04. Übergabe Ringelstecherwiese. Versendet vor der Tat." },
     E15:{ t:"Handyauswertung Clara Weiß", d:"Clara telefonierte von 20:44 bis 20:50 mit dem Käufer CW-04." },
@@ -559,7 +631,7 @@ const CONTENT = {
   },
   voice: {
     V_START:{ from:"Kommissarin Seidl", photo:"img/seidl_av.jpg", title:"Ich brauche eure Hilfe", text:"Hallo, hier ist Martina Seidl von der Kripo Landshut. Ihr habt gesehen, was gestern Abend passiert ist. Fünf Menschen waren im Haus, und mindestens einer lügt. \n\nFalkenried hatte Angst, dass jemand in seinen Papieren liest. Darum hat er sein Notizbuch, sein Archiv und seine Haustechnik gesperrt und die Schlüssel draußen in der Stadt versteckt. Folgt seiner Spur. \n\nEin Abbild seines Handys spiele ich jetzt auf eure Handys. Der Code lautet: eins, vier, sieben, fünf. Das Jahr der Landshuter Hochzeit. Schaut euch kurz den Tatort an, dann treffen wir uns am Turm von Sankt Martin." },
-    V_ERBE:{ from:"Falkenried", memo:"im Archiv gespeichert, aufgenommen am 16. Oktober 2026", title:"Die Familie", text:"Hier spricht Maximilian von Falkenried. Wenn ihr das hört, steht ihr vor Ludwig dem Reichen. Um seine Familie geht es in allem, was ich gefunden habe. \n\n1475 heiratete sein Sohn Georg in Sankt Martin die polnische Königstochter Hedwig. Ludwig bezahlte alles. Doch Georgs Söhne starben früh. Es blieben nur Töchter, und das wurde zum Problem. \n\nWer dieses Problem hatte, steht ebenfalls an der Herzogswand, ganz unten links. Geht zurück und sucht ihn. Dann erzähle ich weiter." },
+    V_ERBE:{ from:"Falkenried", memo:"im Archiv hinterlegt für den, der seiner Spur folgt · aufgenommen am 16. Oktober 2026", title:"Die Familie", text:"Hier spricht Maximilian von Falkenried. Wenn ihr das hört, steht ihr vor Ludwig dem Reichen. Um seine Familie geht es in allem, was ich gefunden habe. \n\n1475 heiratete sein Sohn Georg in Sankt Martin die polnische Königstochter Hedwig. Ludwig bezahlte alles. Doch Georgs Söhne starben früh. Es blieben nur Töchter, und das wurde zum Problem. \n\nWer dieses Problem hatte, steht ebenfalls an der Herzogswand, ganz unten links. Geht zurück und sucht ihn. Dann erzähle ich weiter." },
     V_ALBRECHT:{ from:"Falkenried", memo:"im Archiv gespeichert, aufgenommen am 16. Oktober 2026", title:"Der Erbfolgekrieg", text:"Georg und Hedwig bekamen eine Tochter: Elisabeth. Einen Sohn, der überlebte, hatte Georg nicht. Nach den Hausverträgen durfte das Land aber nur an Männer der Familie fallen. Georg setzte trotzdem Elisabeth als Erbin ein. Doch in München saß sein Vetter Albrecht. Als Georg im Dezember 1503 starb, zog Albrecht gegen Elisabeth in den Krieg, und er gewann. Elisabeth starb 1504, mitten im Krieg. Ihr kleiner Sohn Georg, heißt es, im selben Jahr. Ich habe angefangen, daran zu zweifeln. \n\nIn den Wintertagen nach Georgs Tod brachte jemand eine Kiste aus der Stadt. Was darin war, steht in zwei Listen in meiner Mappe. Ihr Schloss hat drei Räder. Was ihr einstellen müsst, hängt dort, wo die Bürger dieser Stadt seit Jahrhunderten ihren Rat halten." },
     V_RESIDENZ:{ from:"Kommissarin Seidl", photo:"img/seidl_av.jpg", title:"Die Archivtür", text:"Seidl hier. Gute Arbeit, der Brief ist gefälscht. Wer alte Stücke teuer verkaufen will, braucht einen Nachweis, woher sie stammen. Erstellt hat die Datei Doktor Helena Dorn, geöffnet hat sie auch Notar Mair. Einen Mord beweist das noch nicht. \n\nWir müssen wissen, wer am Tatabend an die Archivtür kam. Das steht in Falkenrieds App Haustechnik. Sie öffnet sich nur an der Kirche, deren Bau unter Heinrich dem Reichen begann." },
     V_TURM:{ from:"Falkenried", memo:"in der App Haustechnik gespeichert, aufgenommen am 9. November 2026", title:"Der Turm", text:"Sie wollten hier einen Turm, höher als Sankt Martin. Das Geld reichte nicht. Manche wollen eben mehr, als ihnen zusteht." },
@@ -567,11 +639,10 @@ const CONTENT = {
       post:"<b>Kommissarin Seidl:</b> „Eine Frau im Mantel, mitten im Haus. Denkt an den Wollfaden am Stuhl. Und welcher Wagen sollte durch das Tor mit den drei Helmen?“", text:"Hier ist Rosa Brandl, die Haushälterin. Mir ist noch etwas eingefallen. Kurz vor neun stand Frau Weiß im Flur und telefonierte, ganz leise. Ich habe nur verstanden: Der Wagen soll die Stadt durch das Tor verlassen, über dem die drei Helme hängen. Und hinter ihr ging eine Frau zum Archiv, im langen dunklen Mantel, die Kapuze auf. Die Gäste hatten ihre Mäntel doch längst an der Garderobe. Dann klickte die Archivtür." },
     V_MAIR:{ from:"Benedikt Mair", title:"Die Kassette", photo:"img/mair_av.jpg",
       post:"Mair übergibt euch Falkenrieds Kassette. Sie hat ein Namensschloss.", text:"Hier spricht Benedikt Mair, der Notar von Herrn von Falkenried. Ich habe geschwiegen, das tut mir leid. Er hat mir im Herbst diese Kassette anvertraut. Er war überzeugt, dass Elisabeths kleiner Sohn Georg den Krieg 1504 überlebt hat, heimlich in Sicherheit gebracht. Und dass er selbst von diesem Georg abstammt. Verkaufen wollte er nie etwas. Es sollte alles zurück nach Landshut. Die Kassette gehört jetzt euch. Das Schloss kennt nur einen Namen: den der Frau, der all das gehören sollte." },
-    V_FINALE:{ from:"Falkenried", memo:"bei Notar Mair hinterlegt, aufgenommen am 13. Dezember 2026", title:"Letzte Nachricht", text:"Hier spricht Maximilian von Falkenried. Wenn ihr das hört, ist mir etwas zugestoßen. Ich wollte nie etwas verkaufen. \n\n1504 hieß es, Elisabeths kleiner Sohn Georg sei gestorben. Es war gelogen. Derselbe treue Mann, der die Kiste aus der Stadt gebracht hatte, brachte auch den Jungen in Sicherheit. Die Kiste war sein Erbe. \n\nIch glaube, dass ich von diesem Georg abstamme. Vielleicht irre ich mich. Aber was in der Kiste war, gehört zurück nach Landshut. Das Schloss kennt nur einen Namen: den der Frau, der all das gehören sollte." }
   },
   /* Falkenrieds Tagebuch. req: erscheint erst, wenn diese Notiz freigeschaltet ist. start: hier schlägt das Buch beim ersten Öffnen auf. */
   diary: [
-    { date:"Montag, 2. November 2026", html:"Neuburg an der Donau, Kirchenbücher. Zwei Tage zwischen Staub und Latein. Im Jahr 1504 ein Eintrag, der nicht zu den anderen passt: ein Kindername, durchgestrichen, daneben eine andere Hand.<br><br>Und heute habe ich gefunden, wonach ich seit Jahren suche.<span class=\"red\">Bester Tag meines Lebens. Mehr schreibe ich nicht, nicht einmal hier.</span>" },
+    { date:"Montag, 2. November 2026", html:"Zwei Tage in alten Kirchenbüchern, zwischen Staub und Latein. Im Jahr 1504 ein Eintrag, der nicht zu den anderen passt: ein Kindername, durchgestrichen, daneben eine andere Hand.<br><br>Und heute habe ich gefunden, wonach ich seit Jahren suche.<span class=\"red\">Bester Tag meines Lebens. Mehr schreibe ich nicht, nicht einmal hier.</span>" },
     { date:"Samstag, 28. November 2026", html:"Jemand war an meinem Schreibtisch. Die Mappe lag anders, als ich sie hingelegt hatte, und im Archivprogramm war eine Datei geöffnet, die ich seit Wochen nicht angefasst habe.<br><br>Wer hat einen Schlüssel? Zu viele." },
     { date:"Donnerstag, 10. Dezember 2026", fk:"fassade", html:"Lange vor dem Haus der Landstände gestanden. Drei Reihen, dreißig Herzöge. Ein Foto der ganzen Wand, fest eingeklebt. Was ich darauf gefunden habe, schreibe ich nicht offen hin:<div class=\"glued\"><img src=\"img/fassade_wand.jpg\" alt=\"Foto der bemalten Fassade des Landschaftshauses\" style=\"width:100%;display:block;border-radius:4px\"></div>" },
     { date:"Samstag, 12. Dezember 2026", html:"Tobias war wieder da. Mein Neffe hat wieder nach Geld gefragt.<span class=\"red\">Nein.</span>" },
@@ -754,9 +825,38 @@ document.addEventListener("click", e => {
 /* ============================================================
    Fenster, Sheets, Ordner
    ============================================================ */
+/* Jeder Bereich bekommt seine eigene Optik */
+const WIN_THEME = { "Mappe":"mappe", "Archiv":"archiv", "Haustechnik":"tech", "Postfach":"mail", "Tresor":"tresor", "Notizen":"notiz" };
+/* Ein Schloss springt auf: zeigt deutlich, dass gerade etwas geknackt wurde */
+function unlockFx(t1, t2, then){
+  const old = $("#ufx"); if (old) old.remove();
+  const o = document.createElement("div"); o.className = "ufx"; o.id = "ufx";
+  o.innerHTML = `<div class="box"><div class="glow"><svg viewBox="0 0 96 110" aria-hidden="true"><g class="lk">
+      <path class="shk" d="M30 50V34a18 18 0 0 1 36 0v16" fill="none" stroke="#c9ced8" stroke-width="9" stroke-linecap="round"/>
+      <rect x="14" y="48" width="68" height="56" rx="10" fill="#e3a548"/><rect x="14" y="48" width="68" height="10" rx="5" fill="#f2c477"/>
+      <circle cx="48" cy="72" r="7" fill="#5a3d12"/><rect x="45" y="74" width="6" height="16" rx="3" fill="#5a3d12"/></g></svg></div>
+    <div class="t1">${esc(t1)}</div><div class="t2">${esc(t2)}</div></div>`;
+  layer.appendChild(o);
+  try { navigator.vibrate && navigator.vibrate([30, 60, 90]); } catch(e) {}
+  let gone = false; const end = () => { if (gone) return; gone = true; o.classList.add("out"); setTimeout(() => { o.remove(); if (then) then(); }, 330); };
+  o.onclick = end; setTimeout(end, 2100);
+}
+/* Mappe als Pappordner. items: [Symbol, Titel, Zusatz, Status, ok] */
+function folderHtml(o){
+  return `<div class="fm ${o.locked ? "locked" : "open"}"><div class="fm-tab">${esc(o.tab)}</div><div class="fm-body">
+    <div class="fm-title">${esc(o.title)}</div><div class="fm-sub">${esc(o.sub)}</div>
+    ${o.items.map((it, i) => `<div class="fm-it" style="--r:${[-0.6, 0.5, -0.3, 0.7][i % 4]}deg"><span class="ic">${it[0]}</span><span class="tx">${esc(it[1])}${it[2] ? `<small>${esc(it[2])}</small>` : ""}</span>${it[3] ? `<span class="st ${it[4] ? "ok" : ""}">${o.locked ? "🔒" : esc(it[3])}</span>` : ""}</div>`).join("")}
+    ${o.locked ? `<div class="fm-band"></div><div class="fm-lock">${svg("lock")}</div>` : ""}</div></div>`;
+}
+/* Archiv als Archivkarton */
+function dossierHtml(o){
+  return `<div class="dos ${o.locked ? "locked" : "fresh"}"><div class="dos-stamp ${o.locked ? "" : "ok"}">${o.locked ? "Gesperrt" : "Geöffnet"}</div>
+    <div class="dos-lbl"><b>${esc(o.tab)}</b><span>${esc(o.title)}</span></div>
+    ${o.items.map(it => `<div class="dos-it"><span class="ic">${it[0]}</span><span class="tx">${esc(it[1])}${it[2] ? `<small>${esc(it[2])}</small>` : ""}</span>${it[3] ? `<span class="st ${it[4] ? "ok" : ""}">${esc(it[3])}</span>` : ""}</div>`).join("")}</div>`;
+}
 function openWin(title, html, opts={}){
   closeWin();
-  const w = document.createElement("div"); w.className = "win"; w.id = "win";
+  const w = document.createElement("div"); w.className = "win" + (WIN_THEME[title] ? " th-" + WIN_THEME[title] : ""); w.id = "win";
   w.innerHTML = `${statusBar()}<div class="bar">${opts.back?`<button class="back" id="winBack">${svg("back")}${esc(opts.back)}</button>`:""}</div>
     <div class="bar" style="padding-top:0"><h1>${esc(title)}</h1></div>
     <div class="body" id="winBody">${html}</div><button class="home-ind" id="homeInd" aria-label="Zum Homescreen"></button>`;
@@ -863,7 +963,6 @@ function openAttachment(){
 const ALIBI = {
   tobias:{ has:() => !!(S.st.s6 && S.st.s6.liesOk), t:"Terrassenkamera: 20:44 bis 20:58 auf der Terrasse." },
   mair:  { has:() => !!(S.st.s6 && S.st.s6.liesOk), t:"Telefonierte 20:34 bis 20:52 draußen." },
-  feld:  { has:() => S.evidence.includes("E12"), t:"War an dem Abend nachweislich in Regensburg." },
   clara: { has:() => S.evidence.includes("E15"), t:"Telefonierte 20:44 bis 20:50 im Flur mit Käufer CW-04. Rosa Brandl hat sie dort gesehen." }
 };
 const alibiOf = id => ALIBI[id] && ALIBI[id].has() ? ALIBI[id].t : null;
@@ -1034,7 +1133,7 @@ function openFaceLock(){
     if (Math.abs(d) <= 4) { $("#nm1Go").disabled = true;
       msg.innerHTML = `Klick. ${TOWER_M} Meter, der höchste Backsteinturm der Welt. Ihr habt ${st.tries} ${st.tries === 1 ? "Versuch" : "Versuche"} gebraucht.<br>Notizbuch wird geöffnet …`;
       S.apps.push("notizen"); addEv("E01"); advance(1);
-      setTimeout(() => { openNotebook(true); fire("B_1"); }, 2400);
+      setTimeout(() => unlockFx("Zahlenschloss · " + TOWER_M + " Meter", "Notizbuch offen", () => { openNotebook(true); fire("B_1"); }), 1400);
     } else msg.textContent = d < -40 ? "Viel zu tief. Schaut noch einmal ganz nach oben." : d < 0 ? "Zu tief. Etwas höher." : d > 40 ? "Viel zu hoch." : "Zu hoch. Etwas weniger.";
   };
 }
@@ -1173,24 +1272,18 @@ function seidlCard(kind, title, paras, next, btn){
   return `<img src="img/seidl_av.jpg" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px"><div class="kind">${kind}</div><h2>${title}</h2>${paras.map(p => `<p>${p}</p>`).join("")}${next ? `<div class="nextstep"><b>Nächster Schritt</b>${next}</div>` : ""}<button class="btn primary" data-close>${btn || "Verstanden"}</button>`;
 }
 const INFOS = {
-  I_MAIR: `<img src="img/mair_av.jpg" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px"><div class="kind">Notar Benedikt Mair</div><h2>Die Kassette und eine letzte Nachricht</h2>
-    <p>Mair übergibt euch Falkenrieds Kassette. Sie ist mit einem Namensschloss gesichert.</p>
-    <p>„Und das hier hat Herr von Falkenried am 13. Dezember bei mir hinterlegt: eine Sprachnachricht. Ich sollte sie nur den Ermittlern geben, die herausfinden, was ihm zugestoßen ist. Das seid ihr. Hört sie euch an.“</p>
-    <button class="btn primary" data-close>Nachricht anhören</button>`,
-  I_ZEUGIN: seidlCard("Kommissarin Seidl", "Feld war es nicht. Und eine Zeugin meldet sich.", ["Jonas Feld war es nicht. Er war in Regensburg, drei Kollegen bestätigen es. Seine Karte hat also jemand anderes benutzt.", "Und gerade hat sich Rosa Brandl gemeldet, Falkenrieds Haushälterin. Ihr ist noch etwas eingefallen. Ich schicke euch ihre Aussage. Hört genau zu."], null, "Aussage anhören"),
-  I_ANRUF: seidlCard("Kommissarin Seidl", "Wer war das?", ["Ein Anruf ohne Nummer? Dann weiß schon jemand, dass ihr ermittelt, und er kennt Falkenrieds Spur.", "Folgt ihr ruhig. Aber traut dieser Stimme nicht. Wer so viel weiß, hat vielleicht selbst mit der Sache zu tun."]),
   B_1: seidlCard("Kommissarin Seidl", "Das Tagebuch ist offen", ["Gut gemacht. Blättert kurz durch: Im November hat Falkenried etwas gefunden, und kurz danach war jemand an seinem Schreibtisch.", "Zu dem Anruf: Traut dieser Stimme nicht. Wer so viel weiß, steckt vielleicht selbst mit drin."], "Auf der Hochzeitsrechnung ist ein Name verwischt. Wer hat sie beglichen?"),
-  B_2: seidlCard("Lagebesprechung · Kommissarin Seidl", "Ludwig der Reiche hat bezahlt", ["Ludwig der Reiche, der Vater des Bräutigams, hat die Hochzeit bezahlt. Auf der Rückseite der Fotos verweist Falkenried auf sein Denkmal: Ludwig steht noch einmal in der Stadt, aus Bronze.", "Das Jahr, in dem er es bekam, ist das Passwort für Falkenrieds Archiv. Und im Archiv liegen Kopien der Unterlagen, die der Täter vom Tatort mitgenommen hat. Erinnert ihr euch an Spur 3?"], "Das Denkmal Ludwigs des Reichen am Dreifaltigkeitsplatz."),
-  B_3: seidlCard("Lagebesprechung · Kommissarin Seidl", "Falkenried will, dass ihr seine Geschichte kennt", ["Das Archiv ist offen. Die Liste, die am Tatort fehlt, liegt hier als Kopie in einer Mappe. Aber die Mappe ist noch einmal verschlossen.", "Falkenried erzählt euch erst seine Geschichte. Er schickt euch noch einmal zurück an die Herzogswand: Einer fehlt dort noch."], "Zurück zur Herzogswand. Sucht den Letzten, ganz unten."),
-  B_4: seidlCard("Lagebesprechung · Kommissarin Seidl", "Jetzt kennen wir das Motiv", ["Falkenried hat die Kiste von 1503 gefunden und darin drei Hochzeitsgaben: eine Rubinbrosche, zehn goldene Taler und das Familiensiegel der Wittelsbacher. Genau diese Liste hat der Täter vom Tatort mitgenommen.", "Die Stücke selbst hat Falkenried in Sicherheit gebracht, offenbar bei seinem Notar, Benedikt Mair. Und jemand mit dem Kürzel CW hat schon einen Preis notiert: 40.000 Euro. Die nächste Frage lautet also: Wer wollte diese Stücke haben?"], "Wartet auf die nächste Spur. Ich habe das Gefühl, unser anonymer Freund meldet sich gleich."),
-  B_6: seidlCard("Lagebesprechung · Kommissarin Seidl", "Eine Frau im Mantel, mitten im Haus", ["Erinnert ihr euch an den dunklen Wollfaden am Stuhl, Spur 2? Wer hatte um 20:48 im Haus einen Mantel an? Die Gäste jedenfalls nicht, deren Mäntel hingen an der Garderobe. Nur jemand, der sich offiziell schon verabschiedet hatte.", "Und Clara Weiß stand zur selben Zeit im Flur und telefonierte. Mit wem? Und welcher Wagen sollte durch das Tor mit den drei Helmen? Frau Brandl meint das Ländtor."], "Das Ländtor, am Ende der Ländgasse."),
   B_7: seidlCard("Kommissarin Seidl", "Es bleibt nur eine", ["Alle anderen waren um 20:48 woanders. Es bleibt Dr. Helena Dorn. HD.", "Für eine Festnahme reicht das nicht. Ich brauche Beweise, die halten."], null, "Verstanden"),
-  I_FALLE: seidlCard("Kommissarin Seidl", "Dann lassen wir sie kommen", ["Sie will die Kassette auf der Wiese abholen, genau dort, wo die Übergabe geplant war. Gut. Ich warte dort mit Notar Mair.", "Bringt mir eure Beweise. Wenn ihr mich überzeugt, bekommt ihr die Kassette, und wir stellen ihr eine Falle."], "Die Ringelstecherwiese, westlich der Altstadt."),
-  I_TRAUSNITZ: `<div class="kind">Blick nach oben · Burg Trausnitz</div><h2>Die Burg über der Stadt</h2>
-    <p>Schaut vom Platz aus den Hang hinauf: Dort oben thront Burg Trausnitz. Ludwig der Kelheimer gründete sie 1204, zusammen mit der Stadt.</p>
-    <p>Von 1255 bis 1503 regierten von hier oben die Herzöge von Niederbayern über Landshut. Die drei Reichen Herzöge bauten sie prächtig aus, mit neuen Sälen, Mauern und Türmen.</p>
-    <p>In der Nacht auf den 21. Oktober 1961 brannte der Fürstenbau aus. Die prunkvollen Zimmer, darunter die Räume von König Ludwig II., gingen verloren. In den Ermittlungsakten taucht als Ursache ein Tauchsieder auf. Restauriert wird bis heute.</p>
-    <button class="btn primary" data-close>Weiter</button>`,
+  /* Belohnung nach dem Archiv-Passwort am Denkmal: was der Code geöffnet hat und warum es danach zurück zur Herzogswand geht */
+  I_ARCHIV: `<div style="text-align:center;margin:4px 0 12px"><div style="font-size:44px;line-height:1">🔓</div>
+      <div class="kind" style="margin-top:8px;color:#c9a24a">Code geknackt · 1858 · MDCCCLVIII</div>
+      <h2 style="margin:4px 0 0">Glückwunsch, ihr habt Falkenrieds Archiv geöffnet!</h2></div>
+    <p>Das Jahr, in dem Ludwig der Reiche sein Denkmal bekam, war das Passwort. Falkenried hat es so gewählt, dass nur hineinkommt, wer seiner Spur folgt: von der Rechnung über die Herzogswand bis hierher zu Ludwig.</p>
+    ${dossierHtml({ locked:false, tab:"Archiv · M. v. Falkenried", title:"Die Familie Ludwigs", items:[
+      ["🎙", "Sprachmemo von Falkenried", "Audiodatei. Aufgenommen für den, der eines Tages seiner Spur folgt. Er erzählt, worum es in allem geht.", "neu", true],
+      ["📁", "Seine Mappe", "Textdokumente: die Liste von 1475, die der Täter vom Tatort mitnahm (Spur 3), und die von 1503. Die Mappe hat noch ein eigenes Schloss mit drei Rädern.", "verschlossen"] ] })}
+    <div class="nextstep"><b>Wie es weitergeht</b>Hört das Memo. Falkenried schickt euch danach noch einmal kurz zur Herzogswand zurück: Dort steht der Mann, ohne den man seine Geschichte nicht versteht.</div>
+    <button class="btn primary" data-close>▶ Falkenrieds Memo anhören</button>`,
   I_CW04: seidlCard("Neue Erkenntnis · Kommissarin Seidl", "Der Käufer CW-04", ["Das ist ein Abholauftrag, verschickt um 19:30, also noch vor der Tat. Anbieterin: HD. Käufer: CW-04. Übergabe auf der Ringelstecherwiese.", "Den Code CW-04 haben wir in Clara Weiß' Handy gefunden. Sie hat von 20:44 bis 20:50 mit genau diesem Käufer telefoniert, deshalb hat sie gelogen. Sie vermittelt den Verkauf. Aber wer ist HD?"], null, "Verstanden")
 };
 function enqueueShow(fn, ackId){ showQ.push({ fn, ackId }); pumpShow(); }
@@ -1295,13 +1388,13 @@ function acceptCall(id, w){
    Vorproduzierte Stimmen (audio/*.mp3) mit Satz-Zeitmarken.
    Fehlt eine Datei oder schlägt die Wiedergabe fehl, springt die Sprachausgabe des Geräts ein.
    ============================================================ */
-const CUES = {"CALL_01": [[0.1, 2.675], [2.625, 4.788], [4.788, 10.458], [10.458, 12.833], [12.833, 15.275], [15.275, 20.222]], "CALL_06": [[0.1, 2.02], [1.97, 4.748], [4.748, 9.805], [9.805, 14.055], [14.055, 20.095]], "CALL_07": [[0.1, 2.508], [2.458, 8.0], [8.0, 11.581], [11.581, 14.402]], "V_ERBE": [[0.1, 3.686], [3.636, 7.883], [7.883, 12.571], [12.571, 20.142], [20.142, 22.897], [22.897, 25.696], [25.696, 29.857], [29.857, 36.42], [36.42, 38.977], [38.977, 41.576]], "V_RESIDENZ": [[0.1, 1.977], [1.927, 5.533], [5.533, 11.588], [11.588, 17.252], [17.252, 20.143], [20.143, 25.234], [25.234, 28.971], [28.971, 34.882]], "V_TURM": [[0.1, 4.297], [4.247, 6.59], [6.59, 10.525]], "V_ZEUGIN": [[0.1, 3.555], [3.505, 6.385], [6.385, 11.793], [11.793, 18.315], [18.315, 24.089], [24.089, 28.165], [28.165, 30.828]], "ZEUGIN_KURZ": [[0.1, 4.655], [4.605, 10.244], [10.244, 14.32], [14.32, 16.983]], "V_MAIR": [[0.1, 5.169], [5.119, 8.55], [8.55, 12.101], [12.101, 20.492], [20.492, 24.095], [24.095, 26.848], [26.848, 29.906], [29.906, 32.659], [32.659, 38.151]], "V_FINALE": [[0.1, 3.686], [3.636, 7.741], [7.741, 10.582], [10.582, 16.377], [16.377, 18.465], [18.465, 25.738], [25.738, 28.323], [28.323, 32.301], [32.301, 34.701], [34.701, 39.289], [39.289, 44.9]], "V_START": [[0.1, 4.984], [4.934, 8.906], [8.906, 13.919], [13.919, 19.101], [19.101, 27.486], [27.486, 29.817], [29.817, 34.492], [34.492, 39.322], [39.322, 42.656], [42.656, 48.789]], "V_ALBRECHT": [[0.1, 4.595], [4.545, 8.764], [8.764, 14.232], [14.232, 18.508], [18.508, 21.846], [21.846, 29.928], [29.928, 34.232], [34.232, 38.75], [38.75, 42.5], [42.5, 47.997], [47.997, 52.514], [52.514, 55.184], [55.184, 62.244]]};
+const CUES = {"CALL_01": [[0.1, 2.675], [2.625, 4.788], [4.788, 10.458], [10.458, 12.833], [12.833, 15.275], [15.275, 20.222]], "CALL_06": [[0.1, 2.02], [1.97, 4.748], [4.748, 9.805], [9.805, 14.055], [14.055, 20.095]], "CALL_07": [[0.1, 2.508], [2.458, 8.0], [8.0, 11.581], [11.581, 14.402]], "V_ERBE": [[0.1, 3.686], [3.636, 7.883], [7.883, 12.571], [12.571, 20.142], [20.142, 22.897], [22.897, 25.696], [25.696, 29.857], [29.857, 36.42], [36.42, 38.977], [38.977, 41.576]], "V_RESIDENZ": [[0.1, 1.977], [1.927, 5.533], [5.533, 11.588], [11.588, 17.252], [17.252, 20.143], [20.143, 25.234], [25.234, 28.971], [28.971, 34.882]], "V_TURM": [[0.1, 4.297], [4.247, 6.59], [6.59, 10.525]], "V_ZEUGIN": [[0.1, 3.555], [3.505, 6.385], [6.385, 11.793], [11.793, 18.315], [18.315, 24.089], [24.089, 28.165], [28.165, 30.828]], "ZEUGIN_KURZ": [[0.1, 4.655], [4.605, 10.244], [10.244, 14.32], [14.32, 16.983]], "V_MAIR": [[0.1, 5.169], [5.119, 8.55], [8.55, 12.101], [12.101, 20.492], [20.492, 24.095], [24.095, 26.848], [26.848, 29.906], [29.906, 32.659], [32.659, 38.151]], "V_START": [[0.1, 4.984], [4.934, 8.906], [8.906, 13.919], [13.919, 19.101], [19.101, 27.486], [27.486, 29.817], [29.817, 34.492], [34.492, 39.322], [39.322, 42.656], [42.656, 48.789]], "V_ALBRECHT": [[0.1, 4.595], [4.545, 8.764], [8.764, 14.232], [14.232, 18.508], [18.508, 21.846], [21.846, 29.928], [29.928, 34.232], [34.232, 38.75], [38.75, 42.5], [42.5, 47.997], [47.997, 52.514], [52.514, 55.184], [55.184, 62.244]]};
 let curAudio = null;
 /* Alle Aufnahmen etwas schneller abspielen, Tonhöhe bleibt gleich. Zeitmarken laufen mit, weil sie an currentTime hängen. */
 const VO_RATE = 1.1;
 function vo(src){ const a = new Audio(src); a.defaultPlaybackRate = VO_RATE; a.playbackRate = VO_RATE; a.preservesPitch = true; return a; }
-["VERHOER_HELENA","VERHOER_MAIR","VERHOER_TOBIAS","VERHOER_CLARA","VERHOER_FELD"].forEach(k => { CUES[k] = []; });
-const RECORDINGS = {"helena": {"id": "VERHOER_HELENA", "text": "Seidl: Frau Dr. Dorn, Sie haben Herrn von Falkenrieds Archiv betreut. Wann haben Sie gestern das Haus verlassen?\nDorn: Um halb neun. Ich hatte Kopfschmerzen. Ich habe mich im Flur von Frau Brandl verabschiedet, den Mantel angezogen und bin ins Hotel gefahren.\nSeidl: Direkt ins Hotel?\nDorn: Direkt. Um kurz nach neun lag ich im Bett. Von alldem habe ich erst heute Morgen erfahren.\nSeidl: Sie kannten sein Archiv gut.\nDorn: Seit drei Jahren. Ich kenne jedes Blatt darin. Gerade deshalb tut das so weh."}, "mair": {"id": "VERHOER_MAIR", "text": "Seidl: Herr Mair, Sie sind Herrn von Falkenrieds Notar. Sie waren während des Abends eine Weile nicht am Tisch.\nMair: Ich habe kurz telefoniert, draußen. Ein beruflicher Anruf.\nSeidl: Mit wem?\nMair: Dazu kann ich nichts sagen. Ich bin an meine Schweigepflicht gebunden.\nSeidl: Wie lange waren Sie draußen?\nMair: Ein paar Minuten. Mehr nicht."}, "tobias": {"id": "VERHOER_TOBIAS", "text": "Seidl: Herr von Falkenried, Sie sind sein Neffe. Man hat Sie mit Ihrem Onkel streiten hören.\nTobias: Ja, wir haben gestritten. Laut. Es ging um Geld, um was sonst.\nSeidl: Und danach?\nTobias: Danach war ich rauchen, auf der Terrasse. Bestimmt eine Viertelstunde. Ich wollte nicht mehr rein.\nSeidl: Sie haben ihn gefunden.\nTobias: Kurz vor halb zehn. Die Archivtür stand offen. Ich … ich will darüber nicht reden."}, "clara": {"id": "VERHOER_CLARA", "text": "Seidl: Frau Weiß, Sie sind Kunsthändlerin. Wo waren Sie gestern zwischen halb neun und neun?\nWeiß: Am Tisch, bei den anderen Gästen. Den ganzen Abend. Fragen Sie sie.\nSeidl: Sie haben ein Taxi bestellt.\nWeiß: Ja, gegen neun. Ich wollte nach Hause, die Stimmung war … unangenehm.\nSeidl: Kannten Sie Herrn von Falkenrieds Sammlung?\nWeiß: Natürlich. Ich bin Kunsthändlerin. Aber nur aus seinen Erzählungen."}, "feld": {"id": "VERHOER_FELD", "text": "Telefonische Vernehmung\nSeidl: Herr Feld, danke, dass Sie zurückrufen. Wo waren Sie am Abend des 19. Dezember?\nFeld: In Regensburg. Ich restauriere gerade ein Altarbild im Dom. Wir haben bis nach zehn gearbeitet, das können Ihnen drei Kollegen bestätigen.\nSeidl: Ihre Zutrittskarte wurde an diesem Abend an der Archivtür benutzt.\nFeld: Das kann nicht sein. Die Karte ist mir vor einer Woche abhandengekommen. Zuletzt hatte ich sie im Archiv, als ich dort an den Urkunden gearbeitet habe.\nSeidl: Haben Sie den Verlust gemeldet?\nFeld: Ich hab es Herrn von Falkenried gesagt. Er meinte nur, die taucht schon wieder auf."}};
+["VERHOER_HELENA","VERHOER_MAIR","VERHOER_TOBIAS","VERHOER_CLARA" ].forEach(k => { CUES[k] = []; });
+const RECORDINGS = {"helena": {"id": "VERHOER_HELENA", "text": "Seidl: Frau Dr. Dorn, Sie haben Herrn von Falkenrieds Archiv betreut. Wann haben Sie gestern das Haus verlassen?\nDorn: Um halb neun. Ich hatte Kopfschmerzen. Ich habe mich im Flur von Frau Brandl verabschiedet, den Mantel angezogen und bin ins Hotel gefahren.\nSeidl: Direkt ins Hotel?\nDorn: Direkt. Um kurz nach neun lag ich im Bett. Von alldem habe ich erst heute Morgen erfahren.\nSeidl: Sie kannten sein Archiv gut.\nDorn: Seit drei Jahren. Ich kenne jedes Blatt darin. Gerade deshalb tut das so weh."}, "mair": {"id": "VERHOER_MAIR", "text": "Seidl: Herr Mair, Sie sind Herrn von Falkenrieds Notar. Sie waren während des Abends eine Weile nicht am Tisch.\nMair: Ich habe kurz telefoniert, draußen. Ein beruflicher Anruf.\nSeidl: Mit wem?\nMair: Dazu kann ich nichts sagen. Ich bin an meine Schweigepflicht gebunden.\nSeidl: Wie lange waren Sie draußen?\nMair: Ein paar Minuten. Mehr nicht."}, "tobias": {"id": "VERHOER_TOBIAS", "text": "Seidl: Herr von Falkenried, Sie sind sein Neffe. Man hat Sie mit Ihrem Onkel streiten hören.\nTobias: Ja, wir haben gestritten. Laut. Es ging um Geld, um was sonst.\nSeidl: Und danach?\nTobias: Danach war ich rauchen, auf der Terrasse. Bestimmt eine Viertelstunde. Ich wollte nicht mehr rein.\nSeidl: Sie haben ihn gefunden.\nTobias: Kurz vor halb zehn. Die Archivtür stand offen. Ich … ich will darüber nicht reden."}, "clara": {"id": "VERHOER_CLARA", "text": "Seidl: Frau Weiß, Sie sind Kunsthändlerin. Wo waren Sie gestern zwischen halb neun und neun?\nWeiß: Am Tisch, bei den anderen Gästen. Den ganzen Abend. Fragen Sie sie.\nSeidl: Sie haben ein Taxi bestellt.\nWeiß: Ja, gegen neun. Ich wollte nach Hause, die Stimmung war … unangenehm.\nSeidl: Kannten Sie Herrn von Falkenrieds Sammlung?\nWeiß: Natürlich. Ich bin Kunsthändlerin. Aber nur aus seinen Erzählungen."}};
 function stopAudio(){ if (curAudio) { try { curAudio.pause(); } catch(e) {} curAudio = null; } try { speechSynthesis.cancel(); } catch(e) {} }
 function sentencesOf(text){ return text.match(/[^.!?…]+(?:[.!?…]+[“”"]?|$)\s*/g) || [text]; }
 /* Liefert, wie viele Zeichen des Anzeigetexts zum Zeitpunkt t gesprochen sind */
@@ -1816,7 +1909,10 @@ function openVia(){
 
 /* ---------- Station 3: Archiv-Passwort ---------- */
 PUZZLE_3 = function(){
-  openWin("Archiv", `<div class="target"><div class="t">Passwort erforderlich</div><div class="s">Falkenrieds Passwort-Notiz: „Es steht auf seinem Rücken. In der Schrift der Römer.“ Gebt das Jahr als Zahl ein.</div></div>
+  openWin("Archiv", `${dossierHtml({ locked:true, tab:"Archiv · M. v. Falkenried", title:"Die Familie Ludwigs", items:[
+      ["🎙", "Sprachmemo von Falkenried", "Audiodatei · aufgenommen am 16. Oktober", "gesperrt"],
+      ["📁", "Mappe mit zwei Inventaren", "Textdokumente · Listen von 1475 und 1503", "gesperrt"] ] })}
+    <div class="target"><div class="t">Passwort erforderlich</div><div class="s">Falkenrieds Passwort-Notiz: „Es steht auf seinem Rücken. In der Schrift der Römer.“ Gebt das Jahr als Zahl ein.</div></div>
     <label for="pw" style="font-size:13px;color:var(--muted)">Passwort</label><input class="field" id="pw" inputmode="numeric" autocomplete="off">
     <button class="btn primary" id="pwGo">Entsperren</button><p id="pwMsg" class="empty" style="padding:10px 0"></p>`);
   $("#pwGo").onclick = () => {
@@ -1825,8 +1921,9 @@ PUZZLE_3 = function(){
     if (/^[MDCLXVI]+$/.test(v) && v !== "MDCCCLVIII") { $("#pwMsg").textContent = "Schreibt die Jahreszahl in unseren Ziffern."; return; }
     if (!guard("3.pw")) return;
     if (v === "1858" || v === "MDCCCLVIII") { right("3.pw");
-      S.apps.push("archiv"); done("Archiv entsperrt. Falkenried hat ein Memo für euch hinterlassen.", 3);
-      setTimeout(() => { autoVoice = "V_ERBE"; fire("V_ERBE"); }, 1200);
+      S.apps.push("archiv"); save(); $("#pwGo").disabled = true;
+      unlockFx("Code geknackt · 1858", "Archiv offen", () => { done(null, 3);
+        setTimeout(() => { fire("I_ARCHIV"); autoVoice = "V_ERBE"; fire("V_ERBE"); }, 300); });   /* erst die Belohnung, danach spielt das Memo */
     } else { $("#pwMsg").textContent = "Falsches Passwort. Die Zahl steht auf der Rückseite des Sockels."; wrong("3.pw"); }
   };
 };
@@ -1860,7 +1957,11 @@ const S4 = () => { S.st.s4 = S.st.s4 || { seal:false, picked:[] }; S.st.s4.wh = 
 PUZZLE_4 = function(){
   const st = S.st.s4 || (S.st.s4 = { seal:false, picked:[] });
   if (!st.seal) { const L = locFor();
-    openWin("Mappe", `<div class="target"><div class="t">Wappenschloss</div><div class="s">Falkenrieds Mappe hat ein Schloss mit drei Rädern. Stellt ein, was über der Rathausuhr hängt: wie viele, was und in welcher Farbe.</div></div>
+    openWin("Mappe", `${folderHtml({ locked:true, tab:"Mappe · M. v. Falkenried", title:"Inventare der Schatzkammer", sub:"Aus dem Archiv. Ein Gummiband, ein Schloss mit drei Rädern.", items:[
+        ["📄", "Liste von 1475", "Textdokument · Kopie der Seite vom Tatort", "verschlossen"],
+        ["📄", "Liste von 1503", "Textdokument · nach Räumen sortiert", "verschlossen"],
+        ["✉️", "Fundbericht", "Falkenrieds Notiz, Herbst 2026", "verschlossen"] ] })}
+      <div class="target"><div class="t">Wappenschloss</div><div class="s">Falkenrieds Mappe hat ein Schloss mit drei Rädern. Stellt ein, was über der Rathausuhr hängt: wie viele, was und in welcher Farbe.</div></div>
       <div class="wheels">${WHEELS.map((w,k) => `<div class="wheel"><div class="wl">${esc(w[0])}</div><button data-wh="${k}:-1" aria-label="hoch">▲</button><div class="wv" id="wv${k}">${esc(w[1][L.wh[k]])}</div><button data-wh="${k}:1" aria-label="runter">▼</button></div>`).join("")}</div>
       <button class="btn primary" id="whGo">Öffnen</button><p id="sMsg" class="empty" style="padding:8px 0"></p>`);
     $("#winBody").onclick = e => { const b = e.target.closest("[data-wh]"); if (!b) return; const st = S4();
@@ -1868,13 +1969,17 @@ PUZZLE_4 = function(){
       const L = locFor(); L.wh[k] = (L.wh[k] + d + n) % n; saveLoc(); $("#wv"+k).textContent = WHEELS[k][1][L.wh[k]]; };
     $("#whGo").onclick = () => { const st = S4();
       if (!guard("4.seal")) return;
-      if (locFor().wh.every((x,k) => WHEELS[k][1][x] === WHEEL_OK[k])) { right("4.seal"); st.seal = true; save(); $("#sMsg").textContent = "Klick. Die Mappe ist offen."; setTimeout(PUZZLE_4, 900); }
+      if (locFor().wh.every((x,k) => WHEELS[k][1][x] === WHEEL_OK[k])) { right("4.seal"); st.seal = true; save(); $("#sMsg").textContent = "Klick."; $("#whGo").disabled = true; unlockFx("Wappenschloss · 3 Helme · Rot", "Mappe offen", PUZZLE_4); }
       else { $("#sMsg").textContent = "Das Schloss klemmt. Schaut noch einmal genau auf das Wappen über der Uhr."; wrong("4.seal"); }
     };
     return;
   }
   const L = locFor();
-  openWin("Mappe", `<div class="nb" style="font-size:16px"><h3>Falkenrieds Notiz</h3>Drei alte Häuser hinter einer Maske von 1861. Wer nur auf die Fassade schaut, sieht nicht, was dahinter ist. Mit meinen Listen ist es genauso.</div>
+  openWin("Mappe", `${folderHtml({ locked:false, tab:"Mappe · offen", title:"Inventare der Schatzkammer", sub:"Zwei Listen liegen vor euch. Der Fundbericht steckt ganz hinten.", items:[
+      ["📄", "Liste von 1475", "Textdokument · 8 Stücke, nummeriert", "offen", true],
+      ["📄", "Liste von 1503", "Textdokument · 5 Stücke, nach Räumen", "offen", true],
+      ["✉️", "Fundbericht", "Erst lesbar, wenn ihr wisst, was 1503 fehlt", "noch zu"] ] })}
+    <div class="nb" style="font-size:16px"><h3>Falkenrieds Notiz</h3>Drei alte Häuser hinter einer Maske von 1861. Wer nur auf die Fassade schaut, sieht nicht, was dahinter ist. Mit meinen Listen ist es genauso.</div>
     <div class="target"><div class="t">Was fehlt 1503?</div><div class="s">Zwei Inventare der herzoglichen Schatzkammer. 1475 nummeriert, 1503 nach Räumen sortiert und anders geschrieben. Findet die drei Stücke, die 1503 fehlen, und markiert sie in der Liste von 1475.</div></div>
     <div class="seg"><button class="${L.tab==="75"?"on":""}" data-tab="75">Liste 1475 · ${INV75.length}</button><button class="${L.tab==="03"?"on":""}" data-tab="03">Liste 1503 · ${INV03.reduce((a, r) => a + r[1].length, 0)}</button></div>
     <div id="invList">${L.tab === "75" ? inv75Html(L.picked, true) : inv03Html()}</div>
@@ -1891,7 +1996,7 @@ PUZZLE_4 = function(){
     if (!ok) { $("#iMsg").textContent = "Noch nicht richtig. Hakt jedes Stück von 1475 einzeln in der Liste von 1503 ab."; wrong("4.list"); return; }
     right("4.list");
     addEv("E05","E06","E07");
-    sheet(`<div class="kind">Inhalt der Mappe</div><h2>Fundbericht, Herbst 2026</h2>
+    sheet(`<div class="kind">✉️ Textdokument · Inhalt der Mappe</div><h2>Fundbericht, Herbst 2026</h2>
       <div class="nb" style="font-size:16px">„Ich habe sie gefunden. Alle drei, in der Kiste von 1503. Sie sind in Sicherheit, bei jemandem, dem ich vertraue.“</div>
       <p>Dazu: ein Vermerk „Notariat Mair – Verwahrung“, der Inhalt geschwärzt. Und eine Kopie der Liste von 1475 mit Bleistift am Rand: „CW: 40.000?“</p>
       <div class="hint" style="display:flex;gap:12px;align-items:flex-start;margin-top:10px"><img src="img/seidl_av.jpg" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none"><p style="margin:0"><b>Kommissarin Seidl:</b> „Da ist das Motiv: drei Hochzeitsgaben, ein Vermögen wert. Die Stücke liegen offenbar bei Notar Mair. Und wer ist CW?“</p></div>
@@ -2029,7 +2134,7 @@ function walkLock(){
     if (ch) { st.walk = cur.walk; save(); ringDraw(cur.walk); if ($("#walkN")) $("#walkN").textContent = n(); }
     if (n() >= RING_NEED && !cur.open) { st.open = true; cur.open = true; if (!S.apps.includes("haustechnik")) S.apps.push("haustechnik"); save();
       if ($("#walkTxt")) $("#walkTxt").textContent = "Runde geschafft. Die App öffnet sich …"; if (watchId !== null) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; }
-      setTimeout(() => { PUZZLE_6(); fire("V_TURM"); }, 1400); return true; }
+      setTimeout(() => unlockFx("Runde geschafft", "Haustechnik entsperrt", () => { PUZZLE_6(); fire("V_TURM"); }), 900); return true; }
     return false;
   };
   if (mark([])) return;
@@ -2154,7 +2259,7 @@ function playCam(id){
 }
 function akteView(interactive){
   const st = S.st.s6;
-  const prot = PROTOCOL.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(st.callDone && r[0]==="??:??" ? "Karte R7 (J. Feld, Restaurator) – Archivtür geöffnet um 20:48" : r[1])}</td></tr>`).join("");
+  const prot = PROTOCOL.map(r => `<tr><td>${esc(r[0])}</td><td>${esc(st.callDone && r[0]==="??:??" ? "Karte R7 (Ersatzkarte, als verloren gemeldet) – Archivtür geöffnet um 20:48" : r[1])}</td></tr>`).join("");
   const sts = STATEMENTS.map(x => `<div class="hint"><h3 style="display:flex;align-items:center;gap:12px"><img src="img/${x.id}_av.jpg" alt="" style="width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none">${esc(x.who)}</h3><p style="margin-top:4px">${esc(x.t)}</p>
     <button class="recmini" data-rec="${x.id}">▶ Vernehmung</button>
     ${interactive ? `<div class="acts2"><button data-mark="${x.id}:ok" class="${locFor().marks[x.id]==='ok'?'on':''}">passt</button><button data-mark="${x.id}:lie" class="${locFor().marks[x.id]==='lie'?'on':''}">passt nicht</button></div>` : ""}</div>`).join("");
@@ -2188,25 +2293,17 @@ AFTER_CALL.CALL_01 = () => { if (S.stage === 1 && !S.apps.includes("notizen")) s
 
 AFTER_CALL.CALL_06 = () => { if (S.stage !== 6 || !S.st.s6 || S.st.s6.callOk) return; const st = S.st.s6; st.callDone = true; st.callOk = true; addEv("E13"); save();
   setTimeout(() => r7Question(), 600); };
-function r7Question(step){
-  const st = S.st.s6; newsSeen("verdaechtige", "feld");
+function r7Question(){
   const av = `<img src="img/seidl_av.jpg" alt="" style="width:56px;height:56px;border-radius:50%;object-fit:cover;float:right;margin-left:10px">`;
-  if (!step) {
-    sheet(`${av}<div class="kind">Kommissarin Seidl</div><h2>Das konnte der Anrufer nicht wissen</h2>
-      <p>„20:48 und die Karte R7 waren in der Akte noch geschwärzt. Das weiß nur, wer an der Archivtür war.“</p>
-      <div style="display:flex;gap:12px;align-items:center;margin:6px 0 10px"><img src="img/feld_av.jpg" alt="" style="width:60px;height:60px;border-radius:50%;object-fit:cover;flex:none"><div><b>Jonas Feld, 39</b><div style="font-size:13px;color:var(--muted)">Restaurator, Besitzer der Karte R7</div></div></div>
-      <p>„Er war an dem Abend in Regensburg, drei Kollegen bestätigen es. Die Karte vermisst er seit einer Woche, zuletzt hatte er sie im Archiv.“</p>
-      <button class="btn" id="feldRec">▶ Telefonat mit Jonas Feld anhören</button><button class="btn primary" id="r7Go">Weiter</button>`);
-    $("#r7Go").onclick = () => { stopAudio(); const sh = $("#sheet"); if (sh) sh._user = true; closeSheet(); r7Question(2); };
-  } else {
-    sheet(`${av}<div class="kind">Kommissarin Seidl fragt</div><h2>Was beweist der Eintrag „Karte R7, 20:48“?</h2>
-      <button class="btn" data-r7="a">Jonas Feld hat die Tür geöffnet.</button><button class="btn" data-r7="b">Es wurde nur seine Karte benutzt, von wem ist offen.</button><p id="r7Msg"></p>`);
-  }
-  const fr = $("#feldRec"); if (fr) fr.onclick = () => toggleRec("feld", fr);
+  sheet(`${av}<div class="kind">Kommissarin Seidl</div><h2>Das konnte der Anrufer nicht wissen</h2>
+    <p>„20:48 und die Karte R7 waren in der Akte noch geschwärzt. Das weiß nur, wer an der Archivtür war.“</p>
+    <p>„R7 ist eine Ersatzkarte aus der Digitalisierung des Archivs im letzten Jahr. Sie gilt seitdem als verloren.“</p>
+    <div class="sec" style="margin-top:10px">Seidl fragt</div><h2 style="margin-top:4px">Was beweist der Eintrag „Karte R7, 20:48“?</h2>
+    <button class="btn" data-r7="a">Wir wissen jetzt, wer die Tür geöffnet hat.</button><button class="btn" data-r7="b">Nur, welche Karte benutzt wurde. Wer sie hatte, ist offen.</button><p id="r7Msg"></p>`);
   document.querySelectorAll("[data-r7]").forEach(b => b.onclick = () => {
     if (!guard("6.r7")) return;
-    if (b.dataset.r7 === "b") { right("6.r7"); S.st.s6 = S.st.s6 || {}; S.st.s6.r7 = true; addEv("E12","E11"); save(); newsSeen("verdaechtige", "alibi:feld"); closeSheet(); done(null, 6); setTimeout(() => { autoVoice = "V_ZEUGIN"; fire("V_ZEUGIN"); }, 900); }
-    else { $("#r7Msg").textContent = "Er war in Regensburg. Was zeigt die Karte also wirklich?"; wrong("6.r7"); }
+    if (b.dataset.r7 === "b") { right("6.r7"); S.st.s6 = S.st.s6 || {}; S.st.s6.r7 = true; addEv("E12","E11"); save(); closeSheet(); done(null, 6); setTimeout(() => { autoVoice = "V_ZEUGIN"; fire("V_ZEUGIN"); }, 900); }
+    else { $("#r7Msg").textContent = "Die Karte galt als verloren. Wer sie benutzt hat, steht nirgends. Was zeigt sie also wirklich?"; wrong("6.r7"); }
   });
 }
 
@@ -2229,7 +2326,7 @@ PUZZLE_7 = function(){
     $("#decGo").onclick = () => {
       if (!$("#dec").value.trim()) return;
       if (!guard("7.dec")) return;
-      if ($("#dec").value.trim().toUpperCase().replace(/\s/g,"") === "ABHOLUNG") { right("7.dec"); S.st.s7 = S.st.s7 || {}; S.st.s7.decoded = true; if (!S.apps.includes("mail")) S.apps.push("mail"); addEv("E14","E15"); save(); PUZZLE_7();
+      if ($("#dec").value.trim().toUpperCase().replace(/\s/g,"") === "ABHOLUNG") { right("7.dec"); S.st.s7 = S.st.s7 || {}; S.st.s7.decoded = true; if (!S.apps.includes("mail")) S.apps.push("mail"); addEv("E14","E15"); save(); $("#decGo").disabled = true; unlockFx("Entschlüsselt · ABHOLUNG", "Postfach offen", PUZZLE_7);
         newsSeen("verdaechtige", "alibi:clara"); }
       else { $("#dMsg").textContent = "Das ergibt noch keinen Sinn. Zählt die Glockenschläge in der Sage."; wrong("7.dec"); }
     };
@@ -2246,14 +2343,14 @@ PUZZLE_7 = function(){
     S.struck = S.struck.includes(id) ? S.struck.filter(x => x !== id) : S.struck.concat(id); save(); $("#strikeList").innerHTML = strikeList(); $("#stMsg").textContent = ""; checkStrikes(); };
 };
 function strikeList(){
-  return ["tobias","mair","clara","feld","helena"].map(id => { const p = CONTENT.suspects.find(x => x.id === id), al = alibiOf(id), st = S.struck.includes(id);
+  return ["tobias","mair","clara","helena"].map(id => { const p = CONTENT.suspects.find(x => x.id === id), al = alibiOf(id), st = S.struck.includes(id);
     return `<div class="hint" style="display:flex;gap:10px;align-items:center;margin-bottom:8px;${st ? "opacity:.55" : ""}"><img src="img/${id}_av.jpg" alt="" style="width:42px;height:42px;border-radius:50%;object-fit:cover;flex:none">
       <div style="flex:1;min-width:0"><b style="${st ? "text-decoration:line-through" : ""}">${esc(p.name)}</b><div style="font-size:12.5px;color:${al ? "#6fbf8a" : "var(--muted)"}">${al ? "Alibi: " + esc(al) : "Kein Alibi um 20:48."}</div>
       ${RECORDINGS[id] ? `<button class="recmini" data-rec="${id}" style="margin-top:4px">▶ Vernehmung</button>` : ""}</div>
       <button class="btn ${st ? "" : "primary"}" data-strike="${id}" style="width:auto;margin:0;padding:8px 10px;font-size:13px">${st ? "zurück" : "streichen"}</button></div>`; }).join(""); }
 function checkStrikes(){
   if (S.stage !== 7 || !(S.st.s7 && S.st.s7.decoded) || S.st.s7.struck) return;
-  const need = ["tobias","mair","clara","feld"];
+  const need = ["tobias","mair","clara"];
   if (need.every(x => S.struck.includes(x)) && !S.struck.includes("helena")) {
     S.st.s7.struck = true; save();
     setTimeout(() => { if (S.stage !== 7) return; done(null, 7); fire("B_7"); fireWhenFree("CALL_07", 2500); }, 600);
@@ -2306,7 +2403,8 @@ function tresor(){
     if (!v) return;
     if (!guard("8.name")) return;
     if (v.startsWith("elisabeth")) { right("8.name"); if (!S.apps.includes("tresor")) S.apps.push("tresor");
-      if (S.boxCode) { S.st.named = true; save(); boxOpen(); } else { S.ending = "gelöst"; save(); closeWin(); festnahme(showEnding); } }
+      $("#nmGo").disabled = true;
+      unlockFx("Namensschloss · Elisabeth", "Kassette offen", () => { if (S.boxCode) { S.st.named = true; save(); boxOpen(); } else { S.ending = "gelöst"; save(); closeWin(); festnahme(showEnding); } }); }
     else if (v.startsWith("hedwig")) { $("#nmMsg").textContent = "Sie war die Braut. Aber wem hatte Georg sein Erbe vermacht?"; wrong("8.name"); }
     else { $("#nmMsg").textContent = "Das Schloss bleibt zu. Hört noch einmal, wem Georg sein Land vermacht hat."; wrong("8.name"); }
   };
@@ -2388,10 +2486,10 @@ function showEnding(){
       <span class="red" style="text-align:center">Martina Seidl, Ermittlungsleiterin</span></div>
     ${newsArticle(names, new Date().toLocaleDateString("de-DE",{ weekday:"long", day:"numeric", month:"long", year:"numeric" }))}
     <div class="sec">Die Auflösung</div><div class="nb"><h3>Akte 1475 · geschlossen</h3>Die Kassette ist offen: eine Rubinbrosche, zehn goldene Taler, ein Familiensiegel mit dem W der Wittelsbacher. Das Erbe Elisabeths, 523 Jahre verborgen.<br><br>
-    Die Stimme am Telefon war <b>Dr. Helena Dorn</b>. Sie hatte die Stücke längst an einen Käufer versprochen, als Falkenried am Tatabend verkündete, sie gingen an die Stadt. Um 20:30 tat sie so, als würde sie gehen. Um 20:48 öffnete sie mit der gestohlenen Karte R7 das Archiv. Die Kassette fand sie nicht. Deshalb brauchte sie euch.
+    Die Stimme am Telefon war <b>Dr. Helena Dorn</b>. Sie hatte die Stücke längst an einen Käufer versprochen, als Falkenried am Tatabend verkündete, sie gingen an die Stadt. Um 20:30 tat sie so, als würde sie gehen. Um 20:48 öffnete sie mit der verschwundenen Ersatzkarte R7 das Archiv. Die Kassette fand sie nicht. Deshalb brauchte sie euch.
     <span class="red">Das Erbe geht zurück nach Landshut.</span></div>
     <div class="sec">Was war echt?</div>
-    <div class="hint"><p style="margin:0">Echt: Burg Trausnitz und ihr Brand 1961, die Herzöge der Wand (Gründung Landshuts 1204, Kaiser Ludwig der Bayer 1328), die Landshuter Hochzeit 1475, die Hochzeitsrechnung, die Fassade des Landschaftshauses, das Denkmal von 1858, Georgs Tod 1503, Elisabeth und der Landshuter Erbfolgekrieg, die Stadtresidenz ab 1536, der Turm von St. Martin, der Baubeginn von Heiliggeist 1407, der Kölner Spruch von 1505, Elisabeths vier Söhne und die drei Helme im Wappen.</p>
+    <div class="hint"><p style="margin:0">Echt: die Herzöge der Wand (Gründung Landshuts 1204, Kaiser Ludwig der Bayer 1328), die Landshuter Hochzeit 1475, die Hochzeitsrechnung, die Fassade des Landschaftshauses, das Denkmal von 1858, Georgs Tod 1503, Elisabeth und der Landshuter Erbfolgekrieg, die Stadtresidenz ab 1536, der Turm von St. Martin, der Baubeginn von Heiliggeist 1407 und die drei Helme im Wappen.</p>
     <p>Erfunden: Falkenried und alle Figuren, der Mord, die Kiste, dass Elisabeths Sohn Georg 1504 überlebt hat, jede Abstammung davon, die Sage vom Ritter am Ländtor.</p></div>`);
   const b = $("#endPlay");
   const play = () => { if (curAudio && !curAudio.paused) { stopAudio(); b.textContent = "▶ Glückwünsche von Seidl"; return; }
@@ -2705,7 +2803,7 @@ function showCast(after){
 function standQs(){
   const st = S.st || {}, e = id => S.evidence.includes(id), vm = id => S.voicemails.includes(id);
   const q1 = [], q2 = [], q3 = [];
-  if (S.apps.includes("notizen")) q1.push("Falkenried hat im November in Neuburg etwas gefunden, wonach er jahrelang gesucht hat. Am Tatabend wollte er es verkünden.");
+  if (S.apps.includes("notizen")) q1.push("Falkenried hat im November etwas gefunden, wonach er jahrelang gesucht hat. Am Tatabend wollte er es verkünden.");
   if (e("E03")) q1.push("Es geht um die Familie der Landshuter Hochzeit von 1475. Bezahlt hat sie Ludwig der Reiche, der Vater des Bräutigams Georg.");
   if (vm("V_ALBRECHT")) q1.push("Georgs Tochter Elisabeth war die rechtmäßige Erbin. Im Erbfolgekrieg 1503 brachte jemand eine Kiste aus der Stadt.");
   if (e("E05")) q1.push("In der Kiste: Rubinbrosche, zehn goldene Taler, Familiensiegel der Wittelsbacher. Falkenried hat sie gefunden und bei Notar Mair verwahrt.");
@@ -2716,7 +2814,7 @@ function standQs(){
   if (e("T5")) q3.push("Der Kartenleser hat jeden Zutritt gespeichert. Am Tatort: ein dunkler Wollfaden wie von einem Mantel.");
   if (e("E10")) q3.push("Dr. Dorn war bis 21:02 im Haus, nicht bis halb neun. Clara Weiß war 20:44 bis 20:52 nicht am Tisch.");
   if (e("E13")) q3.push("Die Stimme am Telefon kannte 20:48 und die Karte R7, bevor beides bekannt war.");
-  if (e("E12")) q3.push("Um 20:48 öffnete die gestohlene Karte R7 von Jonas Feld die Tür. Feld war in Regensburg.");
+  if (e("E12")) q3.push("Um 20:48 öffnete die Ersatzkarte R7 die Tür. Sie galt seit 2025 als verloren.");
   if (e("E11")) q3.push("Rosa Brandl sah Clara Weiß im Flur telefonieren und dahinter eine Frau im Mantel zum Archiv gehen.");
   if (st.s7 && st.s7.struck) q3.push("Alle anderen haben ein Alibi. Es bleibt nur Dr. Helena Dorn.");
   if (st.accused) q3.push("Die Anklage steht. Die Stimme am Telefon war Dr. Helena Dorn.");
@@ -2784,7 +2882,7 @@ function newsSave(a){ try { localStorage.setItem(NEWS_KEY, JSON.stringify(a)); }
 function newsSeen(app, ...keys){ const a = newsAll(); a[app] = Array.from(new Set((a[app] || []).concat(keys))); newsSave(a); }
 function isNew(app, key){ return !(newsAll()[app] || []).includes(key); }
 const NEWS_APPS = ["verdaechtige","notizen","nachrichten","telefon"];
-function visibleSuspects(){ return CONTENT.suspects.filter(p => p.id !== "feld" || S.stage > 6 || (S.st.s6 && S.st.s6.callDone)); }
+function visibleSuspects(){ return CONTENT.suspects; }
 /* Das Postfach mit der verschlüsselten Nachricht gibt es erst am Ländtor */
 const postfachOpen = () => S.stage > 7 || (S.stage === 7 && S.phase === "task");
 function openPostfach(){ newsSeen("nachrichten","postfach"); closeSheet(); if (S.stage === 7 && S.phase === "task" && !ackGate()) return; PUZZLE_7(); }
@@ -2851,15 +2949,31 @@ setInterval(newsCheck, 1500);
 /* Erster Anruf: sobald das Team an St. Martin ist und die Vernehmungen gehört hat */
 setInterval(() => { if (S.unlocked && S.stage === 1 && S.phase === "task" && heardAll() && !(S.events || []).includes("CALL_01") && !$("#sheet") && !$("#call")) { fire("CALL_01"); processEvents(); } }, 2000);
 
+/* Dateityp jedes Eintrags: Audio, Textdokument, Foto, Beweisstück, Lagebesprechung */
+function faType(x){ if (CONTENT.voice[x.k]) return "audio"; if (x.kind === "Lagebesprechung") return "brief"; if (x.kind === "Tatort") return "foto"; if (x.k === "mappe") return "mappe"; if (x.kind === "Dokument" || x.kind === "Notiz") return "text"; return "beweis"; }
+const FA_LABEL = { mappe:"Mappe", audio:"Audiodatei", text:"Textdokument", foto:"Fotos", beweis:"Beweisstück", brief:"Lagebesprechung" };
+const FA_ICON = {
+  mappe:'<svg viewBox="0 0 24 24"><path d="M3 7h7l2 2h9v10H3z"/></svg>',
+  audio:'<svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>',
+  text:'<svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>',
+  foto:'<svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>',
+  beweis:'<svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></svg>',
+  brief:'<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>' };
+/* kleine Tonspur als Erkennungszeichen für Audiodateien */
+function waveHtml(k){ let h = 0; for (const c of k) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+  const bars = Array.from({ length:26 }, (_, i) => { h = (h * 1103515245 + 12345) >>> 0; return 4 + (h >>> 16) % 12; });
+  const heard = (S.seen || []).includes(k);
+  return `<span class="wave">${bars.map(b => `<i style="height:${b}px"></i>`).join("")}<em>▶ ${heard ? "nochmal hören" : "anhören"}</em></span>`; }
 function openFallakte(){
   closeSheet();
   const fresh = newsUnseen("fallakte"); newsMark("fallakte");
   const items = faItems().reverse();
   const cta = (S.stage === 8 && S.phase === "task" && !S.st.accused) ? `<button class="btn primary" id="accuse">Anklage erheben</button>` : "";
-  const list = items.map(x => `<button class="farow" data-fa="${x.k}">
-      <span class="fk">${esc(x.kind)}${fresh.includes(x.k) ? ` <b class="neu">NEU</b>` : ""}</span>
-      <span class="ft">${esc(x.t)}</span><span class="fs">${esc(x.s)}</span></button>`).join("");
-  openWin("Fallakte", `${standCard()}${cta}<div class="sec">Gefunden · das Neueste oben</div>` + (items.length ? list
+  const list = items.map(x => { const ty = faType(x);
+    return `<button class="farow typed t-${ty}" data-fa="${x.k}"><span class="fti ${ty}" aria-hidden="true">${FA_ICON[ty]}</span>
+      <span class="fk">${FA_LABEL[ty]}${x.kind && x.kind !== FA_LABEL[ty] && x.kind !== "Beweis" ? " · " + esc(x.kind) : ""}${fresh.includes(x.k) ? ` <b class="neu">NEU</b>` : ""}</span>
+      <span class="ft">${esc(x.t)}</span><span class="fs">${esc(x.s)}</span>${ty === "audio" ? waveHtml(x.k) : ""}</button>`; }).join("");
+  openWin("Fallakte", `<div class="akte-cover"><div class="stp">Vertraulich</div><b>Kripo Landshut · Akte 1475/26</b><span>Fall Falkenried</span></div>${standCard()}${cta}<div class="sec">Gefunden · das Neueste oben</div>` + (items.length ? list
     : `<div class="empty">Noch nichts gefunden.<br>Alles, was ihr findet, landet hier.</div>`));
   $("#winBody").onclick = e => { const r = e.target.closest("[data-fa]"); if (r) { const it = faItems().find(x => x.k === r.dataset.fa); if (it) it.open(); } };
   const a = $("#accuse"); if (a) a.onclick = () => PUZZLE[8]();
@@ -2909,7 +3023,7 @@ const TREE = {
     d:"Elisabeths kleiner Sohn, benannt nach seinem Großvater. So steht es in den Büchern: 1504 als kleines Kind gestorben.",
     sF:"Elisabeths Sohn|1500–„1504“", dF:"Elisabeths kleiner Sohn, benannt nach seinem Großvater. Offiziell 1504 gestorben. Falkenried war überzeugt, das war gelogen: Derselbe treue Mann, der die Kiste aus der Stadt gebracht hatte, holte auch ihn heraus. Falkenried glaubte, von ihm abzustammen." },
   falk:     { w:128, x:118, y:640, n:"Maximilian v.|Falkenried", s:"1964–2026", h:"fk", when:"start", photo:"img/falkenried_av.jpg", fiction:true,
-    d:"Kunstsammler, Opfer. In Kirchenbüchern in Neuburg an der Donau stieß er auf einen Eintrag aus dem Winter 1503, der ihn nicht mehr losließ." },
+    d:"Kunstsammler, Opfer. Im November 2026 fand er, wonach er jahrelang gesucht hatte. Am Tatabend wollte er es verkünden." },
   tobias:   { w:128, x:290, y:640, n:"Tobias v.|Falkenried", s:"Neffe, 31", h:"fk", when:"start", photo:"img/tobias_av.jpg", fiction:true,
     d:"Falkenrieds Neffe, galt als möglicher Erbe." }
 };
@@ -2996,7 +3110,7 @@ function openTree(){
     if (e.target.closest("[data-war]")) return sheet(`<div class="kind" style="color:#ff8a8a">Landshuter Erbfolgekrieg 1504/05</div><h2>Tochter gegen Vetter</h2>
       <p>Georg setzte seine Tochter Elisabeth als Erbin ein. Nach den Hausverträgen der Wittelsbacher durfte Land aber nur an Männer der Familie fallen, also an Albrecht in München.</p>
       <p>Albrecht zog in den Krieg. Dörfer in ganz Niederbayern brannten. Elisabeth starb 1504, mitten im Krieg. 1505 fiel Landshut an München.</p><button class="btn" data-close>Schließen</button>`);
-    if (e.target.closest("[data-ghost]")) return sheet(`<div class="kind">Offene Frage</div><h2>Woher stammt die Familie?</h2><p>Falkenried hat hier eine Lücke gelassen. In seinem Tagebuch schreibt er von Kirchenbüchern in Neuburg und einem Eintrag aus dem Winter 1503.</p><button class="btn" data-close>Schließen</button>`);
+    if (e.target.closest("[data-ghost]")) return sheet(`<div class="kind">Offene Frage</div><h2>Woher stammt die Familie?</h2><p>Falkenried hat hier eine Lücke gelassen. In seinem Tagebuch schreibt er von alten Kirchenbüchern und einem Eintrag aus dem Jahr 1504, der nicht zu den anderen passt.</p><button class="btn" data-close>Schließen</button>`);
   };
 }
 function treeCheck(){
