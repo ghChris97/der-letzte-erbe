@@ -78,7 +78,7 @@ Fünfmal auf die Uhrzeit oben links tippen, PIN **1432**: Ereignisse auslösen, 
 
 **Fall:** Kunstsammler Maximilian von Falkenried wird am Abend des 19. Dezember 2026 in seinem Archiv erschlagen. Fünf Menschen waren im Haus.
 
-**Täterin:** Dr. Helena Dorn (Historikerin, betreute sein Archiv). Sie tat um 20:30 so, als würde sie gehen, öffnete um 20:48 mit der gestohlenen Karte R7 (von Restaurator Jonas Feld) das Archiv, erschlug Falkenried und nahm die Liste von 1475 mit. Die Kassette fand sie nicht – deshalb braucht sie die Spieler und meldet sich als „Unbekannt“.
+**Täterin:** Dr. Helena Dorn (Historikerin, betreute sein Archiv). Sie tat um 20:30 so, als würde sie gehen, öffnete um 20:48 mit der Ersatzkarte R7 (aus der Digitalisierung 2025, als verloren gemeldet) das Archiv, erschlug Falkenried und nahm die Liste von 1475 mit. Die Kassette fand sie nicht – deshalb braucht sie die Spieler und meldet sich als „Unbekannt“.
 
 **Motiv:** Drei Hochzeitsgaben von 1475 (Rubinbrosche, Taler, Siegel) aus einer Kiste, die im Winter 1503 aus der Stadt gebracht wurde. Dorn wollte sie über Kunsthändlerin Clara Weiß an Käufer „CW-04“ verkaufen und fälschte dafür einen Herkunftsbrief von 1503.
 
@@ -94,7 +94,6 @@ Fünfmal auf die Uhrzeit oben links tippen, PIN **1432**: Ereignisse auslösen, 
 | Tobias von Falkenried, 31 | Neffe, Schulden | „Gestritten, danach rauchen.“ | Stimmt: Terrassenkamera 20:44–20:58. |
 | Clara Weiß, 43 | Kunsthändlerin | „Den ganzen Abend am Tisch.“ | Gelogen: telefonierte 20:44–20:50 im Flur mit CW-04. Vermittelt nur. |
 | Rosa Brandl, 58 | Haushälterin, Zeugin | – | Sah Clara telefonieren und eine Frau im Mantel zum Archiv gehen. |
-| Jonas Feld, 39 | Restaurator, Besitzer Karte R7 | – | War in Regensburg; Karte gestohlen. |
 | Martina Seidl | Kommissarin, Kripo Landshut | – | Führt durch das Spiel. |
 
 ---
@@ -181,3 +180,19 @@ Nur noch: Heinrich XVI. → Ludwig IX. (vor der Herzogswand als „L. ?“) → 
 5. Optional: Tagebuchseiten Hochzeit/Rechnung weiter nach vorne ziehen (stehen jetzt auf Seite 5 und 6).
 6. Optional: Albrecht im Stammbaum auf Elisabeths Höhe (vom Nutzer gewünscht, aus historischen Gründen nicht umgesetzt).
 7. `docs/Spielkonzept.md` ist in Teilen veraltet und könnte an die App angeglichen werden.
+
+---
+
+## 7. Überarbeitung vom 27.11.2026 (Zweig `claude/project-thread-1fs3cv`)
+- Neuburg an der Donau komplett entfernt (Tagebuch, Stammbaum, Fallakte), dazu „Was war echt?“ ohne Trausnitz, Kölner Spruch, vier Söhne.
+- Jonas Feld gestrichen: Karte R7 ist jetzt eine verlorene Ersatzkarte aus der Digitalisierung; R7-Frage ohne Feld, Streichliste mit 4 Personen. Audio VERHOER_FELD und Bilder entfernt.
+- Unbekannt reduziert: nur noch Anruf CALL_06 (Täterwissen 20:48/R7) und Nachricht N02 (Brief 1503). CALL_01, CALL_07, N01, N03 entfernt; die Wiese kündigt Seidls Lagebesprechung B_7 an.
+- Seidls Sprachnachrichten im Spiel (V_RESIDENZ) kommen als eingehender Anruf mit Profilbild.
+- Nach dem Archiv-Passwort (Station 3): Schloss springt auf, Belohnung „Glückwunsch, ihr habt Falkenrieds Archiv geöffnet“ mit Inhalt (Memo, Mappe) und Erklärung, warum es zurück zur Herzogswand geht; danach Falkenrieds Memo.
+- Eigene Optik je Bereich (Archivkarton, Pappmappe mit Gummiband und Schloss, Haustechnik, Postfach, Tresor, Notizen), gesperrte Inhalte vorher sichtbar, Aufspring-Animation bei jedem geknackten Schloss, Fallakte mit Dateityp (Audio mit Tonspur, Textdokument, Foto, Mappe).
+- Unbenutzte Texte entfernt: V_FINALE, N06, I_MAIR, I_ZEUGIN, I_ANRUF, I_FALLE, I_TRAUSNITZ, B_2 bis B_6.
+- Rundgang Heiliggeist: 36 Wegstücke à ca. 4 m (vorher 12), Fangradius 8 m, GPS nur bis 20 m Ungenauigkeit; alle Stücke nötig, Lücken bis 2 Stücke werden aufgefüllt; Schloss erst 1,8 s nach der ganz grünen Runde. Eingezeichnetes Kirchen-Viereck entfernt.
+- Jedes Schloss öffnet erst auf Tippen („Schloss öffnen“), dann Animation, dann „Weiter …“ mit dem Ziel. Auch nach dem Rundgang („Runde geschafft!“).
+- Spielleitung „Station zurück“ setzt jetzt alles ab dieser Station zurück (Rätsel, Schlösser, Rundgang, Freischaltungen, Beweise, Memos, Nachrichten).
+- Falkenrieds Memo „Der Turm“ (V_TURM) nach dem Rundgang entfernt.
+- Tatzeit 20:48 ist von Anfang an bekannt (Opfer-Steckbrief, Spur 5, Protokoll mit 20:45 Falkenried ins Archiv / 20:48 Tür auf, Karte geschwärzt). Täterwissen im Anruf ist nur noch die Karte R7. Terrassenkamera zeigt Falkenried um 20:45 aufstehen. Clara: Telefonat 20:44–20:50, danach Taxi, 20:52 zurück am Tisch.

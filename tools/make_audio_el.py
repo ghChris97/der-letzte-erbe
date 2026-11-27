@@ -1,6 +1,6 @@
 """Sprachaufnahmen mit ElevenLabs erzeugen (ersetzt make_audio.py, gleiche Dateinamen und cues.json).
 Schlüssel kommt aus der Umgebung (ELEVENLABS_API_KEY), z. B. per:  set -a; . ./.env.local; set +a
-Aufruf:  python3 tools/make_audio_el.py V_START CALL_01      (ohne Argumente: alle)
+Aufruf:  python3 tools/make_audio_el.py V_START V_ERBE      (ohne Argumente: alle)
 """
 import base64, json, os, re, subprocess, sys
 sys.path.insert(0, os.path.dirname(__file__))
