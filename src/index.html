@@ -133,15 +133,18 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 @keyframes ufxOut{to{opacity:0}}
 .ufx .box{text-align:center;padding:0 24px}
 .ufx .glow{position:relative;width:150px;height:150px;margin:0 auto;display:grid;place-items:center}
-.ufx .glow::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#e3a54866 0%,#e3a54800 65%);transform:scale(.4);opacity:0;animation:ufxBurst .9s .55s ease-out forwards}
+.ufx .glow::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#e3a54866 0%,#e3a54800 65%);transform:scale(.4);opacity:0}
+.ufx.go .glow::before{animation:ufxBurst .9s .35s ease-out forwards}
 @keyframes ufxBurst{to{transform:scale(1.25);opacity:1}}
 .ufx svg{width:96px;height:110px;overflow:visible;filter:drop-shadow(0 6px 14px #000a)}
-.ufx .shk{transform-origin:66px 46px;animation:ufxOpen .55s .5s cubic-bezier(.3,1.6,.5,1) forwards}
+.ufx .shk{transform-origin:66px 46px}.ufx.go .shk{animation:ufxOpen .55s .3s cubic-bezier(.3,1.6,.5,1) forwards}
 @keyframes ufxOpen{to{transform:translateY(-16px) rotate(-28deg)}}
-.ufx .lk{animation:ufxJig .35s ease-in-out}
+.ufx.go .lk{animation:ufxJig .3s ease-in-out}.ufx .lk{transform-origin:48px 76px}
 @keyframes ufxJig{30%{transform:rotate(-6deg)}70%{transform:rotate(5deg)}}
-.ufx .t1{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-top:14px;opacity:0;animation:ufxIn .3s .9s forwards}
-.ufx .t2{font-family:var(--font-display);font-size:30px;font-weight:700;margin-top:4px;opacity:0;animation:ufxIn .3s 1s forwards}
+.ufx .hd{font-family:var(--font-display);font-size:30px;font-weight:700;margin-bottom:4px}
+.ufx .t1{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:8px}
+.ufx .ubtn{margin-top:22px;min-width:220px}
+.ufx .t2{font-size:17px;font-weight:600;color:#7fe0a8;margin-top:6px;opacity:0}.ufx.go .t2{animation:ufxIn .3s .9s forwards}
 
 /* App-Fenster */
 .win{position:absolute;inset:0;z-index:20;background:var(--night);display:flex;flex-direction:column;animation:rise .22s ease-out}
@@ -429,7 +432,6 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-
 /* Karte */
 .mapwrap{position:relative;flex:1;min-height:260px;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
 #map{position:absolute;inset:0}
-.churchlbl{background:none;border:0;box-shadow:none;color:#3a2a08;font-weight:700;font-size:12px}.churchlbl:before{display:none}
 .mapfallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:20px;color:var(--muted);font-size:13px;line-height:1.5}
 .target{background:var(--surface);border-radius:16px;padding:12px 14px;margin-bottom:10px}
 .target .t{font-weight:700;font-size:16px}
@@ -822,18 +824,25 @@ document.addEventListener("click", e => {
 /* Jeder Bereich bekommt seine eigene Optik */
 const WIN_THEME = { "Mappe":"mappe", "Archiv":"archiv", "Haustechnik":"tech", "Postfach":"mail", "Tresor":"tresor", "Notizen":"notiz" };
 /* Ein Schloss springt auf: zeigt deutlich, dass gerade etwas geknackt wurde */
-function unlockFx(t1, t2, then){
+function unlockFx(t1, t2, then, o={}){
   const old = $("#ufx"); if (old) old.remove();
-  const o = document.createElement("div"); o.className = "ufx"; o.id = "ufx";
-  o.innerHTML = `<div class="box"><div class="glow"><svg viewBox="0 0 96 110" aria-hidden="true"><g class="lk">
+  const ov = document.createElement("div"); ov.className = "ufx"; ov.id = "ufx";
+  ov.innerHTML = `<div class="box"><div class="hd">${esc(o.head || "Code geknackt!")}</div><div class="t1 on">${esc(t1)}</div>
+    <div class="glow"><svg viewBox="0 0 96 110" aria-hidden="true"><g class="lk">
       <path class="shk" d="M30 50V34a18 18 0 0 1 36 0v16" fill="none" stroke="#c9ced8" stroke-width="9" stroke-linecap="round"/>
       <rect x="14" y="48" width="68" height="56" rx="10" fill="#e3a548"/><rect x="14" y="48" width="68" height="10" rx="5" fill="#f2c477"/>
       <circle cx="48" cy="72" r="7" fill="#5a3d12"/><rect x="45" y="74" width="6" height="16" rx="3" fill="#5a3d12"/></g></svg></div>
-    <div class="t1">${esc(t1)}</div><div class="t2">${esc(t2)}</div></div>`;
-  layer.appendChild(o);
-  try { navigator.vibrate && navigator.vibrate([30, 60, 90]); } catch(e) {}
-  let gone = false; const end = () => { if (gone) return; gone = true; o.classList.add("out"); setTimeout(() => { o.remove(); if (then) then(); }, 330); };
-  o.onclick = end; setTimeout(end, 2100);
+    <div class="t2">${esc(t2)}</div>
+    <button class="btn primary ubtn" id="ufxOpen">🔓 Schloss öffnen</button></div>`;
+  layer.appendChild(ov);
+  const btn = ov.querySelector("#ufxOpen"); let stage = 0;
+  btn.onclick = () => {
+    if (stage === 0) { stage = 1; ov.classList.add("go"); btn.disabled = true; btn.style.visibility = "hidden";
+      try { navigator.vibrate && navigator.vibrate([30, 60, 90]); } catch(e) {}
+      setTimeout(() => { btn.textContent = (o.next || "Weiter") + " →"; btn.disabled = false; btn.style.visibility = ""; stage = 2; }, 1300);
+      return; }
+    if (stage === 2) { stage = 3; ov.classList.add("out"); setTimeout(() => { ov.remove(); if (then) then(); }, 330); }
+  };
 }
 /* Mappe als Pappordner. items: [Symbol, Titel, Zusatz, Status, ok] */
 function folderHtml(o){
@@ -1127,7 +1136,7 @@ function openFaceLock(){
     if (Math.abs(d) <= 4) { $("#nm1Go").disabled = true;
       msg.innerHTML = `Klick. ${TOWER_M} Meter, der höchste Backsteinturm der Welt. Ihr habt ${st.tries} ${st.tries === 1 ? "Versuch" : "Versuche"} gebraucht.<br>Notizbuch wird geöffnet …`;
       S.apps.push("notizen"); addEv("E01"); advance(1);
-      setTimeout(() => unlockFx("Zahlenschloss · " + TOWER_M + " Meter", "Notizbuch offen", () => { openNotebook(true); fire("B_1"); }), 1400);
+      setTimeout(() => unlockFx("Zahlenschloss · " + TOWER_M + " Meter", "Falkenrieds Notizbuch ist offen", () => { openNotebook(true); fire("B_1"); }, { next:"Notizbuch lesen" }), 1400);
     } else msg.textContent = d < -40 ? "Viel zu tief. Schaut noch einmal ganz nach oben." : d < 0 ? "Zu tief. Etwas höher." : d > 40 ? "Viel zu hoch." : "Zu hoch. Etwas weniger.";
   };
 }
@@ -1920,8 +1929,8 @@ PUZZLE_3 = function(){
     if (!guard("3.pw")) return;
     if (v === "1858" || v === "MDCCCLVIII") { right("3.pw");
       S.apps.push("archiv"); save(); $("#pwGo").disabled = true;
-      unlockFx("Code geknackt · 1858", "Archiv offen", () => { done(null, 3);
-        setTimeout(() => { fire("I_ARCHIV"); autoVoice = "V_ERBE"; fire("V_ERBE"); }, 300); });   /* erst die Belohnung, danach spielt das Memo */
+      unlockFx("Passwort 1858 · MDCCCLVIII", "Falkenrieds Archiv ist offen", () => { done(null, 3);
+        setTimeout(() => { fire("I_ARCHIV"); autoVoice = "V_ERBE"; fire("V_ERBE"); }, 300); }, { next:"Ins Archiv" });   /* erst die Belohnung, danach spielt das Memo */
     } else { $("#pwMsg").textContent = "Falsches Passwort. Die Zahl steht auf der Rückseite des Sockels."; wrong("3.pw"); }
   };
 };
@@ -1967,7 +1976,7 @@ PUZZLE_4 = function(){
       const L = locFor(); L.wh[k] = (L.wh[k] + d + n) % n; saveLoc(); $("#wv"+k).textContent = WHEELS[k][1][L.wh[k]]; };
     $("#whGo").onclick = () => { const st = S4();
       if (!guard("4.seal")) return;
-      if (locFor().wh.every((x,k) => WHEELS[k][1][x] === WHEEL_OK[k])) { right("4.seal"); st.seal = true; save(); $("#sMsg").textContent = "Klick."; $("#whGo").disabled = true; unlockFx("Wappenschloss · 3 Helme · Rot", "Mappe offen", PUZZLE_4); }
+      if (locFor().wh.every((x,k) => WHEELS[k][1][x] === WHEEL_OK[k])) { right("4.seal"); st.seal = true; save(); $("#sMsg").textContent = "Klick."; $("#whGo").disabled = true; unlockFx("Wappenschloss · 3 · Helm · Rot", "Falkenrieds Mappe ist offen", PUZZLE_4, { next:"Mappe ansehen" }); }
       else { $("#sMsg").textContent = "Das Schloss klemmt. Schaut noch einmal genau auf das Wappen über der Uhr."; wrong("4.seal"); }
     };
     return;
@@ -2081,8 +2090,7 @@ PUZZLE_6 = function(){
 /* Station 6: Rundgang um die Heiliggeistkirche. Alle vier Seiten müssen besucht werden.
    Mit WALK_POINTS (vier echte GPS-Punkte an den Ecken, vor Ort gemessen) zählt jeder Punkt im Umkreis von WALK_R Metern.
    Ohne Punkte: Himmelsrichtung vom Kirchenmittelpunkt aus, nur wenn man deutlich auf einer Seite steht (±30°). */
-const CHURCH = [[48.53867,12.15230],[48.53879,12.15282],[48.53868,12.15290],[48.53852,12.15240]];   /* Ecken NW, NO, SO, SW, vor Ort gemessen */
-const RING_N = 12, RING_R = 15, RING_NEED = 11;   /* Stücke · Fangradius (m) · nötig (ein Aussetzer erlaubt) */
+const RING_N = 12, RING_R = 10, RING_NEED = 11, RING_ACC = 20;   /* Stücke · Fangradius (m) · nötig (ein Aussetzer erlaubt) · max. GPS-Ungenauigkeit (m) */
 /* Laufweg um die Kirche, vor Ort eingezeichnet (geht über den Platz, nicht durch die Häuser) */
 const WALK_PATH = [[48.53865,12.152943],[48.538626,12.152924],[48.538605,12.152903],[48.538585,12.152883],[48.538571,12.152851],[48.538563,12.152812],[48.538557,12.152777],[48.538552,12.152749],[48.538546,12.152725],[48.538539,12.152703],[48.538533,12.152682],[48.538528,12.152661],[48.538522,12.152641],[48.538516,12.152619],[48.538509,12.152597],[48.5385,12.152573],[48.538489,12.152545],[48.538477,12.152512],[48.538468,12.152476],[48.538459,12.152433],[48.538459,12.152391],[48.538467,12.152352],[48.538481,12.152317],[48.538502,12.152293],[48.538527,12.152276],[48.538551,12.152262],[48.538574,12.152249],[48.538598,12.152232],[48.538621,12.152214],[48.538647,12.1522],[48.538673,12.152201],[48.538698,12.152224],[48.538719,12.152252],[48.538736,12.152281],[48.53875,12.152315],[48.53876,12.152348],[48.538769,12.152376],[48.538777,12.152402],[48.538786,12.152424],[48.538794,12.152446],[48.538803,12.152467],[48.538812,12.152488],[48.538819,12.152511],[48.538825,12.152535],[48.538831,12.152561],[48.538838,12.152588],[48.538844,12.152617],[48.53885,12.152649],[48.538853,12.152683],[48.538851,12.152717],[48.53885,12.152756],[48.538847,12.152797],[48.53884,12.152839],[48.538828,12.15288],[48.538808,12.15291],[48.538783,12.152928],[48.538757,12.152943],[48.53873,12.152952],[48.538703,12.152958],[48.538676,12.152956]];
 const RING = (() => {
@@ -2119,7 +2127,6 @@ function walkLock(){
       const fit = () => mapObj && mapObj.fitBounds(RING.poly.map(p => [p.lat, p.lng]), { padding:[26,26] });
       fit();
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom:21, maxNativeZoom:19, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(mapObj);
-      L.polygon(CHURCH, { color:"#8a6a2b", weight:2, fillColor:"#e3a548", fillOpacity:.35, interactive:false }).addTo(mapObj).bindTooltip("Heiliggeist", { permanent:true, direction:"center", className:"churchlbl" });
       ringLayers = RING.segs.map(sg => L.polyline(sg.map(p => [p.lat, p.lng]), { lineCap:"round", interactive:false }).addTo(mapObj));
       ringDraw(st.walk);
       setTimeout(() => { if (mapObj) { mapObj.invalidateSize(); fit(); } }, 250);
@@ -2131,8 +2138,8 @@ function walkLock(){
     let ch = false; ks.forEach(k => { if (!cur.walk[k]) { cur.walk[k] = true; ch = true; } });
     if (ch) { st.walk = cur.walk; save(); ringDraw(cur.walk); if ($("#walkN")) $("#walkN").textContent = n(); }
     if (n() >= RING_NEED && !cur.open) { st.open = true; cur.open = true; if (!S.apps.includes("haustechnik")) S.apps.push("haustechnik"); save();
-      if ($("#walkTxt")) $("#walkTxt").textContent = "Runde geschafft. Die App öffnet sich …"; if (watchId !== null) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; }
-      setTimeout(() => unlockFx("Runde geschafft", "Haustechnik entsperrt", () => { PUZZLE_6(); fire("V_TURM"); }), 900); return true; }
+      if ($("#walkTxt")) $("#walkTxt").textContent = "Runde geschafft!"; if (watchId !== null) { try { navigator.geolocation.clearWatch(watchId); } catch(e) {} watchId = null; }
+      setTimeout(() => unlockFx("Einmal um die Kirche", "Haustechnik entsperrt", () => { PUZZLE_6(); fire("V_TURM"); }, { head:"Runde geschafft!", next:"Zur Haustechnik" }), 600); return true; }
     return false;
   };
   if (mark([])) return;
@@ -2143,7 +2150,7 @@ function walkLock(){
     watchId = navigator.geolocation.watchPosition(pos => {
       const p = { lat:pos.coords.latitude, lng:pos.coords.longitude }, t = $("#walkTxt"); if (!t) return;
       placeMe(pos);
-      if (pos.coords.accuracy > 35) { t.textContent = "GPS ist gerade ungenau. Kurz stehen bleiben."; return; }
+      if (pos.coords.accuracy > RING_ACC) { t.textContent = "GPS ist gerade ungenau. Kurz stehen bleiben."; return; }
       const d = Math.round(dist(p, RING.c));
       if (mark(RING.pts.map((q, i) => dist(p, q) <= RING_R ? i : -1).filter(i => i >= 0))) return;
       t.textContent = d > 120 ? `Ihr seid ${d} m von der Kirche entfernt. Geht näher heran.` : txt();
@@ -2323,7 +2330,7 @@ PUZZLE_7 = function(){
     $("#decGo").onclick = () => {
       if (!$("#dec").value.trim()) return;
       if (!guard("7.dec")) return;
-      if ($("#dec").value.trim().toUpperCase().replace(/\s/g,"") === "ABHOLUNG") { right("7.dec"); S.st.s7 = S.st.s7 || {}; S.st.s7.decoded = true; if (!S.apps.includes("mail")) S.apps.push("mail"); addEv("E14","E15"); save(); $("#decGo").disabled = true; unlockFx("Entschlüsselt · ABHOLUNG", "Postfach offen", PUZZLE_7);
+      if ($("#dec").value.trim().toUpperCase().replace(/\s/g,"") === "ABHOLUNG") { right("7.dec"); S.st.s7 = S.st.s7 || {}; S.st.s7.decoded = true; if (!S.apps.includes("mail")) S.apps.push("mail"); addEv("E14","E15"); save(); $("#decGo").disabled = true; unlockFx("Entschlüsselt · ABHOLUNG", "Die Nachricht ist lesbar", PUZZLE_7, { head:"Geknackt!", next:"Nachricht lesen" });
         newsSeen("verdaechtige", "alibi:clara"); }
       else { $("#dMsg").textContent = "Das ergibt noch keinen Sinn. Zählt die Glockenschläge in der Sage."; wrong("7.dec"); }
     };
@@ -2401,7 +2408,7 @@ function tresor(){
     if (!guard("8.name")) return;
     if (v.startsWith("elisabeth")) { right("8.name"); if (!S.apps.includes("tresor")) S.apps.push("tresor");
       $("#nmGo").disabled = true;
-      unlockFx("Namensschloss · Elisabeth", "Kassette offen", () => { if (S.boxCode) { S.st.named = true; save(); boxOpen(); } else { S.ending = "gelöst"; save(); closeWin(); festnahme(showEnding); } }); }
+      unlockFx("Namensschloss · Elisabeth", "Falkenrieds Kassette ist offen", () => { if (S.boxCode) { S.st.named = true; save(); boxOpen(); } else { S.ending = "gelöst"; save(); closeWin(); festnahme(showEnding); } }, { head:"Das Schloss gibt nach!", next:"Weiter" }); }
     else if (v.startsWith("hedwig")) { $("#nmMsg").textContent = "Sie war die Braut. Aber wem hatte Georg sein Erbe vermacht?"; wrong("8.name"); }
     else { $("#nmMsg").textContent = "Das Schloss bleibt zu. Hört noch einmal, wem Georg sein Land vermacht hat."; wrong("8.name"); }
   };
